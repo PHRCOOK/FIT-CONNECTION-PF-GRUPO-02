@@ -6,14 +6,13 @@
 <p align="left">
   COLABORADORES
   <ul>LOPEZ ILEANA</ul>
+  <ul>MUÑOZ LINA MARIA</ul>
+  <ul>ALEART ESTEBAN</ul>
+  <ul>CARNAVAL CARLOS</ul>
+  <ul>RODRIGUEZ HAROLD</ul>
   <ul></ul>
   <ul></ul>
   <ul></ul>
-  <ul></ul>
-  <ul></ul>
-  <ul></ul>
-  <ul></ul>
-  <ul></ul>  
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
