@@ -5,8 +5,8 @@
 
 <p align="left">
   COLABORADORES
-  <ul>![90331015](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/08b3e306-0c18-4ab2-a0ea-525b4fe24560) LOPEZ ILEANA
-</ul>
+  <img src="![90331015](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/9b8e90f1-825a-4d12-863f-0e897cbac13a)
+"> <ul>LOPEZ ILEANA</ul>
   <ul></ul>
   <ul></ul>
   <ul></ul>
