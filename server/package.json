@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Server Proyecto Individual",
+  "description": "Server Proyecto final",
   "main": "index.js",
   "scripts": {
     "server": "node index.js",
