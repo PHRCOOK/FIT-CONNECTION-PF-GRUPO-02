@@ -14,23 +14,7 @@ La página incluirá detalles sobre el gimnasio, como su ubicación, beneficios 
 Asimismo, se incorporará una tienda virtual donde los usuarios podrán comprar productos relacionados con el gimnasio, como ropa deportiva, termos, guantes, equipos de gimnasio, toallas de mano, llaveros, fundas de celular, entre otros.
 La página web proporcionará información detallada sobre el gimnasio, incluyendo su ubicación en el mapa con una opción de "Cómo llegar", una breve historia del gimnasio, perfiles de los entrenadores y casos de éxito. También se incluirá información de contacto, ya sea a través de correo electrónico o mediante redireccionamiento automático a WhatsApp.</h3>
 <h3>Requisitos tech: 
-Requisitos tech
-¿Cómo lo aplicarán? (Idea boceto)
-Deploy - Excluyente
-Se hará deploy del proyecto, tanto front como back, para acceso de usuarios.
-Auth de terceros integrada - Excluyente
-Se dará opción de ingreso con los servicios más comunes, como google, apple y facebook, así como registro directo en nuestra base de datos
-Pasarela de pagos - Excluyente
-Pasarela de pago necesaria para adquirir suscripción al gimnasio y/o compra de merchandising
-Filtros combinados - No Excluyente
-Filtros necesarios para búsqueda de productos en la store
-Cloudinary/upload/bucket - No Excluyente
-Opción del administrador de crear ítems del store, en la que podrán cargar imágenes e información de los productos.
-Local storage/persist - Excluyente 
-Se guardará información de los usuarios en el local storage para mantener sesión iniciada.
-Reviews/puntuación - No excluyente
-Podría implementarse un sistema de calificación de los entrenadores. 
-Dashboard admin - Excluyente
+
 Admin podrá monitorear cantidad de usuarios inscritos, filtros por tipo de membresía adquirida, creación de entrenadores, monitoreo sesiones con entrenadores personalizados, creación de ítems en la store, modificación de planes, etc.
 Notificaciones (mail/socket.io) - Excluyente
 Notificación al correo de cualquier adquisición por medio de la página web (membresía o compras por medio de la store). Comunicación de respuestas en caso de solicitarla por medio de correo electrónico.
