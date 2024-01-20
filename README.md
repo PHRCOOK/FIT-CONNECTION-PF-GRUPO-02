@@ -5,7 +5,8 @@
 
 <p align="left">
   COLABORADORES
-  <ul>LOPEZ ILEANA</ul>
+  img src="![90331015](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/3b36f7df-a73c-4494-abab-14fc427fcba8)
+" <ul>LOPEZ ILEANA</ul>
   <ul>MUÑOZ LINA MARIA</ul>
   <ul>ALEART ESTEBAN</ul>
   <ul>CARNAVAL CARLOS</ul>
