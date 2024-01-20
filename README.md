@@ -10,8 +10,8 @@
   <ul>ALEART ESTEBAN</ul>
   <ul>CARNAVAL CARLOS</ul>
   <ul>RODRIGUEZ HAROLD</ul>
-  <ul>JOSUE RENDON</ul>
-  <ul></ul>
+  <ul>RENDON JOSUE</ul>
+  <ul>SALAZAR JACOBO</ul>
   <ul></ul>
 </p>
 
