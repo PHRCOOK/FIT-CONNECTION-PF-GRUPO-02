@@ -5,7 +5,16 @@
 
 <p align="left">
   COLABORADORES
-  <ul>LOPEZ ILEANA</ul>
+  <ul>![90331015](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/08b3e306-0c18-4ab2-a0ea-525b4fe24560) LOPEZ ILEANA
+</ul>
+  <ul></ul>
+  <ul></ul>
+  <ul></ul>
+  <ul></ul>
+  <ul></ul>
+  <ul></ul>
+  <ul></ul>
+  <ul></ul>  
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
