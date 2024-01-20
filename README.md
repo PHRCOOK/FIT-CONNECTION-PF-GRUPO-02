@@ -1,5 +1,6 @@
 <h1 align="center"> GYMX Proyecto Final Soy Henry</h1>
 
+![Imagen de WhatsApp 2024-01-12 a las 13 40 35_837c899c](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/3ba2b9eb-06fe-4b47-88f4-edc527fa1721)
 
 
 <p align="left">
