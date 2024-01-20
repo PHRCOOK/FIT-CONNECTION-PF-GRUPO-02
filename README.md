@@ -9,7 +9,7 @@
   <ul> <img src = "https://avatars.githubusercontent.com/u/136647904?v=4" width= "25px"> MUÑOZ LINA MARIA</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/132298053?v=4" width= "25px"> ALEART ESTEBAN</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/136769497?v=4" width= "25px"> CARNAVAL CARLOS</ul>
-  <ul> <img src = "" width= "25px"> RODRIGUEZ HAROLD</ul>
+  <ul> <img src = "https://avatars.githubusercontent.com/u/123473657?v=4" width= "25px"> RODRIGUEZ HAROLD</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/72944648?v=4" width= "25px"> RENDON JOSUE</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/131895863?v=4" width= "25px"> SALAZAR JACOBO</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/120273222?v=4" width= "25px"> CARDENAS DERYAM</ul>
