@@ -5,8 +5,7 @@
 
 <p align="left">
   COLABORADORES
-  <img src="![90331015](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/9b8e90f1-825a-4d12-863f-0e897cbac13a)
-"> <ul>LOPEZ ILEANA</ul>
+  <ul>LOPEZ ILEANA</ul>
   <ul></ul>
   <ul></ul>
   <ul></ul>
