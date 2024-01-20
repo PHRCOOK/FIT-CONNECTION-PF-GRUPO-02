@@ -5,7 +5,7 @@
 
 <p align="left">
   COLABORADORES
-  - ILEANA LOPEZ
+  <ul>LOPEZ ILEANA</ul>
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
