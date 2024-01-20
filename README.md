@@ -1,4 +1,4 @@
-<h1 align="center"> GYMX Proyecto Final Soy henry</h1>
+<h1 align="center"> GYMX Proyecto Final Soy Henry</h1>
 
 
 
