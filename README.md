@@ -6,13 +6,13 @@
 <p align="left">
   COLABORADORES
   <ul> <img src = "https://avatars.githubusercontent.com/u/90331015?v=4" width= "25px"> Lopez Ileana</ul>
-  <ul>MUÑOZ LINA MARIA</ul>
-  <ul>ALEART ESTEBAN</ul>
-  <ul>CARNAVAL CARLOS</ul>
-  <ul>RODRIGUEZ HAROLD</ul>
-  <ul>RENDON JOSUE</ul>
-  <ul>SALAZAR JACOBO</ul>
-  <ul>CARDENAS DERYAM</ul>
+  <ul> <img src = "https://avatars.githubusercontent.com/u/136647904?v=4" width= "25px"> MUÑOZ LINA MARIA</ul>
+  <ul> <img src = "" width= "25px"> ALEART ESTEBAN</ul>
+  <ul> <img src = "" width= "25px"> CARNAVAL CARLOS</ul>
+  <ul> <img src = "" width= "25px"> RODRIGUEZ HAROLD</ul>
+  <ul> <img src = "" width= "25px"> RENDON JOSUE</ul>
+  <ul> <img src = "" width= "25px"> SALAZAR JACOBO</ul>
+  <ul> <img src = "" width= "25px"> CARDENAS DERYAM</ul>
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
