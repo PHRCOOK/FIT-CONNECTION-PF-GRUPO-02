@@ -1,6 +1,7 @@
 <h1 align="center"> "Fit Connection Proyecto Final Soy Henry"</h1>
 
-![Imagen de WhatsApp 2024-01-12 a las 13 40 35_837c899c](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/3ba2b9eb-06fe-4b47-88f4-edc527fa1721)
+
+![OIG (2)](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/15885ce3-66ec-4e4a-9744-3532066d99f7)
 
 <h2> DESCRIPCION GENERAL </h2>
 
