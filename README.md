@@ -5,7 +5,7 @@
 
 <p align="left">
   COLABORADORES
-  <ul> <img src = "https://avatars.githubusercontent.com/u/90331015?v=4"> LOPEZ ILEANA</ul>
+  <ul> <img src = "https://avatars.githubusercontent.com/u/90331015?v=4" width= "100px"> LOPEZ ILEANA</ul>
   <ul>MUÑOZ LINA MARIA</ul>
   <ul>ALEART ESTEBAN</ul>
   <ul>CARNAVAL CARLOS</ul>
