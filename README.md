@@ -21,6 +21,7 @@ La página web proporcionará información detallada sobre el gimnasio, incluyen
   COLABORADORES
   <ul> <img src = "https://avatars.githubusercontent.com/u/90331015?v=4" width= "25px"> LOPEZ ILEANA </ul> 
   <ul> <img src = "https://avatars.githubusercontent.com/u/136647904?v=4" width= "25px"> MUÑOZ LINA MARIA</ul>
+  <ul> <img src = "https://photos.google.com/photo/AF1QipOjoF-Aq86z2g_8Xh4xuY5VmsYdYGPZVcbRNnpD" width= "25px"> RUBIÑO PABLO</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/132298053?v=4" width= "25px"> ALEART ESTEBAN</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/136769497?v=4" width= "25px"> CARNAVAL CARLOS</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/123473657?v=4" width= "25px"> RODRIGUEZ HAROLD</ul>
