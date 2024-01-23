@@ -1,34 +1,5 @@
-// export const reducer = () => {
-//   switch () {
-//     case :
-//       return {
-//         ...state,
+import React from "react";
 
-//       };
-//     case :
-//       return {
-//         ...state,
+const initialState = {};
 
-//       };
-//     case :
-//       return {
-//         ...state,
-
-//       };
-//     case :
-//       return {
-//         ...state,
-
-//       };
-//     case :
-//       return {
-//         ...state,
-
-//       };
-
-//     default:
-//       return {
-//         ...state,
-//       };
-//   }
-// }
+export const reducer = (state = initialState, action) => {};
