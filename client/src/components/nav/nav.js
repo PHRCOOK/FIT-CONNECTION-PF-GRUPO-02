@@ -1,7 +1,16 @@
 import React from "react";
 
-function nav() {
-  return <div>nav</div>;
+function Nav() {
+  return (
+    <div>
+      <button>Productos</button>
+      <button>Servicios</button>
+      <button>Contacto</button>
+      <button>Acerca de</button>
+      <button>Login</button>
+      <button>Carrito de compras</button>
+    </div>
+  );
 }
 
-export default nav;
+export default Nav;
