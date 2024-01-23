@@ -1,7 +1,6 @@
 const pathroutes = {
-  HOME: "/home",
+  HOME: "/",
   DETAIL: "/detail/:id",
-  ROOT: "/",
   FORM: "/productos",
   ERROR: "/*",
 };
