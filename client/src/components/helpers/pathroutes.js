@@ -2,7 +2,7 @@ const pathroutes = {
   HOME: "/home",
   DETAIL: "/detail/:id",
   ROOT: "/",
-  FORM: "/activities",
+  FORM: "/productos",
   ERROR: "/*",
 };
 export default pathroutes;
