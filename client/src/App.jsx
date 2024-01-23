@@ -9,6 +9,8 @@ import pathroutes from "./components/helpers/pathroutes";
 import "./components/css-modules/App.css";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3001";
+
 function App() {
   return (
     <div className="App">
