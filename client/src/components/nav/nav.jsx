@@ -6,9 +6,9 @@ export default function () {
       <button>Productos</button>
       <button>Servicios</button>
       <button>Contacto</button>
-      <button>Acerca de</button>
-      <button>Login</button>
+      <button>Membresia</button>
       <button>Carrito de compras</button>
+      <button>Login</button>
     </div>
   );
 }
