@@ -1,20 +1,20 @@
 const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
-    sequelize.define('producto', {
+    sequelize.define('users', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
           },
-          name:{
+          fullname:{
             type: DataTypes.STRING,
             allowNull:false
           },
-          precio:{
-            type: DataTypes.FLOAT,
+          email:{
+            type: DataTypes.STRING,
             allowNull:false
           },
-          descripcion:{
+          password:{
             type: DataTypes.STRING,
             allowNull:false
           },
@@ -22,16 +22,8 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             allowNull:false
           },
-          code:{
-            type: DataTypes.STRING,
-            allowNull:false
-          },
-          image_url:{
-            type: DataTypes.STRING,
-            allowNull:false
-          },
-          stock:{
-            type: DataTypes.FLOAT,
+          is_admin:{
+            type: DataTypes.BOOLEAN,
             allowNull:false
           },
     }, { timestamps: false });

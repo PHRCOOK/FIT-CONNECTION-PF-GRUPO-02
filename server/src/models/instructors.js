@@ -1,37 +1,25 @@
 const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
-    sequelize.define('producto', {
+    sequelize.define('instructors', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
           },
-          name:{
+          fullname:{
             type: DataTypes.STRING,
             allowNull:false
           },
-          precio:{
-            type: DataTypes.FLOAT,
+          photo_url:{
+            type: DataTypes.STRING,
             allowNull:false
           },
-          descripcion:{
+          description:{
             type: DataTypes.STRING,
             allowNull:false
           },
           status:{
             type: DataTypes.BOOLEAN,
-            allowNull:false
-          },
-          code:{
-            type: DataTypes.STRING,
-            allowNull:false
-          },
-          image_url:{
-            type: DataTypes.STRING,
-            allowNull:false
-          },
-          stock:{
-            type: DataTypes.FLOAT,
             allowNull:false
           },
     }, { timestamps: false });
