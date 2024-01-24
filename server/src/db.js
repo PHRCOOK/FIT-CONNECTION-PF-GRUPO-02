@@ -46,31 +46,33 @@ sequelize.models = Object.fromEntries(capsEntries);
 console.log(sequelize.models);
 
 // Destructuring de los modelos
-const { Users, Producto, Client_info, Categoria, Shopping_cart, Purchases, Purchase_detail } = sequelize.models;
+const { Users, Products, Feedback, Instructors, Client_Info, Categories, Shopping_cart, Purchases, Purchase_detail } = sequelize.models;
 // Aca vendrian las relaciones
 
 //Users y Detail
-Users.hasMany(Client_info, { onDelete: 'CASCADE' });
-Client_info.belongsTo(Users);
+Users.hasMany(Client_Info, { onDelete: 'CASCADE' });
+Client_Info.belongsTo(Users);
 //Users y Shopping_card
 Shopping_cart.belongsTo(Users);
 Users.hasMany(Shopping_cart);
 //Purchases y Purchase_details
 Purchases.hasMany(Purchase_detail)
 Purchase_detail.belongsTo(Purchases)
-//instructory feedback
-
 //users y feedback
-
+Users.hasMany(Feedback)
+Feedback.belongsTo(Users)
+//instructory feedback
+Instructors.hasMany(Feedback)
+Feedback.belongsTo(Instructors)
 //Users y Purchases
 Users.hasMany(Purchases);
 Purchases.belongsTo(Users);
 //Producto y Shopping_card
-Shopping_cart.belongsTo(Producto);
-Producto.hasMany(Shopping_cart);
+Shopping_cart.belongsTo(Products);
+Products.hasMany(Shopping_cart);
 //Categoria y producto
-Producto.belongsTo(Categoria);
-Categoria.hasMany(Producto);
+Products.belongsTo(Categories);
+Categories.hasMany(Products);
 
 
 
