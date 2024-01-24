@@ -1,5 +1,8 @@
 const express = require("express");
 const routes = require('./routes/index.js');
+const cors = require("cors"); // Se agrega para que permita realizar las peticiones.
+const morgan = require("morgan");
+
 
 const server = express();
 
@@ -18,6 +21,9 @@ server.use((req, res, next) => {
 });
 
 server.use(express.json());
+server.use(cors())
+server.use(morgan("dev")) // Middlerware que nos permite visualizar los errores en la terminal.
+
 
 server.use('/', routes);
 
