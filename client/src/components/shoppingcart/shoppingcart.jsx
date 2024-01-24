@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function shoppingkart() {
-  return <div>shoppingkart</div>;
+export default function shoppingcart() {
+  return <div>shoppingcart</div>;
 }
