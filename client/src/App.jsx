@@ -21,7 +21,7 @@ function App() {
         <Route path={pathroutes.DETAIL} element={<Detail />} />
         <Route path={pathroutes.FORM} element={<Form />} />
         <Route path={pathroutes.PRODUCT} element={<Product />} />
-        <route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
+        <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
       </Routes>
       <Footer />
     </div>
