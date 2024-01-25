@@ -1,8 +1,10 @@
 const { Categories } = require('../../db')
-
+//Query a todas las categorias
 const getCategories = async (req, res) => {
     try {
+        //Buscamos todas las categorias y asignamos a categoria
         const categoria = await Categories.findAll();
+        //enviamos la respuesta con estatus 200 y la lista de categorias
         return res.status(200).json(categoria)
     } catch (error) {
         console.error(error);
