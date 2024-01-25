@@ -1,7 +1,7 @@
 const {DataTypes} = require("sequelize")
 
 module.exports = (sequelize) => { // Este modelo recibe una instancia de "sequelize" para ejecutar el   ".define" y crear del Modelo.
-  sequelize.define("gym",{
+  sequelize.define("Gym",{
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

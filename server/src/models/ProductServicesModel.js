@@ -1,7 +1,9 @@
-const {DataTypes} = require("sequelize")
+const { DataTypes } = require("sequelize");
 
-module.exports = (sequelize) => { 
-  sequelize.define("products",{
+module.exports = (sequelize) => {
+  sequelize.define(
+    "ProductServices",
+    {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -19,24 +21,25 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      status: { // Atributo que usamos para desactivar/eliminar el producto de ser necesario.
+      status: {
+        // Atributo que usamos para desactivar/eliminar el producto de ser necesario.
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
-      code: { 
+      code: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
       },
-      image_url: { 
+      image_url: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      stock: { 
+      stock: {
         type: DataTypes.FLOAT,
         allowNull: false,
-      },  
+      },
     },
-    {timestamps: false},
+    { timestamps: false }
   );
 };

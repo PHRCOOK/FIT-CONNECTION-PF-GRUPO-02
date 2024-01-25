@@ -1,82 +1,82 @@
-const { Sequelize } = require('sequelize');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+require("dotenv").config();
+const { Sequelize } = require("sequelize");
+const UserModel = require("./models/UserModel");
+const GymModel = require("./models/GymModel");
+const InstrutorModel = require("./models/InstructorModel");
+const ClientInfoModel = require("./models/ClientInfoModel");
+const FeedBackModel = require("./models/FeedBackModel");
+const PurchasesModel = require("./models/PurchasesModel");
+const PurchaseDetailModel = require("./models/PurchaseDetailModel");
+const ShoppingCartModel = require("./models/ShoppingCartModel");
+const CategoriesModel = require("./models/CategoriesModel");
+const ProductServicesModel = require("./models/ProductServicesModel");
 
+const { DB_USER, DB_PASSWORD, DB_HOST, BDD } = process.env; // Agrego en el archivo .env nombre de la base de datos por si de pronto alguien usa un nombre diferente el estandar seria llamarla "fitconnection".
+
+const sequelize = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${BDD}`,
+  { logging: false, native: false }
+);
+
+// Definimos los modelos.
+UserModel(sequelize); // Se ejecutan los modelos con la instancia de sequelize.
+GymModel(sequelize);
+InstrutorModel(sequelize);
+ClientInfoModel(sequelize);
+FeedBackModel(sequelize);
+PurchasesModel(sequelize);
+PurchaseDetailModel(sequelize);
+ShoppingCartModel(sequelize);
+CategoriesModel(sequelize);
+ProductServicesModel(sequelize);
+
+//relaciones de la BDD
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
-} = process.env;
+  User,
+  ClientInfo,
+  ShoppingCart,
+  Purchases,
+  FeedBack,
+  ProductServices,
+  Categories,
+  PurchaseDetail,
+  Instrutor,
+} = sequelize.models;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/fitconnection`, {
-  logging: false,
-  native: false,
+//* Relaciones del modelo User
+
+User.hasOne(ClientInfo, { as: "ClientInfo", foreignKey: "user_id" });
+User.hasMany(ShoppingCart, { as: "ShoppingCart", foreignKey: "user_id" });
+User.hasMany(Purchases, { as: "Purchases", foreignKey: "user_id" });
+User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
+
+//* Relaciones del modelo Products_services
+ProductServices.hasMany(ShoppingCart, {
+  as: "ShoppingCart",
+  foreignKey: "product_id",
+});
+ProductServices.hasMany(PurchaseDetail, {
+  as: "PurchaseDetail",
+  foreignKey: "product_id",
 });
 
-const modelDefiners = [];
+//* Relaciones del modelo categories
+Categories.hasMany(ProductServices, {
+  as: "ProductServices",
+  foreignKey: "category_id",
+});
 
-// Función recursiva para leer modelos en carpetas y subcarpetas
-const readModels = (folderPath) => {
-  fs.readdirSync(folderPath)
-    .forEach((file) => {
-      const filePath = path.join(folderPath, file);
-      const stats = fs.statSync(filePath);
+//* Relaciones del modelo Purchases
 
-      if (stats.isDirectory()) {
-        // Si es una carpeta, llamamos recursivamente a la función para leer modelos en esa carpeta
-        readModels(filePath);
-      } else if (file.slice(-3) === '.js') {
-        // Si es un archivo JavaScript en la carpeta, lo agregamos a los modelDefiners
-        modelDefiners.push(require(filePath));
-      }
-    });
-};
+Purchases.hasOne(PurchaseDetail, {
+  as: "PurchaseDetail",
+  foreignKey: "purchase_id",
+});
 
-// Llamamos a la función inicialmente con la ruta de la carpeta 'models'
-readModels(path.join(__dirname, '/models'));
-
-// Injectamos la conexión (sequelize) a todos los modelos
-modelDefiners.forEach((model) => model(sequelize));
-
-// Capitalizamos los nombres de los modelos
-const entries = Object.entries(sequelize.models);
-const capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
-sequelize.models = Object.fromEntries(capsEntries);
-
-// Log de los modelos cargados
-console.log(sequelize.models);
-
-// Destructuring de los modelos
-const { Users, Products, Feedback, Instructors, Client_Info, Categories, Shopping_cart, Purchases, Purchase_detail } = sequelize.models;
-// Aca vendrian las relaciones
-
-//Users y Detail
-Users.hasMany(Client_Info, { onDelete: 'CASCADE' });
-Client_Info.belongsTo(Users);
-//Users y Shopping_card
-Shopping_cart.belongsTo(Users);
-Users.hasMany(Shopping_cart);
-//Purchases y Purchase_details
-Purchases.hasMany(Purchase_detail)
-Purchase_detail.belongsTo(Purchases)
-//users y feedback
-Users.hasMany(Feedback)
-Feedback.belongsTo(Users)
-//instructory feedback
-Instructors.hasMany(Feedback)
-Feedback.belongsTo(Instructors)
-//Users y Purchases
-Users.hasMany(Purchases);
-Purchases.belongsTo(Users);
-//Producto y Shopping_card
-Shopping_cart.belongsTo(Products);
-Products.hasMany(Shopping_cart);
-//Categoria y producto
-Products.belongsTo(Categories);
-Categories.hasMany(Products);
-
-
+//* Relaciones del modelo Instrutor
+Instrutor.hasMany(FeedBack, { as: "FeedBack", foreignKey: "instructor_id" });
 
 module.exports = {
-  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conection: sequelize,     // para importart la conexión { conn } = require('./db.js');
-}
+  ...sequelize.models,
+  conn: sequelize,
+};

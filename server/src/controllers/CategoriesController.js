@@ -1,38 +1,22 @@
-const { Categories } = require('../../db')
-//Query a todas las categorias
-const getCategories = async (req, res) => {
-    try {
-        //Buscamos todas las categorias y asignamos a categoria
-        const categoria = await Categories.findAll();
-        //enviamos la respuesta con estatus 200 y la lista de categorias
-        return res.status(200).json(categoria)
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Error interno del servidor.' });
-    }
+const { Categories } = require('../db')
+const getCategoriesController = async () =>{
+    const categories = await Categories.findAll()
+    if(!categories) throw new Error('No existen categorias')
+    return categories
 }
-const postCategory = async (req, res) =>{
-    const { name, status, is_services } = req.body
+const postCategoryController = async (name, status, is_service) => {
     try {
-        if(!name) return res.status(400).json(`Bad Request`)
         const [existOrNot, create] = await Categories.findOrCreate(
             {
-                where: { name }, defaults: { name, status, is_services }
+                where: { name }, defaults: {name, status, is_service}
             }
         )
         if (!create) {
-            return res.status(409).json({ error: 'Conflict', message: 'no pueden haber duplicados' });
-        }
-        return res.status(201).json({ message: 'Created' })
+            throw new Error("Ya existe esta categoria.")
+        };
+        return existOrNot
     } catch (error) {
-        if (error.name === 'SequelizeUniqueConstraintError') {
-            return res.status(409).json({ error: 'Conflict', message: error.message });
-        } else if (error.name === 'SequelizeConnectionError') {
-            return res.status(500).json({ error: 'Internal Server Error', message: error.message });
-        } else {
-            console.error(error);
-            return res.status(500).json({ error: 'Internal Server Error', message: error.message });
-        }
+        throw new Error(`Error al crear la categoria: ${error.message}`);
     }
 }
 
@@ -81,8 +65,8 @@ try {
 }
 
 module.exports = {
-    getCategories,
+    getCategoriesController,
     putCategory,
-    postCategory,
+    postCategoryController,
     deleteCategory
 }

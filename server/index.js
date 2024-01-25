@@ -1,9 +1,11 @@
-const server = require('./src/server.js');
-const { conection } = require('./src/db.js');
+const server = require("./src/server.js");
+const { conn } = require("./src/db.js");
 
-// Syncing all the models at once.
-conection.sync({ force: false  }).then(() => {
-  server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
-  });
-});
+conn
+  .sync({ force: true })
+  .then(() => {
+    server.listen(3001, () => {
+      console.log("listening at 3001");
+    });
+  })
+  .catch((error) => console.log(error)); // Se agrega para que muestre cualquier error de forma mas explicita.
