@@ -1,7 +1,5 @@
 import React from "react";
 
-function form() {
+export default function form() {
   return <div>form</div>;
 }
-
-export default form;
