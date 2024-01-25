@@ -1,7 +1,7 @@
 import React from "react";
 
 function services() {
-  return <div>services</div>;
+  return <div></div>;
 }
 
 export default services;
