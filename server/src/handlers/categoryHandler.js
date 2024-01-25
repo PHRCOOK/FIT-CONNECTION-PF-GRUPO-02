@@ -1,4 +1,4 @@
-const { getCategoriesController, postCategoryController, deleteCategoryController } = require('../controllers/CategoriesController')
+const { getCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/CategoriesController')
 const getCategoriesHandler = async (req, res) => {
     try {
         //Buscamos todas las categorias y asignamos a categoria
@@ -9,22 +9,32 @@ const getCategoriesHandler = async (req, res) => {
         return res.status(500).json({ error: 'Error interno del servidor.' });
     }
 }
-const postCategoryHandler = async (req, res) => {
+const postCategoriesHandler = async (req, res) => {
     const { name, status, is_service } = req.body
     try {
         if (!name || typeof name !== 'string' || name.trim() === '') {
             return res.status(400).json({ error: 'Bad Request', message: 'El nombre es obligatorio y debe ser una cadena no vacía.' });
         }
-        const response = await postCategoryController(name, status, is_service)
+        const response = await postCategoriesController(name, status, is_service)
         return res.status(201).json({ response, message: 'Created' })
     } catch (error) {
         return res.status(409).json({ message: error.message })
     }
 }
-const deleteCategoryHandler = async (req, res) => {
+const putCategoriesHandler = async (req, res) =>{
+    const { id } = req.params
+    const { name, status, is_service } = req.body
+    try {
+        const response = await putCategoriesController(id, {name, status, is_service})
+        return res.status(200).json({response})
+    } catch (error) {
+        return res.status(409).json({ message: error.message })
+    }
+}
+const deleteCategoriesHandler = async (req, res) => {
     const { id } = req.params
     try {
-        const delCategory = await deleteCategoryController(id)
+        const delCategory = await deleteCategoriesController(id)
         if (delCategory === 0) {
             return res.status(404).json({ error: 'Not Found' });
         }
@@ -35,6 +45,7 @@ const deleteCategoryHandler = async (req, res) => {
 }
 module.exports = {
     getCategoriesHandler,
-    postCategoryHandler,
-    deleteCategoryHandler
+    postCategoriesHandler,
+    deleteCategoriesHandler,
+    putCategoriesHandler,
 }

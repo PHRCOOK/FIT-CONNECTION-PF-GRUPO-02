@@ -1,10 +1,23 @@
 const { Categories } = require('../db')
+
 const getCategoriesController = async () => {
     const categories = await Categories.findAll()
     if (!categories) throw new Error('No existen categorias')
     return categories
 }
-const postCategoryController = async (name, status, is_service) => {
+
+const getByIdCategoriesController = async (id) => {
+    const category = await Categories.findAll(
+        {
+            where: {
+                id: `${id}`
+            }
+        }
+    )
+    if (!category) throw new Error('No existe esta categoria')
+    return category
+}
+const postCategoriesController = async (name, status, is_service) => {
     try {
         const [existOrNot, create] = await Categories.findOrCreate(
             {
@@ -20,31 +33,24 @@ const postCategoryController = async (name, status, is_service) => {
     }
 }
 
-const putCategory = async (req, res) => {
-    const { id } = req.params
-    const { name, status, is_service } = req.body
+const putCategoriesController = async (id, updateData) => {
+    console.log({ updateData })
     try {
-        const [putRowCount, putCategorie] = await Categories.update({ name: name, status: status, is_service: is_service }, {
+        const [putRowCount, putCategorie] = await Categories.update(updateData, {
             where: {
                 id: `${id}`,
             }
         })
         if (putRowCount === 0) {
-            return res.status(404).json({ error: 'Nave no encontrado' });
+            throw new Error('Categoria no encontrada');
         }
-        return res.status(200).json({ message: 'Categoria actualizado correctamente', putCategorie });
-    } catch {
-        console.error(error);
-
-        if (error.name === 'SequelizeConnectionError') {
-            return res.status(500).json({ error: 'Error de conexión con la base de datos.', message: error.message });
-        }
-
-        return res.status(500).json({ error: 'Error interno del servidor.', message: error.message });
+        return ({ message: "categoria Actualizada" })
+    } catch (error) {
+        throw new Error(`Error al actualizar la categoria: ${error.message}`);
     }
 }
 
-const deleteCategoryController = async (id) => {
+const deleteCategoriesController = async (id) => {
     try {
         const delCategory = await Categories.destroy(
             {
@@ -53,7 +59,7 @@ const deleteCategoryController = async (id) => {
                 }
             }
         )
-        if(!delCategory) throw new Error("Esta categoria no existe, Por ende no puede ser eliminada.")
+        if (!delCategory) throw new Error("Esta categoria no existe, Por ende no puede ser eliminada.")
         return delCategory
     } catch (error) {
         throw new Error(`Error al eliminar la categoria: ${error.message}`)
@@ -62,7 +68,8 @@ const deleteCategoryController = async (id) => {
 
 module.exports = {
     getCategoriesController,
-    putCategory,
-    postCategoryController,
-    deleteCategoryController
+    putCategoriesController,
+    postCategoriesController,
+    deleteCategoriesController,
+    getByIdCategoriesController
 }
