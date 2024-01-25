@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const UserModel = require("./models/UserModel");
 const GymModel = require("./models/GymModel");
-const InstrutorModel = require("./models/InstructorModel");
+const InstructorModel = require("./models/InstructorModel");
 const ClientInfoModel = require("./models/ClientInfoModel");
 const FeedBackModel = require("./models/FeedBackModel");
 const PurchasesModel = require("./models/PurchasesModel");
@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
 // Definimos los modelos.
 UserModel(sequelize); // Se ejecutan los modelos con la instancia de sequelize.
 GymModel(sequelize);
-InstrutorModel(sequelize);
+InstructorModel(sequelize);
 ClientInfoModel(sequelize);
 FeedBackModel(sequelize);
 PurchasesModel(sequelize);
@@ -40,7 +40,7 @@ const {
   ProductServices,
   Categories,
   PurchaseDetail,
-  Instrutor,
+  Instructor,
 } = sequelize.models;
 
 //* Relaciones del modelo User
@@ -74,7 +74,11 @@ Purchases.hasOne(PurchaseDetail, {
 });
 
 //* Relaciones del modelo Instrutor
-Instrutor.hasMany(FeedBack, { as: "FeedBack", foreignKey: "instructor_id" });
+Instructor.hasMany(FeedBack, { as: "FeedBack", foreignKey: "instructor_id" });
+
+// Relaciones en el modelo FeedBack.
+FeedBack.belongsTo(User, { as: "User", foreignKey: "user_id" });
+FeedBack.belongsTo(Instructor, { as: "Instructor", foreignKey: "instructor_id" });
 
 module.exports = {
   ...sequelize.models,
