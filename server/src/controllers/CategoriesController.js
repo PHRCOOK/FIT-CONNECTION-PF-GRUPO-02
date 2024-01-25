@@ -1,14 +1,14 @@
 const { Categories } = require('../db')
-const getCategoriesController = async () =>{
+const getCategoriesController = async () => {
     const categories = await Categories.findAll()
-    if(!categories) throw new Error('No existen categorias')
+    if (!categories) throw new Error('No existen categorias')
     return categories
 }
 const postCategoryController = async (name, status, is_service) => {
     try {
         const [existOrNot, create] = await Categories.findOrCreate(
             {
-                where: { name }, defaults: {name, status, is_service}
+                where: { name }, defaults: { name, status, is_service }
             }
         )
         if (!create) {
@@ -44,29 +44,25 @@ const putCategory = async (req, res) => {
     }
 }
 
-const deleteCategory = async(req, res) =>{
-    const { id } = req.params
-try {
-    const delCategory = await Category.destroy(
-        {
-            where: {
-                id: `${id}`,
+const deleteCategoryController = async (id) => {
+    try {
+        const delCategory = await Categories.destroy(
+            {
+                where: {
+                    id: `${id}`,
+                }
             }
-        }
-    )
-    if (delCategory === 0) {
-        return res.status(404).json({ error: 'Not Found' });
+        )
+        if(!delCategory) throw new Error("Esta categoria no existe, Por ende no puede ser eliminada.")
+        return delCategory
+    } catch (error) {
+        throw new Error(`Error al eliminar la categoria: ${error.message}`)
     }
-    return res.status(201).json({ message: 'La categoria fue eliminada' })
-} catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Error interno del servidor.' });
-}
 }
 
 module.exports = {
     getCategoriesController,
     putCategory,
     postCategoryController,
-    deleteCategory
+    deleteCategoryController
 }
