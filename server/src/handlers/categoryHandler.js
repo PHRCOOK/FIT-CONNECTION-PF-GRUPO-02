@@ -5,8 +5,7 @@ const getCategoriesHandler = async (req, res) => {
         const categoria = await getCategoriesController();
         return res.status(200).json(categoria)
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Error interno del servidor.' });
+        return res.status(404).json({ error: 'Not Found.', message: error.message});
     }
 }
 const postCategoriesHandler = async (req, res) => {

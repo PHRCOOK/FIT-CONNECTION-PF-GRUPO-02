@@ -1,32 +1,25 @@
 const { Categories } = require('../db')
 
 const getCategoriesController = async () => {
+    //Asignamos a categories todas las categorias
     const categories = await Categories.findAll()
-    if (!categories) throw new Error('No existen categorias')
+    //verificamos que no este vacia
+    if (categories.length === 0){ throw new Error('No existen categorias')}
+    //retornamos las categorias de no entrar en el if anterior
     return categories
-}
-
-const getByIdCategoriesController = async (id) => {
-    const category = await Categories.findAll(
-        {
-            where: {
-                id: `${id}`
-            }
-        }
-    )
-    if (!category) throw new Error('No existe esta categoria')
-    return category
 }
 const postCategoriesController = async (name, status, is_service) => {
     try {
+        //Buscamos en la entidad si esta creada, y si no lo esta procedemos a crear la categoria
+        //si la categoria ya existe la constante "create sera False"
+        //si la categoria no existe pasaremos a crear la categoria y la constante create sera True
         const [existOrNot, create] = await Categories.findOrCreate(
             {
                 where: { name }, defaults: { name, status, is_service }
             }
         )
-        if (!create) {
-            throw new Error("Ya existe esta categoria.")
-        };
+        //verificamos si create es falso.. de serlo ya existe la categoria
+        if (!create) throw new Error("Ya existe esta categoria.")
         return existOrNot
     } catch (error) {
         throw new Error(`Error al crear la categoria: ${error.message}`);
@@ -71,5 +64,4 @@ module.exports = {
     putCategoriesController,
     postCategoriesController,
     deleteCategoriesController,
-    getByIdCategoriesController
 }
