@@ -9,7 +9,7 @@ const PurchasesModel = require("./models/PurchasesModel");
 const PurchaseDetailModel = require("./models/PurchaseDetailModel");
 const ShoppingCartModel = require("./models/ShoppingCartModel");
 const CategoriesModel = require("./models/CategoriesModel");
-const ProductServiesModel = require("./models/ProductServicesModel");
+const ProductServicesModel = require("./models/ProductServicesModel");
 
 const { DB_USER, DB_PASSWORD, DB_HOST, BDD } = process.env; // Agrego en el archivo .env nombre de la base de datos por si de pronto alguien usa un nombre diferente el estandar seria llamarla "fitconnection".
 
@@ -28,11 +28,20 @@ PurchasesModel(sequelize);
 PurchaseDetailModel(sequelize);
 ShoppingCartModel(sequelize);
 CategoriesModel(sequelize);
-ProductServiesModel(sequelize);
+ProductServicesModel(sequelize);
 
 //relaciones de la BDD
-const { User, ClientInfo, ShoppingCart, Purchases, FeedBack } =
-  sequelize.models;
+const {
+  User,
+  ClientInfo,
+  ShoppingCart,
+  Purchases,
+  FeedBack,
+  ProductServices,
+  Categories,
+  PurchaseDetail,
+  Instrutor,
+} = sequelize.models;
 
 //* Relaciones del modelo User
 
@@ -40,6 +49,32 @@ User.hasOne(ClientInfo, { as: "ClientInfo", foreignKey: "user_id" });
 User.hasMany(ShoppingCart, { as: "ShoppingCart", foreignKey: "user_id" });
 User.hasMany(Purchases, { as: "Purchases", foreignKey: "user_id" });
 User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
+
+//* Relaciones del modelo Products_services
+ProductServices.hasMany(ShoppingCart, {
+  as: "ShoppingCart",
+  foreignKey: "product_id",
+});
+ProductServices.hasMany(PurchaseDetail, {
+  as: "PurchaseDetail",
+  foreignKey: "product_id",
+});
+
+//* Relaciones del modelo categories
+Categories.hasMany(ProductServices, {
+  as: "ProductServices",
+  foreignKey: "category_id",
+});
+
+//* Relaciones del modelo Purchases
+
+Purchases.hasOne(PurchaseDetail, {
+  as: "PurchaseDetail",
+  foreignKey: "purchase_id",
+});
+
+//* Relaciones del modelo Instrutor
+Instrutor.hasMany(FeedBack, { as: "FeedBack", foreignKey: "instructor_id" });
 
 module.exports = {
   ...sequelize.models,
