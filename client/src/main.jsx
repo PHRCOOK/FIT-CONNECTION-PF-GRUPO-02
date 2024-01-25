@@ -1,5 +1,6 @@
 import React from "react";
 import "./components/css-modules/index.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";

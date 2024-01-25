@@ -1,14 +1,15 @@
 import React from "react";
+import styles from "../css-modules/nav.module.css";
 
 export default function () {
   return (
     <div>
-      <button>Productos</button>
-      <button>Servicios</button>
-      <button>Contacto</button>
-      <button>Membresia</button>
-      <button>Carrito de compras</button>
-      <button>Login</button>
+      <button className={styles.btnNav}>Productos</button>
+      <button className={styles.btnNav}>Servicios</button>
+      <button className={styles.btnNav}>Carrito de compras</button>
+      <button className={styles.btnNav}>Conocer Staff</button>
+      <button className={styles.btnNav}>Login</button>
+      <button className={styles.btnNav}>Registrate</button>
     </div>
   );
 }
