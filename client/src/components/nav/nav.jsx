@@ -7,19 +7,13 @@ export default function () {
   const location = useLocation();
 
   return (
-    <div className="d-flex justify-content-center gap-5">
+    <div className="d-flex flex-column flex-md-row justify-content-center gap-1 gap-md-4">
       <a href={pathroutes.HOME}>
         <img
           src={logo}
           alt=""
-          style={{
-            borderRadius: "50px",
-            height: "100px",
-            width: "100px",
-            position: "absolute",
-            left: "10px",
-            top: "5px",
-          }}
+          className="rounded-circle"
+          style={{ height: "100px", width: "100px" }}
         />
       </a>
       {location.pathname !== pathroutes.PRODUCT && (
