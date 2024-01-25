@@ -1,5 +1,5 @@
-require('dotenv').config();
-const { Sequelize } = require('sequelize');
+require("dotenv").config();
+const { Sequelize } = require("sequelize");
 const UserModel = require("./models/UserModel");
 const GymModel = require("./models/GymModel");
 const InstrutorModel = require("./models/InstructorModel");
@@ -13,10 +13,9 @@ const ProductServiesModel = require("./models/ProductServicesModel");
 
 const { DB_USER, DB_PASSWORD, DB_HOST, BDD } = process.env; // Agrego en el archivo .env nombre de la base de datos por si de pronto alguien usa un nombre diferente el estandar seria llamarla "fitconnection".
 
-
 const sequelize = new Sequelize(
-    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${BDD}`,
-    { logging: false, native: false }
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${BDD}`,
+  { logging: false, native: false }
 );
 
 // Definimos los modelos.
@@ -31,9 +30,18 @@ ShoppingCartModel(sequelize);
 CategoriesModel(sequelize);
 ProductServiesModel(sequelize);
 
+//relaciones de la BDD
+const { User, ClientInfo, ShoppingCart, Purchases, FeedBack } =
+  sequelize.models;
+
+//* Relaciones del modelo User
+
+User.hasOne(ClientInfo, { as: "ClientInfo", foreignKey: "user_id" });
+User.hasMany(ShoppingCart, { as: "ShoppingCart", foreignKey: "user_id" });
+User.hasMany(Purchases, { as: "Purchases", foreignKey: "user_id" });
+User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
 
 module.exports = {
-   ...sequelize.models,
-    conn: sequelize,
+  ...sequelize.models,
+  conn: sequelize,
 };
-
