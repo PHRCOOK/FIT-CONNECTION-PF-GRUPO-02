@@ -5,7 +5,7 @@ import gym2 from "../img/gym2.jpg";
 import gym3 from "../img/gym3.jpg";
 import gym4 from "../img/gym4.jpg";
 import gym5 from "../img/gym5.jpg";
-import gym6 from "../img/gym6.jpg";
+import gym6 from "../img/gym6.png";
 
 export default function home() {
   return (
