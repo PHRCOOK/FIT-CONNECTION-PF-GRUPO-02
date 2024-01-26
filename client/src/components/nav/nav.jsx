@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import logo from "../img/logo.jpg";
 import pathroutes from "../helpers/pathroutes";
+import "../css-modules/styles.css";
 
 export default function () {
   const location = useLocation();

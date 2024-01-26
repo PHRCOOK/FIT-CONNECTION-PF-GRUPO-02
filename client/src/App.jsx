@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Nav from "./components/nav/Nav";
+import Nav from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./components/home/home";
@@ -8,7 +8,6 @@ import Product from "./components/product/product";
 import Shoppingcart from "./components/shoppingcart/shoppingcart";
 import Services from "./components/services/service";
 import pathroutes from "./components/helpers/pathroutes";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
