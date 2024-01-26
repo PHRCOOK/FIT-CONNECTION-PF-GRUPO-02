@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .custom-dimensions {
   max-width: 70%;
-  max-height: 500px;
+  max-height: 550px;
   margin: 15px auto;
 }
 
@@ -28,6 +28,37 @@
 .rounded-circle {
   width: 80px;
   border-radius: 70%;
+}
+
+.footer {
+  background-color: rgba(169, 169, 169, 0.4117647059);
+  padding: 10px;
+  border-radius: 5px;
+  align-items: center;
+}
+.footer .social-media-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+.footer .social-media-buttons a {
+  color: #0d00ff;
+  font-size: 2em;
+}
+.footer .social-media-buttons a:hover {
+  color: #888;
+}
+.footer .contact-info {
+  padding: 20px;
+  color: #000000;
+  font-size: medium;
+  font-weight: bold;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.footer .contact-info p {
+  margin-bottom: 0px;
+}
+.footer .contact-info p:last-child {
+  margin-bottom: 0;
 }
 
 /*!
