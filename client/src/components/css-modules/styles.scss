@@ -1,1 +1,31 @@
+.custom-dimensions {
+  max-width: 70%;
+  max-height: 500px;
+  margin: 15px auto;
+}
+.d-flex {
+  background-color: #a9a9a9;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  align-items: center;
+}
+
+.btn-danger {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+  border-radius: 5px;
+  &:hover {
+    color: #fff;
+    background-color: #bd2130;
+    border-color: #bd2130;
+  }
+}
+
+.rounded-circle {
+  width: 80px;
+  border-radius: 70%;
+}
+
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";

@@ -10,61 +10,32 @@ export default function () {
   return (
     <div className="d-flex flex-column flex-md-row justify-content-center gap-1 gap-md-4">
       <a href={pathroutes.HOME}>
-        <img
-          src={logo}
-          alt=""
-          className="rounded-circle"
-          style={{ height: "100px", width: "100px" }}
-        />
+        <img src={logo} alt="" className="rounded-circle" />
       </a>
       {location.pathname !== pathroutes.PRODUCT && (
         <a href={pathroutes.PRODUCT}>
-          <button
-            type="button"
-            className="btn btn-danger"
-            style={{ marginTop: "60px" }}
-          >
+          <button type="button" className=".btn btn-danger">
             Productos
           </button>
         </a>
       )}
       {location.pathname !== pathroutes.SERVICE && (
         <a href={pathroutes.SERVICE}>
-          <button
-            type="button"
-            className="btn btn-danger"
-            style={{ marginTop: "60px" }}
-          >
+          <button type="button" className=".btn btn-danger">
             Servicios
           </button>
         </a>
       )}
-      <button
-        type="button"
-        className="btn btn-danger"
-        style={{ marginTop: "60px" }}
-      >
+      <button type="button" className=".btn btn-danger">
         Carrito de compras
       </button>
-      <button
-        type="button"
-        className="btn btn-danger"
-        style={{ marginTop: "60px" }}
-      >
+      <button type="button" className=".btn btn-danger">
         Conocer Staff
       </button>
-      <button
-        type="button"
-        className="btn btn-danger"
-        style={{ marginTop: "60px" }}
-      >
+      <button type="button" className=".btn btn-danger">
         Login
       </button>
-      <button
-        type="button"
-        className="btn btn-danger"
-        style={{ marginTop: "60px" }}
-      >
+      <button type="button" className=".btn btn-danger">
         Registrate
       </button>
     </div>

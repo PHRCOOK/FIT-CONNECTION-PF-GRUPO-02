@@ -1,75 +1,71 @@
 import React from "react";
 import logo from "../img/logo.jpg";
-import logo2 from "../img/logo2.jpg";
-import logo3 from "../img/logo3.jpg";
+import gym1 from "../img/gym1.jpg";
+import gym2 from "../img/gym2.jpg";
+import gym3 from "../img/gym3.jpg";
+import gym4 from "../img/gym4.jpg";
+import gym5 from "../img/gym5.jpg";
+import gym6 from "../img/gym6.jpg";
 
 export default function home() {
   return (
     <div
-      id="carouselExample"
-      className="carousel slide"
+      id="carouselExampleFade"
+      className="carousel slide carousel-fade"
       data-bs-ride="carousel"
-      data-bs-interval="3500"
+      data-bs-interval="1500"
     >
-      <div className="carousel-inner d-flex align-items-center justify-content-center">
+      <div className="carousel-inner">
         <div className="carousel-item active">
           <img
             src={logo}
-            className="d-block w-1"
-            alt="..."
-            style={{
-              marginLeft: "-250px",
-              marginTop: "100px",
-              width: "30%",
-              height: "auto",
-            }}
+            className="d-block w-100 custom-dimensions"
+            alt="logo"
           />
         </div>
         <div className="carousel-item">
           <img
-            src={logo2}
-            className="d-block w-1"
-            alt="..."
-            style={{
-              marginLeft: "-250px",
-              marginTop: "100px",
-              width: "30%",
-              height: "auto",
-            }}
+            src={gym1}
+            className="d-block w-100 custom-dimensions"
+            alt="gym1"
           />
         </div>
         <div className="carousel-item">
           <img
-            src={logo3}
-            className="d-block w-1"
-            alt="..."
-            style={{
-              marginLeft: "-250px",
-              marginTop: "100px",
-              width: "30%",
-              height: "auto",
-            }}
+            src={gym2}
+            className="d-block w-100 custom-dimensions"
+            alt="gym2"
+          />
+        </div>
+        <div className="carousel-item">
+          <img
+            src={gym3}
+            className="d-block w-100 custom-dimensions"
+            alt="gym3"
+          />
+        </div>
+        <div className="carousel-item">
+          <img
+            src={gym4}
+            className="d-block w-100 custom-dimensions"
+            alt="gym4"
+          />
+        </div>
+        <div className="carousel-item">
+          <img
+            src={gym5}
+            className="d-block w-100 custom-dimensions"
+            alt="gym5"
+          />
+        </div>
+        <div className="carousel-item">
+          <img
+            src={gym6}
+            className="d-block w-100 custom-dimensions"
+            alt="gym6"
           />
         </div>
       </div>
-      <button
-        className="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExample"
-        data-bs-slide="prev"
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExample"
-        data-bs-slide="next"
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
     </div>
   );
 }
