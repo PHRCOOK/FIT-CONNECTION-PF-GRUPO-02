@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import validate from "../helpers/validate";
 
-export default function form() {
+export default function userform() {
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({

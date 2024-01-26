@@ -3,10 +3,11 @@ import Nav from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./components/home/home";
-import Form from "./components/form/form";
+import Form from "./components/userform/userform";
 import Product from "./components/product/product";
 import Shoppingcart from "./components/shoppingcart/shoppingcart";
 import Services from "./components/services/service";
+import FormProduct from "./components/formproduct/formproduct";
 import pathroutes from "./components/helpers/pathroutes";
 import axios from "axios";
 
@@ -23,6 +24,7 @@ function App() {
         <Route path={pathroutes.PRODUCT} element={<Product />} />
         <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
         <Route path={pathroutes.SERVICE} element={<Services />} />
+        <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
       </Routes>
       <Footer />
     </div>
