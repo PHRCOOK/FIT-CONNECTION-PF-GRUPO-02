@@ -60,6 +60,11 @@ ProductServices.hasMany(PurchaseDetail, {
   foreignKey: "product_id",
 });
 
+ProductServices.belongsTo(Categories, {
+  as: "Categories",
+  foreignKey: "product_id",
+});
+
 //* Relaciones del modelo categories
 Categories.hasMany(ProductServices, {
   as: "ProductServices",
@@ -78,7 +83,10 @@ Instructor.hasMany(FeedBack, { as: "FeedBack", foreignKey: "instructor_id" });
 
 // Relaciones en el modelo FeedBack.
 FeedBack.belongsTo(User, { as: "User", foreignKey: "user_id" });
-FeedBack.belongsTo(Instructor, { as: "Instructor", foreignKey: "instructor_id" });
+FeedBack.belongsTo(Instructor, {
+  as: "Instructor",
+  foreignKey: "instructor_id",
+});
 
 module.exports = {
   ...sequelize.models,
