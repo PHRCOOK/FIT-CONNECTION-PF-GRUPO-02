@@ -1,4 +1,8 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { getAllCategories } from "../../redux/action";
 import logo from "../img/logo.jpg";
 import gym1 from "../img/gym1.jpg";
 import gym2 from "../img/gym2.jpg";
@@ -8,6 +12,12 @@ import gym5 from "../img/gym5.jpg";
 import gym6 from "../img/gym6.png";
 
 export default function home() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
   return (
     <div
       id="carouselExampleFade"
