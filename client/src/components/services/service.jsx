@@ -1,5 +1,7 @@
 import React from "react";
 
-export default function product() {
+function services() {
   return <div></div>;
 }
+
+export default services;
