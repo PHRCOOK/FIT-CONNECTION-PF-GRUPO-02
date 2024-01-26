@@ -8,7 +8,6 @@ import Product from "./components/product/product";
 import Shoppingcart from "./components/shoppingcart/shoppingcart";
 import Services from "./components/services/service";
 import pathroutes from "./components/helpers/pathroutes";
-// import "./components/css-modules/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
