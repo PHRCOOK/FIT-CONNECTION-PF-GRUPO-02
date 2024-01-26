@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import Nav from "./components/nav/Nav";
-import Detail from "./components/detail/Detail";
-import Footer from "./components/footer/Footer";
-import Home from "./components/home/Home";
-import Form from "./components/form/Form";
-import Product from "./components/product/Product";
-import Shoppingcart from "./components/shoppingcart/Shoppingcart";
+import Detail from "./components/detail/detail";
+import Footer from "./components/footer/footer";
+import Home from "./components/home/home";
+import Form from "./components/form/form";
+import Product from "./components/product/product";
+import Shoppingcart from "./components/shoppingcart/shoppingcart";
 import Services from "./components/services/service";
 import pathroutes from "./components/helpers/pathroutes";
 // import "./components/css-modules/App.css";
