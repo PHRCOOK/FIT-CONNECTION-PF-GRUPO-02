@@ -14,7 +14,7 @@ const postCategoriesHandler = async (req, res) => {
         if (!name || typeof name !== 'string' || name.trim() === '') {
             return res.status(400).json({ error: 'Bad Request', message: 'El nombre es obligatorio y debe ser una cadena no vacía.' });
         }
-        const response = await postCategoriesController(name, status, is_service)
+        const response = await postCategoriesController(name, status, is_service);
         return res.status(201).json({ response, message: 'Created' })
     } catch (error) {
         return res.status(409).json({ message: error.message })

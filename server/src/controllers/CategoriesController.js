@@ -2,7 +2,7 @@ const { Categories } = require('../db')
 
 const getCategoriesController = async () => {
     //Asignamos a categories todas las categorias
-    const categories = await Categories.findAll()
+    const categories = await Categories.findAll();
     //verificamos que no este vacia
     if (categories.length === 0){ throw new Error('No existen categorias')}
     //retornamos las categorias de no entrar en el if anterior
