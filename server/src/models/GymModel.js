@@ -26,6 +26,7 @@ module.exports = (sequelize) => { // Este modelo recibe una instancia de "sequel
       },  
       nit: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
       },
       logo: {
@@ -44,7 +45,7 @@ module.exports = (sequelize) => { // Este modelo recibe una instancia de "sequel
       smtp_password: {
         type: DataTypes.STRING,
       },
-      smtp_tis: {
+      smtp_tls: {
         type: DataTypes.BOOLEAN,
       },
       smtp_ssl: {
@@ -53,4 +54,4 @@ module.exports = (sequelize) => { // Este modelo recibe una instancia de "sequel
     },
     {timestamps: false},
   );
-}
+};

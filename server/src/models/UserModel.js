@@ -1,7 +1,7 @@
 const {DataTypes} = require("sequelize")
 
-module.exports = (database) => { 
-  database.define("User",{
+module.exports = (sequelize) => { 
+  sequelize.define("User",{
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -37,11 +37,11 @@ module.exports = (database) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
-      is_admin: { // Atributo para convertir a un usuario registrado para que tenga el rol de administrador.
+      is_admin: { // Atributo para modificar un usuario registrado para que tenga el rol de administrador.
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       }  
     },
     {timestamps: false},
   );
-}
+};
