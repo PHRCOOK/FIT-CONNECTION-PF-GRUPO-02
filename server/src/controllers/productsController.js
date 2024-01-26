@@ -3,7 +3,11 @@ const { Op } = require("sequelize");
 
 const getProductServices = async () => {
     try {
-        const allProducts = await ProductServices.findAll();
+        const allProducts = await ProductServices.findAll({
+            order: [
+                ["name", "ASC"],
+            ],            
+        });
         return allProducts
     } catch (error) {
         throw new Error({error: error.message})
@@ -28,19 +32,25 @@ const getProductServicesByName = async (name) => {
                 }
             },
         });
-        console.log(product);
-        if (!product) {
-            return null
+
+        if (product.length === 0) {
+            throw new Error("No se encontro un producto con ese nombre.")
         };
         return product
     } catch (error) {
-        console.log(error);
-        throw new Error(error.message)
+        throw new Error({error: error.message})
     }
 }
 
-const createProductServices = async (name, price, description, status, code, image_url, stock, categories) => {
+const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
     try {
+        // Buscamos la categoria correspondiente con el id proporcionado.
+        const category = await Categories.findByPk(category_id);
+
+        if (!category) {
+            throw new Error("Categoría no encontrada.")
+        };
+         
         const product = await ProductServices.create({
             name,
             price,
@@ -49,11 +59,19 @@ const createProductServices = async (name, price, description, status, code, ima
             code,
             image_url,
             stock,
-            categories
         });
-        return product
+
+        // Agregamos la categoría correspondiente al producto.
+        await category.addProductServices(product);
+
+        // Establecemos que un producto solo puede pertenecer a una categoría.
+        await product.setCategories(category);
+
+        return { message: "Producto creado con exito." };
+
     } catch (error) {
-        throw new Error({error: error.message})
+        throw new Error(`Error al crear el producto: ${error.message}`);
+
     }
 }  
 
@@ -62,7 +80,7 @@ const updateProductServices = async (id, newData) => {
     try {
         const product = await ProductServices.findByPk(id);
         await product.update(newData);
-        return product
+        return { message: "Producto actualizado exitosamente." };
     } catch (error) {
         throw new Error({error: error.message})
     }
@@ -78,6 +96,51 @@ const deleteProductServices = async (id) => {
     }
 }
 
+const filterByCategory = async (category_id) => {
+    try {
+        const products = await ProductServices.findAll({
+            where: {
+                category_id: {
+                    [Op.eq]: category_id,
+                }
+            },
+            order: [
+                ["price", "ASC"],
+            ],
+        });
+        if (products.length === 0) {
+            throw new Error("No se encontraron productos en esa categoría.")
+        };
+
+        return products;
+        
+    } catch (error) {
+        throw new Error(error.message )
+    };
+};
+
+const orderByPrice = async (minPrice, maxPrice) => {
+    try {
+        const productosByPrice = await ProductServices.findAll({
+            where: {
+                price: {
+                    [Op.between]: [minPrice, maxPrice],
+                },
+            },
+        });
+        if (productosByPrice.length === 0) {
+            throw new Error("No existen productos en ese rango de precio.")
+        };
+        
+        return productosByPrice;
+        
+    } catch (error) {
+        console.error(error);
+        throw new Error(error.message);
+    };
+};
+
+
 module.exports = {
     getProductServices,
     getProductServicesById,
@@ -85,5 +148,7 @@ module.exports = {
     createProductServices,
     updateProductServices,
     deleteProductServices,
+    filterByCategory,
+    orderByPrice,
 
 }
