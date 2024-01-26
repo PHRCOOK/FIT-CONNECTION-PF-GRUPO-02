@@ -1,6 +1,6 @@
-const { getCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/CategoriesController');
+const { getAllCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/CategoriesController');
 
-const getCategoriesHandler = async (req, res) => {
+const getAllCategoriesHandler = async (req, res) => {
     try {
         //Buscamos todas las categorias y asignamos a categoria
         const categoria = await getCategoriesController();
@@ -44,7 +44,7 @@ const deleteCategoriesHandler = async (req, res) => {
     }
 }
 module.exports = {
-    getCategoriesHandler,
+    getAllCategoriesHandler,
     postCategoriesHandler,
     deleteCategoriesHandler,
     putCategoriesHandler,

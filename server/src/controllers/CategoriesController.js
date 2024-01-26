@@ -1,6 +1,6 @@
 const { Categories } = require('../db')
 
-const getCategoriesController = async () => {
+const getAllCategoriesController = async () => {
     //Asignamos a categories todas las categorias
     const categories = await Categories.findAll();
     //verificamos que no este vacia
@@ -59,7 +59,7 @@ const deleteCategoriesController = async (id) => {
 }
 
 module.exports = {
-    getCategoriesController,
+    getAllCategoriesController,
     putCategoriesController,
     postCategoriesController,
     deleteCategoriesController,
