@@ -4,9 +4,9 @@ const getCategoriesController = async () => {
     //Asignamos a categories todas las categorias
     const categories = await Categories.findAll();
     //verificamos que no este vacia
-    if (categories.length === 0){ throw new Error('No existen categorias')}
+    if (categories.length === 0){ throw new Error('No existen categorias')};
     //retornamos las categorias de no entrar en el if anterior
-    return categories
+    return categories;
 }
 const postCategoriesController = async (name, status, is_service) => {
     try {
@@ -17,26 +17,25 @@ const postCategoriesController = async (name, status, is_service) => {
             {
                 where: { name }, defaults: { name, status, is_service }
             }
-        )
+        );
         //verificamos si create es falso.. de serlo ya existe la categoria
-        if (!create) throw new Error("Ya existe esta categoria.")
-        return existOrNot
+        if (!create) throw new Error("Ya existe esta categoria.");
+        return existOrNot;
     } catch (error) {
         throw new Error(`Error al crear la categoria: ${error.message}`);
     }
 }
 
 const putCategoriesController = async (id, updateData) => {
-    console.log({ updateData })
     try {
         const [putRowCount, putCategorie] = await Categories.update(updateData, {
             where: {
                 id: `${id}`,
             }
-        })
+        });
         if (putRowCount === 0) {
             throw new Error('Categoria no encontrada');
-        }
+        };
         return ({ message: "categoria Actualizada" })
     } catch (error) {
         throw new Error(`Error al actualizar la categoria: ${error.message}`);
@@ -51,11 +50,11 @@ const deleteCategoriesController = async (id) => {
                     id: `${id}`,
                 }
             }
-        )
-        if (!delCategory) throw new Error("Esta categoria no existe, Por ende no puede ser eliminada.")
-        return delCategory
+        );
+        if (!delCategory) throw new Error("Esta categoria no existe, Por ende no puede ser eliminada.");
+        return delCategory;
     } catch (error) {
-        throw new Error(`Error al eliminar la categoria: ${error.message}`)
+        throw new Error(`Error al eliminar la categoria: ${error.message}`);
     }
 }
 
