@@ -27,13 +27,14 @@ const getProductServicesByName = async (name) => {
                     [Op.iLike]: `%${name}%`
                 }
             },
-            
         });
+        console.log(product);
         if (!product) {
             return null
         };
         return product
     } catch (error) {
+        console.log(error);
         throw new Error(error.message)
     }
 }

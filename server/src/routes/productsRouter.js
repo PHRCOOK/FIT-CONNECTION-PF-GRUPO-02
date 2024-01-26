@@ -6,8 +6,8 @@ const { getProductServicesHandler, getProductServicesByIdHandler, getProductServ
 const productsRouter = Router();
 
 productsRouter.get('/', getProductServicesHandler);
-productsRouter.get('/:id', getProductServicesByIdHandler);
 productsRouter.get('/search', getProductServicesByNameHandler);
+productsRouter.get('/:id', getProductServicesByIdHandler);
 productsRouter.put('/:id', updateProductServicesHandler);
 productsRouter.delete('/:id', deleteProductServicesHandler);
 productsRouter.post('/', createProductServicesHandler);

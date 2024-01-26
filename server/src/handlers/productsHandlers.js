@@ -1,5 +1,4 @@
 const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices} = require('../controllers/productsController');
-const { get } = require('../routes');
 
 const getProductServicesHandler = async (req, res) => {
     try {
@@ -21,15 +20,17 @@ const getProductServicesByIdHandler = async (req, res) => {
 }
 
 const getProductServicesByNameHandler = async (req, res) => {
-    const { name } = req.params;
+    const { name } = req.query;
     try {
         const response = await getProductServicesByName(name);
+        console.log(response);
         if (!response) {
             res.status(200).json({ message: "No se encontró un producto con ese nombre." }) // Devuelve un error 200 con un mensaje si no se encuentra un producto
         } else {
             res.status(200).json(response)
         }
     } catch (error) {
+        console.log(error);
         res.status(400).json({error: error.message}) // Envía el mensaje de error en lugar del objeto de error
     };
 }
