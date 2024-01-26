@@ -1,50 +1,60 @@
 const { ProductServices, Categories } = require('../db')
+const { Op } = require("sequelize");
 
 const getProductServices = async () => {
     try {
-        const allProducts = await ProductServices.findAll({include: Categories});
+        const allProducts = await ProductServices.findAll();
         return allProducts
     } catch (error) {
-        throw new Error(error)
+        throw new Error({error: error.message})
     }
 }
 
 const getProductServicesById = async (id) => {
     try {
-        const product = await ProductServices.findByPk(id, {include: Categories});
+        const product = await ProductServices.findByPk(id);
         return product
     } catch (error) {
-        throw new Error(error)
+        throw new Error({error: error.message})
     }
 }
 
 const getProductServicesByName = async (name) => {
     try {
-        const product = await ProductServices.findOne({where: {name}, include: Categories});
+        const product = await ProductServices.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${name}%`
+                }
+            },
+            
+        });
+        if (!product) {
+            return null
+        };
         return product
     } catch (error) {
-        throw new Error(error)
+        throw new Error(error.message)
     }
 }
 
 const createProductServices = async (name, price, description, status, code, image_url, stock, categories) => {
-  try {
-    const newProduct = await ProductServices.create({
-        name,
-        price,
-        description,
-        status,
-        code,
-        image_url,
-        stock,
+    try {
+        const product = await ProductServices.create({
+            name,
+            price,
+            description,
+            status,
+            code,
+            image_url,
+            stock,
+            categories
         });
-    await newProduct.addCategories(categories);
-    return {message: "Product created successfully"}
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
+        return product
+    } catch (error) {
+        throw new Error({error: error.message})
+    }
+}  
 
 
 const updateProductServices = async (id, newData) => {
@@ -53,7 +63,7 @@ const updateProductServices = async (id, newData) => {
         await product.update(newData);
         return product
     } catch (error) {
-        throw new Error(error)
+        throw new Error({error: error.message})
     }
 }
 
@@ -63,7 +73,7 @@ const deleteProductServices = async (id) => {
         await product.destroy();
         return {message: "Product deleted successfully"}
     } catch (error) {
-        throw new Error(error)
+        throw new Error({error: error.message})
     }
 }
 
