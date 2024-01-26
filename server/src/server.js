@@ -27,8 +27,4 @@ server.use(morgan("dev")) // Middlerware que nos permite visualizar los errores 
 
 server.use('/', routes);
 
-<<<<<<< HEAD
 module.exports = server;
-=======
-module.exports = server;
->>>>>>> e2726b55d6615857fb3ab047a2a4912bd9208f2f
