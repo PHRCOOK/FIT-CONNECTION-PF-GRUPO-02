@@ -62,7 +62,7 @@ ProductServices.hasMany(PurchaseDetail, {
 
 ProductServices.belongsTo(Categories, {
   as: "Categories",
-  foreignKey: "product_id",
+  foreignKey: "category_id",
 });
 
 //* Relaciones del modelo categories
