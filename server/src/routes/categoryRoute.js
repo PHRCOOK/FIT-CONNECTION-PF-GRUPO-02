@@ -5,4 +5,4 @@ router.get('/', getCategoriesHandler)
 router.put('/:id', putCategoriesHandler);
 router.delete('/:id', deleteCategoriesHandler);
 router.post('/', postCategoriesHandler);
-module.exports = router;
+module.exports = router;ge
