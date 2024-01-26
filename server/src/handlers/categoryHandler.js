@@ -3,7 +3,7 @@ const { getAllCategoriesController, postCategoriesController, deleteCategoriesCo
 const getAllCategoriesHandler = async (req, res) => {
     try {
         //Buscamos todas las categorias y asignamos a categoria
-        const categoria = await getCategoriesController();
+        const categoria = await getAllCategoriesController();
         return res.status(200).json(categoria);
     } catch (error) {
         return res.status(404).json({ error: 'Not Found.', message: error.message});
