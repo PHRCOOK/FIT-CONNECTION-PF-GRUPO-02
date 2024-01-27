@@ -19,6 +19,13 @@ export default function () {
           </button>
         </a>
       )}
+      {location.pathname === pathroutes.PRODUCT && (
+        <a href={pathroutes.FORMPRODUCT}>
+          <button type="button" className=".btn btn-danger">
+            Crear Producto
+          </button>
+        </a>
+      )}
       {location.pathname !== pathroutes.SERVICE && (
         <a href={pathroutes.SERVICE}>
           <button type="button" className=".btn btn-danger">
