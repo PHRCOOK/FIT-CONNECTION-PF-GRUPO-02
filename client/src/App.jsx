@@ -8,6 +8,7 @@ import Product from "./components/product/product";
 import Shoppingcart from "./components/shoppingcart/shoppingcart";
 import Services from "./components/services/service";
 import FormProduct from "./components/formproduct/formproduct";
+import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import axios from "axios";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
         <Route path={pathroutes.SERVICE} element={<Services />} />
         <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
+        <Route path={pathroutes.REGISTER} element={<UserForm />} />
       </Routes>
       <Footer />
     </div>

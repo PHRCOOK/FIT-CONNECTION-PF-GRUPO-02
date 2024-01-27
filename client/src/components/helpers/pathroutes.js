@@ -7,5 +7,6 @@ const pathroutes = {
   SHOPPINGCART: "/shopping",
   SERVICE: "/services",
   FORMPRODUCT: "/formproduct",
+  REGISTER: "/register",
 };
 export default pathroutes;

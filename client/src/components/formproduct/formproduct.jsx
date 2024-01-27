@@ -35,26 +35,6 @@ export default function formproduct() {
     setErrors(validate({ ...productForm, [key]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setErrors((prevErrors) => {
-        const { image_url, ...rest } = prevErrors;
-        return { ...rest };
-      });
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProductForm({ ...productForm, image_url: reader.result });
-        const imageErrors = validate({ image_url: reader.result });
-        if (imageErrors.image_url) {
-          setErrors((prevErrors) => ({ ...prevErrors, ...imageErrors }));
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(postProduct(productForm));
@@ -62,7 +42,7 @@ export default function formproduct() {
       name: "",
       price: "",
       description: "",
-      status: false,
+      status: "",
       code: "",
       image_url: "",
       stock: "",
@@ -129,12 +109,13 @@ export default function formproduct() {
       <br />
       <label>
         Image:
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <input
+          type="text"
+          name="image_url"
+          value={productForm.image_url}
+          onChange={handleChange}
+        />
       </label>
-      {productForm.image_url && (
-        <img src={productForm.image_url} alt="Selected" />
-      )}
-      {errors.image_url && <p>{errors.image_url}</p>}
       <br />
       <label>
         Stock:
