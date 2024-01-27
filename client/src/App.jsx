@@ -30,7 +30,7 @@ function App() {
         <Route path={pathroutes.REGISTER} element={<UserForm />} />
         <Route path={pathroutes.STORE} element={<Store />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
