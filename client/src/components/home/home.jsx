@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { getAllCategories } from "../../redux/action";
