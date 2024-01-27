@@ -1,4 +1,4 @@
-const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices, filterByCategory, orderByPrice, productfilter} = require('../controllers/productsController');
+const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices, filterByCategory, orderByPrice, productfilter, filterAndOrder} = require('../controllers/productsController');
 
 const getProductServicesHandler = async (req, res) => {
     try {
@@ -95,6 +95,20 @@ const productfilterHandler = async (req, res) => {
     }
 };
 
+
+const productFilterAndOrderHandler = async (req, res) => {
+    const { category_id, name, code,  minPrice, maxPrice, sortOrder } = req.query;
+    
+    try {
+        const response = await filterAndOrder (sortOrder, minPrice, maxPrice, category_id, name, code);
+        res.status(200).json(response);
+    } catch (error) {
+        console.error(error); // hay que quitarlo despues
+        res.status(400).json({ error: error.message || "Error desconocido" });
+    }
+};
+
+
 module.exports = {
     getProductServicesHandler,
     getProductServicesByIdHandler,
@@ -105,5 +119,6 @@ module.exports = {
     filterByCategoryHandler,
     orderByPriceHandler,
     productfilterHandler,
+    productFilterAndOrderHandler,
 
 };

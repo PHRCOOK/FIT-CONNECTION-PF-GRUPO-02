@@ -12,13 +12,13 @@ const filterProducts = (category_id, name, code) => {
 
     if (name) {
         conditions.name = {
-            [Op.eq]: name,
+            [Op.iLike]: `%${name}%`,
         };
     }
 
     if (code) {
         conditions.code = {
-            [Op.eq]: code,
+            [Op.iLike]: `%${code}%`,
         };
     }
 

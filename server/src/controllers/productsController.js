@@ -120,27 +120,6 @@ const filterByCategory = async (category_id) => {
     };
 };
 
-// const orderByPrice = async (minPrice, maxPrice) => {
-//     try {
-//         const productosByPrice = await ProductServices.findAll({
-//             where: {
-//                 price: {
-//                     [Op.between]: [minPrice, maxPrice],
-//                 },
-//             },
-//         });
-//         if (productosByPrice.length === 0) {
-//             throw new Error("No existen productos en ese rango de precio.")
-//         };
-        
-//         return productosByPrice;
-        
-//     } catch (error) {
-//         console.error(error);
-//         throw new Error(error.message);
-//     };
-// };
-
 const orderByPrice = async (minPrice, maxPrice, sortOrder) => {
     try {
         const validate = sortOrder && sortOrder.toUpperCase();
@@ -183,29 +162,9 @@ const orderByPrice = async (minPrice, maxPrice, sortOrder) => {
 
 
 
-
-
-// const productfilter = async (category_id, minPrice, maxPrice) => {
-//     try {
-
-//         const products = await ProductServices.findAll({
-//             where: filterProducts(category_id, minPrice, maxPrice),
-//             order: [
-//                 ["price", "ASC"],
-//             ],
-//         });
-//         if (products.length === 0) {
-//             throw new Error("No se encontraron productos con la información proporcionada.")
-//         }
-//         return products;
-
-//     } catch (error) {
-//         throw new Error(error.message);
-//     };
-// };
-
 const productfilter = async (category_id, name, code) => {
     try {
+        
         // Construir las condiciones de filtrado
         const whereClause = filterProducts(category_id, name, code);
 
@@ -228,6 +187,101 @@ const productfilter = async (category_id, name, code) => {
     }
 };
 
+// const filterAndOrder= async (minPrice, maxPrice, sortOrder, category_id, name, code)=>{
+//     try {
+//         const validate = sortOrder && sortOrder.toUpperCase();
+//         let whereClause = {}
+//         console.log("validate es ", validate)
+
+//         // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
+//         if (minPrice !== undefined && maxPrice !== undefined) {
+//             // Convertir las cadenas a números usando parseFloat
+//             const minPriceNum = parseFloat(minPrice);
+//             const maxPriceNum = parseFloat(maxPrice);
+
+//             // Verificar si las conversiones fueron exitosas
+//             if (!isNaN(minPriceNum) && !isNaN(maxPriceNum)) {
+//                 whereClause.price = {
+//                     [Op.between]: [minPriceNum, maxPriceNum],
+//                 };
+//             } else {
+//                 throw new Error("Los valores de minPrice y maxPrice deben ser números válidos.");
+//             }
+//         }
+//         // Si se proporciona category_id, name o code, aplicar filtro
+//         if (category_id || name || code) {
+//             const filterConditions = filterProducts(category_id, name, code);
+//             whereClause = { ...whereClause, ...filterConditions };
+//         }
+
+//         console.log("whereClause:", whereClause);
+//         console.log("order:", validate ? [["price", validate]] : undefined);
+
+//         const productosFilteredandOrdered = await ProductServices.findAll({
+//             where: whereClause,
+//             order: validate ? [["price", validate]] : undefined,
+//         });
+        
+//         if (productosFilteredandOrdered.length === 0) {
+//             throw new Error("No existen productos en ese rango de precio.");
+//         }
+
+//         return productosFilteredandOrdered;
+//     } catch (error) {
+//         console.error(error);
+//         throw new Error(error.message);
+//     }
+// }
+
+
+const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code) => {
+    try {
+        const validate = sortOrder && sortOrder.toUpperCase();
+        let whereClause = {};
+        // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
+        if (minPrice !== undefined && maxPrice !== undefined) {
+            // Convertir las cadenas a números usando parseFloat
+            const minPriceNum = parseFloat(minPrice);
+            const maxPriceNum = parseFloat(maxPrice);
+
+            // Verificar si las conversiones fueron exitosas
+            if (!isNaN(minPriceNum) && !isNaN(maxPriceNum)) {
+                whereClause.price = {
+                    [Op.between]: [minPriceNum, maxPriceNum],
+                };
+            } else {
+                throw new Error("Los valores de minPrice y maxPrice deben ser números válidos.");
+            }
+
+            
+        }
+        //Si se proporciona category_id, name o code, aplicar filtro
+        if (category_id || name || code) {
+            const filterConditions = filterProducts(category_id, name, code);
+            whereClause = { ...filterConditions };
+        }
+
+        console.log("whereClause:", whereClause);
+        console.log("order:", validate ? [["price", validate]] : undefined);
+
+        const orderClause = validate ? [["price", validate]] : undefined;
+
+        const productosFilteredandOrdered = await ProductServices.findAll({
+            where: whereClause,
+            order: orderClause,
+        });
+
+        if (productosFilteredandOrdered.length === 0) {
+            throw new Error("No existen productos que cumplan con los criterios de búsqueda.");
+        }
+
+        return productosFilteredandOrdered;
+    } catch (error) {
+        console.error(error);
+        throw new Error(error.message);
+    }
+};
+
 
 
 module.exports = {
@@ -240,5 +294,6 @@ module.exports = {
     filterByCategory,
     orderByPrice,
     productfilter,
+    filterAndOrder,
 
 }
