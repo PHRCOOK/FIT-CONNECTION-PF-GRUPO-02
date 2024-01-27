@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function () {
+export default function nav() {
   return (
     <div>
       <button>Productos</button>

@@ -5,5 +5,6 @@ const pathroutes = {
   ERROR: "/*",
   PRODUCT: "/product",
   SHOPPINGCART: "/shopping",
+  STORE: "/store",
 };
 export default pathroutes;
