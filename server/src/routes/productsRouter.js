@@ -7,11 +7,11 @@ const productsRouter = Router();
 
 productsRouter.get('/', getProductServicesHandler);
 productsRouter.get('/search', getProductServicesByNameHandler);
+productsRouter.get("/price", orderByPriceHandler);
 productsRouter.get('/:id', getProductServicesByIdHandler);
 productsRouter.put('/:id', updateProductServicesHandler);
+productsRouter.get("/category/:category_id", filterByCategoryHandler);
 productsRouter.delete('/:id', deleteProductServicesHandler);
 productsRouter.post('/', createProductServicesHandler);
-productsRouter.get("/category/:category_id", filterByCategoryHandler);
-productsRouter.get("/price", orderByPriceHandler);
 
 module.exports = productsRouter;
