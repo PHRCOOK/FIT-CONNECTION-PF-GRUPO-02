@@ -52,7 +52,7 @@ User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
 
 //* Relaciones del modelo Products_services
 ProductServices.hasMany(ShoppingCart, {
-  as: "ShoppingCart",
+  as: "ShoppingCarts",
   foreignKey: "product_id",
 });
 ProductServices.hasMany(PurchaseDetail, {
