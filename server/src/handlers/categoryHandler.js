@@ -1,4 +1,4 @@
-const { getAllCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/CategoriesController');
+const { getAllCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/categoriesController');
 
 const getAllCategoriesHandler = async (req, res) => {
     try {
