@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import "../css-modules/styles.css";
 
 import { postProduct, getAllCategories } from "../../redux/action";
 
@@ -37,80 +38,90 @@ export default function formproduct() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
+    <form className="row g-3" onSubmit={handleSubmit}>
+      <div className="col-md-5">
+        <label className="form-label">Name:</label>
         <input
           type="text"
           name="name"
+          className="form-control"
+          placeholder="Name"
           value={productForm.name}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Price:
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">Price:</label>
         <input
           type="text"
           name="price"
+          className="form-control"
+          placeholder="Price"
           value={productForm.price}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Description:
-        <input
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">Description:</label>
+        <textarea
           type="text"
           name="description"
+          className="form-control"
+          placeholder="Leave a description here"
+          rows="3"
           value={productForm.description}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Status:
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">Status:</label>
         <input
           type="text"
           name="status"
+          className="form-control"
           value={productForm.status}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Code:
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">Code:</label>
         <input
           type="text"
           name="code"
+          className="form-control"
+          placeholder="Code"
           value={productForm.code}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Image URL:
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">Image URL:</label>
         <input
           type="text"
           name="image_url"
+          className="form-control"
+          placeholder="Image URL"
           value={productForm.image_url}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <label>
-        Stock:
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">
+          Stock:
+        </label>
         <input
           type="text"
           name="stock"
+          className="form-control"
+          placeholder="Stock"
           value={productForm.stock}
           onChange={handleChange}
         />
-      </label>
-      <br />
-      <div>
-        <label>CATEGORY</label>
+      </div>
+      <div className="col-md-5">
+        <label className="form-label">CATEGORY</label>
         <select
+          className="form-select"
           name="category_id"
           defaultValue={"DEFAULT"}
           onChange={handleChange}
@@ -125,7 +136,9 @@ export default function formproduct() {
           ))}
         </select>
       </div>
-      <button type="submit">Create Product</button>
-    </form>
+      <div className="col-12">
+        <button className=".btn btn-danger" type="submit">Create Product</button>
+      </div >
+    </form >
   );
 }

@@ -6,7 +6,7 @@ import Home from "./components/home/home";
 import Form from "./components/userform/userform";
 import Product from "./components/product/product";
 import Shoppingcart from "./components/shoppingcart/shoppingcart";
-import Services from "./components/services/service";
+import Services from "./components/services/services";
 import FormProduct from "./components/formproduct/formproduct";
 import pathroutes from "./components/helpers/pathroutes";
 import axios from "axios";
