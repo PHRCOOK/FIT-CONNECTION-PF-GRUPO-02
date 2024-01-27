@@ -1,12 +1,17 @@
 const { Categories } = require('../db')
 
 const getAllCategoriesController = async () => {
-    //Asignamos a categories todas las categorias
-    const categories = await Categories.findAll();
-    //verificamos que no este vacia
-    if (categories.length === 0){ throw new Error('No existen categorias')};
-    //retornamos las categorias de no entrar en el if anterior
-    return categories;
+
+    try {
+        //Asignamos a categories todas las categorias
+        const categories = await Categories.findAll();
+        //verificamos que no este vacia
+        if (categories.length === 0){ throw new Error('No existen categorias')};
+        //retornamos las categorias de no entrar en el if anterior
+        return categories;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
 const postCategoriesController = async (name, status, is_service) => {
     try {
