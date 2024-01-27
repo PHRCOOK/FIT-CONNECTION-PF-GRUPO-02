@@ -7,6 +7,16 @@ import "../css-modules/styles.css";
 export default function () {
   const location = useLocation();
 
+  if (location.pathname.includes(pathroutes.DETAIL)) {
+    return (
+      <div className="d-flex flex-column flex-md-row justify-content-center gap-1 gap-md-4">
+        <a href={pathroutes.HOME}>
+          <img src={logo} alt="" className="rounded-circle" />
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="d-flex flex-column flex-md-row justify-content-center gap-1 gap-md-4">
       <a href={pathroutes.HOME}>

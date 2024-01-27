@@ -62,4 +62,38 @@
     }
   }
 }
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+
+  &__image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  &__name {
+    margin: 20px 0;
+    color: #6004ff;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  &__description,
+  &__code,
+  &__price,
+  &__status,
+  &__stock,
+  &__category {
+    color: #000000;
+    font-size: 16px;
+  }
+}
+
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
