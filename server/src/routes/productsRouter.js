@@ -7,8 +7,8 @@ const productsRouter = Router();
 
 // Rutas específicas primero
 productsRouter.get('/filterByCategory/:category_id', filterByCategoryHandler);
-productsRouter.get('/orderByPrice', orderByPriceHandler);
-productsRouter.get('/productfilter', productfilterHandler);
+productsRouter.get('/', orderByPriceHandler);
+productsRouter.get('/', productfilterHandler);
 
 // Rutas generales después
 productsRouter.get('/', getProductServicesHandler);

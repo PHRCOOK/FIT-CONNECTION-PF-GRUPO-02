@@ -72,9 +72,10 @@ const filterByCategoryHandler = async (req, res) => {
 };
 
 const orderByPriceHandler = async (req, res) => {
-    const { minPrice, maxPrice } = req.query;
+    const { minPrice, maxPrice, sortOrder } = req.query;
+
     try {
-        const response = await orderByPrice(minPrice, maxPrice);
+        const response = await orderByPrice(minPrice, maxPrice, sortOrder);
         res.status(200).json(response);
     } catch (error) {
         console.error(error); // Imprime el error en la consola para obtener más detalles
@@ -83,10 +84,11 @@ const orderByPriceHandler = async (req, res) => {
 };
 
 const productfilterHandler = async (req, res) => {
-    const { category_id, minPrice, maxPrice } = req.query;
+    const { category_id, name, code } = req.query;
+
     try {
-        const response = await productfilter(category_id, minPrice, maxPrice);
-        res.status(200).json(response)
+        const response = await productfilter(category_id, name, code);
+        res.status(200).json(response);
     } catch (error) {
         console.error(error); // Imprime el error completo en la consola para obtener más detalles
         res.status(400).json({ error: error.message || "Error desconocido" });

@@ -1,21 +1,31 @@
 const { Op } = require("sequelize");
 
-const filterProducts = (category_id, minPrice, maxPrice) => {
-    let products = {};
+
+const filterProducts = (category_id, name, code) => {
+    const conditions = {};
 
     if (category_id) {
-        products.category_id = {
+        conditions.category_id = {
             [Op.eq]: category_id
         };
     }
 
-    if (minPrice && maxPrice) {
-        products.price = {
-            [Op.between]: [minPrice, maxPrice],
+    if (name) {
+        conditions.name = {
+            [Op.eq]: name,
         };
-    };
+    }
 
-    return products;
+    if (code) {
+        conditions.code = {
+            [Op.eq]: code,
+        };
+    }
+
+    return conditions;
 };
+
+module.exports = filterProducts;
+
 
 module.exports = filterProducts;
