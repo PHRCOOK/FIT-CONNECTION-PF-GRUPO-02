@@ -1,4 +1,5 @@
 const { ProductServices, Categories } = require('../db')
+const filterProducts = require('../../utils/filterProducts');
 const { Op } = require("sequelize");
 
 const getProductServices = async () => {
@@ -140,6 +141,25 @@ const orderByPrice = async (minPrice, maxPrice) => {
     };
 };
 
+const productfilter = async (category_id, minPrice, maxPrice) => {
+    try {
+
+        const products = await ProductServices.findAll({
+            where: filterProducts(category_id, minPrice, maxPrice),
+            order: [
+                ["price", "ASC"],
+            ],
+        });
+        if (products.length === 0) {
+            throw new Error("No se encontraron productos con la información proporcionada.")
+        }
+        return products;
+
+    } catch (error) {
+        throw new Error(error.message);
+    };
+};
+
 
 module.exports = {
     getProductServices,
@@ -150,5 +170,6 @@ module.exports = {
     deleteProductServices,
     filterByCategory,
     orderByPrice,
+    productfilter,
 
 }

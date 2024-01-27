@@ -1,4 +1,4 @@
-const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices, filterByCategory, orderByPrice} = require('../controllers/productsController');
+const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices, filterByCategory, orderByPrice, productfilter} = require('../controllers/productsController');
 
 const getProductServicesHandler = async (req, res) => {
     try {
@@ -82,6 +82,17 @@ const orderByPriceHandler = async (req, res) => {
     }
 };
 
+const productfilterHandler = async (req, res) => {
+    const { category_id, minPrice, maxPrice } = req.query;
+    try {
+        const response = await productfilter(category_id, minPrice, maxPrice);
+        res.status(200).json(response)
+    } catch (error) {
+        console.error(error); // Imprime el error completo en la consola para obtener más detalles
+        res.status(400).json({ error: error.message || "Error desconocido" });
+    }
+};
+
 module.exports = {
     getProductServicesHandler,
     getProductServicesByIdHandler,
@@ -91,5 +102,6 @@ module.exports = {
     deleteProductServicesHandler,
     filterByCategoryHandler,
     orderByPriceHandler,
+    productfilterHandler,
 
 };
