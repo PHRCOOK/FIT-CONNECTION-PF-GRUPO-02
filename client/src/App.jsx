@@ -10,6 +10,8 @@ import Services from "./components/services/service";
 import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
+import Store from "./views/store";
+import "./components/css-modules/App.css";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
@@ -27,8 +29,9 @@ function App() {
         <Route path={pathroutes.SERVICE} element={<Services />} />
         <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
         <Route path={pathroutes.REGISTER} element={<UserForm />} />
+        <Route path={pathroutes.STORE} element={<Store />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
