@@ -6,7 +6,6 @@ export const getAllCategories = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get("http://localhost:3001/categories");
-      console.log(response.data);
       dispatch({
         type: GET_ALL_CATEGORIES,
         payload: response.data,

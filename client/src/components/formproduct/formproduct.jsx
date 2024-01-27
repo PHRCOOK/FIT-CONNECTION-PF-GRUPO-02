@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { postProduct, getAllCategories } from "../../redux/action";
+import validate from "./validate";
 
 export default function formproduct() {
   useEffect(() => {
@@ -25,15 +26,48 @@ export default function formproduct() {
     category_id: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     let key = [e.target.name];
     let value = e.target.value;
     setProductForm({ ...productForm, [key]: value });
+    setErrors(validate({ ...productForm, [key]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setErrors((prevErrors) => {
+        const { image_url, ...rest } = prevErrors;
+        return { ...rest };
+      });
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProductForm({ ...productForm, image_url: reader.result });
+        const imageErrors = validate({ image_url: reader.result });
+        if (imageErrors.image_url) {
+          setErrors((prevErrors) => ({ ...prevErrors, ...imageErrors }));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(postProduct(productForm));
+    setProductForm({
+      name: "",
+      price: "",
+      description: "",
+      status: false,
+      code: "",
+      image_url: "",
+      stock: "",
+      category_id: "",
+    });
   };
 
   return (
@@ -47,6 +81,7 @@ export default function formproduct() {
           onChange={handleChange}
         />
       </label>
+      {errors.name && <p>{errors.name}</p>}
       <br />
       <label>
         Price:
@@ -57,6 +92,7 @@ export default function formproduct() {
           onChange={handleChange}
         />
       </label>
+      {errors.price && <p>{errors.price}</p>}
       <br />
       <label>
         Description:
@@ -67,6 +103,7 @@ export default function formproduct() {
           onChange={handleChange}
         />
       </label>
+      {errors.description && <p>{errors.description}</p>}
       <br />
       <label>
         Status:
@@ -77,6 +114,7 @@ export default function formproduct() {
           onChange={handleChange}
         />
       </label>
+      {errors.status && <p>{errors.status}</p>}
       <br />
       <label>
         Code:
@@ -87,16 +125,16 @@ export default function formproduct() {
           onChange={handleChange}
         />
       </label>
+      {errors.code && <p>{errors.code}</p>}
       <br />
       <label>
-        Image URL:
-        <input
-          type="text"
-          name="image_url"
-          value={productForm.image_url}
-          onChange={handleChange}
-        />
+        Image:
+        <input type="file" accept="image/*" onChange={handleImageChange} />
       </label>
+      {productForm.image_url && (
+        <img src={productForm.image_url} alt="Selected" />
+      )}
+      {errors.image_url && <p>{errors.image_url}</p>}
       <br />
       <label>
         Stock:
@@ -107,9 +145,10 @@ export default function formproduct() {
           onChange={handleChange}
         />
       </label>
+      {errors.stock && <p>{errors.stock}</p>}
       <br />
       <div>
-        <label>CATEGORY</label>
+        <label>Category</label>
         <select
           name="category_id"
           defaultValue={"DEFAULT"}
@@ -124,8 +163,11 @@ export default function formproduct() {
             </option>
           ))}
         </select>
+        {errors.category_id && <p>{errors.category_id}</p>}
       </div>
-      <button type="submit">Create Product</button>
+      <button type="submit" disabled={Object.keys(errors).length > 0}>
+        Create Product
+      </button>
     </form>
   );
 }
