@@ -1,5 +1,5 @@
 import React from "react";
-import "../css-modules/styles.css";
+import "../css-modules/styles.scss";
 
 const detail = ({
   id,
