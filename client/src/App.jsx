@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AppBar from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
-import Home from "./components/home/home";
+import Home from "./views/home/home";
 import Form from "./components/userform/userform";
 import Product from "./components/product/product";
 import Shoppingcart from "./components/shoppingcart/shoppingcart";
@@ -12,15 +12,16 @@ import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
 import "./App.scss"
+import { Container } from "react-bootstrap";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
   return (
-    <div>
+    <>
       <AppBar />
-      <div className="container">
+      <Container className="py-3">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
           <Route path={pathroutes.DETAIL} element={<Detail />} />
@@ -32,9 +33,9 @@ function App() {
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
         </Routes>
-      </div>
+      </Container>
       <Footer />
-    </div>
+    </>
   );
 }
 

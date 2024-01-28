@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { getAllCategoriesHandler,
     postCategoriesHandler,
     deleteCategoriesHandler,
-    putCategoriesHandler } = require('../handlers/CategoryHandler');
+    putCategoriesHandler } = require('../handlers/categoryHandler');
 const router = Router();
 
 router.get('/', getAllCategoriesHandler);
