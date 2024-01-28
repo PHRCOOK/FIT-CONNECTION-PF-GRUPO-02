@@ -127,7 +127,9 @@ const filterByCategory = async (category_id) => {
 
 const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code, page, size) => {
     try {
+        //Establecemos la pagina en la que nos situamos, y la cantidad de items a mostrar por cada pagina
         const { limit, offset } = getPagination(page, size);
+        /** **/
         const validate = sortOrder && sortOrder.toUpperCase();
         let whereClause = {};
         // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
@@ -160,7 +162,8 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
         console.log("order:", validate ? [["price", validate]] : undefined);
 
         const orderClause = validate ? [["price", validate]] : undefined;
-
+        //añadimos el limite y el offset y cambio el modo de findALl a findAndCountAll para que me devuelva
+        //El total de items y el offsert que indica el desplazamiento nescesario para la pag deseada
         const productosFilteredandOrdered = await ProductServices.findAndCountAll({
             limit,
             offset,
@@ -171,6 +174,9 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
         if (productosFilteredandOrdered.length === 0) {
             throw new Error("No existen productos que cumplan con los criterios de búsqueda.");
         }
+        //productosFilteredandOrdered representa a la data de la consulta anterior
+        //page representa el numero de la pagina actual que se esta solicitando
+        //limit representa a la cantidad de items a mostrar por cada pagina
         const response = getPagingData(productosFilteredandOrdered, page, limit);
         return response;
     } catch (error) {
