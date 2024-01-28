@@ -73,7 +73,7 @@ Categories.hasMany(ProductServices, {
 
 //* Relaciones del modelo Purchases
 
-Purchases.hasOne(PurchaseDetail, {
+Purchases.hasMany(PurchaseDetail, {
   as: "PurchaseDetail",
   foreignKey: "purchase_id",
 });
@@ -91,4 +91,5 @@ FeedBack.belongsTo(Instructor, {
 module.exports = {
   ...sequelize.models,
   conn: sequelize,
+  sequelize
 };

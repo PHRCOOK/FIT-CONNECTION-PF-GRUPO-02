@@ -97,11 +97,11 @@ const productfilterHandler = async (req, res) => {
 
 
 const productFilterAndOrderHandler = async (req, res) => {
-    const { category_id, name, code,  minPrice, maxPrice, sortOrder } = req.query;
+    const { category_id, name, code,  minPrice, maxPrice, sortOrder, page, size } = req.query;
     console.log("esto es lo que viene por query",minPrice, maxPrice)
 
     try {
-        const response = await filterAndOrder (sortOrder, minPrice, maxPrice, category_id, name, code);
+        const response = await filterAndOrder (sortOrder, minPrice, maxPrice, category_id, name, code, page, size);
         res.status(200).json(response);
     } catch (error) {
         console.error(error); // hay que quitarlo despues

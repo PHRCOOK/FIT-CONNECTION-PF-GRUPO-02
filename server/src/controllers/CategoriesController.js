@@ -25,7 +25,7 @@ const postCategoriesController = async (name, status, is_service) => {
         );
         //verificamos si create es falso.. de serlo ya existe la categoria
         if (!create) throw new Error("Ya existe esta categoria.");
-        return existOrNot;
+        return "Categoria creada";
     } catch (error) {
         throw new Error(`Error al crear la categoria: ${error.message}`);
     }

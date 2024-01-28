@@ -3,10 +3,10 @@ const { getGymHandler,
     postGymHandler,
     putGymHandler,
  } = require('../handlers/gymHandler');
-const router = Router();
+const gymRouter = Router();
 
-router.get('/', getGymHandler);
-router.post('/', postGymHandler);
-router.put('/:id', putGymHandler);
+gymRouter.get('/', getGymHandler);
+gymRouter.post('/', postGymHandler);
+gymRouter.put('/:id', putGymHandler);
 
-module.exports = router;
+module.exports = gymRouter;

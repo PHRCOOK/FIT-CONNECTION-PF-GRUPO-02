@@ -19,6 +19,4 @@ productsRouter.post('/', createProductServicesHandler);
 productsRouter.put('/update/:id', updateProductServicesHandler);
 productsRouter.delete('/delete/:id', deleteProductServicesHandler);
 
-
-
 module.exports = productsRouter;
