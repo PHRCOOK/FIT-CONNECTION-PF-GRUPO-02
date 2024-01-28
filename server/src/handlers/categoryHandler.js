@@ -5,6 +5,7 @@ const getAllCategoriesHandler = async (req, res) => {
         //Buscamos todas las categorias y asignamos a categoria
         const categoria = await getAllCategoriesController();
         return res.status(200).json(categoria);
+        // return res.status(200).json({items: categories}) ejemplo
     } catch (error) {
         return res.status(404).json({ error: 'Not Found.', message: error.message});
     }

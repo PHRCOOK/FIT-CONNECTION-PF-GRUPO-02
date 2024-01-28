@@ -1,4 +1,4 @@
-const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices, filterByCategory, orderByPrice, productfilter} = require('../controllers/productsController');
+const {getProductServices, getProductServicesById, getProductServicesByName, createProductServices, updateProductServices, deleteProductServices, filterByCategory, orderByPrice, productfilter, filterAndOrder} = require('../controllers/productsController');
 
 const getProductServicesHandler = async (req, res) => {
     try {
@@ -72,9 +72,10 @@ const filterByCategoryHandler = async (req, res) => {
 };
 
 const orderByPriceHandler = async (req, res) => {
-    const { minPrice, maxPrice } = req.query;
+    const { minPrice, maxPrice, sortOrder } = req.query;
+
     try {
-        const response = await orderByPrice(minPrice, maxPrice);
+        const response = await orderByPrice(minPrice, maxPrice, sortOrder);
         res.status(200).json(response);
     } catch (error) {
         console.error(error); // Imprime el error en la consola para obtener más detalles
@@ -83,15 +84,31 @@ const orderByPriceHandler = async (req, res) => {
 };
 
 const productfilterHandler = async (req, res) => {
-    const { category_id, minPrice, maxPrice } = req.query;
+    const { category_id, name, code } = req.query;
+
     try {
-        const response = await productfilter(category_id, minPrice, maxPrice);
-        res.status(200).json(response)
+        const response = await productfilter(category_id, name, code);
+        res.status(200).json(response);
     } catch (error) {
         console.error(error); // Imprime el error completo en la consola para obtener más detalles
         res.status(400).json({ error: error.message || "Error desconocido" });
     }
 };
+
+
+const productFilterAndOrderHandler = async (req, res) => {
+    const { category_id, name, code,  minPrice, maxPrice, sortOrder } = req.query;
+    console.log("esto es lo que viene por query",minPrice, maxPrice)
+
+    try {
+        const response = await filterAndOrder (sortOrder, minPrice, maxPrice, category_id, name, code);
+        res.status(200).json(response);
+    } catch (error) {
+        console.error(error); // hay que quitarlo despues
+        res.status(400).json({ error: error.message || "Error desconocido" });
+    }
+};
+
 
 module.exports = {
     getProductServicesHandler,
@@ -103,5 +120,6 @@ module.exports = {
     filterByCategoryHandler,
     orderByPriceHandler,
     productfilterHandler,
+    productFilterAndOrderHandler,
 
 };
