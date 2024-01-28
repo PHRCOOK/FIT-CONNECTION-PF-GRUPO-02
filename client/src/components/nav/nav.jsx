@@ -32,10 +32,8 @@ export default function AppBar() {
   return (
     <Navbar
       collapseOnSelect
-      bg="dark"
-      data-bs-theme="dark"
-      expand="lg"
-      className="bg-body-tertiary">
+      bg="secondary"
+      expand="lg">
       <Container>
         <LinkContainer to={pathroutes.HOME}>
           <Navbar.Brand >

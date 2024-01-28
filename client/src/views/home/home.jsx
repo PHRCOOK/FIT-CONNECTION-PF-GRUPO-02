@@ -22,27 +22,27 @@ export default function home() {
   return (
     <Row>
       <Col xs="12">
-        <Carousel className="bg-secondary rounded" >
+        <Carousel fade className="bg-dark rounded" >
           <Carousel.Item className="text-center">
-            <Image src={logo} />
+            <Image src={logo} className="rounded" />
           </Carousel.Item>
           <Carousel.Item className="text-center">
-            <Image src={gym1} />
+            <Image src={gym1} className="rounded" />
           </Carousel.Item>
           <Carousel.Item className="text-center">
-            <Image src={gym2} />
+            <Image src={gym2} className="rounded" />
           </Carousel.Item>
           <Carousel.Item className="text-center">
-            <Image src={gym3} />
+            <Image src={gym3} className="rounded" />
           </Carousel.Item>
           <Carousel.Item className="text-center">
-            <Image src={gym4} />
+            <Image src={gym4} className="rounded" />
           </Carousel.Item>
           <Carousel.Item className="text-center">
-            <Image src={gym5} />
+            <Image src={gym5} className="rounded" />
           </Carousel.Item>
           <Carousel.Item className="text-center">
-            <Image src={gym6} />
+            <Image src={gym6} className="rounded" />
           </Carousel.Item>
         </Carousel>
       </Col>
