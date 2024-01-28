@@ -98,7 +98,8 @@ const productfilterHandler = async (req, res) => {
 
 const productFilterAndOrderHandler = async (req, res) => {
     const { category_id, name, code,  minPrice, maxPrice, sortOrder } = req.query;
-    
+    console.log("esto es lo que viene por query",minPrice, maxPrice)
+
     try {
         const response = await filterAndOrder (sortOrder, minPrice, maxPrice, category_id, name, code);
         res.status(200).json(response);

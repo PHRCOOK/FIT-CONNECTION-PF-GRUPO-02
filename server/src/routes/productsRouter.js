@@ -15,7 +15,7 @@ productsRouter.get('/', productFilterAndOrderHandler);      //<---------------- 
 productsRouter.get('/', getProductServicesHandler);
 productsRouter.get('/:id', getProductServicesByIdHandler);
 productsRouter.get('/getByName', getProductServicesByNameHandler);
-productsRouter.post('/create', createProductServicesHandler);
+productsRouter.post('/', createProductServicesHandler);
 productsRouter.put('/update/:id', updateProductServicesHandler);
 productsRouter.delete('/delete/:id', deleteProductServicesHandler);
 
