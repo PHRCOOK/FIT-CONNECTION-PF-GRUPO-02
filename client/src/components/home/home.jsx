@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+// import { useEffect } from "react";
+// import { useDispatch } from "react-redux";
 
-import { getAllCategories } from "../../redux/action";
-import logo from "../img/logo.jpg";
-import gym1 from "../img/gym1.jpg";
-import gym2 from "../img/gym2.jpg";
-import gym3 from "../img/gym3.jpg";
-import gym4 from "../img/gym4.jpg";
-import gym5 from "../img/gym5.jpg";
-import gym6 from "../img/gym6.png";
+// import { getAllCategories } from "../../redux/action";
+import logo from "../../assets/img/logo.jpg";
+import gym1 from "../../assets/img/gym1.jpg";
+import gym2 from "../../assets/img/gym2.jpg";
+import gym3 from "../../assets/img/gym3.jpg";
+import gym4 from "../../assets/img/gym4.jpg";
+import gym5 from "../../assets/img/gym5.jpg";
+import gym6 from "../../assets/img/gym6.png";
 
 export default function home() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllCategories());
+  // }, []);
 
   return (
     <div

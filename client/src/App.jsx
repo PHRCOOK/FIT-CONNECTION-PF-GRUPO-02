@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Nav from "./components/nav/nav";
+import AppBar from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./components/home/home";
@@ -11,7 +11,7 @@ import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import "./components/css-modules/App.css";
+import "./App.scss"
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
@@ -19,7 +19,7 @@ axios.defaults.baseURL = "http://localhost:3001";
 function App() {
   return (
     <div>
-      <Nav />
+      <AppBar />
       <div className="container">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
