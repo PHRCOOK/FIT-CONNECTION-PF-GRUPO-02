@@ -18,19 +18,21 @@ axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
   return (
-    <div className="container-fluid">
+    <div>
       <Nav />
-      <Routes>
-        <Route path={pathroutes.HOME} element={<Home />} />
-        <Route path={pathroutes.DETAIL} element={<Detail />} />
-        <Route path={pathroutes.FORM} element={<Form />} />
-        <Route path={pathroutes.PRODUCT} element={<Product />} />
-        <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
-        <Route path={pathroutes.SERVICE} element={<Services />} />
-        <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
-        <Route path={pathroutes.REGISTER} element={<UserForm />} />
-        <Route path={pathroutes.STORE} element={<Store />} />
-      </Routes>
+      <div className="container">
+        <Routes>
+          <Route path={pathroutes.HOME} element={<Home />} />
+          <Route path={pathroutes.DETAIL} element={<Detail />} />
+          <Route path={pathroutes.FORM} element={<Form />} />
+          <Route path={pathroutes.PRODUCT} element={<Product />} />
+          <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
+          <Route path={pathroutes.SERVICE} element={<Services />} />
+          <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
+          <Route path={pathroutes.REGISTER} element={<UserForm />} />
+          <Route path={pathroutes.STORE} element={<Store />} />
+        </Routes>
+      </div>
       <Footer />
     </div>
   );
