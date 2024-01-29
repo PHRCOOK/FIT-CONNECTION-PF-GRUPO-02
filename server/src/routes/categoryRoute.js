@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const { Router } = require("express");
 const {
   getAllCategoriesHandler,
@@ -6,13 +5,6 @@ const {
   deleteCategoriesHandler,
   putCategoriesHandler,
 } = require("../handlers/categoryHandler");
-=======
-const { Router } = require('express');
-const { getAllCategoriesHandler,
-    postCategoriesHandler,
-    deleteCategoriesHandler,
-    putCategoriesHandler } = require('../handlers/categoryHandler');
->>>>>>> develop-copia
 const router = Router();
 
 router.get("/", getAllCategoriesHandler);
