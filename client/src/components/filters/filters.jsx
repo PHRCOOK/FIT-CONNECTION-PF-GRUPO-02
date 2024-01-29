@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getCategoriesAction } from "../../redux/action";
 
 const categoriesDemo = ["ropa", "equipamiento", "suplementos"];
 
 function Filters() {
   const categories = categoriesDemo;
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getCategoriesAction());
+  // }, []);
+
+  // const categories = useSelector((state) => state.categories);
+
+  const [filterSettings, setFilterSettings] = useState({
+    category_id: 0,
+    minPrice: 0,
+    maxPrice: 0,
+  });
+
+  const handleFilter = (event) => {
+    console.log(event.target.name);
+    console.log(event.target.value);
+  };
 
   return (
     <div>
@@ -11,21 +31,21 @@ function Filters() {
       <div>
         <fieldset>
           <legend>Search</legend>
-          <input type="text" />
+          <label htmlFor="name">Name</label>
+          <input id="name" type="text" autoComplete="off" />
         </fieldset>
         <fieldset>
           <legend>Categoria</legend>
           {categories.map((category) => {
             return (
-              <div>
+              <div key={category}>
                 <input
-                  type="checkbox"
+                  type="radio"
                   id={category}
-                  key={category}
                   name="category"
                   value={category}
                   // checked={filterData.order === "ascending"}
-                  // onChange={handleFilter}
+                  onChange={handleFilter}
                 />
                 <label htmlFor={category}>{category}</label>
               </div>
@@ -38,24 +58,24 @@ function Filters() {
             <label htmlFor="valorMinimo">Valor mínimo</label>
             <input
               type="number"
-              id="valorMinimo"
-              key="valorMinimo"
-              name="valor"
+              id="minPrice"
+              key="minPrice"
+              name="minPrice"
               // value={category}
               // checked={filterData.order === "ascending"}
-              // onChange={handleFilter}
+              onChange={handleFilter}
             />
           </div>
           <div>
             <label htmlFor="valorMaximo">Valor máximo</label>
             <input
               type="number"
-              id="valorMaximo"
-              key="valorMaximo"
-              name="valor"
+              id="maxPrice"
+              key="maxPrice"
+              name="maxPrice"
               // value={category}
               // checked={filterData.order === "ascending"}
-              // onChange={handleFilter}
+              onChange={handleFilter}
             />
           </div>
         </fieldset>
