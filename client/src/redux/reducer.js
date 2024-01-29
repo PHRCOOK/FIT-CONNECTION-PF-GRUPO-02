@@ -38,6 +38,7 @@ export const reducer = (state = initialState, action) => {
     case RESET_FILTER:
       return {
         ...state,
+        productsToShow: action.payload.data,
         filterSettings: {
           sortOrder: "ASC",
           minPrice: "",

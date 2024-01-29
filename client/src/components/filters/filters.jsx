@@ -43,6 +43,7 @@ function Filters() {
 
   const handleReset = () => {
     dispatch(resetSettings());
+    // dispatch(applySettings(filterSettings));
   };
 
   return (

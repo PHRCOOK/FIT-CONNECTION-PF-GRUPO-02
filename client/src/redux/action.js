@@ -61,7 +61,21 @@ export const applySettings = (settings) => {
 };
 
 export const resetSettings = () => {
-  return {
-    type: RESET_FILTER,
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/products", {
+        params: { sortOrder: "ASC" },
+      });
+      return dispatch({
+        type: RESET_FILTER,
+        payload: { data },
+      });
+    } catch (error) {
+      console.log(error.message);
+      return dispatch({
+        type: EMPTY_FILTER,
+        payload: settings,
+      });
+    }
   };
 };
