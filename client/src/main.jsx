@@ -1,5 +1,6 @@
 import React from "react";
-import "./components/css-modules/index.css";
+// import "./components/css-modules/index.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -8,6 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 const container = document.getElementById("root");
 const root = createRoot(container);
+import "bootstrap/dist/css/bootstrap.min.css";
 root.render(
   <React.StrictMode>
     <Provider store={store}>

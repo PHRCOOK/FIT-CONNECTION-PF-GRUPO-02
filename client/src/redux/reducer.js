@@ -1,18 +1,23 @@
-import { GET_CATEGORIES } from "./action";
+import { GET_ALL_CATEGORIES, POST_PRODUCT } from "./actionsTypes";
 
-const initialState = { categories: [], itemsStore: [], filterData: {} };
+const initialState = {
+  allCategories: [],
+  allProducts: [],
+};
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_CATEGORIES:
+    case GET_ALL_CATEGORIES:
       return {
         ...state,
-        categories: action.payload,
+        allCategories: action.payload,
       };
-
+    case POST_PRODUCT:
+      return {
+        ...state,
+        allProducts: [action.payload, ...state.allProducts],
+      };
     default:
       return { ...state };
   }
 };
-
-export default reducer;

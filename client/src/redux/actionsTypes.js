@@ -1,0 +1,2 @@
+export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIES";
+export const POST_PRODUCT = "POST_PRODUCT";

@@ -8,4 +8,4 @@ conn
       console.log("listening at 3001");
     });
   })
-  .catch((error) => console.log(error)); // Se agrega para que muestre cualquier error de forma mas explicita.
+  .catch((error) => console.log(error)); // Se agrega para que muestre cualquier error de forma mas explicita..
