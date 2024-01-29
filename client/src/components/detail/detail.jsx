@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../css-modules/styles.scss";
 
-const detail = ({
-  id,
-  name,
-  precio,
-  description,
-  status,
-  code,
-  image_url,
-  stock,
-  category,
-}) => {
+const Detail = ({ id }) => {
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/products/${id}`)
+      .then((response) => setProduct(response.data))
+      .catch((error) => console.error(error));
+  }, [id]);
+
+  const {
+    name,
+    precio,
+    description,
+    status,
+    code,
+    image_url,
+    stock,
+    category,
+  } = product;
+
   return (
     <div className="detail">
       <img className="detail__image" src={image_url} alt={name} />
@@ -25,4 +37,4 @@ const detail = ({
   );
 };
 
-export default detail;
+export default Detail;
