@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../css-modules/styles.scss";
 
 const Detail = ({ id }) => {
   const [product, setProduct] = useState({});
