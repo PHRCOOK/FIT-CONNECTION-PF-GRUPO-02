@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Card, Row, Col } from "react-bootstrap";
 
-const Detail = ({ id }) => {
+const Detail = () => {
+  const { id } = useParams()
   const [product, setProduct] = useState({});
 
   useEffect(() => {
@@ -13,7 +16,7 @@ const Detail = ({ id }) => {
 
   const {
     name,
-    precio,
+    price,
     description,
     status,
     code,
@@ -23,16 +26,30 @@ const Detail = ({ id }) => {
   } = product;
 
   return (
-    <div className="detail">
-      <img className="detail__image" src={image_url} alt={name} />
-      <h2 className="detail__name">Nombre: {name}</h2>
-      <p className="detail__description">Descripcion: {description}</p>
-      <p className="detail__code">Código: {code}</p>
-      <p className="detail__price">Precio: ${precio}</p>
-      <p className="detail__status">Estado: {status}</p>
-      <p className="detail__stock">Stock: {stock}</p>
-      <p className="detail__category">Categoría: {category}</p>
-    </div>
+    <Card>
+      <Card.Img style={{ height: '300px', objectFit: 'contain' }} variant="top" src={image_url}></Card.Img>
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
+        <Row>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Codigo:</span> {code}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Categoria:</span> {category}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Precio:</span> ${price}
+          </Col>
+          <Col xs="12" md="6" lg="3"><span className="fw-bold">Estado:
+          </span> {status ? 'Activo' : 'Inactivo'}
+          </Col>
+          <Col xs="12" md="6" lg="3"><span className="fw-bold">Cantidad:
+          </span> {stock}
+          </Col>
+          <Col xs="12">{description}</Col>
+        </Row>
+      </Card.Body>
+    </Card>
   );
 };
 

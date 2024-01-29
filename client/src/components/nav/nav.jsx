@@ -10,6 +10,7 @@ export default function AppBar() {
   const linksData = [
     { path: pathroutes.PRODUCT, title: "Productos" },
     { path: pathroutes.SERVICE, title: "Servicios" },
+    { path: pathroutes.FORMPRODUCT, title: "Crear productos"},
     { path: "/shopping-card", title: "Carrito de compras" },
     { path: "/staff", title: "Conocer staff" },
     { path: "/login", title: "Login" },
