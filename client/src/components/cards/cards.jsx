@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect } from "react";
+=======
+// import React from "react";
+>>>>>>> develop-copia
 import Card from "../card/card";
 import { useSelector } from "react-redux";
 

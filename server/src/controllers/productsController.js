@@ -186,8 +186,8 @@ module.exports = {
     updateProductServices,
     deleteProductServices,
     filterByCategory,
-    orderByPrice,
-    productfilter,
+    // orderByPrice,
+    // productfilter,
     filterAndOrder,
 
 }

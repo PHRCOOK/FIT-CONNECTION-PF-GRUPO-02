@@ -11,6 +11,7 @@ const getProductServicesHandler = async (req, res) => {
 
 const getProductServicesByIdHandler = async (req, res) => {
     const { id } = req.params;
+
     try {
         const response = await getProductServicesById(id);
         res.status(200).json(response)
