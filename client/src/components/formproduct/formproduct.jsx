@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { postProduct, getAllCategories } from "../../redux/action";
 import validate from "./validate";
+import { FormControl, FormLabel, FormText, Row, Col  } from "react-bootstrap";
 
 export default function formproduct() {
   useEffect(() => {
@@ -52,32 +53,32 @@ export default function formproduct() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1 className="fw-bold text-center">Creación de producto o servicio</h1>
-      <div className="row">
-        <div className="col-12 pb-3">
-          <label className="form-label">Name</label>
-          <input
+      <div className="fs-4 mb-3 fw-bold text-center">Creación de producto o servicio</div>
+      <Row>
+        <Col xs="12" className="pb-3">
+          <FormLabel className="form-label">Name</FormLabel>
+          <FormControl
             type="text"
             name="name"
             className="form-control"
             value={productForm.name}
             onChange={handleChange}
           />
-          {errors.name && <div className="form-text">{errors.name}</div>}
-        </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 pb-3">
-          <label className="form-label">Code</label>
-          <input
+          {errors.name && <FormText className="form-text">{errors.name}</FormText>}
+        </Col>
+        <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
+          <FormLabel className="form-label">Code</FormLabel>
+          <FormControl
             type="text"
             name="code"
             className="form-control"
             value={productForm.code}
             onChange={handleChange}
           />
-          {errors.code && <div className="form-text">{errors.code}</div>}
-        </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 pb-3">
-          <label className="form-label">Category</label>
+          {errors.code && <FormText className="form-text">{errors.code}</FormText>}
+        </Col>
+        <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
+          <FormLabel className="form-label">Category</FormLabel>
           <select
             name="category_id"
             className="form-control"
@@ -93,68 +94,68 @@ export default function formproduct() {
               </option>
             ))}
           </select>
-          {errors.category_id && <div className="form-text">{errors.category_id}</div>}
-        </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 pb-3">
-          <label className="form-label">Price</label>
-          <input
+          {errors.category_id && <FormText className="form-text">{errors.category_id}</FormText>}
+        </Col>
+        <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
+          <FormLabel className="form-label">Price</FormLabel>
+          <FormControl
             type="text"
             name="price"
             className="form-control"
             value={productForm.price}
             onChange={handleChange}
           />
-          {errors.price && <div className="form-text">{errors.price}</div>}
-        </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 pb-3">
-          <label className="form-label">Stock</label>
-          <input
+          {errors.price && <FormText className="form-text">{errors.price}</FormText>}
+        </Col>
+        <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
+          <FormLabel className="form-label">Stock</FormLabel>
+          <FormControl
             type="text"
             name="stock"
             className="form-control"
             value={productForm.stock}
             onChange={handleChange}
           />
-          {errors.stock && <div className="form-text">{errors.stock}</div>}
-        </div>
-        <div className="col-12 col-md-8 col-lg-9 pb-3">
-          <label className="form-label">Image</label>
-          <input
+          {errors.stock && <FormText className="form-text">{errors.stock}</FormText>}
+        </Col>
+        <Col xs="12" md="8" lg="6" className="pb-3">
+          <FormLabel className="form-label">Image</FormLabel>
+          <FormControl
             type="text"
             name="image_url"
             className="form-control"
             value={productForm.image_url}
             onChange={handleChange}
           />
-        </div>
-        <div className="col-12 col-sm-6 col-md-4 col-lg-3 pb-3">
-          <label className="form-label">Status</label>
-          <input
+        </Col>
+        <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
+          <FormLabel className="form-label">Status</FormLabel>
+          <FormControl
             type="text"
             name="status"
             className="form-control"
             value={productForm.status}
             onChange={handleChange}
           />
-          {errors.status && <div className="form-text">{errors.status}</div>}
-        </div>
-        <div className="col-12 pb-3">
-          <label className="form-label">Description</label>
-          <textarea
+          {errors.status && <FormText className="form-text">{errors.status}</FormText>}
+        </Col>
+        <Col xs="12" className="pb-3">
+          <FormLabel className="form-label">Description</FormLabel>
+          <FormControl
             rows="5"
             name="description"
-            className="form-control"
+            as="textarea"
             value={productForm.description}
             onChange={handleChange}
           />
-          {errors.description && <div className="form-text">{errors.description}</div>}
-        </div>
-        <div className="col-12 pb-3">
+          {errors.description && <FormText className="form-text">{errors.description}</FormText>}
+        </Col>
+        <Col xs="12" className="pb-3">
           <button className="btn btn-primary" type="submit" disabled={Object.keys(errors).length > 0}>
             Create Product
           </button>
-        </div>
-      </div>
+        </Col>
+      </Row>
     </form>
   );
 }
