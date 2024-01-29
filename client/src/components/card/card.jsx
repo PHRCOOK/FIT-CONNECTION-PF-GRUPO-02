@@ -3,7 +3,7 @@ import React from "react";
 function Card({
   id,
   name,
-  precio,
+  price,
   description,
   status,
   code,
@@ -13,8 +13,9 @@ function Card({
 }) {
   return (
     <div>
-      <h1>id: {id}</h1>
+      <h2>id: {id}</h2>
       <h1>name: {name}</h1>
+      <h3>price: {price}</h3>
       <p>description: {description}</p>
       <p>code: {code}</p>
       <img src={image_url} alt={name} />

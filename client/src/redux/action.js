@@ -1,4 +1,10 @@
-import { GET_ALL_CATEGORIES, POST_PRODUCT } from "./actionsTypes";
+import {
+  GET_ALL_CATEGORIES,
+  POST_PRODUCT,
+  APPLY_FILTER,
+  RESET_FILTER,
+  EMPTY_FILTER,
+} from "./actionsTypes";
 
 import axios from "axios";
 
@@ -30,5 +36,32 @@ export const postProduct = (product) => {
     } catch (error) {
       console.log(error.message);
     }
+  };
+};
+
+export const applySettings = (settings) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/products", {
+        params: settings,
+      });
+
+      return dispatch({
+        type: APPLY_FILTER,
+        payload: { data, settings },
+      });
+    } catch (error) {
+      console.log(error.message);
+      return dispatch({
+        type: EMPTY_FILTER,
+        payload: settings,
+      });
+    }
+  };
+};
+
+export const resetSettings = () => {
+  return {
+    type: RESET_FILTER,
   };
 };

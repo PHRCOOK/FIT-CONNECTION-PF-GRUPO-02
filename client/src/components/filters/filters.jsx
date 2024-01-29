@@ -1,28 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCategoriesAction } from "../../redux/action";
-
-const categoriesDemo = ["ropa", "equipamiento", "suplementos"];
+import {
+  getAllCategories,
+  applySettings,
+  resetSettings,
+} from "../../redux/action";
+import deleteUndefined from "./deleteUndefined";
 
 function Filters() {
-  const categories = categoriesDemo;
+  // const categories = categoriesDemo;
+  const categories = useSelector((state) => state.allCategories);
+  const filterSettings = useSelector((state) => state.filterSettings);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getCategoriesAction());
-  // }, []);
+  useEffect(() => {
+    dispatch(getAllCategories());
 
-  // const categories = useSelector((state) => state.categories);
+    const settingsToApply = { ...filterSettings };
 
-  const [filterSettings, setFilterSettings] = useState({
-    category_id: 0,
-    minPrice: 0,
-    maxPrice: 0,
-  });
+    deleteUndefined(settingsToApply);
+
+    // console.log(settingsToApply);
+
+    dispatch(applySettings(settingsToApply));
+  }, []);
 
   const handleFilter = (event) => {
-    console.log(event.target.name);
-    console.log(event.target.value);
+    const key = event.target.name;
+    const value = event.target.value;
+
+    let settingsToApply = { ...filterSettings };
+
+    settingsToApply = { ...settingsToApply, [key]: value || "" };
+
+    deleteUndefined(settingsToApply);
+
+    console.log(filterSettings);
+    console.log(settingsToApply);
+
+    dispatch(applySettings(settingsToApply));
+  };
+
+  const handleReset = () => {
+    dispatch(resetSettings());
   };
 
   return (
@@ -30,26 +50,44 @@ function Filters() {
       Filters
       <div>
         <fieldset>
-          <legend>Search</legend>
+          <legend>Busqueda</legend>
           <label htmlFor="name">Name</label>
-          <input id="name" type="text" autoComplete="off" />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="off"
+            onChange={handleFilter}
+            value={filterSettings.name || ""}
+          />
+          <label htmlFor="code">Code</label>
+          <input
+            id="code"
+            name="code"
+            type="text"
+            autoComplete="off"
+            onChange={handleFilter}
+            value={filterSettings.code || ""}
+          />
         </fieldset>
         <fieldset>
           <legend>Categoria</legend>
-          {categories.map((category) => {
-            return (
-              <div key={category}>
-                <input
-                  type="radio"
-                  id={category}
-                  name="category"
-                  value={category}
-                  // checked={filterData.order === "ascending"}
-                  onChange={handleFilter}
-                />
-                <label htmlFor={category}>{category}</label>
-              </div>
-            );
+          {categories.map((category, index) => {
+            if (!category.is_service) {
+              return (
+                <div key={index}>
+                  <input
+                    type="radio"
+                    id={category.id}
+                    name="category_id"
+                    value={category.id}
+                    checked={Number(filterSettings.category_id) === category.id}
+                    onChange={handleFilter}
+                  />
+                  <label htmlFor={category.id}>{category.name}</label>
+                </div>
+              );
+            }
           })}
         </fieldset>
         <fieldset>
@@ -61,8 +99,7 @@ function Filters() {
               id="minPrice"
               key="minPrice"
               name="minPrice"
-              // value={category}
-              // checked={filterData.order === "ascending"}
+              value={filterSettings.minPrice || ""}
               onChange={handleFilter}
             />
           </div>
@@ -73,13 +110,38 @@ function Filters() {
               id="maxPrice"
               key="maxPrice"
               name="maxPrice"
-              // value={category}
-              // checked={filterData.order === "ascending"}
+              value={filterSettings.maxPrice || ""}
               onChange={handleFilter}
             />
           </div>
         </fieldset>
+        <fieldset>
+          <legend>Orden</legend>
+          <div key="ASC">
+            <input
+              type="radio"
+              id="ASC"
+              name="sortOrder"
+              value="ASC"
+              checked={filterSettings.sortOrder === "ASC"}
+              onChange={handleFilter}
+            />
+            <label htmlFor="ASC">Ascendente</label>
+          </div>
+          <div key="DESC">
+            <input
+              type="radio"
+              id="DESC"
+              name="sortOrder"
+              value="DESC"
+              checked={filterSettings.sortOrder === "DESC"}
+              onChange={handleFilter}
+            />
+            <label htmlFor="DESC">Descendente</label>
+          </div>
+        </fieldset>
       </div>
+      <button onClick={handleReset}>Reset Filters</button>
     </div>
   );
 }

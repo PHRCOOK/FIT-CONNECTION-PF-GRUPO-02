@@ -25,7 +25,7 @@ function App() {
           <Route path={pathroutes.HOME} element={<Home />} />
           <Route path={pathroutes.DETAIL} element={<Detail />} />
           <Route path={pathroutes.FORM} element={<Form />} />
-          <Route path={pathroutes.PRODUCT} element={<Product />} />
+          <Route path={pathroutes.PRODUCT} element={<Store />} />
           <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
           <Route path={pathroutes.SERVICE} element={<Services />} />
           <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
