@@ -6,9 +6,7 @@ const { getProductServicesHandler, getProductServicesByIdHandler, getProductServ
 const productsRouter = Router();
 
 // Rutas específicas primero
-productsRouter.get('/filterByCategory/:category_id', filterByCategoryHandler);
-// productsRouter.get('/', orderByPriceHandler);
-// productsRouter.get('/', productfilterHandler);
+
 productsRouter.get('/', productFilterAndOrderHandler);      //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
 
 // Rutas generales después
