@@ -5,6 +5,7 @@ const feedBackRouter = require('./feedBackRouter');
 const productsRouter = require('./productsRouter');
 const categoryRouter = require('./categoryRoute');
 const gymRoute = require('./gymRoute')
+const purchaseRoute = require('./purchasesRoute')
 const router = express.Router();
 
 // Definir rutas aquí:
@@ -20,6 +21,8 @@ router.use("/products", productsRouter);
 router.use("/categories", categoryRouter);
 
 router.use('/gym', gymRoute)
+
+router.use('/purchase', purchaseRoute)
 
 
 
