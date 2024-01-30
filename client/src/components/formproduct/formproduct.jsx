@@ -2,10 +2,11 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { postProduct, getAllCategories } from "../../redux/action";
 import validate from "./validate";
-import { FormControl, FormLabel, FormText, Row, Col  } from "react-bootstrap";
+import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
 export default function formproduct() {
   useEffect(() => {
@@ -15,12 +16,13 @@ export default function formproduct() {
   const allCategories = useSelector((state) => state.allCategories);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
     description: "",
-    status: false, // debe quitarse y venir desde back en true por defecto
+    status: "", // debe quitarse y venir desde back en true por defecto
     code: "",
     image_url: "",
     stock: "",
@@ -32,6 +34,7 @@ export default function formproduct() {
   const handleChange = (e) => {
     let key = [e.target.name];
     let value = e.target.value;
+
     setProductForm({ ...productForm, [key]: value });
     setErrors(validate({ ...productForm, [key]: value }));
   };
@@ -49,11 +52,15 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
+    window.alert("Product created successfully");
+    navigate("/product");
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="fs-4 mb-3 fw-bold text-center">Creación de producto o servicio</div>
+      <div className="fs-4 mb-3 fw-bold text-center">
+        Creación de producto o servicio
+      </div>
       <Row>
         <Col xs="12" className="pb-3">
           <FormLabel className="form-label">Name</FormLabel>
@@ -64,7 +71,9 @@ export default function formproduct() {
             value={productForm.name}
             onChange={handleChange}
           />
-          {errors.name && <FormText className="form-text">{errors.name}</FormText>}
+          {errors.name && (
+            <FormText className="form-text">{errors.name}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Code</FormLabel>
@@ -75,7 +84,9 @@ export default function formproduct() {
             value={productForm.code}
             onChange={handleChange}
           />
-          {errors.code && <FormText className="form-text">{errors.code}</FormText>}
+          {errors.code && (
+            <FormText className="form-text">{errors.code}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Category</FormLabel>
@@ -94,7 +105,9 @@ export default function formproduct() {
               </option>
             ))}
           </select>
-          {errors.category_id && <FormText className="form-text">{errors.category_id}</FormText>}
+          {errors.category_id && (
+            <FormText className="form-text">{errors.category_id}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Price</FormLabel>
@@ -105,7 +118,9 @@ export default function formproduct() {
             value={productForm.price}
             onChange={handleChange}
           />
-          {errors.price && <FormText className="form-text">{errors.price}</FormText>}
+          {errors.price && (
+            <FormText className="form-text">{errors.price}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Stock</FormLabel>
@@ -116,7 +131,9 @@ export default function formproduct() {
             value={productForm.stock}
             onChange={handleChange}
           />
-          {errors.stock && <FormText className="form-text">{errors.stock}</FormText>}
+          {errors.stock && (
+            <FormText className="form-text">{errors.stock}</FormText>
+          )}
         </Col>
         <Col xs="12" md="8" lg="6" className="pb-3">
           <FormLabel className="form-label">Image</FormLabel>
@@ -130,14 +147,21 @@ export default function formproduct() {
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Status</FormLabel>
-          <FormControl
-            type="text"
+          <select
             name="status"
             className="form-control"
-            value={productForm.status}
+            defaultValue={"DEFAULT"}
             onChange={handleChange}
-          />
-          {errors.status && <FormText className="form-text">{errors.status}</FormText>}
+          >
+            <option value="DEFAULT" disabled hidden>
+              --
+            </option>
+            <option value={true}>TRUE</option>
+            <option value={false}>FALSE</option>
+          </select>
+          {errors.status && (
+            <FormText className="form-text">{errors.status}</FormText>
+          )}
         </Col>
         <Col xs="12" className="pb-3">
           <FormLabel className="form-label">Description</FormLabel>
@@ -148,10 +172,16 @@ export default function formproduct() {
             value={productForm.description}
             onChange={handleChange}
           />
-          {errors.description && <FormText className="form-text">{errors.description}</FormText>}
+          {errors.description && (
+            <FormText className="form-text">{errors.description}</FormText>
+          )}
         </Col>
         <Col xs="12" className="pb-3">
-          <button className="btn btn-primary" type="submit" disabled={Object.keys(errors).length > 0}>
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={Object.keys(errors).length > 0}
+          >
             Create Product
           </button>
         </Col>
