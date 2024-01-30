@@ -1,13 +1,13 @@
 $primary: #ff4136;
-$secondary: #BDBDBD;
+$secondary: #bdbdbd;
 
-@import '../node_modules/bootstrap/scss/bootstrap';
+@import "../node_modules/bootstrap/scss/bootstrap";
 
-.nav-link:hover{
+.nav-link:hover {
   background-color: $primary;
 }
 
-.carousel-item img{
-  width: 100%;
+.carousel-item img {
+  width: 50%;
   height: 500px;
 }
