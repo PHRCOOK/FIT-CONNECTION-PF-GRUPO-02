@@ -1,14 +1,14 @@
 import React from "react";
 import Filters from "../components/filters/filters";
-import Cards from "../components/cards/cards";
+import AppCards from "../components/cards/cards";
 
 function Store() {
   return (
     <div>
       {" "}
-      store
+      <div className="fs-4 mb-3 fw-bold text-center">Nuestros Productos</div>
       <Filters />
-      <Cards />
+      <AppCards />
     </div>
   );
 }
