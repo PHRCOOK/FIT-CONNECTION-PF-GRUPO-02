@@ -23,26 +23,26 @@ export default function home() {
     <Row>
       <Col xs="12">
         <Carousel fade className="bg-dark rounded" >
-          <Carousel.Item className="text-center">
-            <Image src={logo} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={logo} className="rounded object-fit-contain" />
           </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image src={gym1} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={gym1} className="rounded object-fit-contain" />
           </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image src={gym2} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={gym2} className="rounded object-fit-contain" />
           </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image src={gym3} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={gym3} className="rounded object-fit-contain" />
           </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image src={gym4} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={gym4} className="rounded object-fit-contain" />
           </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image src={gym5} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={gym5} className="rounded object-fit-contain" />
           </Carousel.Item>
-          <Carousel.Item className="text-center">
-            <Image src={gym6} className="rounded" />
+          <Carousel.Item className="text-center bg-dark">
+            <Image src={gym6} className="rounded object-fit-contain" />
           </Carousel.Item>
         </Carousel>
       </Col>
