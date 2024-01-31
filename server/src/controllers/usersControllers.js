@@ -5,6 +5,7 @@ const { User } = require("../db");
 // Controler encargado de crear los usuarios.
 const createUserController = async (fullname, email, password) => { 
     try {
+        
         // Creamos una validación para que verifique si el usario ya existe por su propiedad email.
         const userExists = await User.findOne({
             where: { 

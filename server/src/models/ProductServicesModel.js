@@ -21,11 +21,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      status: {
-        // Atributo que usamos para desactivar/eliminar el producto de ser necesario.
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-      },
       code: {
         type: DataTypes.STRING,
         unique: true,
@@ -38,6 +33,11 @@ module.exports = (sequelize) => {
       stock: {
         type: DataTypes.FLOAT,
         allowNull: false,
+      },
+      status: {
+        // Atributo que usamos para desactivar/eliminar el producto de ser necesario.
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
     },
     { timestamps: false }

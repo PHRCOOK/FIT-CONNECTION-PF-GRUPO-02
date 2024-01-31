@@ -7,15 +7,18 @@ const {
     getUserByIdController,
 
 } = require("../controllers/usersControllers");
+const { validateCreateUser } = require("../../utils/validations/validateCreateUser");
+
 
 // Handler para manejar la cración de un usuario.
 const createUserHandler = async (req, res) => {
     const { fullname, email, password} = req.body;
     try {
+        validateCreateUser({ fullname, email, password });
         const response = await createUserController(fullname, email, password) 
         res.status(201).json(response)
     } catch (error) {
-        res.status(409).json({error: error.message})
+        res.status(400).json({error: error.message})
     };
 };
 

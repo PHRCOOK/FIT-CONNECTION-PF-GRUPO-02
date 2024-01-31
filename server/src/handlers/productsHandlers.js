@@ -1,3 +1,4 @@
+const { validateCreateProductServices } = require('../../utils/validations/validateCreateProductServices');
 const {
     getProductServices, 
     getProductServicesById, 
@@ -30,6 +31,7 @@ const getProductServicesByIdHandler = async (req, res) => {
 const createProductServicesHandler = async (req, res) => {
     const { name, price, description, status, code, image_url, stock, category_id } = req.body;
     try {
+        validateCreateProductServices({ name, price, description, status, code, image_url, stock, category_id });
         const response = await createProductServices(name, price, description, status, code, image_url, stock, category_id);
         res.status(201).json(response)
     } catch (error) {

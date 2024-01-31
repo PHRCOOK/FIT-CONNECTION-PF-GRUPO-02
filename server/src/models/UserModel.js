@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         unique: true,
         validate: { // Le agregamos una validación de formato.
           isEmail: {
-            msg: "El formato del correo electrónico no es valido.",
+            msg: "You must enter a valid email",
           },
         },
       },
@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
           isStrongPassword(value) {
             const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z\d]{8,}$/;
             if (!passwordRegex.test(value)) {
-              throw new Error("La contraseña debe contener al menos 8 caracteres, al menos un número, una letra minúscula y una letra mayúscula");
+              throw new Error("The password must contain at least 8 characters, at least one number, one lowercase letter and one uppercase letter.");
             }
           },
         },

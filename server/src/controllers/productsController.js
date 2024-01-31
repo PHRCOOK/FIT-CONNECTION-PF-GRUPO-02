@@ -26,6 +26,17 @@ const getProductServicesById = async (id) => {
 
 const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
     try {
+
+        const verifyCode = await ProductServices.findOne({
+            where: {
+                code: code,
+            },
+        });
+
+        if (verifyCode) {
+            throw new Error('A product already exists with that code.')
+        }
+
         // Buscamos la categoria correspondiente con el id proporcionado.
         const category = await Categories.findByPk(category_id);
 
