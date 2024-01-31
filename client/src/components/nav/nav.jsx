@@ -19,10 +19,10 @@ export default function AppBar() {
       title: "Crear productos",
       show: location.pathname === pathroutes.PRODUCT,
     },
-    { path: "/shopping-card", title: "Carrito de compras", show: true },
-    { path: "/staff", title: "Conocer staff", show: true },
-    { path: "/login", title: "Login", show: true },
-    { path: "/sign-up", title: "Registrate", show: true },
+    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
+    { path: pathroutes.STAFF, title: "Conocer staff", show: true },
+    { path: pathroutes.LOGIN, title: "Login", show: true },
+    { path: pathroutes.REGISTER, title: "Registrate", show: true },
   ];
 
   const links = [];
