@@ -5,7 +5,16 @@ import {
   applySettings,
   resetSettings,
 } from "../../redux/action";
-import { Container, Row, Col, FormLabel, FormControl, FormCheck, Button, Modal } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  FormLabel,
+  FormControl,
+  FormCheck,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import deleteUndefined from "./deleteUndefined";
 
 function Filters() {
@@ -65,7 +74,7 @@ function Filters() {
         <Modal.Body>
           <Row>
             <Col xs="12" md="6" className="py-1">
-              <FormLabel htmlFor="name">Name</FormLabel>
+              <FormLabel htmlFor="name">Nombre</FormLabel>
               <FormControl
                 id="name"
                 name="name"
@@ -76,7 +85,7 @@ function Filters() {
               />
             </Col>
             <Col xs="12" md="6" className="py-1">
-              <FormLabel htmlFor="code">Code</FormLabel>
+              <FormLabel htmlFor="code">Codigo</FormLabel>
               <FormControl
                 id="code"
                 name="code"
@@ -122,7 +131,9 @@ function Filters() {
                         name="category_id"
                         value={category.id}
                         label={category.name}
-                        checked={Number(filterSettings.category_id) === category.id}
+                        checked={
+                          Number(filterSettings.category_id) === category.id
+                        }
                         onChange={handleFilter}
                       />
                     </div>

@@ -5,7 +5,8 @@ import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function Cards() {
-  const productsToShow = useSelector((state) => state.productsToShow);
+  let productsToShow = useSelector((state) => state.productsToShow);
+  productsToShow = productsToShow.filter((item) => item.status);
 
   return (
     <Row>
