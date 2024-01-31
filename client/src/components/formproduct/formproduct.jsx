@@ -63,7 +63,7 @@ export default function formproduct() {
       category_id: "",
     });
     window.alert("Producto creado exitosamente");
-    navigate("/");
+    navigate("/admin");
   };
 
   return (
@@ -157,13 +157,19 @@ export default function formproduct() {
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Status</FormLabel>
-          <FormControl
-            type="text"
+          <select
             name="status"
             className="form-control"
-            value={productForm.status}
+            defaultValue={"DEFAULT"}
             onChange={handleChange}
-          />
+          >
+            <option value="DEFAULT" disabled hidden>
+              --
+            </option>
+
+            <option>TRUE</option>
+            <option>FALSE</option>
+          </select>
           {errors.status && (
             <FormText className="form-text">{errors.status}</FormText>
           )}

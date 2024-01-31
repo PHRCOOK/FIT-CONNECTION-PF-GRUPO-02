@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
+import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -32,14 +33,26 @@ function product(props) {
 
   return (
     <div>
-      <h1>{name}</h1>
-      <img src={image_url} alt={name} />
-      <p>{description}</p>
-      <h2>{price}</h2>
-      <h2>{status}</h2>
-      <h2>{stock}</h2>
-      <h2>{code}</h2>
-      <h2>{category}</h2>
+      <Card>
+        <Card.Img
+          style={{ height: "300px", objectFit: "contain" }}
+          variant="top"
+          src={image_url}
+        />
+        <CardBody>
+          <CardTitle>Nombre: {name}</CardTitle>
+          <CardTitle>Id: {id}</CardTitle>
+          <Row>
+            <Col xs="12" md="6">
+              <span className="fw-bold">Precio:</span> ${price}
+            </Col>
+            <Col xs="12" md="6">
+              <span className="fw-bold">Codigo:</span> {code}
+            </Col>
+            <Col xs="12">{description}</Col>
+          </Row>
+        </CardBody>
+      </Card>
 
       <button
         onClick={() => {
