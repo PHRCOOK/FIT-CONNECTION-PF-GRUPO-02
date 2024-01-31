@@ -4,6 +4,9 @@ import {
   APPLY_FILTER,
   RESET_FILTER,
   EMPTY_FILTER,
+  DELETE_PRODUCT,
+  GET_ALL_PRODUCTS,
+  PUT_PRODUCT,
 } from "./actionsTypes";
 
 const initialState = {
@@ -54,6 +57,23 @@ export const reducer = (state = initialState, action) => {
         ...state,
         productsToShow: [],
         filterSettings: action.payload,
+      };
+
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+      };
+
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        allProducts: action.payload,
+      };
+
+    case PUT_PRODUCT:
+      return {
+        ...state,
+        allProducts: action.payload,
       };
 
     default:

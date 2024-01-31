@@ -22,7 +22,7 @@ function App() {
   const location = useLocation();
   return (
     <>
-      <AppBar />
+      {!location.pathname.startsWith("/admin") && <AppBar />}
       <Container className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />

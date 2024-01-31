@@ -4,6 +4,9 @@ import {
   APPLY_FILTER,
   RESET_FILTER,
   EMPTY_FILTER,
+  DELETE_PRODUCT,
+  GET_ALL_PRODUCTS,
+  PUT_PRODUCT,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -76,6 +79,53 @@ export const resetSettings = () => {
         type: EMPTY_FILTER,
         payload: settings,
       });
+    }
+  };
+};
+
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3001/products/delete/${id}`
+      );
+      return dispatch({
+        type: DELETE_PRODUCT,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getAllProducts = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/products");
+      return dispatch({
+        type: GET_ALL_PRODUCTS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const putProduct = (id, product) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3001/products/update/${id}`,
+        product
+      );
+      return dispatch({
+        type: PUT_PRODUCT,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 };
