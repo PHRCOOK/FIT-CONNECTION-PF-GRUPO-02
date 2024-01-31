@@ -22,7 +22,7 @@ router.use("/categories", categoryRouter);
 
 router.use('/gym', gymRoute)
 
-router.use('/purchase', purchaseRoute)
+router.use('/purchases', purchaseRoute)
 
 
 
