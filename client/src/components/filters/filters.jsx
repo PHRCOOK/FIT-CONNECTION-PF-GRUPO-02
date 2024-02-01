@@ -5,6 +5,16 @@ import {
   applySettings,
   resetSettings,
 } from "../../redux/action";
+import {
+  Container,
+  Row,
+  Col,
+  FormLabel,
+  FormControl,
+  FormCheck,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import deleteUndefined from "./deleteUndefined";
 
 function Filters() {
@@ -46,104 +56,128 @@ function Filters() {
     // dispatch(applySettings(filterSettings));
   };
 
+  //funcion elemento Modal
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <div>
-      Filters
-      <div>
-        <fieldset>
-          <legend>Busqueda</legend>
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autoComplete="off"
-            onChange={handleFilter}
-            value={filterSettings.name || ""}
-          />
-          <label htmlFor="code">Code</label>
-          <input
-            id="code"
-            name="code"
-            type="text"
-            autoComplete="off"
-            onChange={handleFilter}
-            value={filterSettings.code || ""}
-          />
-        </fieldset>
-        <fieldset>
-          <legend>Categoria</legend>
-          {categories.map((category, index) => {
-            if (!category.is_service) {
-              return (
-                <div key={index}>
-                  <input
-                    type="radio"
-                    id={category.id}
-                    name="category_id"
-                    value={category.id}
-                    checked={Number(filterSettings.category_id) === category.id}
-                    onChange={handleFilter}
-                  />
-                  <label htmlFor={category.id}>{category.name}</label>
-                </div>
-              );
-            }
-          })}
-        </fieldset>
-        <fieldset>
-          <legend>Valor</legend>
-          <div>
-            <label htmlFor="valorMinimo">Valor mínimo</label>
-            <input
-              type="number"
-              id="minPrice"
-              key="minPrice"
-              name="minPrice"
-              value={filterSettings.minPrice || ""}
-              onChange={handleFilter}
-            />
-          </div>
-          <div>
-            <label htmlFor="valorMaximo">Valor máximo</label>
-            <input
-              type="number"
-              id="maxPrice"
-              key="maxPrice"
-              name="maxPrice"
-              value={filterSettings.maxPrice || ""}
-              onChange={handleFilter}
-            />
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>Orden</legend>
-          <div key="ASC">
-            <input
-              type="radio"
-              id="ASC"
-              name="sortOrder"
-              value="ASC"
-              checked={filterSettings.sortOrder === "ASC"}
-              onChange={handleFilter}
-            />
-            <label htmlFor="ASC">Ascendente</label>
-          </div>
-          <div key="DESC">
-            <input
-              type="radio"
-              id="DESC"
-              name="sortOrder"
-              value="DESC"
-              checked={filterSettings.sortOrder === "DESC"}
-              onChange={handleFilter}
-            />
-            <label htmlFor="DESC">Descendente</label>
-          </div>
-        </fieldset>
-      </div>
-      <button onClick={handleReset}>Reset Filters</button>
-    </div>
+    <Container>
+      <Button variant="primary" onClick={handleShow}>
+        Filtrar y Ordenar
+      </Button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Filtros</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col xs="12" md="6" className="py-1">
+              <FormLabel htmlFor="name">Nombre</FormLabel>
+              <FormControl
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="off"
+                onChange={handleFilter}
+                value={filterSettings.name || ""}
+              />
+            </Col>
+            <Col xs="12" md="6" className="py-1">
+              <FormLabel htmlFor="code">Codigo</FormLabel>
+              <FormControl
+                id="code"
+                name="code"
+                type="text"
+                autoComplete="off"
+                onChange={handleFilter}
+                value={filterSettings.code || ""}
+              />
+            </Col>
+            <Col xs="12" md="6" className="py-1">
+              <div>
+                <FormLabel htmlFor="valorMinimo">Valor mínimo</FormLabel>
+                <FormControl
+                  type="number"
+                  id="minPrice"
+                  key="minPrice"
+                  name="minPrice"
+                  value={filterSettings.minPrice || ""}
+                  onChange={handleFilter}
+                />
+              </div>
+            </Col>
+            <Col xs="12" md="6" className="py-1">
+              <FormLabel htmlFor="valorMaximo">Valor máximo</FormLabel>
+              <FormControl
+                type="number"
+                id="maxPrice"
+                key="maxPrice"
+                name="maxPrice"
+                value={filterSettings.maxPrice || ""}
+                onChange={handleFilter}
+              />
+            </Col>
+            <Col xs="12" md="6" className="py-2">
+              <span className="fw-bold">Categorias</span>
+              {categories.map((category, index) => {
+                if (!category.is_service) {
+                  return (
+                    <div key={index}>
+                      <FormCheck
+                        type="radio"
+                        id={category.id}
+                        name="category_id"
+                        value={category.id}
+                        label={category.name}
+                        checked={
+                          Number(filterSettings.category_id) === category.id
+                        }
+                        onChange={handleFilter}
+                      />
+                    </div>
+                  );
+                }
+              })}
+            </Col>
+            <Col xs="12" md="6" className="py-2">
+              <span className="fw-bold">Orden</span>
+              <div key="ASC">
+                <FormCheck
+                  type="radio"
+                  id="ASC"
+                  name="sortOrder"
+                  label="Ascendente"
+                  value="ASC"
+                  checked={filterSettings.sortOrder === "ASC"}
+                  onChange={handleFilter}
+                />
+              </div>
+              <div key="DESC">
+                <FormCheck
+                  type="radio"
+                  id="DESC"
+                  label="Descendente"
+                  name="sortOrder"
+                  value="DESC"
+                  checked={filterSettings.sortOrder === "DESC"}
+                  onChange={handleFilter}
+                />
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleReset}>
+            Reset Filters
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Container>
   );
 }
 

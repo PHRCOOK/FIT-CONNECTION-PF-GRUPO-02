@@ -2,30 +2,49 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { postProduct, getAllCategories } from "../../redux/action";
+import { postProduct, putProduct } from "../../redux/action";
 import validate from "./validate";
-import { FormControl, FormLabel, FormText, Row, Col  } from "react-bootstrap";
+import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
 export default function formproduct() {
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
 
   const allCategories = useSelector((state) => state.allCategories);
-
-  const dispatch = useDispatch();
+  const allProducts = useSelector((state) => state.allProducts);
 
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
     description: "",
-    status: false, // debe quitarse y venir desde back en true por defecto
+    status: "",
     code: "",
     image_url: "",
     stock: "",
     category_id: "",
   });
+
+  useEffect(() => {
+    if (params.id) {
+      const productFiltered = allProducts.filter(
+        (product) => params.id === product.id.toString()
+      );
+      setProductForm({
+        ...productForm,
+        name: productFiltered[0].name,
+        price: productFiltered[0].price,
+        description: productFiltered[0].description,
+        status: productFiltered[0].status,
+        code: productFiltered[0].code,
+        image_url: productFiltered[0].image_url,
+        stock: productFiltered[0].stock,
+        category_id: productFiltered[0].category_id,
+      });
+    }
+  }, [params]);
 
   const [errors, setErrors] = useState({});
 
@@ -36,9 +55,15 @@ export default function formproduct() {
     setErrors(validate({ ...productForm, [key]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postProduct(productForm));
+    if (params.id) {
+      dispatch(putProduct(params.id, productForm));
+      window.alert("Producto modificado exitosamente");
+    } else {
+      dispatch(postProduct(productForm));
+      window.alert("Producto creado exitosamente");
+    }
     setProductForm({
       name: "",
       price: "",
@@ -49,11 +74,17 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
+
+    navigate("/admin");
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="fs-4 mb-3 fw-bold text-center">Creación de producto o servicio</div>
+      <div className="fs-4 mb-3 fw-bold text-center">
+        {params.id
+          ? "Modificacion de producto o servicio"
+          : "Creación de producto o servicio"}
+      </div>
       <Row>
         <Col xs="12" className="pb-3">
           <FormLabel className="form-label">Name</FormLabel>
@@ -64,7 +95,9 @@ export default function formproduct() {
             value={productForm.name}
             onChange={handleChange}
           />
-          {errors.name && <FormText className="form-text">{errors.name}</FormText>}
+          {errors.name && (
+            <FormText className="form-text">{errors.name}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Code</FormLabel>
@@ -75,7 +108,9 @@ export default function formproduct() {
             value={productForm.code}
             onChange={handleChange}
           />
-          {errors.code && <FormText className="form-text">{errors.code}</FormText>}
+          {errors.code && (
+            <FormText className="form-text">{errors.code}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Category</FormLabel>
@@ -94,7 +129,9 @@ export default function formproduct() {
               </option>
             ))}
           </select>
-          {errors.category_id && <FormText className="form-text">{errors.category_id}</FormText>}
+          {errors.category_id && (
+            <FormText className="form-text">{errors.category_id}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Price</FormLabel>
@@ -105,7 +142,9 @@ export default function formproduct() {
             value={productForm.price}
             onChange={handleChange}
           />
-          {errors.price && <FormText className="form-text">{errors.price}</FormText>}
+          {errors.price && (
+            <FormText className="form-text">{errors.price}</FormText>
+          )}
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Stock</FormLabel>
@@ -116,7 +155,9 @@ export default function formproduct() {
             value={productForm.stock}
             onChange={handleChange}
           />
-          {errors.stock && <FormText className="form-text">{errors.stock}</FormText>}
+          {errors.stock && (
+            <FormText className="form-text">{errors.stock}</FormText>
+          )}
         </Col>
         <Col xs="12" md="8" lg="6" className="pb-3">
           <FormLabel className="form-label">Image</FormLabel>
@@ -130,14 +171,22 @@ export default function formproduct() {
         </Col>
         <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
           <FormLabel className="form-label">Status</FormLabel>
-          <FormControl
-            type="text"
+          <select
             name="status"
             className="form-control"
-            value={productForm.status}
+            defaultValue={"DEFAULT"}
             onChange={handleChange}
-          />
-          {errors.status && <FormText className="form-text">{errors.status}</FormText>}
+          >
+            <option value="DEFAULT" disabled hidden>
+              --
+            </option>
+
+            <option>TRUE</option>
+            <option>FALSE</option>
+          </select>
+          {errors.status && (
+            <FormText className="form-text">{errors.status}</FormText>
+          )}
         </Col>
         <Col xs="12" className="pb-3">
           <FormLabel className="form-label">Description</FormLabel>
@@ -148,11 +197,17 @@ export default function formproduct() {
             value={productForm.description}
             onChange={handleChange}
           />
-          {errors.description && <FormText className="form-text">{errors.description}</FormText>}
+          {errors.description && (
+            <FormText className="form-text">{errors.description}</FormText>
+          )}
         </Col>
         <Col xs="12" className="pb-3">
-          <button className="btn btn-primary" type="submit" disabled={Object.keys(errors).length > 0}>
-            Create Product
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={Object.values(productForm).some((value) => value === "")}
+          >
+            {params.id ? "Update product" : "Create product"}
           </button>
         </Col>
       </Row>

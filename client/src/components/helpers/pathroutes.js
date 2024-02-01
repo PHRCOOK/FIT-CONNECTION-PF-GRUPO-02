@@ -8,6 +8,8 @@ const pathroutes = {
   SERVICE: "/services",
   FORMPRODUCT: "/formproduct",
   REGISTER: "/register",
+  LOGIN: "/login",
   STORE: "/store",
+  STAFF: "/staff",
 };
 export default pathroutes;
