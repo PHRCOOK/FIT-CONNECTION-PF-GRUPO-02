@@ -7,24 +7,25 @@ const checkStockAvailability = async (details, transaction) => {
         }
     }
 };
-const decreaseStock = async (status, details, transaction) => {
+const updateStock = async (status, details, transaction) => {
+    console.log(details)
     if (!details || !Array.isArray(details)) {
         // Manejar el caso en que details no sea un array
         console.error("Invalid details value:", details);
         return;
     }
-    if (status === "completed") {
-        for (const detail of details) {
-            await ProductServices.decrement('stock', {
-                by: detail.quantity,
-                where: { id: detail.product_id },
-                transaction,
-            });
-        }
+    const stockOperation = status !== "cancelled" ? 'decrement' : 'increment';
+
+    for (const detail of details) {
+        await ProductServices[stockOperation]('stock', {
+            by: detail.quantity,
+            where: { id: detail.product_id },
+            transaction,
+        });
     }
 };
 
-module.exports = {
+module.exports ={
     checkStockAvailability,
-    decreaseStock,
+    updateStock
 }
