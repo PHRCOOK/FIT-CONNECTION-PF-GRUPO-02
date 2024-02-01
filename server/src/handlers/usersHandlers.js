@@ -7,12 +7,12 @@ const {
     getUserByIdController,
 
 } = require("../controllers/usersControllers");
-
 // Handler para manejar la cración de un usuario.
 const createUserHandler = async (req, res) => {
     const { fullname, email, password} = req.body;
     try {
         const response = await createUserController(fullname, email, password) 
+<<<<<<< HEAD
 <<<<<<< HEAD
         res.status(200).json(response)
     } catch (error) {
@@ -22,6 +22,11 @@ const createUserHandler = async (req, res) => {
     } catch (error) {
         res.status(409).json({error: error.message})
 >>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
+=======
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+>>>>>>> 42ee38c249df9b7a73acb4dc7581591d5837272a
     };
 };
 
@@ -35,10 +40,14 @@ const updateUserHandler = async (req, res) => {
         res.status(200).json(response);
     } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         res.status(400).json({ error: error.message })
 =======
         res.status(404).json({ error: error.message })
 >>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
+=======
+        res.status(404).json({ error: error.message })
+>>>>>>> 42ee38c249df9b7a73acb4dc7581591d5837272a
     }
 };
 
@@ -50,10 +59,14 @@ const getActiveUsersHandler = async (req, res) => {
         res.status(200).send(response)
     } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         res.status(400).json({error: error.message})        
 =======
         res.status(404).json({error: error.message})        
 >>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
+=======
+        res.status(404).json({error: error.message})        
+>>>>>>> 42ee38c249df9b7a73acb4dc7581591d5837272a
     };
 };
 
@@ -64,10 +77,14 @@ const getInactiveUsersHandler = async (req, res) => {
         res.status(200).send(response)
     } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         res.status(400).json({error: error.message})
 =======
         res.status(404).json({error: error.message})
 >>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
+=======
+        res.status(404).json({error: error.message})
+>>>>>>> 42ee38c249df9b7a73acb4dc7581591d5837272a
     };
 };
 
@@ -79,10 +96,14 @@ const getDetailHandler = async (req, res) => {
         res.status(200).json(response);
     } catch (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         res.status(400).json({error: error.message})
 =======
         res.status(404).json({error: error.message})
 >>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
+=======
+        res.status(404).json({error: error.message})
+>>>>>>> 42ee38c249df9b7a73acb4dc7581591d5837272a
     };
 };
 

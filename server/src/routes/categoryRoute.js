@@ -3,11 +3,12 @@ const { getAllCategoriesHandler,
     postCategoriesHandler,
     deleteCategoriesHandler,
     putCategoriesHandler } = require('../handlers/CategoryHandler');
-const router = Router();
+const categoryRouter = Router();
 
-router.get('/', getAllCategoriesHandler);
-router.put('/:id', putCategoriesHandler);
-router.delete('/:id', deleteCategoriesHandler);
-router.post('/', postCategoriesHandler);
+categoryRouter.get('/', getAllCategoriesHandler);
+categoryRouter.put('/:id', putCategoriesHandler);
+categoryRouter.delete('/:id', deleteCategoriesHandler);
+categoryRouter.post('/', postCategoriesHandler);
 
-module.exports = router;
+module.exports = categoryRouter;
+

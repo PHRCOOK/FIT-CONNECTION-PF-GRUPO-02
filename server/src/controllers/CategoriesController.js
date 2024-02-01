@@ -9,6 +9,7 @@ const getAllCategoriesController = async () => {
       throw new Error("No existen categorias");
     }
     //retornamos las categorias de no entrar en el if anterior
+
     return { Items: categories };
   } catch (error) {
     throw new Error(error.message);

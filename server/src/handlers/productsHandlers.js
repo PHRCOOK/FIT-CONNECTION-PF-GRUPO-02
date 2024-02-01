@@ -84,8 +84,8 @@ const deleteProductServicesHandler = async (req, res) => {
 };
 
 const productFilterAndOrderHandler = async (req, res) => {
-  const { category_id, name, code, minPrice, maxPrice, sortOrder } = req.query;
-
+  const { category_id, name, code, minPrice, maxPrice, sortOrder, page, size } =
+    req.query;
   try {
     const response = await filterAndOrder(
       sortOrder,
@@ -93,7 +93,9 @@ const productFilterAndOrderHandler = async (req, res) => {
       maxPrice,
       category_id,
       name,
-      code
+      code,
+      page,
+      size
     );
     res.status(200).json(response);
   } catch (error) {
