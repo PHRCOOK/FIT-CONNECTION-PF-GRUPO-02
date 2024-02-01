@@ -1,5 +1,5 @@
 const { ProductServices, Categories } = require('../db')
-const filterProducts = require('../../utils/filterProducts');
+const { filterProducts, getPagination, getPagingData } = require('../../utils/filterProducts');
 const { Op } = require("sequelize");
 
 const getProductServices = async () => {
@@ -104,8 +104,9 @@ const deleteProductServices = async (id) => {
 // ESTE ES EL CONROLLER DE  FILTROS Y ORDENAMIENTOS COMBINADOS
 
 
-const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code) => {
+const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code, page, size) => {
     try {
+        const { limit, offset } = getPagination(page, size);
         const validate = sortOrder && sortOrder.toUpperCase();
         let whereClause = {};
         let filterConditions = {}; 
@@ -162,12 +163,14 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
 
         const orderClause = validate ? [["price", validate]] : undefined;
 
-        const productosFilteredandOrdered = await ProductServices.findAll({
+        const productosFilteredandOrdered = await ProductServices.findAndCountAll({
+            limit,
+            offset,
             where: whereClause,
             order: orderClause,
         });
-
-        return productosFilteredandOrdered;
+        const response = getPagingData(productosFilteredandOrdered, page, limit);
+        return response;
     } catch (error) {
         console.error(error);
         throw new Error(error.message);
