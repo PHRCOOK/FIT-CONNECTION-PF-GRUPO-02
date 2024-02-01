@@ -1,6 +1,5 @@
 const { ProductServices, Categories } = require('../db')
-const { filterProducts, getPagination, getPagingData} = require('../../utils/filterProducts');
-
+const filterProducts = require('../../utils/filterProducts');
 const { Op } = require("sequelize");
 
 const getProductServices = async () => {
@@ -8,9 +7,9 @@ const getProductServices = async () => {
         const allProducts = await ProductServices.findAll({
             order: [
                 ["name", "ASC"],
-            ],                                    
+            ],            
         });
-        return { Items: allProducts }
+        return allProducts
     } catch (error) {
         throw new Error({error: error.message})
     }
@@ -25,19 +24,27 @@ const getProductServicesById = async (id) => {
     }
 }
 
-const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
+const getProductServicesByName = async (name) => {
     try {
-
-        const verifyCode = await ProductServices.findOne({
+        const product = await ProductServices.findAll({
             where: {
-                code: code,
+                name: {
+                    [Op.iLike]: `%${name}%`
+                }
             },
         });
 
-        if (verifyCode) {
-            throw new Error('A product already exists with that code.')
-        }
+        if (product.length === 0) {
+            throw new Error("No se encontro un producto con ese nombre.")
+        };
+        return product
+    } catch (error) {
+        throw new Error({error: error.message})
+    }
+}
 
+const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
+    try {
         // Buscamos la categoria correspondiente con el id proporcionado.
         const category = await Categories.findByPk(category_id);
 
@@ -69,6 +76,7 @@ const createProductServices = async (name, price, description, status, code, ima
     }
 }  
 
+
 const updateProductServices = async (id, newData) => {
     try {
         const product = await ProductServices.findByPk(id);
@@ -89,65 +97,89 @@ const deleteProductServices = async (id) => {
     }
 }
 
+
+
+
+
 // ESTE ES EL CONROLLER DE  FILTROS Y ORDENAMIENTOS COMBINADOS
 
 
-const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code, page, size) => {
+const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code) => {
     try {
-        //Establecemos la pagina en la que nos situamos, y la cantidad de items a mostrar por cada pagina
-        const { limit, offset } = getPagination(page, size);
         const validate = sortOrder && sortOrder.toUpperCase();
         let whereClause = {};
+        let filterConditions = {}; 
+
         // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
         if (minPrice !== undefined && maxPrice !== undefined) {
-            // Convertir las cadenas a números usando parseFloat
             const minPriceNum = parseFloat(minPrice);
             const maxPriceNum = parseFloat(maxPrice);
 
-            // Verificar si las conversiones fueron exitosas
             if (!isNaN(minPriceNum) && !isNaN(maxPriceNum)) {
                 const priceFilter = {
                     price: {
                         [Op.between]: [minPriceNum, maxPriceNum],
                     },
                 };
-                whereClause = { ...whereClause, ...priceFilter };
+                filterConditions = { ...filterConditions, ...priceFilter };
             } else {
                 throw new Error("Los valores de minPrice y maxPrice deben ser números válidos.");
             }
+        } else if (minPrice !== undefined) {
+            const minPriceNum = parseFloat(minPrice);
+
+            if (!isNaN(minPriceNum)) {
+                const priceFilter = {
+                    price: {
+                        [Op.gte]: minPriceNum,
+                    },
+                };
+                filterConditions = { ...filterConditions, ...priceFilter };
+            } else {
+                throw new Error("El valor de minPrice debe ser un número válido.");
+            }
+        } else if (maxPrice !== undefined) {
+            const maxPriceNum = parseFloat(maxPrice);
+
+            if (!isNaN(maxPriceNum)) {
+                const priceFilter = {
+                    price: {
+                        [Op.lte]: maxPriceNum,
+                    },
+                };
+                filterConditions = { ...filterConditions, ...priceFilter };
+            } else {
+                throw new Error("El valor de maxPrice debe ser un número válido.");
+            }
         }
-        //Si se proporciona category_id, name o code, aplicar filtro
+        // aqui combina por nombre , id y marca 
+        
         if (category_id || name || code) {
-            const filterConditions = filterProducts(category_id, name, code);
-            whereClause = { ...whereClause, ...filterConditions };
-        }        
+            filterConditions = { ...filterConditions, ...filterProducts(category_id, name, code) };
+        }
+
+        whereClause = { ...whereClause, ...filterConditions };
 
         const orderClause = validate ? [["price", validate]] : undefined;
-        //añadimos el limite y el offset y cambio el modo de findALl a findAndCountAll para que me devuelva
-        //El total de items y el offsert que indica el desplazamiento nescesario para la pag deseada
-        const productosFilteredandOrdered = await ProductServices.findAndCountAll({
-            limit,
-            offset,
+
+        const productosFilteredandOrdered = await ProductServices.findAll({
             where: whereClause,
             order: orderClause,
         });
 
-        if (productosFilteredandOrdered.length === 0) {
-            throw new Error("No existen productos que cumplan con los criterios de búsqueda.");
-        }
-        //productosFilteredandOrdered representa a la data de la consulta anterior
-        //page representa el numero de la pagina actual que se esta solicitando
-        //limit representa a la cantidad de items a mostrar por cada pagina
-        const response = getPagingData(productosFilteredandOrdered, page, limit);
-        return response;
+        return productosFilteredandOrdered;
     } catch (error) {
+        console.error(error);
         throw new Error(error.message);
     }
 };
 
+
+
 module.exports = {
     getProductServices,
     getProductServicesById,
+    getProductServicesByName,
     createProductServices,
     updateProductServices,
     deleteProductServices,
