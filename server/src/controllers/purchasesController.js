@@ -27,7 +27,7 @@ const postPurchasesController = async (req, res) => {
                     );
                 })
             );
-            if(status!=="cancelled") await updateStock(status, details, t);
+            if (status !== "cancelled") await updateStock(status, details, t);
         });
         return res.status(200).json({ success: true });
     } catch (error) {
@@ -93,7 +93,6 @@ const putPurchasesController = async (req, res) => {
                 where: { id: `${id}` },
                 transaction,
             });
-
         if (putRowCount === 0) {
             await transaction.rollback();
             return res.status(404).json({ error: "Purchase not found" });
