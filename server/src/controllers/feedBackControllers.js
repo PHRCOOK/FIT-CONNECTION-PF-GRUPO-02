@@ -25,11 +25,7 @@ const createFeedBackController = async (comment, raiting, post_at, user_id, inst
         await newFeedBack.setUser(user);
         await newFeedBack.setInstructor(instructor);
         
-<<<<<<< HEAD
-        return newFeedBack;
-=======
         return { message: "Comentario creado con exito." };
->>>>>>> 6d9e894bb91eb8bef73fb63f7e0b350ad3f62df6
     } catch (error) {
         throw new Error(`Error al crear el comentario: ${error.message}`);
     };
