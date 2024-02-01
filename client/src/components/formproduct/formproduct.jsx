@@ -2,46 +2,68 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { postProduct, getAllCategories } from "../../redux/action";
+import { postProduct, putProduct } from "../../redux/action";
 import validate from "./validate";
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
 export default function formproduct() {
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
-
-  const allCategories = useSelector((state) => state.allCategories);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
+
+  const allCategories = useSelector((state) => state.allCategories);
+  const allProducts = useSelector((state) => state.allProducts);
 
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
     description: "",
-    status: "", // debe quitarse y venir desde back en true por defecto
+    status: "",
     code: "",
     image_url: "",
     stock: "",
     category_id: "",
   });
 
+  useEffect(() => {
+    if (params.id) {
+      const productFiltered = allProducts.filter(
+        (product) => params.id === product.id.toString()
+      );
+      setProductForm({
+        ...productForm,
+        name: productFiltered[0].name,
+        price: productFiltered[0].price,
+        description: productFiltered[0].description,
+        status: productFiltered[0].status,
+        code: productFiltered[0].code,
+        image_url: productFiltered[0].image_url,
+        stock: productFiltered[0].stock,
+        category_id: productFiltered[0].category_id,
+      });
+    }
+  }, [params]);
+
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     let key = [e.target.name];
     let value = e.target.value;
-
     setProductForm({ ...productForm, [key]: value });
     setErrors(validate({ ...productForm, [key]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postProduct(productForm));
+    if (params.id) {
+      dispatch(putProduct(params.id, productForm));
+      window.alert("Producto modificado exitosamente");
+    } else {
+      dispatch(postProduct(productForm));
+      window.alert("Producto creado exitosamente");
+    }
     setProductForm({
       name: "",
       price: "",
@@ -52,14 +74,16 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
-    window.alert("Product created successfully");
-    navigate("/product");
+
+    navigate("/admin");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="fs-4 mb-3 fw-bold text-center">
-        Creación de producto o servicio
+        {params.id
+          ? "Modificacion de producto o servicio"
+          : "Creación de producto o servicio"}
       </div>
       <Row>
         <Col xs="12" className="pb-3">
@@ -156,8 +180,9 @@ export default function formproduct() {
             <option value="DEFAULT" disabled hidden>
               --
             </option>
-            <option value={true}>available</option>
-            <option value={false}>not available</option>
+
+            <option>TRUE</option>
+            <option>FALSE</option>
           </select>
           {errors.status && (
             <FormText className="form-text">{errors.status}</FormText>
@@ -180,9 +205,9 @@ export default function formproduct() {
           <button
             className="btn btn-primary"
             type="submit"
-            disabled={Object.keys(errors).length > 0}
+            disabled={Object.values(productForm).some((value) => value === "")}
           >
-            Create Product
+            {params.id ? "Update product" : "Create product"}
           </button>
         </Col>
       </Row>

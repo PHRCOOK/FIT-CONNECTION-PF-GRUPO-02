@@ -4,6 +4,12 @@ import {
   APPLY_FILTER,
   RESET_FILTER,
   EMPTY_FILTER,
+  DELETE_PRODUCT,
+  GET_ALL_PRODUCTS,
+  PUT_PRODUCT,
+  DELETE_CATEGORY,
+  POST_CATEGORY,
+  PUT_CATEGORY,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -11,7 +17,8 @@ import axios from "axios";
 export const getAllCategories = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get("http://localhost:3001/categories");
+      const response = await axios.get("http://localhost:3001/api/categories");
+
       dispatch({
         type: GET_ALL_CATEGORIES,
         payload: response.data,
@@ -26,7 +33,7 @@ export const postProduct = (product) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/products",
+        "http://localhost:3001/api/products",
         product
       );
       return dispatch({
@@ -42,7 +49,7 @@ export const postProduct = (product) => {
 export const applySettings = (settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("http://localhost:3001/products", {
+      const { data } = await axios.get("http://localhost:3001/api/products", {
         params: settings,
       });
 
@@ -63,7 +70,7 @@ export const applySettings = (settings) => {
 export const resetSettings = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("http://localhost:3001/products", {
+      const { data } = await axios.get("http://localhost:3001/api/products", {
         params: { sortOrder: "ASC" },
       });
       return dispatch({
@@ -76,6 +83,103 @@ export const resetSettings = () => {
         type: EMPTY_FILTER,
         payload: settings,
       });
+    }
+  };
+};
+
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3001/api/products/delete/${id}`
+      );
+      return dispatch({
+        type: DELETE_PRODUCT,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const getAllProducts = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("http://localhost:3001/api/products");
+      return dispatch({
+        type: GET_ALL_PRODUCTS,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const putProduct = (id, product) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3001/api/products/update/${id}`,
+        product
+      );
+      return dispatch({
+        type: PUT_PRODUCT,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const deleteCategory = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:3001/api/categories/${id}`
+      );
+      return dispatch({
+        type: DELETE_CATEGORY,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const postCategory = (categoryForm) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/api/categories",
+        categoryForm
+      );
+      return dispatch({
+        type: POST_CATEGORY,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const putCategory = (id, category) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3001/api/categories/${id}`,
+        category
+      );
+      return dispatch({
+        type: PUT_CATEGORY,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 };
