@@ -11,8 +11,9 @@ const {
 const createUserHandler = async (req, res) => {
     const { fullname, email, password} = req.body;
     try {
-        const response = await createUserController(fullname, email, password) 
-        res.status(200).json(response)
+        validateCreateUser({ fullname, email, password });
+        const response = await createUserController(fullname, email, password); 
+        res.status(201).json(response)
     } catch (error) {
         res.status(400).json({error: error.message})
     };
