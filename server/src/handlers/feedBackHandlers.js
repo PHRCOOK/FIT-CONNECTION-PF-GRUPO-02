@@ -3,7 +3,7 @@ const { createFeedBackController } = require("../controllers/feedBackControllers
 
 
 const createFeedBackHandler = async (req, res) => {
-    const { comment, raiting, post_at, user_id, instructor_id } = req.body;
+  const { comment, raiting, post_at, user_id, instructor_id } = req.body;
 
     try {
         validateCreateFeedBack({ comment, raiting, post_at, user_id, instructor_id });
@@ -14,8 +14,6 @@ const createFeedBackHandler = async (req, res) => {
     };
 };
 
-
 module.exports = {
-    createFeedBackHandler,
-
+  createFeedBackHandler,
 };

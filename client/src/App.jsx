@@ -11,7 +11,7 @@ import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import "./App.scss"
+import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 
