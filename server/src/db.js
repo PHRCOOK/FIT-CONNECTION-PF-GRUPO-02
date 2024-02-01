@@ -52,7 +52,11 @@ User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
 
 //* Relaciones del modelo Products_services
 ProductServices.hasMany(ShoppingCart, {
+<<<<<<< HEAD
   as: "ShoppingCarts",
+=======
+  as: "ShoppingCart",
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
   foreignKey: "product_id",
 });
 ProductServices.hasMany(PurchaseDetail, {
@@ -91,4 +95,8 @@ FeedBack.belongsTo(Instructor, {
 module.exports = {
   ...sequelize.models,
   conn: sequelize,
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361

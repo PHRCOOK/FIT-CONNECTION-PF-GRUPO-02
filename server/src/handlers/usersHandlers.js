@@ -13,9 +13,15 @@ const createUserHandler = async (req, res) => {
     const { fullname, email, password} = req.body;
     try {
         const response = await createUserController(fullname, email, password) 
+<<<<<<< HEAD
         res.status(200).json(response)
     } catch (error) {
         res.status(400).json({error: error.message})
+=======
+        res.status(201).json(response)
+    } catch (error) {
+        res.status(409).json({error: error.message})
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
     };
 };
 
@@ -28,7 +34,11 @@ const updateUserHandler = async (req, res) => {
         const response = await updateUserController(id, { fullname, email, password, status });
         res.status(200).json(response);
     } catch (error) {
+<<<<<<< HEAD
         res.status(400).json({ error: error.message })
+=======
+        res.status(404).json({ error: error.message })
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
     }
 };
 
@@ -39,7 +49,11 @@ const getActiveUsersHandler = async (req, res) => {
         const response = fullname ? await getUserByNameController(fullname) : await getActiveUsersController();
         res.status(200).send(response)
     } catch (error) {
+<<<<<<< HEAD
         res.status(400).json({error: error.message})        
+=======
+        res.status(404).json({error: error.message})        
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
     };
 };
 
@@ -49,7 +63,11 @@ const getInactiveUsersHandler = async (req, res) => {
         const response = await getInactiveUsersController();
         res.status(200).send(response)
     } catch (error) {
+<<<<<<< HEAD
         res.status(400).json({error: error.message})
+=======
+        res.status(404).json({error: error.message})
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
     };
 };
 
@@ -60,7 +78,11 @@ const getDetailHandler = async (req, res) => {
         const response = await getUserByIdController(id);
         res.status(200).json(response);
     } catch (error) {
+<<<<<<< HEAD
         res.status(400).json({error: error.message})
+=======
+        res.status(404).json({error: error.message})
+>>>>>>> 91c8ccb09a678645c4a12d97b61033a934e76361
     };
 };
 

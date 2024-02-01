@@ -1,17 +1,24 @@
-const {Router} = require('express');
+const { Router } = require("express");
 
-const { getProductServicesHandler, getProductServicesByIdHandler, getProductServicesByNameHandler, createProductServicesHandler, updateProductServicesHandler, deleteProductServicesHandler, filterByCategoryHandler, orderByPriceHandler
-} = require('../handlers/productsHandlers');
+const {
+  getProductServicesHandler,
+  getProductServicesByIdHandler,
+  createProductServicesHandler,
+  updateProductServicesHandler,
+  deleteProductServicesHandler,
+  productFilterAndOrderHandler,
+} = require("../handlers/productsHandlers");
 
 const productsRouter = Router();
 
-productsRouter.get('/', getProductServicesHandler);
-productsRouter.get('/search', getProductServicesByNameHandler);
-productsRouter.get("/price", orderByPriceHandler);
-productsRouter.get('/:id', getProductServicesByIdHandler);
-productsRouter.put('/:id', updateProductServicesHandler);
-productsRouter.get("/category/:category_id", filterByCategoryHandler);
-productsRouter.delete('/:id', deleteProductServicesHandler);
-productsRouter.post('/', createProductServicesHandler);
+// Rutas específicas primero
+productsRouter.get("/", productFilterAndOrderHandler); //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
+
+// Rutas generales después
+productsRouter.get("/", getProductServicesHandler);
+productsRouter.get("/:id", getProductServicesByIdHandler);
+productsRouter.post("/", createProductServicesHandler);
+productsRouter.put("/update/:id", updateProductServicesHandler);
+productsRouter.delete("/delete/:id", deleteProductServicesHandler);
 
 module.exports = productsRouter;
