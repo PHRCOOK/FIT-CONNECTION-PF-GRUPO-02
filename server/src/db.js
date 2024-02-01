@@ -93,4 +93,5 @@ FeedBack.belongsTo(Instructor, {
 module.exports = {
   ...sequelize.models,
   conn: sequelize,
+  sequelize
 };
