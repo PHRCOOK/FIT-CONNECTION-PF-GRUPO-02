@@ -1,5 +1,9 @@
 const { ProductServices, Categories } = require('../db')
+<<<<<<< HEAD
 const { filterProducts, getPagination, getPagingData } = require('../../utils/filterProducts');
+=======
+const { filterProducts,getPagination, getPagingData } = require('../../utils/filterProducts');
+>>>>>>> 5a5e03dccbf2f834f91c0c8bb4ca04d8749307cf
 const { Op } = require("sequelize");
 
 const getProductServices = async () => {
@@ -16,13 +20,13 @@ const getProductServices = async () => {
 }
 
 const getProductServicesById = async (id) => {
-    try {
-        const product = await ProductServices.findByPk(id);
-        return product
-    } catch (error) {
-        throw new Error({error: error.message})
-    }
-}
+  try {
+    const product = await ProductServices.findByPk(id);
+    return product;
+  } catch (error) {
+    throw new Error({ error: error.message });
+  }
+};
 
 const getProductServicesByName = async (name) => {
     try {
@@ -48,25 +52,25 @@ const createProductServices = async (name, price, description, status, code, ima
         // Buscamos la categoria correspondiente con el id proporcionado.
         const category = await Categories.findByPk(category_id);
 
-        if (!category) {
-            throw new Error("Categoría no encontrada.")
-        };
-         
-        const product = await ProductServices.create({
-            name,
-            price,
-            description,
-            status,
-            code,
-            image_url,
-            stock,
-        });
+    if (!category) {
+      throw new Error("Categoría no encontrada.");
+    }
 
-        // Agregamos la categoría correspondiente al producto.
-        await category.addProductServices(product);
+    const product = await ProductServices.create({
+      name,
+      price,
+      description,
+      status,
+      code,
+      image_url,
+      stock,
+    });
 
-        // Establecemos que un producto solo puede pertenecer a una categoría.
-        await product.setCategories(category);
+    // Agregamos la categoría correspondiente al producto.
+    await category.addProductServices(product);
+
+    // Establecemos que un producto solo puede pertenecer a una categoría.
+    await product.setCategories(category);
 
         return { message: "Producto creado con exito." };
 
@@ -78,14 +82,14 @@ const createProductServices = async (name, price, description, status, code, ima
 
 
 const updateProductServices = async (id, newData) => {
-    try {
-        const product = await ProductServices.findByPk(id);
-        await product.update(newData);
-        return { message: "Producto actualizado exitosamente." };
-    } catch (error) {
-        throw new Error({error: error.message})
-    }
-}
+  try {
+    const product = await ProductServices.findByPk(id);
+    await product.update(newData);
+    return { message: "Producto actualizado exitosamente." };
+  } catch (error) {
+    throw new Error({ error: error.message });
+  }
+};
 
 const deleteProductServices = async (id) => {
     try {
@@ -187,5 +191,4 @@ module.exports = {
     updateProductServices,
     deleteProductServices,
     filterAndOrder,
-
 }
