@@ -58,7 +58,7 @@ const createProductServices = async (name, price, description, status, code, ima
       description,
       status,
       code,
-      image_url,
+      image_url: image_url.path,
       stock,
     });
 

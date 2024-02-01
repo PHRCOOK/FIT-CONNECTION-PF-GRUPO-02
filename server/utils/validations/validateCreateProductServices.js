@@ -27,14 +27,14 @@ const validateCreateProductServices = ({ name, price, description, code, image_u
     if (!isNaN(name)) {
         throw new Error('The name cannot be a number.')
     }
+    // Comentado para el nuevo form
+    // if (typeof price === "string") {
+    //     throw new Error('The price must be a number.')
+    // }
 
-    if (typeof price === "string") {
-        throw new Error('The price must be a number.')
-    }
-
-    if (typeof stock === "string") {
-        throw new Error('The stock must be a number.')
-    }
+    // if (typeof stock === "string") {
+    //     throw new Error('The stock must be a number.')
+    // }
 
 
     if (!isNaN(description)) {

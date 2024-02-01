@@ -28,7 +28,8 @@ const getProductServicesByIdHandler = async (req, res) => {
 };
 
 const createProductServicesHandler = async (req, res) => {
-    const { name, price, description, status, code, image_url, stock, category_id } = req.body;
+    const { name, price, description, status, code, stock, category_id } = req.body;
+    const image_url = req.file
     try {
         validateCreateProductServices({ name, price, description, status, code, image_url, stock, category_id })
         const response = await createProductServices(name, price, description, status, code, image_url, stock, category_id);
