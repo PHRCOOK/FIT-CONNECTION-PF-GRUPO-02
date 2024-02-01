@@ -18,7 +18,7 @@ const createShoppingCartHandler = async (req, res) => {
   }
 };
 
-//? handler para obtener carritos con un user_id
+//* handler para obtener carritos con un user_id
 
 const getShoppingCartsHandler = async (req, res) => {
   const { user_id } = req.params;

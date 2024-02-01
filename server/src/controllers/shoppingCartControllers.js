@@ -33,7 +33,7 @@ const getShoppingCarts = async (user_id) => {
             quantity: cart.quantity,
           };
 
-          //! verificar si el producto ya esta en el array
+          //? verificar si el producto ya esta en el array
           for (let i = 0; i < products.length; i++) {
             if (productWithQuantity.id === products[i].id) {
               products[i].quantity =
