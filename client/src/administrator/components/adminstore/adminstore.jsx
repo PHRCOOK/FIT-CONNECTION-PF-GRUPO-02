@@ -9,7 +9,7 @@ function adminstore() {
 
   return (
     <Row>
-      {allProducts.map((product) => {
+      {allProducts.Items.map((product) => {
         return (
           <Col xs="12" md="6" lg="4" className="p-3" key={product.id}>
             <Product
