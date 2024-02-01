@@ -97,28 +97,7 @@ const deleteProductServices = async (id) => {
     }
 }
 
-const filterByCategory = async (category_id) => {
-    try {
-        const products = await ProductServices.findAll({
-            where: {
-                category_id: {
-                    [Op.eq]: category_id,
-                }
-            },
-            order: [
-                ["price", "ASC"],
-            ],
-        });
-        if (products.length === 0) {
-            throw new Error("No se encontraron productos en esa categoría.")
-        };
 
-        return products;
-        
-    } catch (error) {
-        throw new Error(error.message )
-    };
-};
 
 
 
@@ -129,34 +108,56 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
     try {
         const validate = sortOrder && sortOrder.toUpperCase();
         let whereClause = {};
+        let filterConditions = {}; // Mover la declaración aquí
+
         // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
         if (minPrice !== undefined && maxPrice !== undefined) {
-            // Convertir las cadenas a números usando parseFloat
             const minPriceNum = parseFloat(minPrice);
             const maxPriceNum = parseFloat(maxPrice);
 
-            // Verificar si las conversiones fueron exitosas
             if (!isNaN(minPriceNum) && !isNaN(maxPriceNum)) {
                 const priceFilter = {
                     price: {
                         [Op.between]: [minPriceNum, maxPriceNum],
                     },
                 };
-                whereClause = { ...whereClause, ...priceFilter };
+                filterConditions = { ...filterConditions, ...priceFilter };
             } else {
                 throw new Error("Los valores de minPrice y maxPrice deben ser números válidos.");
             }
+        } else if (minPrice !== undefined) {
+            const minPriceNum = parseFloat(minPrice);
 
-            
+            if (!isNaN(minPriceNum)) {
+                const priceFilter = {
+                    price: {
+                        [Op.gte]: minPriceNum,
+                    },
+                };
+                filterConditions = { ...filterConditions, ...priceFilter };
+            } else {
+                throw new Error("El valor de minPrice debe ser un número válido.");
+            }
+        } else if (maxPrice !== undefined) {
+            const maxPriceNum = parseFloat(maxPrice);
+
+            if (!isNaN(maxPriceNum)) {
+                const priceFilter = {
+                    price: {
+                        [Op.lte]: maxPriceNum,
+                    },
+                };
+                filterConditions = { ...filterConditions, ...priceFilter };
+            } else {
+                throw new Error("El valor de maxPrice debe ser un número válido.");
+            }
         }
-        //Si se proporciona category_id, name o code, aplicar filtro
+
         if (category_id || name || code) {
-            const filterConditions = filterProducts(category_id, name, code);
-            whereClause = { ...whereClause, ...filterConditions };
+            filterConditions = { ...filterConditions, ...filterProducts(category_id, name, code) };
         }
 
-        console.log("whereClause:", whereClause);
-        console.log("order:", validate ? [["price", validate]] : undefined);
+        whereClause = { ...whereClause, ...filterConditions };
 
         const orderClause = validate ? [["price", validate]] : undefined;
 
@@ -164,10 +165,6 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
             where: whereClause,
             order: orderClause,
         });
-
-        if (productosFilteredandOrdered.length === 0) {
-            throw new Error("No existen productos que cumplan con los criterios de búsqueda.");
-        }
 
         return productosFilteredandOrdered;
     } catch (error) {
@@ -185,9 +182,6 @@ module.exports = {
     createProductServices,
     updateProductServices,
     deleteProductServices,
-    filterByCategory,
-    // orderByPrice,
-    // productfilter,
     filterAndOrder,
 
 }

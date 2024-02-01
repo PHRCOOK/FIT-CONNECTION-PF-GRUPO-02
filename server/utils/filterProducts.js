@@ -26,6 +26,3 @@ const filterProducts = (category_id, name, code) => {
 };
 
 module.exports = filterProducts;
-
-
-module.exports = filterProducts;
