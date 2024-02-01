@@ -43,6 +43,4 @@ const updateInstructorController = async (id, newDta) => {
 module.exports = {
     createInstructorController,
     updateInstructorController,
-
-
 };
