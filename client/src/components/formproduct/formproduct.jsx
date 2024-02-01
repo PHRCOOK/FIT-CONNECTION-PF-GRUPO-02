@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { postProduct, getAllCategories } from "../../redux/action";
+import { postProduct, putProduct } from "../../redux/action";
 import validate from "./validate";
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
@@ -13,18 +13,14 @@ export default function formproduct() {
   const navigate = useNavigate();
   const params = useParams();
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
-
   const allCategories = useSelector((state) => state.allCategories);
-  const productsToShow = useSelector((state) => state.productsToShow);
+  const allProducts = useSelector((state) => state.allProducts);
 
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
     description: "",
-    status: "", // debe quitarse y venir desde back en true por defecto
+    status: "",
     code: "",
     image_url: "",
     stock: "",
@@ -33,10 +29,20 @@ export default function formproduct() {
 
   useEffect(() => {
     if (params.id) {
-      const productFiltered = productsToShow.filter(
+      const productFiltered = allProducts.filter(
         (product) => params.id === product.id.toString()
       );
-      console.log(productFiltered[0].name);
+      setProductForm({
+        ...productForm,
+        name: productFiltered[0].name,
+        price: productFiltered[0].price,
+        description: productFiltered[0].description,
+        status: productFiltered[0].status,
+        code: productFiltered[0].code,
+        image_url: productFiltered[0].image_url,
+        stock: productFiltered[0].stock,
+        category_id: productFiltered[0].category_id,
+      });
     }
   }, [params]);
 
@@ -51,7 +57,14 @@ export default function formproduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postProduct(productForm));
+    if (params.id) {
+      console.log(productForm);
+      dispatch(putProduct(params.id, productForm));
+      window.alert("Producto modificado exitosamente");
+    } else {
+      dispatch(postProduct(productForm));
+      window.alert("Producto creado exitosamente");
+    }
     setProductForm({
       name: "",
       price: "",
@@ -62,7 +75,7 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
-    window.alert("Producto creado exitosamente");
+
     navigate("/admin");
   };
 

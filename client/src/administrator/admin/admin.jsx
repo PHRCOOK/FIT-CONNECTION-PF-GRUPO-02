@@ -1,4 +1,6 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 
 import AdminNavBar from "../components/adminnavbar/adminnavbar";
@@ -8,8 +10,18 @@ import FormProduct from "../../components/formproduct/formproduct";
 import AdminStaff from "../components/adminstaff/adminstaff";
 import AdminCategories from "../components/admincategories/admincategories";
 import AdminModifyProduct from "../components/adminmodifyproduct/adminmodifyproduct";
+import AdminCategoryForm from "../components/admincategoryform/admincategoryform";
+
+import { getAllProducts, getAllCategories } from "../../redux/action";
 
 function admin() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+    dispatch(getAllCategories());
+  }, []);
+
   return (
     <div>
       <AdminNavBar />
@@ -20,6 +32,7 @@ function admin() {
         <Route path="/staff" element={<AdminStaff />} />
         <Route path="/categories" element={<AdminCategories />} />
         <Route path="/modifyproduct/:id" element={<AdminModifyProduct />} />
+        <Route path="/createcategory" element={<AdminCategoryForm />} />
       </Routes>
     </div>
   );

@@ -7,6 +7,8 @@ import {
   DELETE_PRODUCT,
   GET_ALL_PRODUCTS,
   PUT_PRODUCT,
+  DELETE_CATEGORY,
+  POST_CATEGORY,
 } from "./actionsTypes";
 
 const initialState = {
@@ -73,7 +75,16 @@ export const reducer = (state = initialState, action) => {
     case PUT_PRODUCT:
       return {
         ...state,
-        allProducts: action.payload,
+      };
+
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+      };
+
+    case POST_CATEGORY:
+      return {
+        ...state,
       };
 
     default:

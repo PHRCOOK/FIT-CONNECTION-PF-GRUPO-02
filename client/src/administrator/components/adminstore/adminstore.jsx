@@ -1,17 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from "react";
+import React from "react";
 import { Row, Col } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Product from "../products/products";
 
-import { deleteProduct, getAllProducts } from "../../../redux/action";
-
 function adminstore() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
-
   const allProducts = useSelector((state) => state.allProducts);
 
   return (
