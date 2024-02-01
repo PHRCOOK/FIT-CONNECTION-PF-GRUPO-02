@@ -62,7 +62,7 @@ const getActiveUsersController = async () => {
 
     return { Items: users };
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -83,7 +83,7 @@ const getInactiveUsersController = async () => {
 
     return { Items: inactiveUsers };
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -104,7 +104,7 @@ const getUserByNameController = async (fullname) => {
 
     return userByName;
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -116,7 +116,7 @@ const getUserByIdController = async (id) => {
     });
     return userById;
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 

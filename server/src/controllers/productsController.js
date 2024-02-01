@@ -45,28 +45,36 @@ const getProductServicesByName = async (name) => {
 
 const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
     try {
+        const productCode = await ProductServices.findOne({
+            where: {
+                code: code,
+            },
+        });
+        if (productCode) {
+            throw new Error('There is already a product with that code');
+        };
         // Buscamos la categoria correspondiente con el id proporcionado.
         const category = await Categories.findByPk(category_id);
 
-    if (!category) {
-      throw new Error("Categoría no encontrada.");
-    }
+        if (!category) {
+        throw new Error("Categoría no encontrada.");
+        }
 
-    const product = await ProductServices.create({
-      name,
-      price,
-      description,
-      status,
-      code,
-      image_url,
-      stock,
-    });
+        const product = await ProductServices.create({
+        name,
+        price,
+        description,
+        status,
+        code,
+        image_url,
+        stock,
+        });
 
-    // Agregamos la categoría correspondiente al producto.
-    await category.addProductServices(product);
+        // Agregamos la categoría correspondiente al producto.
+        await category.addProductServices(product);
 
-    // Establecemos que un producto solo puede pertenecer a una categoría.
-    await product.setCategories(category);
+        // Establecemos que un producto solo puede pertenecer a una categoría.
+        await product.setCategories(category);
 
         return { message: "Producto creado con exito." };
 
@@ -83,7 +91,7 @@ const updateProductServices = async (id, newData) => {
     await product.update(newData);
     return { message: "Producto actualizado exitosamente." };
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 

@@ -11,7 +11,7 @@ const createShoppingCartHandler = async (req, res) => {
     res.status(400).json({ error: "Falta información para crear el carrito" });
   }
   try {
-    const response = await createShoppingCart(quantity, user_id, product_id);
+    const response = await createShoppingCart(quantity, user_id, product_id)
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
