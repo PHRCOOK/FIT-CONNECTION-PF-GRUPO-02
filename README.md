@@ -1,6 +1,5 @@
 <h1 align="center"> "Fit Connection Proyecto Final Soy Henry"</h1>
 
-
 ![OIG (2)](https://github.com/PHRCOOK/GYMX-PF-GRUPO-02/assets/128660982/15885ce3-66ec-4e4a-9744-3532066d99f7)
 
 <h2> DESCRIPCION GENERAL </h2>
@@ -23,7 +22,7 @@ La página web proporcionará información detallada sobre el gimnasio, incluyen
   <ul> <img src = "https://avatars.githubusercontent.com/u/136647904?v=4" width= "25px"> MUÑOZ LINA MARIA</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/128660982?s=400&u=ca20a04af0801ae09ba350d99e355ece3c971f54&v=4" width= "25px"> RUBIÑO PABLO</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/132298053?v=4" width= "25px"> ALEART ESTEBAN</ul>
-  <ul> <img src = "https://avatars.githubusercontent.com/u/136769497?v=4" width= "25px"> CARNAVAL CARLOS</ul>
+  <ul> <img src = "https://avatars.githubusercontent.com/u/136769497?v=4" width= "25px"> CANABAL CARLOS</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/123473657?v=4" width= "25px"> RODRIGUEZ HAROLD</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/72944648?v=4" width= "25px"> RENDON JOSUE</ul>
   <ul> <img src = "https://avatars.githubusercontent.com/u/131895863?v=4" width= "25px"> SALAZAR JACOBO</ul>

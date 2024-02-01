@@ -1,9 +1,10 @@
-import React from "react";
+// import React from "react";
+import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
 
-function Card({
+function AppCard({
   id,
   name,
-  precio,
+  price,
   description,
   status,
   code,
@@ -12,14 +13,23 @@ function Card({
   category,
 }) {
   return (
-    <div>
-      <h1>id: {id}</h1>
-      <h1>name: {name}</h1>
-      <p>description: {description}</p>
-      <p>code: {code}</p>
-      <img src={image_url} alt={name} />
-    </div>
+    <Card>
+      <Card.Img style={{ height: '300px', objectFit: 'contain' }} variant="top" src={image_url}/>
+      <CardBody>
+        <CardTitle>Nombre: {name}</CardTitle>
+        <CardTitle>Id: {id}</CardTitle>
+        <Row>
+          <Col xs="12" md="6">
+            <span className="fw-bold">Precio:</span> ${price}
+          </Col>
+          <Col xs="12" md="6">
+            <span className="fw-bold">Codigo:</span> {code}
+          </Col>
+          <Col xs="12">{description}</Col>
+        </Row>
+      </CardBody>
+    </Card>
   );
 }
 
-export default Card;
+export default AppCard;

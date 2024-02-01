@@ -1,29 +1,73 @@
-import React from "react";
-import "../css-modules/styles.css";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Card, Row, Col } from "react-bootstrap";
 
-const detail = ({
-  id,
-  name,
-  precio,
-  description,
-  status,
-  code,
-  image_url,
-  stock,
-  category,
-}) => {
+const Detail = () => {
+  const { id } = useParams();
+  const [product, setProduct] = useState({});
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`products/${id}`)
+      .then((response) => setProduct(response.data))
+      .catch((error) => console.error(error));
+
+    axios
+      .get(`categories`)
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.error(error));
+  }, [id]);
+
+  const {
+    name,
+    price,
+    description,
+    status,
+    code,
+    image_url,
+    stock,
+    category_id,
+  } = product;
+
+  const category = categories.find((category) => category.id === category_id);
+
   return (
-    <div className="detail">
-      <img className="detail__image" src={image_url} alt={name} />
-      <h2 className="detail__name">Nombre: {name}</h2>
-      <p className="detail__description">Descripcion: {description}</p>
-      <p className="detail__code">Código: {code}</p>
-      <p className="detail__price">Precio: ${precio}</p>
-      <p className="detail__status">Estado: {status}</p>
-      <p className="detail__stock">Stock: {stock}</p>
-      <p className="detail__category">Categoría: {category}</p>
-    </div>
+    <Card>
+      <Card.Img
+        style={{ height: "300px", objectFit: "contain" }}
+        variant="top"
+        src={image_url}
+      ></Card.Img>
+      <Card.Body>
+        <Card.Title>{name}</Card.Title>
+        <Row>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Codigo:</span> {code}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Categoria:</span>{" "}
+            {category ? category.name : "Cargando..."}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Precio:</span> ${price}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Estado:</span>{" "}
+            {status ? "Activo" : "Inactivo"}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Cantidad:</span> {stock}
+          </Col>
+          <Col xs="12" md="6" lg="3">
+            <span className="fw-bold">Descripcion: </span>
+            {description}
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
   );
 };
 
-export default detail;
+export default Detail;

@@ -11,3 +11,4 @@ categoryRouter.delete('/:id', deleteCategoriesHandler);
 categoryRouter.post('/', postCategoriesHandler);
 
 module.exports = categoryRouter;
+

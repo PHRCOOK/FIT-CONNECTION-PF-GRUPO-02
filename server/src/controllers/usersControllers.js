@@ -60,8 +60,8 @@ const getActiveUsersController = async () => {
         if (users.length === 0) {
             throw new Error("No existen usuarios activos.")
         };
-    
-        return users;
+
+        return { Items: users };
     } catch (error) {
         throw new Error({ error: error.message })
     };
@@ -82,8 +82,8 @@ const getInactiveUsersController = async () => {
         if (inactiveUsers.length === 0) {
             throw new Error("No existen usuarios inactivos.")
         };
-    
-        return inactiveUsers;
+        
+        return { Items: inactiveUsers };
     } catch (error) {
         throw new Error({ error: error.message })
     };

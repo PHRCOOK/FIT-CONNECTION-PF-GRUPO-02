@@ -1,4 +1,4 @@
-const { getAllCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/categoriesController');
+const { getAllCategoriesController, postCategoriesController, deleteCategoriesController, putCategoriesController,  } = require('../controllers/CategoriesController');
 
 const getAllCategoriesHandler = async (req, res) => {
     try {
@@ -29,7 +29,7 @@ const putCategoriesHandler = async (req, res) =>{
         const response = await putCategoriesController(id, {name, status, is_service});
         return res.status(200).json({response});
     } catch (error) {
-        return res.status(409).json({ message: error.message });
+        return res.status(404).json({ message: error.message });
     }
 }
 const deleteCategoriesHandler = async (req, res) => {

@@ -6,23 +6,23 @@ const productsRouter = require('./productsRouter');
 const categoryRouter = require('./categoryRoute');
 const gymRoute = require('./gymRoute')
 const purchaseRoute = require('./purchasesRoute')
+
 const router = express.Router();
 
 // Definir rutas aquí:
 
-router.use("/users", usersRouter);
+router.use("/api/users", usersRouter);
 
-router.use("/instructors", instructorRouter);
+router.use("/api/instructors", instructorRouter);
 
-router.use("/feedbacks", feedBackRouter);
+router.use("/api/feedbacks", feedBackRouter);
 
-router.use("/products", productsRouter);
+router.use("/api/products", productsRouter);
 
-router.use("/categories", categoryRouter);
+router.use("/api/categories", categoryRouter);
 
-router.use('/gym', gymRoute)
+router.use('/api/purchases', purchaseRoute)
 
-router.use('/purchases', purchaseRoute)
 
 
 

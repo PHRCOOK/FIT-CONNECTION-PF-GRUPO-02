@@ -8,7 +8,8 @@ const getAllCategoriesController = async () => {
         //verificamos que no este vacia
         if (categories.length === 0){ throw new Error('No existen categorias')};
         //retornamos las categorias de no entrar en el if anterior
-        return categories;
+
+        return { Items: categories };
     } catch (error) {
         throw new Error(error.message);
     }
@@ -25,7 +26,7 @@ const postCategoriesController = async (name, status, is_service) => {
         );
         //verificamos si create es falso.. de serlo ya existe la categoria
         if (!create) throw new Error("Ya existe esta categoria.");
-        return "Categoria creada";
+        return existOrNot;
     } catch (error) {
         throw new Error(`Error al crear la categoria: ${error.message}`);
     }

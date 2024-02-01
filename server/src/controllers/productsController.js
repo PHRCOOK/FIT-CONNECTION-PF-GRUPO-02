@@ -1,5 +1,6 @@
 const { ProductServices, Categories } = require('../db')
 const { filterProducts, getPagination, getPagingData} = require('../../utils/filterProducts');
+
 const { Op } = require("sequelize");
 
 const getProductServices = async () => {
@@ -7,9 +8,9 @@ const getProductServices = async () => {
         const allProducts = await ProductServices.findAll({
             order: [
                 ["name", "ASC"],
-            ],            
+            ],                                    
         });
-        return allProducts
+        return { Items: allProducts }
     } catch (error) {
         throw new Error({error: error.message})
     }
@@ -24,27 +25,19 @@ const getProductServicesById = async (id) => {
     }
 }
 
-const getProductServicesByName = async (name) => {
+const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
     try {
-        const product = await ProductServices.findAll({
+
+        const verifyCode = await ProductServices.findOne({
             where: {
-                name: {
-                    [Op.iLike]: `%${name}%`
-                }
+                code: code,
             },
         });
 
-        if (product.length === 0) {
-            throw new Error("No se encontro un producto con ese nombre.")
-        };
-        return product
-    } catch (error) {
-        throw new Error({error: error.message})
-    }
-}
+        if (verifyCode) {
+            throw new Error('A product already exists with that code.')
+        }
 
-const createProductServices = async (name, price, description, status, code, image_url, stock, category_id) => {
-    try {
         // Buscamos la categoria correspondiente con el id proporcionado.
         const category = await Categories.findByPk(category_id);
 
@@ -76,7 +69,6 @@ const createProductServices = async (name, price, description, status, code, ima
     }
 }  
 
-
 const updateProductServices = async (id, newData) => {
     try {
         const product = await ProductServices.findByPk(id);
@@ -97,31 +89,6 @@ const deleteProductServices = async (id) => {
     }
 }
 
-const filterByCategory = async (category_id) => {
-    try {
-        const products = await ProductServices.findAll({
-            where: {
-                category_id: {
-                    [Op.eq]: category_id,
-                }
-            },
-            order: [
-                ["price", "ASC"],
-            ],
-        });
-        if (products.length === 0) {
-            throw new Error("No se encontraron productos en esa categoría.")
-        };
-
-        return products;
-        
-    } catch (error) {
-        throw new Error(error.message )
-    };
-};
-
-
-
 // ESTE ES EL CONROLLER DE  FILTROS Y ORDENAMIENTOS COMBINADOS
 
 
@@ -129,7 +96,6 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
     try {
         //Establecemos la pagina en la que nos situamos, y la cantidad de items a mostrar por cada pagina
         const { limit, offset } = getPagination(page, size);
-        /** **/
         const validate = sortOrder && sortOrder.toUpperCase();
         let whereClause = {};
         // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
@@ -149,17 +115,12 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
             } else {
                 throw new Error("Los valores de minPrice y maxPrice deben ser números válidos.");
             }
-
-            
         }
         //Si se proporciona category_id, name o code, aplicar filtro
         if (category_id || name || code) {
             const filterConditions = filterProducts(category_id, name, code);
             whereClause = { ...whereClause, ...filterConditions };
-        }
-        
-        console.log("whereClause:", whereClause);
-        console.log("order:", validate ? [["price", validate]] : undefined);
+        }        
 
         const orderClause = validate ? [["price", validate]] : undefined;
         //añadimos el limite y el offset y cambio el modo de findALl a findAndCountAll para que me devuelva
@@ -180,23 +141,16 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
         const response = getPagingData(productosFilteredandOrdered, page, limit);
         return response;
     } catch (error) {
-        console.error(error);
         throw new Error(error.message);
     }
 };
 
-
-
 module.exports = {
     getProductServices,
     getProductServicesById,
-    getProductServicesByName,
     createProductServices,
     updateProductServices,
     deleteProductServices,
-    filterByCategory,
-    /*orderByPrice,
-    productfilter,*/
     filterAndOrder,
 
 }
