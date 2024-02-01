@@ -27,7 +27,7 @@ const postPurchasesController = async (req, res) => {
                     );
                 })
             );
-            if(status!=="cancelled") await updateStock(status, details, t);
+            if (status !== "cancelled") await updateStock(status, details, t);
         });
         return res.status(200).json({ success: true });
     } catch (error) {
