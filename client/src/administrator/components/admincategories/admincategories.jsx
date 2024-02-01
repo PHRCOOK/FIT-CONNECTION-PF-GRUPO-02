@@ -15,8 +15,8 @@ function admincategories() {
     window.alert("Categoria borrada correctamente");
   };
 
-  const handleModify = () => {
-    console.log("Modificando");
+  const handleModify = (id) => {
+    navigate(`/admin/modifycategory/${id}`);
   };
 
   const handleCreateCategory = () => {
@@ -40,7 +40,9 @@ function admincategories() {
                 <button onClick={() => handleDelete(category.id)}>
                   Borrar
                 </button>
-                <button onClick={() => handleModify()}>Modificar</button>
+                <button onClick={() => handleModify(category.id)}>
+                  Modificar
+                </button>
               </td>
             </tr>
           ))}

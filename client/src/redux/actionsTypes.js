@@ -8,3 +8,4 @@ export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
 export const PUT_PRODUCT = "PUT_PRODUCT";
 export const DELETE_CATEGORY = "DELETE_CATEGORY";
 export const POST_CATEGORY = "POST_CATEGORY";
+export const PUT_CATEGORY = "PUT_CATEGORY";

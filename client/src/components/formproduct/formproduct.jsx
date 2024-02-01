@@ -58,7 +58,6 @@ export default function formproduct() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (params.id) {
-      console.log(productForm);
       dispatch(putProduct(params.id, productForm));
       window.alert("Producto modificado exitosamente");
     } else {
@@ -82,7 +81,9 @@ export default function formproduct() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="fs-4 mb-3 fw-bold text-center">
-        Creación de producto o servicio
+        {params.id
+          ? "Modificacion de producto o servicio"
+          : "Creación de producto o servicio"}
       </div>
       <Row>
         <Col xs="12" className="pb-3">

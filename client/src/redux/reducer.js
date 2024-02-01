@@ -9,6 +9,7 @@ import {
   PUT_PRODUCT,
   DELETE_CATEGORY,
   POST_CATEGORY,
+  PUT_CATEGORY,
 } from "./actionsTypes";
 
 const initialState = {

@@ -11,6 +11,7 @@ import AdminStaff from "../components/adminstaff/adminstaff";
 import AdminCategories from "../components/admincategories/admincategories";
 import AdminModifyProduct from "../components/adminmodifyproduct/adminmodifyproduct";
 import AdminCategoryForm from "../components/admincategoryform/admincategoryform";
+import AdminModifyCategory from "../components/adminmodifycategory/adminmodifycategory";
 
 import { getAllProducts, getAllCategories } from "../../redux/action";
 
@@ -33,6 +34,7 @@ function admin() {
         <Route path="/categories" element={<AdminCategories />} />
         <Route path="/modifyproduct/:id" element={<AdminModifyProduct />} />
         <Route path="/createcategory" element={<AdminCategoryForm />} />
+        <Route path="/modifycategory/:id" element={<AdminModifyCategory />} />
       </Routes>
     </div>
   );

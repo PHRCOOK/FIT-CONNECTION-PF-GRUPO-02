@@ -9,6 +9,7 @@ import {
   PUT_PRODUCT,
   DELETE_CATEGORY,
   POST_CATEGORY,
+  PUT_CATEGORY,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -157,6 +158,23 @@ export const postCategory = (categoryForm) => {
       );
       return dispatch({
         type: POST_CATEGORY,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const putCategory = (id, category) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        `http://localhost:3001/categories/${id}`,
+        category
+      );
+      return dispatch({
+        type: PUT_CATEGORY,
         payload: data,
       });
     } catch (error) {

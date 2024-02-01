@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { postCategory } from "../../../redux/action";
+import { postCategory, putCategory } from "../../../redux/action";
+import validate from "./validate";
 
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
@@ -11,6 +12,21 @@ function admincategoryform() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+
+  const allCategories = useSelector((state) => state.allCategories);
+
+  useEffect(() => {
+    if (params.id) {
+      const categoryFiltered = allCategories.filter(
+        (category) => params.id === category.id.toString()
+      );
+      setCategoryForm({
+        name: categoryFiltered[0].name,
+        status: categoryFiltered[0].status,
+        is_service: categoryFiltered[0].is_service,
+      });
+    }
+  }, [params]);
 
   const [categoryForm, setCategoryForm] = useState({
     name: "",
@@ -22,8 +38,14 @@ function admincategoryform() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postCategory(categoryForm));
-    window.alert("Categoria creada exitosamente");
+    if (params.id) {
+      dispatch(putCategory(params.id, categoryForm));
+      window.alert("Categoria modificada exitosamente");
+    } else {
+      dispatch(postCategory(categoryForm));
+      window.alert("Categoria creada exitosamente");
+    }
+
     setCategoryForm({
       name: "",
       status: "",
@@ -36,13 +58,14 @@ function admincategoryform() {
     let key = [e.target.name];
     let value = e.target.value;
     setCategoryForm({ ...categoryForm, [key]: value });
+    setErrors(validate({ ...categoryForm, [key]: value }));
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div className="fs-4 mb-3 fw-bold text-center">
-          Creación de CATEGORIA
+          {params.id ? "Modificacion de categoria" : "Creación de categoria"}
         </div>
         <Row>
           <Col xs="12" className="pb-3">
@@ -104,7 +127,7 @@ function admincategoryform() {
                 (value) => value === ""
               )}
             >
-              CREAR
+              {params.id ? "Update category" : "Create category"}
             </button>
           </Col>
         </Row>
