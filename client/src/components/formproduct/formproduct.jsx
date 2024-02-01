@@ -29,7 +29,7 @@ export default function formproduct() {
 
   useEffect(() => {
     if (params.id) {
-      const productFiltered = allProducts.filter(
+      const productFiltered = allProducts.Items.filter(
         (product) => params.id === product.id.toString()
       );
       setProductForm({
