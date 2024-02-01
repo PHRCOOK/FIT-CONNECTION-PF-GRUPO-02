@@ -71,22 +71,11 @@ const putPurchasesController = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     const transaction = await sequelize.transaction();
+    const details = ProductServices.findAll({
+        where: { id: `${id}` },
+    })
+
     try {
-        const existingPurchase = await Purchases.findOne({
-            where: { id: `${id}` },
-        });
-
-        if (!existingPurchase) {
-            return res.status(404).json({ error: "Purchase not found" });
-        }
-
-        // Verificar si el estado actual es "cancelled" y el nuevo estado es el mismo
-        if (existingPurchase.status === "cancelled" && status === "cancelled") {
-            return res.status(400).json({ error: "No se puede actualizar al mismo estado 'cancelado'." });
-        }
-        const details = await PurchaseDetail.findAll({
-            where: { purchase_id: `${id}` },
-        })
         const [putRowCount, updatePurchase] = await Purchases.update(
             { status },
             {
@@ -100,7 +89,10 @@ const putPurchasesController = async (req, res) => {
         }
 
         // Actualiza el stock solo si la compra se completó
-        if (status === "completed" || status === "cancelled") {
+        if (status === "completed") {
+            await updateStock(status, details, transaction);
+        } else if (status === "cancelled") {
+            // Si la compra se canceló, también actualiza el stock
             await updateStock(status, details, transaction);
         }
 
