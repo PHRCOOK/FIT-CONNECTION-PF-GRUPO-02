@@ -3,7 +3,6 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Product from "../products/products";
-import { all } from "axios";
 
 function adminstore() {
   const allProducts = useSelector((state) => state.allProducts);

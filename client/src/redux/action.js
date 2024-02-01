@@ -21,7 +21,7 @@ export const getAllCategories = () => {
 
       dispatch({
         type: GET_ALL_CATEGORIES,
-        payload: response.data,
+        payload: response.data.Items,
       });
     } catch (error) {
       console.log(error.message);
