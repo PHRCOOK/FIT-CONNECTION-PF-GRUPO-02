@@ -87,7 +87,6 @@ const putPurchasesController = async (req, res) => {
             await transaction.rollback();
             return res.status(404).json({ error: "Purchase not found" });
         }
-
         // Actualiza el stock solo si la compra se completó
         if (status === "completed") {
             await updateStock(status, details, transaction);
