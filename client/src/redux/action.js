@@ -11,10 +11,13 @@ import axios from "axios";
 export const getAllCategories = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get("http://localhost:3001/categories");
+      const { data } = await axios.get("http://localhost:3001/api/categories");
+
+      const items = data.Items;
+
       dispatch({
         type: GET_ALL_CATEGORIES,
-        payload: response.data,
+        payload: items,
       });
     } catch (error) {
       console.log(error.message);
@@ -26,7 +29,7 @@ export const postProduct = (product) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/products",
+        "http://localhost:3001/api/products",
         product
       );
       return dispatch({
@@ -42,13 +45,15 @@ export const postProduct = (product) => {
 export const applySettings = (settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("http://localhost:3001/products", {
+      const { data } = await axios.get("http://localhost:3001/api/products", {
         params: settings,
       });
 
+      const { products, totalPages } = data;
+
       return dispatch({
         type: APPLY_FILTER,
-        payload: { data, settings },
+        payload: { products, settings, totalPages },
       });
     } catch (error) {
       console.log(error.message);
@@ -63,12 +68,13 @@ export const applySettings = (settings) => {
 export const resetSettings = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("http://localhost:3001/products", {
-        params: { sortOrder: "ASC" },
+      const { data } = await axios.get("http://localhost:3001/api/products", {
+        params: { sortOrder: "ASC", page: 1, size: 10 },
       });
+      console.log(data);
       return dispatch({
         type: RESET_FILTER,
-        payload: { data },
+        payload: data,
       });
     } catch (error) {
       console.log(error.message);

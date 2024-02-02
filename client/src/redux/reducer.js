@@ -8,11 +8,13 @@ import {
 
 const initialState = {
   allCategories: [],
-  allProducts: [],
   productsToShow: [],
   filterSettings: {
     sortOrder: "ASC",
+    page: 1,
+    size: 10,
   },
+  totalPages: 0,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -32,13 +34,15 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         filterSettings: action.payload.settings,
-        productsToShow: action.payload.data,
+        productsToShow: action.payload.products,
+        totalPages: action.payload.totalPages,
       };
 
     case RESET_FILTER:
+      console.log(action.payload);
       return {
         ...state,
-        productsToShow: action.payload.data,
+        productsToShow: action.payload.products,
         filterSettings: {
           sortOrder: "ASC",
           minPrice: "",
@@ -46,7 +50,11 @@ export const reducer = (state = initialState, action) => {
           category_id: null,
           name: "",
           code: "",
+          page: 1,
+          size: 10,
         },
+        totalPages: action.payload.totalPages,
+        currentPage: 1,
       };
 
     case EMPTY_FILTER:
