@@ -209,8 +209,5 @@ module.exports = {
   createProductServices,
   updateProductServices,
   deleteProductServices,
-  filterByCategory,
-  orderByPrice,
-  productfilter,
   filterAndOrder,
 };
