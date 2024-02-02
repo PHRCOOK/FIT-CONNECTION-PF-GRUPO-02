@@ -130,6 +130,7 @@ const productFilterAndOrderHandler = async (req, res) => {
 module.exports = {
   getProductServicesHandler,
   getProductServicesByIdHandler,
+  getProductServicesByNameHandler, // Asegúrate de agregar esta línea
   createProductServicesHandler,
   updateProductServicesHandler,
   deleteProductServicesHandler,
