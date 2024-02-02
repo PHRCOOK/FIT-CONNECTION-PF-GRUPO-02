@@ -4,7 +4,7 @@ import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { deleteProduct, putProduct } from "../../../redux/action";
+import { deleteProduct } from "../../../redux/action";
 
 function product(props) {
   const {
@@ -48,6 +48,12 @@ function product(props) {
             </Col>
             <Col xs="12" md="6">
               <span className="fw-bold">Codigo:</span> {code}
+            </Col>
+            <Col xs="12" md="6">
+              <span className="fw-bold">Stock:</span> {stock}
+            </Col>
+            <Col xs="12" md="6">
+              <span className="fw-bold">Status:</span> {status.toString()}
             </Col>
             <Col xs="12">{description}</Col>
           </Row>
