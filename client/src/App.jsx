@@ -4,14 +4,13 @@ import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./views/home/home";
 import Form from "./components/userform/userform";
-import Product from "./components/product/product";
 import Shoppingcart from "./views/shoppingcart/shoppingcart";
 import Services from "./views/services/services";
 import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import "./App.scss"
+import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 
