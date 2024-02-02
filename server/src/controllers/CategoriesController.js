@@ -9,7 +9,10 @@ const getAllCategoriesController = async () => {
       throw new Error("No existen categorias");
     }
     //retornamos las categorias de no entrar en el if anterior
+<<<<<<< HEAD
 
+=======
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
     return { Items: categories };
   } catch (error) {
     throw new Error(error.message);
@@ -42,7 +45,15 @@ const putCategoriesController = async (id, updateData) => {
     if (putRowCount === 0) {
       throw new Error("Categoria no encontrada");
     }
+<<<<<<< HEAD
     return { message: "categoria Actualizada" };
+=======
+    const updatedCategories = await Categories.findAll();
+    return {
+      message: "Categoría actualizada",
+      categories: updatedCategories,
+    };
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
   } catch (error) {
     throw new Error(`Error al actualizar la categoria: ${error.message}`);
   }
@@ -59,7 +70,13 @@ const deleteCategoriesController = async (id) => {
       throw new Error(
         "Esta categoria no existe, Por ende no puede ser eliminada."
       );
+<<<<<<< HEAD
     return delCategory;
+=======
+    const categories = await Categories.findAll();
+    console.log(categories);
+    return categories;
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
   } catch (error) {
     throw new Error(`Error al eliminar la categoria: ${error.message}`);
   }

@@ -2,12 +2,17 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+<<<<<<< HEAD
+=======
+import { useNavigate, useParams } from "react-router-dom";
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
 
-import { postProduct, getAllCategories } from "../../redux/action";
+import { postProduct, putProduct } from "../../redux/action";
 import validate from "./validate";
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
 export default function formproduct() {
+<<<<<<< HEAD
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -19,12 +24,20 @@ export default function formproduct() {
   const allCategories = useSelector((state) => state.allCategories);
 
   const dispatch = useDispatch();
+=======
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const allCategories = useSelector((state) => state.allCategories);
+  const allProducts = useSelector((state) => state.allProducts);
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
 
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
     description: "",
-    status: "", // debe quitarse y venir desde back en true por defecto
+    status: "",
     code: "",
     image_url: "",
     stock: "",
@@ -33,10 +46,27 @@ export default function formproduct() {
 
   useEffect(() => {
     if (params.id) {
+<<<<<<< HEAD
       const productFiltered = productsToShow.filter(
         (product) => params.id === product.id.toString()
       );
       console.log(productFiltered[0].name);
+=======
+      const productFiltered = allProducts.filter(
+        (product) => params.id === product.id.toString()
+      );
+      setProductForm({
+        ...productForm,
+        name: productFiltered[0].name,
+        price: productFiltered[0].price,
+        description: productFiltered[0].description,
+        status: productFiltered[0].status,
+        code: productFiltered[0].code,
+        image_url: productFiltered[0].image_url,
+        stock: productFiltered[0].stock,
+        category_id: productFiltered[0].category_id,
+      });
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
     }
   }, [params]);
 
@@ -45,13 +75,13 @@ export default function formproduct() {
   const handleChange = (e) => {
     let key = [e.target.name];
     let value = e.target.value;
-
     setProductForm({ ...productForm, [key]: value });
     setErrors(validate({ ...productForm, [key]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     dispatch(postProduct(productForm));
     setProductForm({
       name: "",
@@ -63,12 +93,40 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
+=======
+    try {
+      if (params.id) {
+        dispatch(putProduct(params.id, productForm));
+        window.alert("Producto modificado exitosamente");
+      } else {
+        dispatch(postProduct(productForm));
+        window.alert("Producto creado exitosamente");
+      }
+
+      setProductForm({
+        name: "",
+        price: "",
+        description: "",
+        status: "",
+        code: "",
+        image_url: "",
+        stock: "",
+        category_id: "",
+      });
+
+      navigate("/admin");
+    } catch (error) {
+      console.error("Error al realizar la operación:", error.message);
+    }
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="fs-4 mb-3 fw-bold text-center">
-        Creación de producto o servicio
+        {params.id
+          ? "Modificacion de producto o servicio"
+          : "Creación de producto o servicio"}
       </div>
       <Row>
         <Col xs="12" className="pb-3">
@@ -161,23 +219,55 @@ export default function formproduct() {
             className="form-control"
             defaultValue={"DEFAULT"}
             onChange={handleChange}
+<<<<<<< HEAD
           />
           {errors.status && <div className="form-text">{errors.status}</div>}
         </div>
         <div className="col-12 pb-3">
           <label className="form-label">Description</label>
           <textarea
+=======
+          >
+            <option value="DEFAULT" disabled hidden>
+              --
+            </option>
+
+            <option>TRUE</option>
+            <option>FALSE</option>
+          </select>
+          {errors.status && (
+            <FormText className="form-text">{errors.status}</FormText>
+          )}
+        </Col>
+        <Col xs="12" className="pb-3">
+          <FormLabel className="form-label">Description</FormLabel>
+          <FormControl
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
             rows="5"
             name="description"
             as="textarea"
             value={productForm.description}
             onChange={handleChange}
           />
+<<<<<<< HEAD
           {errors.description && <div className="form-text">{errors.description}</div>}
         </div>
         <div className="col-12 pb-3">
           <button className="btn btn-primary" type="submit" disabled={Object.keys(errors).length > 0}>
             Create Product
+=======
+          {errors.description && (
+            <FormText className="form-text">{errors.description}</FormText>
+          )}
+        </Col>
+        <Col xs="12" className="pb-3">
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={Object.values(productForm).some((value) => value === "")}
+          >
+            {params.id ? "Update product" : "Create product"}
+>>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
           </button>
         </Col>
       </Row>
