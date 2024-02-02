@@ -136,8 +136,8 @@ export const getAllProducts = () => {
 export const putProduct = (id, product) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(
-        `http://localhost:3001/api/products/update/${id}`,
+      const { data } = await axios.post(
+        `http://localhost:3001/products/update/${id}`,
         product
       );
       return dispatch({
@@ -183,21 +183,3 @@ export const postCategory = (categoryForm) => {
     }
   };
 };
-
-export const putCategory = (id, category) => {
-  return async (dispatch) => {
-    try {
-      const { data } = await axios.put(
-        `http://localhost:3001/api/categories/${id}`,
-        category
-      );
-      return dispatch({
-        type: PUT_CATEGORY,
-        payload: data.categories,
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-};
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637

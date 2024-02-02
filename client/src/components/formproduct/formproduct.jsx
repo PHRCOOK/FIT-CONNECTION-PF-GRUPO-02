@@ -17,21 +17,8 @@ export default function formproduct() {
   const navigate = useNavigate();
   const params = useParams();
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
-
   const allCategories = useSelector((state) => state.allCategories);
-
-  const dispatch = useDispatch();
-=======
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const params = useParams();
-
-  const allCategories = useSelector((state) => state.allCategories);
-  const allProducts = useSelector((state) => state.allProducts);
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
+  const productsToShow = useSelector((state) => state.productsToShow);
 
   const [productForm, setProductForm] = useState({
     name: "",
@@ -46,27 +33,10 @@ export default function formproduct() {
 
   useEffect(() => {
     if (params.id) {
-<<<<<<< HEAD
       const productFiltered = productsToShow.filter(
         (product) => params.id === product.id.toString()
       );
       console.log(productFiltered[0].name);
-=======
-      const productFiltered = allProducts.filter(
-        (product) => params.id === product.id.toString()
-      );
-      setProductForm({
-        ...productForm,
-        name: productFiltered[0].name,
-        price: productFiltered[0].price,
-        description: productFiltered[0].description,
-        status: productFiltered[0].status,
-        code: productFiltered[0].code,
-        image_url: productFiltered[0].image_url,
-        stock: productFiltered[0].stock,
-        category_id: productFiltered[0].category_id,
-      });
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
     }
   }, [params]);
 
@@ -81,7 +51,6 @@ export default function formproduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-<<<<<<< HEAD
     dispatch(postProduct(productForm));
     setProductForm({
       name: "",
@@ -93,32 +62,8 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
-=======
-    try {
-      if (params.id) {
-        dispatch(putProduct(params.id, productForm));
-        window.alert("Producto modificado exitosamente");
-      } else {
-        dispatch(postProduct(productForm));
-        window.alert("Producto creado exitosamente");
-      }
-
-      setProductForm({
-        name: "",
-        price: "",
-        description: "",
-        status: "",
-        code: "",
-        image_url: "",
-        stock: "",
-        category_id: "",
-      });
-
-      navigate("/admin");
-    } catch (error) {
-      console.error("Error al realizar la operación:", error.message);
-    }
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
+    window.alert("Producto creado exitosamente");
+    navigate("/admin");
   };
 
   return (

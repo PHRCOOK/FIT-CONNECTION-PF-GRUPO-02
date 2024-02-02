@@ -79,7 +79,16 @@ export const reducer = (state = initialState, action) => {
     case PUT_PRODUCT:
       return {
         ...state,
-        allProducts: action.payload,
+      };
+
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+      };
+
+    case POST_CATEGORY:
+      return {
+        ...state,
       };
 
     case DELETE_CATEGORY:

@@ -4,7 +4,14 @@ import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Product from "../products/products";
 
-function AdminStore() {
+import { deleteProduct, getAllProducts } from "../../../redux/action";
+
+function adminstore() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
+
   const allProducts = useSelector((state) => state.allProducts);
 
   if (!Array.isArray(allProducts)) {

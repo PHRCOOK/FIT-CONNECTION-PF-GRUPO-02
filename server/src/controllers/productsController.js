@@ -132,151 +132,86 @@ const updateProductServices = async (id, newData) => {
 };
 
 const deleteProductServices = async (id) => {
-  try {
-    const product = await ProductServices.findByPk(id);
-    await product.destroy();
-<<<<<<< HEAD
-    return { message: "Product deleted successfully" };
-=======
-    const updatedProducts = await ProductServices.findAll();
-    return {
-      message: "Product deleted successfully",
-      products: updatedProducts,
+    try {
+        const product = await ProductServices.findByPk(id);
+        await product.destroy();
+        return {message: "Product deleted successfully"}
+    } catch (error) {
+        throw new Error({error: error.message})
+    }
+}
+
+const filterByCategory = async (category_id) => {
+    try {
+        const products = await ProductServices.findAll({
+            where: {
+                category_id: {
+                    [Op.eq]: category_id,
+                }
+            },
+            order: [
+                ["price", "ASC"],
+            ],
+        });
+        if (products.length === 0) {
+            throw new Error("No se encontraron productos en esa categoría.")
+        };
+
+        return products;
+        
+    } catch (error) {
+        throw new Error(error.message )
     };
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
 };
 
+
+
 // ESTE ES EL CONROLLER DE  FILTROS Y ORDENAMIENTOS COMBINADOS
-<<<<<<< HEAD
 
-=======
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
-const filterAndOrder = async (
-  sortOrder,
-  minPrice,
-  maxPrice,
-  category_id,
-  name,
-<<<<<<< HEAD
-  code,
-  page,
-  size
-) => {
-  try {
-    const { limit, offset } = getPagination(page, size);
-    const validate = sortOrder && sortOrder.toUpperCase();
-    let whereClause = {};
-    let filterConditions = {};
 
-    // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
-    if (minPrice !== undefined && maxPrice !== undefined) {
-      const minPriceNum = parseFloat(minPrice);
-      const maxPriceNum = parseFloat(maxPrice);
+const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, code) => {
+    try {
+        const validate = sortOrder && sortOrder.toUpperCase();
+        let whereClause = {};
+        // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
+        if (minPrice !== undefined && maxPrice !== undefined) {
+            // Convertir las cadenas a números usando parseFloat
+            const minPriceNum = parseFloat(minPrice);
+            const maxPriceNum = parseFloat(maxPrice);
 
-=======
-  code
-) => {
-  try {
-    const validate = sortOrder && sortOrder.toUpperCase();
-    let whereClause = {};
-    // Si se proporcionan minPrice y maxPrice, aplicar filtro por rango
-    if (minPrice !== undefined && maxPrice !== undefined) {
-      // Convertir las cadenas a números usando parseFloat
-      const minPriceNum = parseFloat(minPrice);
-      const maxPriceNum = parseFloat(maxPrice);
+            // Verificar si las conversiones fueron exitosas
+            if (!isNaN(minPriceNum) && !isNaN(maxPriceNum)) {
+                const priceFilter = {
+                    price: {
+                        [Op.between]: [minPriceNum, maxPriceNum],
+                    },
+                };
+                whereClause = { ...whereClause, ...priceFilter };
+            } else {
+                throw new Error("Los valores de minPrice y maxPrice deben ser números válidos.");
+            }
 
-      // Verificar si las conversiones fueron exitosas
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
-      if (!isNaN(minPriceNum) && !isNaN(maxPriceNum)) {
-        const priceFilter = {
-          price: {
-            [Op.between]: [minPriceNum, maxPriceNum],
-          },
-        };
-<<<<<<< HEAD
-        filterConditions = { ...filterConditions, ...priceFilter };
-=======
-        whereClause = { ...whereClause, ...priceFilter };
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
-      } else {
-        throw new Error(
-          "Los valores de minPrice y maxPrice deben ser números válidos."
-        );
-      }
-<<<<<<< HEAD
-    } else if (minPrice !== undefined) {
-      const minPriceNum = parseFloat(minPrice);
+            
+        }
+        //Si se proporciona category_id, name o code, aplicar filtro
+        if (category_id || name || code) {
+            const filterConditions = filterProducts(category_id, name, code);
+            whereClause = { ...whereClause, ...filterConditions };
+        }
 
-      if (!isNaN(minPriceNum)) {
-        const priceFilter = {
-          price: {
-            [Op.gte]: minPriceNum,
-          },
-        };
-        filterConditions = { ...filterConditions, ...priceFilter };
-      } else {
-        throw new Error("El valor de minPrice debe ser un número válido.");
-      }
-    } else if (maxPrice !== undefined) {
-      const maxPriceNum = parseFloat(maxPrice);
-
-      if (!isNaN(maxPriceNum)) {
-        const priceFilter = {
-          price: {
-            [Op.lte]: maxPriceNum,
-          },
-        };
-        filterConditions = { ...filterConditions, ...priceFilter };
-      } else {
-        throw new Error("El valor de maxPrice debe ser un número válido.");
-      }
-    }
-    // aqui combina por nombre , id y marca
-
-    if (category_id || name || code) {
-      filterConditions = {
-        ...filterConditions,
-        ...filterProducts(category_id, name, code),
-      };
-    }
-
-    whereClause = { ...whereClause, ...filterConditions };
+        console.log("whereClause:", whereClause);
+        console.log("order:", validate ? [["price", validate]] : undefined);
 
     const orderClause = validate ? [["price", validate]] : undefined;
 
-    const productosFilteredandOrdered = await ProductServices.findAndCountAll({
-      limit,
-      offset,
-      where: whereClause,
-      order: orderClause,
-    });
-    const response = getPagingData(productosFilteredandOrdered, page, limit);
-    return response;
-  } catch (error) {
-    console.error(error);
-=======
-    }
-    //Si se proporciona category_id, name o code, aplicar filtro
-    if (category_id || name || code) {
-      const filterConditions = filterProducts(category_id, name, code);
-      whereClause = { ...whereClause, ...filterConditions };
-    }
+        const productosFilteredandOrdered = await ProductServices.findAll({
+            where: whereClause,
+            order: orderClause,
+        });
 
-    const orderClause = validate ? [["price", validate]] : undefined;
-
-    const productosFilteredandOrdered = await ProductServices.findAll({
-      where: whereClause,
-      order: orderClause,
-    });
-
-    if (productosFilteredandOrdered.length === 0) {
-      throw new Error(
-        "No existen productos que cumplan con los criterios de búsqueda."
-      );
-    }
+        if (productosFilteredandOrdered.length === 0) {
+            throw new Error("No existen productos que cumplan con los criterios de búsqueda.");
+        }
 
     return { Items: productosFilteredandOrdered };
   } catch (error) {
@@ -286,20 +221,13 @@ const filterAndOrder = async (
 };
 
 module.exports = {
-  getProductServices,
-  getProductServicesById,
-<<<<<<< HEAD
-  getProductServicesByName,
-  createProductServices,
-  updateProductServices,
-  deleteProductServices,
-  filterByCategory,
-  orderByPrice,
-  productfilter,
-=======
-  createProductServices,
-  updateProductServices,
-  deleteProductServices,
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
-  filterAndOrder,
-};
+    getProductServices,
+    getProductServicesById,
+    getProductServicesByName,
+    createProductServices,
+    updateProductServices,
+    deleteProductServices,
+    filterByCategory,
+    // orderByPrice,
+    // productfilter,
+    filterAndOrder,
