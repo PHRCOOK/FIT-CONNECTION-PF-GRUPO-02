@@ -55,5 +55,5 @@ module.exports = {
   createInstructorHandler,
   updateInstructorHandler,
   getInstructorHandler,
-  deleteInstructorsHandler
+  deleteInstructorsHandler,
 };
