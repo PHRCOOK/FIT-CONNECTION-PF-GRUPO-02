@@ -17,11 +17,11 @@ import axios from "axios";
 export const getAllCategories = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get("http://localhost:3001/api/categories");
+      const { data } = await axios.get("http://localhost:3001/api/categories");
 
       dispatch({
         type: GET_ALL_CATEGORIES,
-        payload: response.data.Items,
+        payload: data.Items,
       });
     } catch (error) {
       console.log(error.message);
@@ -36,9 +36,10 @@ export const postProduct = (product) => {
         "http://localhost:3001/api/products",
         product
       );
+      console.log(data);
       return dispatch({
         type: POST_PRODUCT,
-        payload: data,
+        payload: data.product,
       });
     } catch (error) {
       console.log(error.message);
@@ -93,9 +94,10 @@ export const deleteProduct = (id) => {
       const { data } = await axios.delete(
         `http://localhost:3001/api/products/delete/${id}`
       );
+
       return dispatch({
         type: DELETE_PRODUCT,
-        payload: data,
+        payload: data.products,
       });
     } catch (error) {
       console.log(error);
@@ -109,7 +111,7 @@ export const getAllProducts = () => {
       const { data } = await axios.get("http://localhost:3001/api/products");
       return dispatch({
         type: GET_ALL_PRODUCTS,
-        payload: data,
+        payload: data.Items,
       });
     } catch (error) {
       console.log(error);
@@ -126,7 +128,7 @@ export const putProduct = (id, product) => {
       );
       return dispatch({
         type: PUT_PRODUCT,
-        payload: data,
+        payload: data.products,
       });
     } catch (error) {
       console.log(error.message);
@@ -142,7 +144,7 @@ export const deleteCategory = (id) => {
       );
       return dispatch({
         type: DELETE_CATEGORY,
-        payload: data,
+        payload: data.categories,
       });
     } catch (error) {
       console.log(error);
@@ -157,9 +159,10 @@ export const postCategory = (categoryForm) => {
         "http://localhost:3001/api/categories",
         categoryForm
       );
+
       return dispatch({
         type: POST_CATEGORY,
-        payload: data,
+        payload: data.response,
       });
     } catch (error) {
       console.log(error.message);
@@ -176,7 +179,7 @@ export const putCategory = (id, category) => {
       );
       return dispatch({
         type: PUT_CATEGORY,
-        payload: data,
+        payload: data.categories,
       });
     } catch (error) {
       console.log(error.message);

@@ -14,6 +14,7 @@ function adminnavbar() {
     { path: "/admin/createproduct", title: "Create product" },
     { path: "/admin/staff", title: "Staff" },
     { path: "/admin/categories", title: "Categories" },
+    { path: "/admin/dashboard", title: "Dashboard" },
   ];
 
   const links = [];

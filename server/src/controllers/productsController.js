@@ -56,7 +56,7 @@ const createProductServices = async (
     // Establecemos que un producto solo puede pertenecer a una categoría.
     await product.setCategories(category);
 
-    return { message: "Producto creado con exito." };
+    return { message: "Producto creado con exito.", product };
   } catch (error) {
     throw new Error(`Error al crear el producto: ${error.message}`);
   }
@@ -66,7 +66,11 @@ const updateProductServices = async (id, newData) => {
   try {
     const product = await ProductServices.findByPk(id);
     await product.update(newData);
-    return { message: "Producto actualizado exitosamente." };
+    const updatedProducts = await ProductServices.findAll();
+    return {
+      message: "Producto actualizado exitosamente.",
+      products: updatedProducts,
+    };
   } catch (error) {
     throw new Error({ error: error.message });
   }
@@ -76,7 +80,11 @@ const deleteProductServices = async (id) => {
   try {
     const product = await ProductServices.findByPk(id);
     await product.destroy();
-    return { message: "Product deleted successfully" };
+    const updatedProducts = await ProductServices.findAll();
+    return {
+      message: "Product deleted successfully",
+      products: updatedProducts,
+    };
   } catch (error) {
     throw new Error({ error: error.message });
   }

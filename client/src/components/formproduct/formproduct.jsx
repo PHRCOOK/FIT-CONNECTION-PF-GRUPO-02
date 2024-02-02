@@ -29,7 +29,7 @@ export default function formproduct() {
 
   useEffect(() => {
     if (params.id) {
-      const productFiltered = allProducts.Items.filter(
+      const productFiltered = allProducts.filter(
         (product) => params.id === product.id.toString()
       );
       setProductForm({
@@ -57,25 +57,30 @@ export default function formproduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (params.id) {
-      dispatch(putProduct(params.id, productForm));
-      window.alert("Producto modificado exitosamente");
-    } else {
-      dispatch(postProduct(productForm));
-      window.alert("Producto creado exitosamente");
-    }
-    setProductForm({
-      name: "",
-      price: "",
-      description: "",
-      status: "",
-      code: "",
-      image_url: "",
-      stock: "",
-      category_id: "",
-    });
+    try {
+      if (params.id) {
+        dispatch(putProduct(params.id, productForm));
+        window.alert("Producto modificado exitosamente");
+      } else {
+        dispatch(postProduct(productForm));
+        window.alert("Producto creado exitosamente");
+      }
 
-    navigate("/admin");
+      setProductForm({
+        name: "",
+        price: "",
+        description: "",
+        status: "",
+        code: "",
+        image_url: "",
+        stock: "",
+        category_id: "",
+      });
+
+      navigate("/admin");
+    } catch (error) {
+      console.error("Error al realizar la operación:", error.message);
+    }
   };
 
   return (

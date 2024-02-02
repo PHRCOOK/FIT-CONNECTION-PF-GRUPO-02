@@ -7,13 +7,12 @@ import Product from "../products/products";
 function AdminStore() {
   const allProducts = useSelector((state) => state.allProducts);
 
-  if (!Array.isArray(allProducts.Items)) {
+  if (!Array.isArray(allProducts)) {
     return <p>Cargando...</p>;
   }
-
   return (
     <Row>
-      {allProducts.Items.map((product) => (
+      {allProducts.map((product) => (
         <Col xs="12" md="6" lg="4" className="p-3" key={product.id}>
           <Product
             key={product.id}

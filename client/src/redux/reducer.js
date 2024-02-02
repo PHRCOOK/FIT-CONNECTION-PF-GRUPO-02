@@ -31,7 +31,7 @@ export const reducer = (state = initialState, action) => {
     case POST_PRODUCT:
       return {
         ...state,
-        allProducts: [action.payload, ...state.allProducts],
+        allProducts: [...state.allProducts, action.payload],
       };
 
     case APPLY_FILTER:
@@ -65,6 +65,7 @@ export const reducer = (state = initialState, action) => {
     case DELETE_PRODUCT:
       return {
         ...state,
+        allProducts: action.payload,
       };
 
     case GET_ALL_PRODUCTS:
@@ -76,21 +77,25 @@ export const reducer = (state = initialState, action) => {
     case PUT_PRODUCT:
       return {
         ...state,
+        allProducts: action.payload,
       };
 
     case DELETE_CATEGORY:
       return {
         ...state,
+        allCategories: action.payload,
       };
 
     case POST_CATEGORY:
       return {
         ...state,
+        allCategories: [...state.allCategories, action.payload],
       };
 
     case PUT_CATEGORY:
       return {
         ...state,
+        allCategories: action.payload,
       };
 
     default:
