@@ -4,7 +4,7 @@ const {
   postCategoriesHandler,
   deleteCategoriesHandler,
   putCategoriesHandler,
-} = require("../handlers/categoryHandler");
+} = require("../handlers/CategoryHandler");
 const router = Router();
 
 router.get("/", getAllCategoriesHandler);

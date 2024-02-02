@@ -1,6 +1,6 @@
 import React from "react";
 import Filters from "../components/filters/filters";
-import AppCards from "../components/cards/cards";
+import Cards from "../components/cards/cards";
 
 function Store() {
   return (
@@ -8,7 +8,7 @@ function Store() {
       {" "}
       <div className="fs-4 mb-3 fw-bold text-center">Nuestros Productos</div>
       <Filters />
-      <AppCards />
+      <Cards />
     </div>
   );
 }

@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 
 import { postProduct, getAllCategories } from "../../redux/action";
 import validate from "./validate";
@@ -18,7 +17,8 @@ export default function formproduct() {
   }, []);
 
   const allCategories = useSelector((state) => state.allCategories);
-  const productsToShow = useSelector((state) => state.productsToShow);
+
+  const dispatch = useDispatch();
 
   const [productForm, setProductForm] = useState({
     name: "",
@@ -45,6 +45,7 @@ export default function formproduct() {
   const handleChange = (e) => {
     let key = [e.target.name];
     let value = e.target.value;
+
     setProductForm({ ...productForm, [key]: value });
     setErrors(validate({ ...productForm, [key]: value }));
   };
@@ -62,8 +63,6 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
-    window.alert("Producto creado exitosamente");
-    navigate("/admin");
   };
 
   return (
@@ -162,38 +161,23 @@ export default function formproduct() {
             className="form-control"
             defaultValue={"DEFAULT"}
             onChange={handleChange}
-          >
-            <option value="DEFAULT" disabled hidden>
-              --
-            </option>
-
-            <option>TRUE</option>
-            <option>FALSE</option>
-          </select>
-          {errors.status && (
-            <FormText className="form-text">{errors.status}</FormText>
-          )}
-        </Col>
-        <Col xs="12" className="pb-3">
-          <FormLabel className="form-label">Description</FormLabel>
-          <FormControl
+          />
+          {errors.status && <div className="form-text">{errors.status}</div>}
+        </div>
+        <div className="col-12 pb-3">
+          <label className="form-label">Description</label>
+          <textarea
             rows="5"
             name="description"
             as="textarea"
             value={productForm.description}
             onChange={handleChange}
           />
-          {errors.description && (
-            <FormText className="form-text">{errors.description}</FormText>
-          )}
-        </Col>
-        <Col xs="12" className="pb-3">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={Object.values(productForm).some((value) => value === "")}
-          >
-            {params.id ? "Update product" : "Create product"}
+          {errors.description && <div className="form-text">{errors.description}</div>}
+        </div>
+        <div className="col-12 pb-3">
+          <button className="btn btn-primary" type="submit" disabled={Object.keys(errors).length > 0}>
+            Create Product
           </button>
         </Col>
       </Row>

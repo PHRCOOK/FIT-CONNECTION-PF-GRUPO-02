@@ -18,49 +18,7 @@ import {
 import deleteUndefined from "./deleteUndefined";
 
 function Filters() {
-  // const categories = categoriesDemo;
-  const categories = useSelector((state) => state.allCategories);
-  const filterSettings = useSelector((state) => state.filterSettings);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllCategories());
-
-    const settingsToApply = { ...filterSettings };
-
-    deleteUndefined(settingsToApply);
-
-    // console.log(settingsToApply);
-
-    dispatch(applySettings(settingsToApply));
-  }, []);
-
-  const handleFilter = (event) => {
-    const key = event.target.name;
-    const value = event.target.value;
-
-    let settingsToApply = { ...filterSettings };
-
-    settingsToApply = { ...settingsToApply, [key]: value || "" };
-
-    deleteUndefined(settingsToApply);
-
-    console.log(filterSettings);
-    console.log(settingsToApply);
-
-    dispatch(applySettings(settingsToApply));
-  };
-
-  const handleReset = () => {
-    dispatch(resetSettings());
-    // dispatch(applySettings(filterSettings));
-  };
-
-  //funcion elemento Modal
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const categories = categoriesDemo;
 
   return (
     <Container>

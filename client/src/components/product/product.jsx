@@ -1,6 +1,5 @@
 // import React from "react";
 
-export default function product() {
-  return <div>
-  </div>;
+export default function formproduct() {
+  return <div></div>;
 }

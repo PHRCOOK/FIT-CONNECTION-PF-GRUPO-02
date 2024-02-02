@@ -1,18 +1,17 @@
-import { Routes, Route, useLocation } from "react-router-dom";
-import AppBar from "./components/nav/nav";
+import { Routes, Route } from "react-router-dom";
+import Nav from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./views/home/home";
 import Form from "./components/userform/userform";
-import Shoppingcart from "./views/shoppingcart/shoppingcart";
-import Services from "./views/services/services";
+import Product from "./components/product/product";
+import Shoppingcart from "./components/shoppingcart/shoppingcart";
+import Services from "./components/services/services";
 import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import Admin from "./administrator/admin/admin";
-import "./App.scss";
-import { Container } from "react-bootstrap";
+import "./components/css-modules/App.css";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
@@ -20,9 +19,9 @@ axios.defaults.baseURL = "http://localhost:3001";
 function App() {
   const location = useLocation();
   return (
-    <>
-      {!location.pathname.startsWith("/admin") && <AppBar />}
-      <Container className="py-3 min-vh-100">
+    <div>
+      <Nav />
+      <div className="container">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
           <Route path={pathroutes.DETAIL} element={<Detail />} />
