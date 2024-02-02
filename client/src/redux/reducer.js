@@ -4,12 +4,6 @@ import {
   APPLY_FILTER,
   RESET_FILTER,
   EMPTY_FILTER,
-  DELETE_PRODUCT,
-  GET_ALL_PRODUCTS,
-  PUT_PRODUCT,
-  DELETE_CATEGORY,
-  POST_CATEGORY,
-  PUT_CATEGORY,
 } from "./actionsTypes";
 
 const initialState = {
@@ -31,14 +25,14 @@ export const reducer = (state = initialState, action) => {
     case POST_PRODUCT:
       return {
         ...state,
-        allProducts: [...state.allProducts, action.payload],
+        allProducts: [action.payload, ...state.allProducts],
       };
 
     case APPLY_FILTER:
       return {
         ...state,
         filterSettings: action.payload.settings,
-        productsToShow: action.payload.data,
+        productsToShow: action.payload.items,
       };
 
     case RESET_FILTER:
@@ -60,42 +54,6 @@ export const reducer = (state = initialState, action) => {
         ...state,
         productsToShow: [],
         filterSettings: action.payload,
-      };
-
-    case DELETE_PRODUCT:
-      return {
-        ...state,
-        allProducts: action.payload,
-      };
-
-    case GET_ALL_PRODUCTS:
-      return {
-        ...state,
-        allProducts: action.payload,
-      };
-
-    case PUT_PRODUCT:
-      return {
-        ...state,
-        allProducts: action.payload,
-      };
-
-    case DELETE_CATEGORY:
-      return {
-        ...state,
-        allCategories: action.payload,
-      };
-
-    case POST_CATEGORY:
-      return {
-        ...state,
-        allCategories: [...state.allCategories, action.payload],
-      };
-
-    case PUT_CATEGORY:
-      return {
-        ...state,
-        allCategories: action.payload,
       };
 
     default:

@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AppBar from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
@@ -11,18 +11,16 @@ import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import Admin from "./administrator/admin/admin";
-import "./App.scss";
+import "./App.scss"
 import { Container } from "react-bootstrap";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
-  const location = useLocation();
   return (
     <>
-      {!location.pathname.startsWith("/admin") && <AppBar />}
+      <AppBar />
       <Container className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
@@ -34,7 +32,6 @@ function App() {
           <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
-          <Route path="/admin/*" element={<Admin />} />
         </Routes>
       </Container>
       <Footer />

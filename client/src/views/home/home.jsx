@@ -22,7 +22,7 @@ export default function home() {
   return (
     <Row>
       <Col xs="12">
-        <Carousel fade className="bg-dark rounded">
+        <Carousel fade className="bg-dark rounded" >
           <Carousel.Item className="text-center bg-dark">
             <Image src={logo} className="rounded object-fit-contain" />
           </Carousel.Item>
@@ -47,5 +47,5 @@ export default function home() {
         </Carousel>
       </Col>
     </Row>
-  );
+  )
 }
