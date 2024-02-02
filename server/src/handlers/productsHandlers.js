@@ -1,4 +1,6 @@
-const { validateCreateProductServices } = require('../../utils/validations/validateCreateProductServices');
+const {
+  validateCreateProductServices,
+} = require("../../utils/validations/validateCreateProductServices");
 const {
   getProductServices,
   getProductServicesById,
@@ -27,16 +29,54 @@ const getProductServicesByIdHandler = async (req, res) => {
   }
 };
 
+const getProductServicesByNameHandler = async (req, res) => {
+  const { name } = req.query;
+  try {
+    const response = await getProductServicesByName(name);
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error.message }); // Envía el mensaje de error en lugar del objeto de error
+  }
+};
+
 const createProductServicesHandler = async (req, res) => {
-    const { name, price, description, status, code, image_url, stock, category_id } = req.body;
-    try {
-        validateCreateProductServices({ name, price, description, status, code, image_url, stock, category_id })
-        const response = await createProductServices(name, price, description, status, code, image_url, stock, category_id);
-        res.status(201).json(response)
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    };
-}
+  const {
+    name,
+    price,
+    description,
+    status,
+    code,
+    image_url,
+    stock,
+    category_id,
+  } = req.body;
+  try {
+    validateCreateProductServices({
+      name,
+      price,
+      description,
+      status,
+      code,
+      image_url,
+      stock,
+      category_id,
+    });
+    const response = await createProductServices(
+      name,
+      price,
+      description,
+      status,
+      code,
+      image_url,
+      stock,
+      category_id
+    );
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 const updateProductServicesHandler = async (req, res) => {
   const { id } = req.params;

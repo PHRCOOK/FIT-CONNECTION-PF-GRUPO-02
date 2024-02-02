@@ -1,4 +1,4 @@
-const validateCreateProductServices = ({ name, price, description, code, image_url, stock }) => {
+const validateCreateProductServices = ({ name, price, description, code, image_url, stock, category_id }) => {
 
     if (!name) {
         throw new Error('Please enter a name.');
@@ -22,6 +22,10 @@ const validateCreateProductServices = ({ name, price, description, code, image_u
 
     if (!stock) {
         throw new Error('Please enter a stock number.');
+    }
+
+    if (!category_id) {
+        throw new Error('Must belong to a category.');
     }
 
     if (!isNaN(name)) {

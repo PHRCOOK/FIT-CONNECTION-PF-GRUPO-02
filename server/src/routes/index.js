@@ -6,6 +6,7 @@ const productsRouter = require("./productsRouter");
 const categoryRouter = require("./categoryRoute");
 const gymRoute = require("./gymRoute");
 const purchaseRoute = require("./purchasesRoute");
+const ShoppingCartRouter = require("./shoppingCartRouter");
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.use("/api/products", productsRouter);
 router.use("/api/categories", categoryRouter);
 
 router.use("/api/purchases", purchaseRoute);
+
+router.use("/api/shoppingCart", ShoppingCartRouter);
 
 module.exports = router;

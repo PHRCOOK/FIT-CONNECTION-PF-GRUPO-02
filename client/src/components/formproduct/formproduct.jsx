@@ -2,13 +2,16 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import { postProduct, getAllCategories } from "../../redux/action";
 import validate from "./validate";
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
 export default function formproduct() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
+
   useEffect(() => {
     dispatch(getAllCategories());
   }, []);
@@ -16,7 +19,6 @@ export default function formproduct() {
   const allCategories = useSelector((state) => state.allCategories);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [productForm, setProductForm] = useState({
     name: "",
@@ -29,6 +31,15 @@ export default function formproduct() {
     category_id: "",
   });
 
+  useEffect(() => {
+    if (params.id) {
+      const productFiltered = productsToShow.filter(
+        (product) => params.id === product.id.toString()
+      );
+      console.log(productFiltered[0].name);
+    }
+  }, [params]);
+
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -39,7 +50,7 @@ export default function formproduct() {
     setErrors(validate({ ...productForm, [key]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postProduct(productForm));
     setProductForm({
@@ -52,8 +63,6 @@ export default function formproduct() {
       stock: "",
       category_id: "",
     });
-    window.alert("Product created successfully");
-    navigate("/product");
   };
 
   return (
@@ -152,36 +161,22 @@ export default function formproduct() {
             className="form-control"
             defaultValue={"DEFAULT"}
             onChange={handleChange}
-          >
-            <option value="DEFAULT" disabled hidden>
-              --
-            </option>
-            <option value={true}>available</option>
-            <option value={false}>not available</option>
-          </select>
-          {errors.status && (
-            <FormText className="form-text">{errors.status}</FormText>
-          )}
-        </Col>
-        <Col xs="12" className="pb-3">
-          <FormLabel className="form-label">Description</FormLabel>
-          <FormControl
+          />
+          {errors.status && <div className="form-text">{errors.status}</div>}
+        </div>
+        <div className="col-12 pb-3">
+          <label className="form-label">Description</label>
+          <textarea
             rows="5"
             name="description"
             as="textarea"
             value={productForm.description}
             onChange={handleChange}
           />
-          {errors.description && (
-            <FormText className="form-text">{errors.description}</FormText>
-          )}
-        </Col>
-        <Col xs="12" className="pb-3">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={Object.keys(errors).length > 0}
-          >
+          {errors.description && <div className="form-text">{errors.description}</div>}
+        </div>
+        <div className="col-12 pb-3">
+          <button className="btn btn-primary" type="submit" disabled={Object.keys(errors).length > 0}>
             Create Product
           </button>
         </Col>
