@@ -1,4 +1,4 @@
-const validateCreateFeedBack = ({ comment, raiting, post_at, }) => {
+const validateCreateFeedBack = ({ comment, raiting, post_at }) => {
 
     if (!comment) {
         throw new Error('Please enter a comment.');

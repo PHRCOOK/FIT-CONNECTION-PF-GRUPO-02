@@ -1,3 +1,4 @@
+const { validateCreateUser } = require("../../utils/validations/validateCreateUser");
 const { 
     createUserController,
     getActiveUsersController,
