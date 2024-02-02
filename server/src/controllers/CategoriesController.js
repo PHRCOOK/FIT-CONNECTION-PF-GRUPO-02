@@ -63,7 +63,7 @@ const deleteCategoriesController = async (id) => {
         "Esta categoria no existe, Por ende no puede ser eliminada."
       );
     const categories = await Categories.findAll();
-    console.log(categories);
+
     return categories;
   } catch (error) {
     throw new Error(`Error al eliminar la categoria: ${error.message}`);
