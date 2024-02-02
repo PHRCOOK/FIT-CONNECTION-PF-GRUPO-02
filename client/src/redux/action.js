@@ -21,19 +21,10 @@ import axios from "axios";
 export const getAllCategories = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("http://localhost:3001/api/categories");
-
-<<<<<<< HEAD
-      const items = data.Items;
-
+      const response = await axios.get("http://localhost:3001/categories");
       dispatch({
         type: GET_ALL_CATEGORIES,
-        payload: items,
-=======
-      dispatch({
-        type: GET_ALL_CATEGORIES,
-        payload: data.Items,
->>>>>>> b68336ff7707904ad082bd0f9e4373e8db4d9637
+        payload: response.data,
       });
     } catch (error) {
       console.log(error.message);
@@ -68,9 +59,11 @@ export const applySettings = (settings) => {
         params: settings,
       });
 
+      const items = data.Items;
+
       return dispatch({
         type: APPLY_FILTER,
-        payload: { data, settings },
+        payload: { items, settings },
       });
     } catch (error) {
       console.log(error.message);

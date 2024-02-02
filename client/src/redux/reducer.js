@@ -40,7 +40,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         filterSettings: action.payload.settings,
-        productsToShow: action.payload.data,
+        productsToShow: action.payload.items,
       };
 
     case RESET_FILTER:
