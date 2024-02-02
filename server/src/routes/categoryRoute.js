@@ -1,14 +1,15 @@
-const { Router } = require('express');
-const { getAllCategoriesHandler,
-    postCategoriesHandler,
-    deleteCategoriesHandler,
-    putCategoriesHandler } = require('../handlers/CategoryHandler');
-const categoryRouter = Router();
+const { Router } = require("express");
+const {
+  getAllCategoriesHandler,
+  postCategoriesHandler,
+  deleteCategoriesHandler,
+  putCategoriesHandler,
+} = require("../handlers/CategoryHandler");
+const router = Router();
 
-categoryRouter.get('/', getAllCategoriesHandler);
-categoryRouter.put('/:id', putCategoriesHandler);
-categoryRouter.delete('/:id', deleteCategoriesHandler);
-categoryRouter.post('/', postCategoriesHandler);
+router.get("/", getAllCategoriesHandler);
+router.put("/:id", putCategoriesHandler);
+router.delete("/:id", deleteCategoriesHandler);
+router.post("/", postCategoriesHandler);
 
-module.exports = categoryRouter;
-
+module.exports = router;
