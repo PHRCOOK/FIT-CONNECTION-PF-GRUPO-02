@@ -3,6 +3,7 @@ require('dotenv').config();
 const { MAIL_USERNAME } = process.env;
 const { User } = require("../db");
 const { transporter } = require("../../utils/transporter");
+const { generateWelcomeEmail } = require("../../utils/emailTemplates");
 
 // Controler encargado de crear los usuarios.
 const createUserController = async (fullname, email, password) => {
@@ -21,13 +22,13 @@ const createUserController = async (fullname, email, password) => {
     await User.create({ fullname, email, password });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";
-    const body = `Hola ${fullname}, te damos la bienvenida a un gimnasio increíble.`;
+    const htmlBody = generateWelcomeEmail(fullname);
 
     await transporter.sendMail({
       from: MAIL_USERNAME,
       to: email,
       subject: affair,
-      text: body,
+      html: htmlBody,
     });
 
     return { message: "Usuario creado con éxito y correo de bienvenida enviado." };

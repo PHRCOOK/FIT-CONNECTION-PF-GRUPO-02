@@ -1,6 +1,5 @@
 const { Op } = require("sequelize");
 
-
 const filterProducts = (category_id, name, code) => {
     const conditions = {};
 

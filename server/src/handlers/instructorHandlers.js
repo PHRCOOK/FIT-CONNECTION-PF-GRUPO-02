@@ -1,5 +1,5 @@
 const { validateCreateInstructor } = require("../../utils/validations/validateCreateInstructor");
-const {createInstructorController, updateInstructorController} = require("../controllers/instructorControllers");
+const {createInstructorController, updateInstructorController, getInstructorsController} = require("../controllers/instructorControllers");
 
 // Handler que permite manejar la creación de un instructor en la base de datos.
 const createInstructorHandler = async (req, res) => {
@@ -32,7 +32,18 @@ const updateInstructorHandler = async (req, res) => {
   }
 };
 
+// Este handler maneja la busqueda de todos los instructores.
+const getInstructorsHandler = async (req, res) => {
+  try {
+    const response = await getInstructorsController();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(404).json({ error: error.message })
+  }
+}
+
 module.exports = {
   createInstructorHandler,
   updateInstructorHandler,
+  getInstructorsHandler,
 };

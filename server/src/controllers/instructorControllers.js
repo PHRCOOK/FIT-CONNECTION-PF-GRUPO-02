@@ -40,7 +40,22 @@ const updateInstructorController = async (id, newDta) => {
     };
 };
 
+// Este controller nos permite buscar los instructores del gimnasio.
+const getInstructorsController = async () => {
+    try {
+        const instructors = await Instructor.findAll();  
+        if (!instructors) {
+            throw new Error('No existen instructores.')
+        }      
+        return instructors;
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
 module.exports = {
     createInstructorController,
     updateInstructorController,
+    getInstructorsController,
+
 };

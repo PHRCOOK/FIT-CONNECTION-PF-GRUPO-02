@@ -1,5 +1,5 @@
 const { validateCreateFeedBack } = require("../../utils/validations/validateCreateFeedBack");
-const { createFeedBackController } = require("../controllers/feedBackControllers");
+const { createFeedBackController, getFeedBacksController } = require("../controllers/feedBackControllers");
 
 
 const createFeedBackHandler = async (req, res) => {
@@ -14,6 +14,18 @@ const createFeedBackHandler = async (req, res) => {
     };
 };
 
+// Este handler nos permite manejar la busqueda de feedBacks.
+const getFeedBacksHandler = async (req, res) => {
+  try {
+    const response = await getFeedBacksController();
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createFeedBackHandler,
+  getFeedBacksHandler,
+  
 };

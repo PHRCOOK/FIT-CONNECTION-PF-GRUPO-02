@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const {createInstructorHandler, updateInstructorHandler} = require("../handlers/instructorHandlers");
+const {createInstructorHandler, updateInstructorHandler, getInstructorsHandler} = require("../handlers/instructorHandlers");
 
 
 const instructorRouter = Router();
@@ -8,6 +8,8 @@ const instructorRouter = Router();
 instructorRouter.post("/", createInstructorHandler);
 
 instructorRouter.put("/:id", updateInstructorHandler);
+
+instructorRouter.get('/', getInstructorsHandler);
 
 
 module.exports = instructorRouter;
