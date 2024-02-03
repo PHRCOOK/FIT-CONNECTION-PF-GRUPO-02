@@ -1,14 +1,32 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/img/logo-nav.png";
-import pathroutes from "../helpers/pathroutes";
+import pathroutes from "../../components/helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const navigate = useNavigate();
+  const { loginWithRedirect, logout, isAuthenticated, user, getIdTokenClaims } =
+    useAuth0();
+
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      getIdTokenClaims().then((claims) => {
+        const isUserAdmin =
+          claims["https://YOUR_NAMESPACE/roles"].includes("admin");
+        setIsAdmin(isUserAdmin);
+        if (isUserAdmin) {
+          navigate(pathroutes.ADMIN);
+        }
+      });
+    }
+  }, [isAuthenticated, getIdTokenClaims, navigate]);
 
   const linksData = [
     {
@@ -92,7 +110,10 @@ export default function AppBar() {
                 roundedCircle
               />
               <Navbar.Text className="ms-2">
-                Signed in as: <a href="#login">{user.name}</a>
+                Signed in as:{" "}
+                <a href="#login">
+                  {isAdmin ? `${user.name} (Admin)` : user.name}
+                </a>
               </Navbar.Text>
             </React.Fragment>
           )}

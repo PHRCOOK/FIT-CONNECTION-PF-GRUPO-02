@@ -69,7 +69,11 @@ const updateProductServices = async (id, newData) => {
   try {
     const product = await ProductServices.findByPk(id);
     await product.update(newData);
-    return { message: "Producto actualizado exitosamente." };
+    const updatedProducts = await ProductServices.findAll();
+    return {
+      message: "Producto actualizado exitosamente.",
+      products: updatedProducts,
+    };
   } catch (error) {
     throw new Error(error.message);
   }
