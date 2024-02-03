@@ -16,8 +16,9 @@ const createUserController = async (fullname, email, password) => {
     }
 
     await User.create({ fullname, email, password });
+    const allUsers = await User.findAll();
 
-    return { message: "Usuario creado con exito." };
+    return { message: "Usuario creado con exito.", allUsers };
   } catch (error) {
     // Mostramos cualquier error que ocurra durante la creación del usuario.
     throw new Error(`Error al crear el usuario: ${error.message}.`);

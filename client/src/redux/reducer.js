@@ -14,12 +14,14 @@ import {
   DELETE_INSTRUCTOR,
   POST_INSTRCUTOR,
   PUT_INSTRUCTOR,
+  POST_USER,
 } from "./actionsTypes";
 
 const initialState = {
   allCategories: [],
   allProducts: [],
   allInstructors: [],
+  allUsers: [],
   productsToShow: [],
   filterSettings: {
     sortOrder: "ASC",
@@ -134,6 +136,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         allInstructors: action.payload,
+      };
+
+    case POST_USER:
+      return {
+        ...state,
+        allUsers: [...state.allUsers, action.payload],
       };
 
     default:

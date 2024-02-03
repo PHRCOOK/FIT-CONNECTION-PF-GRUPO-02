@@ -14,6 +14,7 @@ import {
   DELETE_INSTRUCTOR,
   POST_INSTRCUTOR,
   PUT_INSTRUCTOR,
+  POST_USER,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -258,6 +259,24 @@ export const putInstructor = (id, instructor) => {
       });
     } catch (error) {
       console.log(error.message);
+    }
+  };
+};
+
+export const postUser = (form) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3001/api/users",
+        form
+      );
+      return dispatch({
+        type: POST_USER,
+        payload: data.allUsers,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
     }
   };
 };
