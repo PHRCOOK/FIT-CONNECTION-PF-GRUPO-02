@@ -1,59 +1,103 @@
+import React from "react";
 import { useLocation } from "react-router-dom";
-import logo from "../img/logo.jpg";
+import { useAuth0 } from "@auth0/auth0-react";
+import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
-import "../css-modules/styles.css";
+import { LinkContainer } from "react-router-bootstrap";
+import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
-  if (location.pathname.includes(pathroutes.DETAIL)) {
-    return (
-      <div className="d-flex flex-column flex-md-row justify-content-center gap-1 gap-md-4">
-        <a href={pathroutes.HOME}>
-          <img src={logo} alt="" className="rounded-circle" />
-        </a>
-      </div>
-    );
-  }
+  const linksData = [
+    {
+      path: pathroutes.PRODUCT,
+      title: "Productos",
+      show: location.pathname !== pathroutes.PRODUCT,
+    },
+    { path: pathroutes.SERVICE, title: "Servicios", show: true },
+    {
+      path: pathroutes.FORMPRODUCT,
+      title: "Crear productos",
+      show: location.pathname === pathroutes.PRODUCT,
+    },
+    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
+    { path: pathroutes.STAFF, title: "Conocer staff", show: true },
+    {
+      title: isAuthenticated ? "Logout" : "Login",
+      show: true,
+      onClick: isAuthenticated
+        ? () => logout({ returnTo: window.location.origin })
+        : () => loginWithRedirect(),
+      isButton: true,
+    },
+    { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
+  ];
+
+  const navLinks = linksData
+    .filter((linkData) => linkData.show && linkData.path)
+    .map((linkData) => (
+      <LinkContainer key={linkData.path} to={linkData.path}>
+        <Nav.Link
+          active={location.pathname === linkData.path}
+          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+            location.pathname === linkData.path ? "bg-primary" : ""
+          }`}
+        >
+          {linkData.title}
+        </Nav.Link>
+      </LinkContainer>
+    ));
+
+  const buttons = linksData
+    .filter((linkData) => linkData.isButton)
+    .map((linkData) => (
+      <Button
+        key={linkData.title}
+        onClick={linkData.onClick}
+        className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+          location.pathname === linkData.path ? "bg-primary" : ""
+        }`}
+      >
+        {linkData.title}
+      </Button>
+    ));
 
   return (
-    <div className="d-flex flex-column flex-md-row justify-content-center gap-1 gap-md-4">
-      <a href={pathroutes.HOME}>
-        <img src={logo} alt="" className="rounded-circle" />
-      </a>
-      {location.pathname !== pathroutes.PRODUCT && (
-        <a href={pathroutes.PRODUCT}>
-          <button type="button" className=".btn btn-danger">
-            Productos
-          </button>
-        </a>
-      )}
-      {location.pathname === pathroutes.PRODUCT && (
-        <a href={pathroutes.FORMPRODUCT}>
-          <button type="button" className=".btn btn-danger">
-            Crear Producto
-          </button>
-        </a>
-      )}
-      {location.pathname !== pathroutes.SERVICE && (
-        <a href={pathroutes.SERVICE}>
-          <button type="button" className=".btn btn-danger">
-            Servicios
-          </button>
-        </a>
-      )}
-      <button type="button" className=".btn btn-danger">
-        Carrito de compras
-      </button>
-      <button type="button" className=".btn btn-danger">
-        Conocer Staff
-      </button>
-      <button type="button" className=".btn btn-danger">
-        Login
-      </button>
-      <button type="button" className=".btn btn-danger">
-        Registrate
-      </button>
-    </div>
+    <Navbar collapseOnSelect bg="secondary" expand="lg">
+      <Container>
+        <LinkContainer to={pathroutes.HOME}>
+          <Navbar.Brand>
+            <Image
+              src={logo}
+              alt="Home"
+              className="border border-2 border-light"
+              roundedCircle
+            />
+          </Navbar.Brand>
+        </LinkContainer>
+        <Navbar.Toggle aria-controls="navbar-options" />
+        <Navbar.Collapse id="navbar-options">
+          <Nav className="ms-auto">
+            {navLinks}
+            {buttons}
+          </Nav>
+          {isAuthenticated && (
+            <React.Fragment>
+              <Image
+                src={user.picture}
+                alt="Profile"
+                className="border border-2 border-light"
+                roundedCircle
+              />
+              <Navbar.Text className="ms-2">
+                Signed in as: <a href="#login">{user.name}</a>
+              </Navbar.Text>
+            </React.Fragment>
+          )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }

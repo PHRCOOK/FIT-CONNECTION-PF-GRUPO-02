@@ -2,6 +2,7 @@ const { ProductServices, Categories } = require('../db')
 const { filterProducts, getPagination, getPagingData } = require('../../utils/filterProducts');
 const { Op } = require("sequelize");
 
+<<<<<<< HEAD
 const getProductServices = async () => {
     try {
         const allProducts = await ProductServices.findAll({
@@ -14,6 +15,8 @@ const getProductServices = async () => {
         throw new Error({error: error.message})
     }
 }
+=======
+>>>>>>> 6a74754bcbdffe28706ab3f27647d3833a0b129f
 
 const getProductServicesById = async (id) => {
     try {
@@ -24,6 +27,7 @@ const getProductServicesById = async (id) => {
     }
 }
 
+<<<<<<< HEAD
 const getProductServicesByName = async (name) => {
     try {
         const product = await ProductServices.findAll({
@@ -42,6 +46,8 @@ const getProductServicesByName = async (name) => {
         throw new Error({error: error.message})
     }
 }
+=======
+>>>>>>> 6a74754bcbdffe28706ab3f27647d3833a0b129f
 
 const createProductServices = async (
     name,
@@ -96,7 +102,11 @@ const updateProductServices = async (id, newData) => {
   try {
     const product = await ProductServices.findByPk(id);
     await product.update(newData);
-    return { message: "Producto actualizado exitosamente." };
+    const updatedProducts = await ProductServices.findAll();
+    return {
+      message: "Producto actualizado exitosamente.",
+      products: updatedProducts,
+    };
   } catch (error) {
     throw new Error(error.message);
   }
@@ -196,6 +206,7 @@ const filterAndOrder = async (sortOrder, minPrice, maxPrice, category_id, name, 
 
 
 module.exports = {
+<<<<<<< HEAD
     getProductServices,
     getProductServicesById,
     getProductServicesByName,
@@ -204,3 +215,11 @@ module.exports = {
     deleteProductServices,
     filterAndOrder,
   };
+=======
+  getProductServicesById,
+  createProductServices,
+  updateProductServices,
+  deleteProductServices,
+  filterAndOrder,
+};
+>>>>>>> 6a74754bcbdffe28706ab3f27647d3833a0b129f
