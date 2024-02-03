@@ -1,59 +1,124 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route } from "react-router-dom";
-
-import AdminNavBar from "../components/adminnavbar/adminnavbar";
-import AdminStore from "../components/adminstore/adminstore";
-import AdminClientInfo from "../components/adminclientsinfo/adminclientsinfo";
-import FormProduct from "../../components/formproduct/formproduct";
-import AdminInstructor from "../components/admininstructor/admininstructor";
-import AdminCategories from "../components/admincategories/admincategories";
-import AdminModifyProduct from "../components/adminmodifyproduct/adminmodifyproduct";
-import AdminCategoryForm from "../components/admincategoryform/admincategoryform";
-import AdminModifyCategory from "../components/adminmodifycategory/adminmodifycategory";
-import AdminInstructorForm from "../components/admininstructorform/admininstructorform";
-import AdminModifyInstructor from "../components/adminmodifyinstructor/adminmodifyinstructor";
-
-import {
-  getAllProducts,
-  getAllCategories,
-  getAllInstructors,
-} from "../../redux/action";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../../components/helpers/pathroutes";
+import { LinkContainer } from "react-router-bootstrap";
+import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
-function admin() {
-  const dispatch = useDispatch();
+export default function AppBar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { loginWithRedirect, logout, isAuthenticated, user, getIdTokenClaims } =
+    useAuth0();
 
-  useEffect(() => {
-    dispatch(getAllProducts());
-    dispatch(getAllCategories());
-    dispatch(getAllInstructors());
-  }, []);
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      getIdTokenClaims().then((claims) => {
+        const isUserAdmin =
+          claims["https://YOUR_NAMESPACE/roles"].includes("admin");
+        setIsAdmin(isUserAdmin);
+        if (isUserAdmin) {
+          navigate(pathroutes.ADMIN);
+        }
+      });
+    }
+  }, [isAuthenticated, getIdTokenClaims, navigate]);
+
+  const linksData = [
+    {
+      path: pathroutes.PRODUCT,
+      title: "Productos",
+      show: location.pathname !== pathroutes.PRODUCT,
+    },
+    { path: pathroutes.SERVICE, title: "Servicios", show: true },
+    {
+      path: pathroutes.FORMPRODUCT,
+      title: "Crear productos",
+      show: location.pathname === pathroutes.PRODUCT,
+    },
+    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
+    { path: pathroutes.STAFF, title: "Conocer staff", show: true },
+    {
+      title: isAuthenticated ? "Logout" : "Login",
+      show: true,
+      onClick: isAuthenticated
+        ? () => logout({ returnTo: window.location.origin })
+        : () => loginWithRedirect(),
+      isButton: true,
+    },
+    { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
+  ];
+
+  const navLinks = linksData
+    .filter((linkData) => linkData.show && linkData.path)
+    .map((linkData) => (
+      <LinkContainer key={linkData.path} to={linkData.path}>
+        <Nav.Link
+          active={location.pathname === linkData.path}
+          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+            location.pathname === linkData.path ? "bg-primary" : ""
+          }`}
+        >
+          {linkData.title}
+        </Nav.Link>
+      </LinkContainer>
+    ));
+
+  const buttons = linksData
+    .filter((linkData) => linkData.isButton)
+    .map((linkData) => (
+      <Button
+        key={linkData.title}
+        onClick={linkData.onClick}
+        className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+          location.pathname === linkData.path ? "bg-primary" : ""
+        }`}
+      >
+        {linkData.title}
+      </Button>
+    ));
 
   return (
-    <div>
-      <AdminNavBar />
-      <Routes>
-        <Route path={pathroutes.ADMIN} element={<AdminStore />} />
-        <Route path={pathroutes.CLIENT} element={<AdminClientInfo />} />
-        <Route path={pathroutes.FORMPRODUCTAD} element={<FormProduct />} />
-        <Route path={pathroutes.INSTRUCTOR} element={<AdminInstructor />} />
-        <Route path={pathroutes.CATEGORY} element={<AdminCategories />} />
-        <Route path="/modifyproduct/:id" element={<AdminModifyProduct />} />
-        <Route path="/createcategory" element={<AdminCategoryForm />} />
-        <Route path={pathroutes.MODIFY} element={<AdminModifyCategory />} />
-        <Route
-          path={pathroutes.CREATEDINST}
-          element={<AdminInstructorForm />}
-        />
-        <Route
-          path={pathroutes.MODIFYINST}
-          element={<AdminModifyInstructor />}
-        />
-      </Routes>
-    </div>
+    <Navbar collapseOnSelect bg="secondary" expand="lg">
+      <Container>
+        <LinkContainer to={pathroutes.HOME}>
+          <Navbar.Brand>
+            <Image
+              src={logo}
+              alt="Home"
+              className="border border-2 border-light"
+              roundedCircle
+            />
+          </Navbar.Brand>
+        </LinkContainer>
+        <Navbar.Toggle aria-controls="navbar-options" />
+        <Navbar.Collapse id="navbar-options">
+          <Nav className="ms-auto">
+            {navLinks}
+            {buttons}
+          </Nav>
+          {isAuthenticated && (
+            <React.Fragment>
+              <Image
+                src={user.picture}
+                alt="Profile"
+                className="border border-2 border-light"
+                roundedCircle
+              />
+              <Navbar.Text className="ms-2">
+                Signed in as:{" "}
+                <a href="#login">
+                  {isAdmin ? `${user.name} (Admin)` : user.name}
+                </a>
+              </Navbar.Text>
+            </React.Fragment>
+          )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
-
-export default admin;
