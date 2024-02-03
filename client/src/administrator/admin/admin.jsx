@@ -20,6 +20,7 @@ import {
   getAllCategories,
   getAllInstructors,
 } from "../../redux/action";
+import pathroutes from "../../components/helpers/pathroutes";
 
 function admin() {
   const dispatch = useDispatch();
@@ -34,17 +35,20 @@ function admin() {
     <div>
       <AdminNavBar />
       <Routes>
-        <Route path="/" element={<AdminStore />} />
-        <Route path="/clientinfo" element={<AdminClientInfo />} />
-        <Route path="/createproduct" element={<FormProduct />} />
-        <Route path="/instructors" element={<AdminInstructor />} />
-        <Route path="/categories" element={<AdminCategories />} />
+        <Route path={pathroutes.ADMIN} element={<AdminStore />} />
+        <Route path={pathroutes.CLIENT} element={<AdminClientInfo />} />
+        <Route path={pathroutes.FORMPRODUCTAD} element={<FormProduct />} />
+        <Route path={pathroutes.INSTRUCTOR} element={<AdminInstructor />} />
+        <Route path={pathroutes.CATEGORY} element={<AdminCategories />} />
         <Route path="/modifyproduct/:id" element={<AdminModifyProduct />} />
         <Route path="/createcategory" element={<AdminCategoryForm />} />
-        <Route path="/modifycategory/:id" element={<AdminModifyCategory />} />
-        <Route path="/createinstructor" element={<AdminInstructorForm />} />
+        <Route path={pathroutes.MODIFY} element={<AdminModifyCategory />} />
         <Route
-          path="/modifyinstructor/:id"
+          path={pathroutes.CREATEDINST}
+          element={<AdminInstructorForm />}
+        />
+        <Route
+          path={pathroutes.MODIFYINST}
           element={<AdminModifyInstructor />}
         />
       </Routes>
