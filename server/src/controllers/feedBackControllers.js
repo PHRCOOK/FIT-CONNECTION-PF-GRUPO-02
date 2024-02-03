@@ -14,9 +14,9 @@ const createFeedBackController = async (
     const instructor = await Instructor.findByPk(instructor_id);
 
     if (!user) {
-      throw new Error("Usuario no encontrado.");
+      throw new Error("User not found.");
     } else if (!instructor) {
-      throw new Error("Instructor no encontrado.");
+      throw new Error("Instructor not found.");
     }
 
     // Creamos el nuevo comentario.
@@ -30,12 +30,32 @@ const createFeedBackController = async (
     await newFeedBack.setUser(user);
     await newFeedBack.setInstructor(instructor);
 
-    return { message: "Comentario creado con exito." };
+    return { message: "Comment created successfully." };
   } catch (error) {
-    throw new Error(`Error al crear el comentario: ${error.message}`);
+    throw new Error(`Error creating comment: ${error.message}`);
   }
 };
 
+// Este controller nos permite realizar la busqueda de todos los feedBack que se han realizado.
+const getFeedBacksController = async () => {
+  try {
+    const feedBacks = await FeedBack.findAll({
+      include:[ 
+        { model: Instructor, as: 'Instructor', attributes: ['fullname'] },
+        { model: User, as: 'User', attributes: ['fullname'] }
+      ],
+    });
+    if (!feedBacks) {
+      throw new Error('No comment found.')
+    }
+    return {Items: feedBacks};
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+
 module.exports = {
   createFeedBackController,
+  getFeedBacksController,
 };

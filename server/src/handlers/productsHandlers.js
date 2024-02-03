@@ -10,14 +10,6 @@ const {
   filterAndOrder,
 } = require("../controllers/productsController");
 
-const getProductServicesHandler = async (req, res) => {
-  try {
-    const response = await getProductServices();
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-};
 
 const getProductServicesByIdHandler = async (req, res) => {
   const { id } = req.params;
@@ -29,16 +21,6 @@ const getProductServicesByIdHandler = async (req, res) => {
   }
 };
 
-const getProductServicesByNameHandler = async (req, res) => {
-  const { name } = req.query;
-  try {
-    const response = await getProductServicesByName(name);
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error.message }); // Envía el mensaje de error en lugar del objeto de error
-  }
-};
 
 const createProductServicesHandler = async (req, res) => {
   const {
@@ -128,7 +110,6 @@ const productFilterAndOrderHandler = async (req, res) => {
 };
 
 module.exports = {
-  getProductServicesHandler,
   getProductServicesByIdHandler,
   createProductServicesHandler,
   updateProductServicesHandler,

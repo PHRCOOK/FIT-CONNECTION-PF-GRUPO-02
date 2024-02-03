@@ -2,22 +2,37 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import validate from "./validate";
+
+import { postUser } from "../../redux/action";
 
 export default function userform() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     fullname: "",
     email: "",
     password: "",
-    isAdmin: false,
   });
 
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await dispatch(postUser(form));
+      window.alert("Usuario registrado correctamente.");
+      setForm({
+        fullname: "",
+        email: "",
+        password: "",
+      });
+      navigate("/product");
+    } catch (error) {
+      window.alert(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -25,16 +40,6 @@ export default function userform() {
     let value = e.target.value;
     setForm({ ...form, [key]: value });
     setErrors(validate({ ...form, [key]: value }));
-  };
-
-  const handleIsAdminChange = (e) => {
-    const value = e.target.value;
-    setForm({ ...form, isAdmin: value });
-    setErrors(validate({ ...form, isAdmin: value }));
-  };
-
-  const enableButton = () => {
-    return Object.values(errors).some((error) => error !== "");
   };
 
   return (
@@ -74,22 +79,11 @@ export default function userform() {
           />
           {errors.password && <p>{errors.password}</p>}
         </div>
-        <div>
-          <label>IS ADMIN?</label>
-          <select
-            name="isAdmin"
-            defaultValue={"DEFAULT"}
-            onChange={handleIsAdminChange}
-          >
-            <option value="DEFAULT" disabled hidden>
-              --
-            </option>
-            <option value={true}>YES</option>
-            <option value={false}>NO</option>
-          </select>
-          {errors.isAdmin && <p>{errors.isAdmin}</p>}
-        </div>
-        <button type="submit" disabled={enableButton()}>
+
+        <button
+          type="submit"
+          disabled={Object.values(form).some((value) => value === "")}
+        >
           REGISTER
         </button>
       </form>
