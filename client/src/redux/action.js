@@ -31,7 +31,7 @@ export const getAllCategories = () => {
         payload: items,
       });
     } catch (error) {
-      console.log(error.message);
+      throw new Error(error);
     }
   };
 };
@@ -48,7 +48,8 @@ export const postProduct = (product) => {
         payload: data.product,
       });
     } catch (error) {
-      console.log(error.message);
+      const message = error.response.data.error;
+      throw new Error(message);
     }
   };
 };
@@ -109,7 +110,7 @@ export const deleteProduct = (id) => {
         payload: data.products,
       });
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
 };
@@ -123,7 +124,7 @@ export const getAllProducts = () => {
         payload: data.products,
       });
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
 };
@@ -140,7 +141,8 @@ export const putProduct = (id, product) => {
         payload: data.products,
       });
     } catch (error) {
-      console.log(error.message);
+      const message = error.response.data.error;
+      throw new Error(message);
     }
   };
 };
@@ -156,7 +158,8 @@ export const deleteCategory = (id) => {
         payload: data.categories,
       });
     } catch (error) {
-      console.log(error);
+      const message = error.response.data.error;
+      throw new Error(message);
     }
   };
 };
@@ -174,7 +177,8 @@ export const postCategory = (categoryForm) => {
         payload: data.response,
       });
     } catch (error) {
-      console.log(error.message);
+      const message = error.response.data.message;
+      throw new Error(message);
     }
   };
 };
@@ -191,7 +195,8 @@ export const putCategory = (id, category) => {
         payload: data.response.categories,
       });
     } catch (error) {
-      console.log(error.message);
+      const message = error.response.data.message;
+      throw new Error(message);
     }
   };
 };
@@ -206,7 +211,7 @@ export const getAllInstructors = () => {
         payload: data,
       });
     } catch (error) {
-      console.log(error.message);
+      throw new Error(error);
     }
   };
 };
@@ -217,13 +222,12 @@ export const deleteInstructor = (id) => {
       const { data } = await axios.delete(
         `http://localhost:3001/api/instructors/delete/${id}`
       );
-
       dispatch({
         type: DELETE_INSTRUCTOR,
         payload: data.instructors,
       });
     } catch (error) {
-      console.log(error.message);
+      throw new Error(error.message);
     }
   };
 };
@@ -241,7 +245,8 @@ export const postInstructor = (instructorForm) => {
         payload: data.instructor,
       });
     } catch (error) {
-      console.log(error.message);
+      const message = error.response.data.error;
+      throw new Error(message);
     }
   };
 };
@@ -258,7 +263,8 @@ export const putInstructor = (id, instructor) => {
         payload: data.instructors,
       });
     } catch (error) {
-      console.log(error.message);
+      const message = error.response.data.error;
+      throw new Error(message);
     }
   };
 };
