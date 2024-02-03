@@ -203,5 +203,4 @@ module.exports = {
     updateProductServices,
     deleteProductServices,
     filterAndOrder,
-
-}
+  };

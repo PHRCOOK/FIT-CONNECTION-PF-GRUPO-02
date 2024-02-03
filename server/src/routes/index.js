@@ -24,6 +24,8 @@ router.use("/api/categories", categoryRouter);
 
 router.use("/api/purchases", purchaseRoute);
 
+router.use("/api/gym", gymRoute);
+
 router.use("/api/shoppingCart", ShoppingCartRouter);
 
 module.exports = router;

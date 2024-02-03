@@ -1,22 +1,28 @@
 const { Purchases, PurchaseDetail } = require('../db');
 const { sequelize } = require('../db');
-const { updateStock, checkStockAvailability } = require('../../utils/stockVerific')
+const { getShoppingCarts } = require('../controllers/shoppingCartControllers')
+const { updateStock, checkStockAvailability } = require('../../utils/stockVerific');
 
 const postPurchasesController = async (req, res) => {
-    const { payment_method, payment_date, status, user_id, details } = req.body;
+    const { payment_method, payment_date, status, user_id } = req.body;
+    const detailss = await getShoppingCarts(user_id)
+    const stockk = detailss.map(detail => ({
+        product_id: detail.id,
+        quantity: detail.quantity
+      }));
     try {
-        if (!payment_method || !payment_date || !status || !user_id || !details) {
+        if (!payment_method || !payment_date || !status || !user_id || !stockk) {
             return res.status(400).json({ error: "Faltan datos" });
         }
         await sequelize.transaction(async (t) => {
-            await checkStockAvailability(details, t);
+            await checkStockAvailability(stockk, t);
             const purchase = await Purchases.create(
                 { payment_method, payment_date, status, user_id },
                 { transaction: t }
             );
             const purchase_id = purchase.id;
             await Promise.all(
-                details.map(async (detail) => {
+                stockk.map(async (detail) => {
                     await PurchaseDetail.create(
                         {
                             product_id: detail.product_id,
@@ -27,7 +33,7 @@ const postPurchasesController = async (req, res) => {
                     );
                 })
             );
-            if (status !== "cancelled") await updateStock(status, details, t);
+            if (status !== "cancelled") await updateStock(status, stockk, t);
         });
         return res.status(200).json({ success: true });
     } catch (error) {
@@ -83,6 +89,8 @@ const putPurchasesController = async (req, res) => {
         // Verificar si el estado actual es "cancelled" y el nuevo estado es el mismo
         if (existingPurchase.status === "cancelled" && status === "cancelled") {
             return res.status(400).json({ error: "No se puede actualizar al mismo estado 'cancelado'." });
+        } else if(existingPurchase.status === "completed" && status === "completed") {
+            return res.status(400).json({ error: "No se puede actualizar al mismo estado 'completed'." });
         }
         const details = await PurchaseDetail.findAll({
             where: { purchase_id: `${id}` },

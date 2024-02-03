@@ -8,7 +8,6 @@ const checkStockAvailability = async (details, transaction) => {
     }
 };
 const updateStock = async (status, details, transaction) => {
-    console.log(details)
     if (!details || !Array.isArray(details)) {
         // Manejar el caso en que details no sea un array
         console.error("Invalid details value:", details);
