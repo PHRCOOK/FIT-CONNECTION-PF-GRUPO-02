@@ -16,7 +16,6 @@ const productsRouter = Router();
 productsRouter.get("/", productFilterAndOrderHandler); //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
 
 // Rutas generales después
-productsRouter.get("/", getProductServicesHandler);
 productsRouter.get("/:id", getProductServicesByIdHandler);
 productsRouter.post("/", upload.single('image'), createProductServicesHandler);
 productsRouter.put("/update/:id", updateProductServicesHandler);

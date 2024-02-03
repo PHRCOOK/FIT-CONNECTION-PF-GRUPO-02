@@ -4,15 +4,31 @@ import {
   APPLY_FILTER,
   RESET_FILTER,
   EMPTY_FILTER,
+  DELETE_PRODUCT,
+  GET_ALL_PRODUCTS,
+  PUT_PRODUCT,
+  DELETE_CATEGORY,
+  POST_CATEGORY,
+  PUT_CATEGORY,
+  GET_ALL_INSTRUCTORS,
+  DELETE_INSTRUCTOR,
+  POST_INSTRCUTOR,
+  PUT_INSTRUCTOR,
+  POST_USER,
 } from "./actionsTypes";
 
 const initialState = {
   allCategories: [],
   allProducts: [],
+  allInstructors: [],
+  allUsers: [],
   productsToShow: [],
   filterSettings: {
     sortOrder: "ASC",
+    page: 1,
+    size: 10,
   },
+  totalPages: 0,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -32,13 +48,15 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         filterSettings: action.payload.settings,
-        productsToShow: action.payload.data,
+        productsToShow: action.payload.products,
+        totalPages: action.payload.totalPages,
       };
 
     case RESET_FILTER:
+      console.log(action.payload);
       return {
         ...state,
-        productsToShow: action.payload.data,
+        productsToShow: action.payload.products,
         filterSettings: {
           sortOrder: "ASC",
           minPrice: "",
@@ -46,7 +64,11 @@ export const reducer = (state = initialState, action) => {
           category_id: null,
           name: "",
           code: "",
+          page: 1,
+          size: 10,
         },
+        totalPages: action.payload.totalPages,
+        currentPage: 1,
       };
 
     case EMPTY_FILTER:
@@ -54,6 +76,72 @@ export const reducer = (state = initialState, action) => {
         ...state,
         productsToShow: [],
         filterSettings: action.payload,
+      };
+
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+        allProducts: action.payload,
+      };
+
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        allProducts: action.payload,
+      };
+
+    case PUT_PRODUCT:
+      return {
+        ...state,
+        allProducts: action.payload,
+      };
+
+    case DELETE_CATEGORY:
+      return {
+        ...state,
+        allCategories: action.payload,
+      };
+
+    case POST_CATEGORY:
+      return {
+        ...state,
+        allCategories: [...state.allCategories, action.payload],
+      };
+
+    case PUT_CATEGORY:
+      return {
+        ...state,
+        allCategories: action.payload,
+      };
+
+    case GET_ALL_INSTRUCTORS:
+      return {
+        ...state,
+        allInstructors: action.payload,
+      };
+
+    case DELETE_INSTRUCTOR:
+      return {
+        ...state,
+        allInstructors: action.payload,
+      };
+
+    case POST_INSTRCUTOR:
+      return {
+        ...state,
+        allInstructors: [...state.allInstructors, action.payload],
+      };
+
+    case PUT_INSTRUCTOR:
+      return {
+        ...state,
+        allInstructors: action.payload,
+      };
+
+    case POST_USER:
+      return {
+        ...state,
+        allUsers: [...state.allUsers, action.payload],
       };
 
     default:

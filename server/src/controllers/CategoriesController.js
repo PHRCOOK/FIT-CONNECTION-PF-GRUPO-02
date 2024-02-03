@@ -42,7 +42,11 @@ const putCategoriesController = async (id, updateData) => {
     if (putRowCount === 0) {
       throw new Error("Categoria no encontrada");
     }
-    return { message: "categoria Actualizada" };
+    const updatedCategories = await Categories.findAll();
+    return {
+      message: "Categoría actualizada",
+      categories: updatedCategories,
+    };
   } catch (error) {
     throw new Error(`Error al actualizar la categoria: ${error.message}`);
   }
@@ -59,7 +63,9 @@ const deleteCategoriesController = async (id) => {
       throw new Error(
         "Esta categoria no existe, Por ende no puede ser eliminada."
       );
-    return delCategory;
+    const categories = await Categories.findAll();
+
+    return categories;
   } catch (error) {
     throw new Error(`Error al eliminar la categoria: ${error.message}`);
   }

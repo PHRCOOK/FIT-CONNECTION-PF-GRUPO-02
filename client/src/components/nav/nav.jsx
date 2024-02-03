@@ -1,11 +1,14 @@
+import React from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
-import { Container, Nav, Navbar, Image } from "react-bootstrap";
+import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
   const linksData = [
     {
@@ -19,30 +22,47 @@ export default function AppBar() {
       title: "Crear productos",
       show: location.pathname === pathroutes.PRODUCT,
     },
-    { path: "/shopping-card", title: "Carrito de compras", show: true },
-    { path: "/staff", title: "Conocer staff", show: true },
-    { path: "/login", title: "Login", show: true },
-    { path: "/sign-up", title: "Registrate", show: true },
+    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
+    { path: pathroutes.STAFF, title: "Conocer staff", show: true },
+    {
+      title: isAuthenticated ? "Logout" : "Login",
+      show: true,
+      onClick: isAuthenticated
+        ? () => logout({ returnTo: window.location.origin })
+        : () => loginWithRedirect(),
+      isButton: true,
+    },
+    { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
   ];
 
-  const links = [];
-  for (const linkData of linksData) {
-    if (linkData.show) {
-      const active = location.pathname === linkData.path;
-      links.push(
-        <LinkContainer key={linkData.path} to={linkData.path}>
-          <Nav.Link
-            active={active}
-            className={`rounded fw-bold px-2 mx-1 my-md-1 ${
-              active ? "bg-primary" : ""
-            }`}
-          >
-            {linkData.title}
-          </Nav.Link>
-        </LinkContainer>
-      );
-    }
-  }
+  const navLinks = linksData
+    .filter((linkData) => linkData.show && linkData.path)
+    .map((linkData) => (
+      <LinkContainer key={linkData.path} to={linkData.path}>
+        <Nav.Link
+          active={location.pathname === linkData.path}
+          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+            location.pathname === linkData.path ? "bg-primary" : ""
+          }`}
+        >
+          {linkData.title}
+        </Nav.Link>
+      </LinkContainer>
+    ));
+
+  const buttons = linksData
+    .filter((linkData) => linkData.isButton)
+    .map((linkData) => (
+      <Button
+        key={linkData.title}
+        onClick={linkData.onClick}
+        className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+          location.pathname === linkData.path ? "bg-primary" : ""
+        }`}
+      >
+        {linkData.title}
+      </Button>
+    ));
 
   return (
     <Navbar collapseOnSelect bg="secondary" expand="lg">
@@ -59,7 +79,23 @@ export default function AppBar() {
         </LinkContainer>
         <Navbar.Toggle aria-controls="navbar-options" />
         <Navbar.Collapse id="navbar-options">
-          <Nav className="ms-auto">{links}</Nav>
+          <Nav className="ms-auto">
+            {navLinks}
+            {buttons}
+          </Nav>
+          {isAuthenticated && (
+            <React.Fragment>
+              <Image
+                src={user.picture}
+                alt="Profile"
+                className="border border-2 border-light"
+                roundedCircle
+              />
+              <Navbar.Text className="ms-2">
+                Signed in as: <a href="#login">{user.name}</a>
+              </Navbar.Text>
+            </React.Fragment>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

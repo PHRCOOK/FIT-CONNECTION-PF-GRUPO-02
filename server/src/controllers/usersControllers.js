@@ -1,5 +1,7 @@
 const { Op } = require("sequelize");
 const { User } = require("../db");
+const { transporter } = require("../../utils/transporter");
+const { generateWelcomeEmail } = require("../../utils/emailTemplates");
 
 // Controler encargado de crear los usuarios.
 const createUserController = async (fullname, email, password) => {
@@ -17,7 +19,17 @@ const createUserController = async (fullname, email, password) => {
 
     await User.create({ fullname, email, password });
 
-    return { message: "Usuario creado con exito." };
+    const affair = "¡ Bienvenido a nuestro gimnasio !";
+    const htmlBody = generateWelcomeEmail(fullname);
+
+    await transporter.sendMail({
+      from: MAIL_USERNAME,
+      to: email,
+      subject: affair,
+      html: htmlBody,
+    });
+
+    return { message: "Usuario creado con exito.", allUsers };
   } catch (error) {
     // Mostramos cualquier error que ocurra durante la creación del usuario.
     throw new Error(`Error al crear el usuario: ${error.message}.`);
@@ -62,7 +74,7 @@ const getActiveUsersController = async () => {
 
     return { Items: users };
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -83,7 +95,7 @@ const getInactiveUsersController = async () => {
 
     return { Items: inactiveUsers };
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -104,7 +116,7 @@ const getUserByNameController = async (fullname) => {
 
     return userByName;
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -116,7 +128,7 @@ const getUserByIdController = async (id) => {
     });
     return userById;
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 

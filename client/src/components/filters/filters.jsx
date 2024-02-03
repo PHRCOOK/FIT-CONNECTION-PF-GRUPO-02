@@ -30,8 +30,6 @@ function Filters() {
 
     deleteUndefined(settingsToApply);
 
-    // console.log(settingsToApply);
-
     dispatch(applySettings(settingsToApply));
   }, []);
 
@@ -44,9 +42,6 @@ function Filters() {
     settingsToApply = { ...settingsToApply, [key]: value || "" };
 
     deleteUndefined(settingsToApply);
-
-    console.log(filterSettings);
-    console.log(settingsToApply);
 
     dispatch(applySettings(settingsToApply));
   };
