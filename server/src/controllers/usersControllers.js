@@ -2,6 +2,8 @@ const { Op } = require("sequelize");
 const { User } = require("../db");
 const { transporter } = require("../../utils/transporter");
 const { generateWelcomeEmail } = require("../../utils/emailTemplates");
+const { MAIL_USERNAME } = process.env;
+
 
 // Controler encargado de crear los usuarios.
 const createUserController = async (fullname, email, password) => {
@@ -17,7 +19,7 @@ const createUserController = async (fullname, email, password) => {
       throw new Error("Ya existe un usuario con este email.");
     }
 
-    await User.create({ fullname, email, password });
+    const allUsers = await User.create({ fullname, email, password });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";
     const htmlBody = generateWelcomeEmail(fullname);
