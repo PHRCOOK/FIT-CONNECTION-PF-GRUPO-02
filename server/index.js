@@ -1,6 +1,6 @@
 const server = require("./src/server.js");
 const { conn } = require("./src/db.js");
-const PORT = process.env;
+const { PORT } = process.env;
 
 conn
   .sync({ force: false }) // Se deja en "false" para realizar pruebas.
