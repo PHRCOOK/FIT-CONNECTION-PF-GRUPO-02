@@ -34,7 +34,7 @@ const generateWelcomeEmail = (fullname) => {
       </head>
       <body>
         <div class="container">
-          <img src="ruta al logo" alt="Logo del Gimnasio" style="max-width: 100px; margin-bottom: 20px;">
+          <img src="https://res.cloudinary.com/dsx7vnkzm/image/upload/v1707071610/l8x5r0mdoi0pfsmd2olv.png" alt="Logo del Gimnasio" style="max-width: 100px; margin-bottom: 20px;">
           <h1>Bienvenido a nuestro gimnasio, ${fullname} 🏋🏽‍♂️ !</h1>
           <p>¡Estamos emocionados de tenerte como parte de nuestra comunidad!</p>
           <p>Disfruta de todos nuestros servicios y no dudes en ponerte en contacto si necesitas ayuda.</p>
