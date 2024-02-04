@@ -11,11 +11,12 @@ import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import "./App.scss"
+import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL =
+  "https://fit-connection-pf-grupo-02-production.up.railway.app";
 
 function App() {
   return (
