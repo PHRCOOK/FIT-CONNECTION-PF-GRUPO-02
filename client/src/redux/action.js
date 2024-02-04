@@ -11,7 +11,7 @@ import axios from "axios";
 export const getAllCategories = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get("/categories");
+      const response = await axios.get("/api/categories");
       dispatch({
         type: GET_ALL_CATEGORIES,
         payload: response.data,
@@ -25,7 +25,7 @@ export const getAllCategories = () => {
 export const postProduct = (product) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/products", product);
+      const { data } = await axios.post("/api/products", product);
       return dispatch({
         type: POST_PRODUCT,
         payload: data,
@@ -39,7 +39,7 @@ export const postProduct = (product) => {
 export const applySettings = (settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/products", {
+      const { data } = await axios.get("/api/products", {
         params: settings,
       });
 
@@ -60,7 +60,7 @@ export const applySettings = (settings) => {
 export const resetSettings = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/products", {
+      const { data } = await axios.get("/api/products", {
         params: { sortOrder: "ASC" },
       });
       return dispatch({
