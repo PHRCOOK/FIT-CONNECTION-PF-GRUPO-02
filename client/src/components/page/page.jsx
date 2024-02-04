@@ -3,6 +3,7 @@ import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
 import { applySettings } from "../../redux/action";
 import deleteUndefined from "../filters/deleteUndefined";
+import { Pagination } from "react-bootstrap"
 
 function Page() {
   const totalPages = useSelector((state) => state.totalPages);

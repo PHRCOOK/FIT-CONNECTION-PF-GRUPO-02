@@ -41,9 +41,8 @@ export default function AppBar() {
       <LinkContainer key={linkData.path} to={linkData.path}>
         <Nav.Link
           active={location.pathname === linkData.path}
-          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
-            location.pathname === linkData.path ? "bg-primary" : ""
-          }`}
+          className={`rounded fw-bold px-2 mx-1 my-md-1 ${location.pathname === linkData.path ? "bg-primary" : ""
+            }`}
         >
           {linkData.title}
         </Nav.Link>
@@ -56,9 +55,8 @@ export default function AppBar() {
       <Button
         key={linkData.title}
         onClick={linkData.onClick}
-        className={`rounded fw-bold px-2 mx-1 my-md-1 ${
-          location.pathname === linkData.path ? "bg-primary" : ""
-        }`}
+        className={`rounded fw-bold px-2 mx-1 my-1 ${location.pathname === linkData.path ? "bg-primary" : ""
+          }`}
       >
         {linkData.title}
       </Button>
@@ -84,17 +82,17 @@ export default function AppBar() {
             {buttons}
           </Nav>
           {isAuthenticated && (
-            <React.Fragment>
+            <div className="my-1">
+              <Navbar.Text className="mx-3">
+                Signed in as: <a href="#login">{user.name}</a>
+              </Navbar.Text>
               <Image
                 src={user.picture}
                 alt="Profile"
-                className="border border-2 border-light"
+                className="avatar border border-2 border-light"
                 roundedCircle
               />
-              <Navbar.Text className="ms-2">
-                Signed in as: <a href="#login">{user.name}</a>
-              </Navbar.Text>
-            </React.Fragment>
+            </div>
           )}
         </Navbar.Collapse>
       </Container>

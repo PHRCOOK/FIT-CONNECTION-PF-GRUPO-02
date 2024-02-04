@@ -1,13 +1,19 @@
-$primary: #ff4136;
-$secondary: #bdbdbd;
+$secondary: #8D99AE;
+$primary: #2B2D42;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .nav-link:hover {
   background-color: $primary;
+  color: white
 }
 
 .carousel-item img {
   width: 100%;
   height: 500px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
 }
