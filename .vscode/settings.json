@@ -9,5 +9,6 @@
       "database": "fitconnection",
       "username": "postgres"
     }
-  ]
+  ],
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }
