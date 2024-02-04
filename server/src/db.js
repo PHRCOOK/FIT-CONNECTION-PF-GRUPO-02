@@ -14,8 +14,11 @@ const ProductServicesModel = require("./models/ProductServicesModel");
 const { DB_USER, DB_PASSWORD, DB_HOST, BDD } = process.env; // Agrego en el archivo .env nombre de la base de datos por si de pronto alguien usa un nombre diferente el estandar seria llamarla "fitconnection".
 
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${BDD}`,
-  { logging: false, native: false }
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+  {
+    logging: false,
+    native: false,
+  }
 );
 
 // Definimos los modelos.
