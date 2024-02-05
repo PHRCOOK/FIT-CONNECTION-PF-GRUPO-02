@@ -1,5 +1,4 @@
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
-const crypto = require('crypto');
 const client = new MercadoPagoConfig({ accessToken: 'TEST-4063707966079340-020216-0c3adbcfd3e8dc08a80ec9f41c78ae68-1666488094' });
 const preference = new Preference(client);
 const mercadoPaymentPreferences = async (userData, shoppingCard) => {
@@ -20,10 +19,6 @@ const mercadoPaymentPreferences = async (userData, shoppingCard) => {
             body: {
                 items: itemsArray,
                 payer: payer,
-                identification: {
-                    number: 123456789,
-                    type: "Other"
-                },
                 back_urls: {
                     failure: "http://localhost:3001/api/createorder/failure",
                     pending: "http://localhost:3001/api/createorder/pending",
