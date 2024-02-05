@@ -70,8 +70,28 @@ const deleteShoppingCarts = async (user_id, product_id) => {
     throw new Error("Error al eliminar shopping cart:", error);
   }
 };
+
+const deleteAllCarts = async (user_id) => {
+  const shoppingCarts = await getShoppingCarts(user_id);
+
+  if (!shoppingCarts.length > 0) {
+    throw new Error("No hay carritos de compras para ese usuario");
+  }
+
+  try {
+    await ShoppingCart.destroy({
+      where: {
+        user_id,
+      },
+    });
+    return "Shopping cart eliminado correctamente.";
+  } catch (error) {
+    throw new Error("Error al eliminar shopping cart:", error);
+  }
+};
 module.exports = {
   createShoppingCart,
   getShoppingCarts,
   deleteShoppingCarts,
+  deleteAllCarts,
 };

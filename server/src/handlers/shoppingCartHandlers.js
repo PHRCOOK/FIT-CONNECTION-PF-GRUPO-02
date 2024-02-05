@@ -2,6 +2,7 @@ const {
   createShoppingCart,
   getShoppingCarts,
   deleteShoppingCarts,
+  deleteAllCarts,
 } = require("../controllers/shoppingCartControllers");
 
 //? handler para crear un carrito
@@ -41,7 +42,7 @@ const getShoppingCartsHandler = async (req, res) => {
   }
 };
 
-//* handlesr para eliminar un carrito
+//* handler para eliminar un carrito
 
 const deleteShoppingCartsHandler = async (req, res) => {
   const { user_id, product_id } = req.params;
@@ -59,8 +60,23 @@ const deleteShoppingCartsHandler = async (req, res) => {
   }
 };
 
+const deleteAllCartsHandler = async (req, res) => {
+  const { user_id } = req.params;
+  if (!user_id) {
+    res.status(400).json({ error: "Faltan datos para eliminar los carritos" });
+  }
+
+  try {
+    const response = await deleteAllCarts(user_id);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createShoppingCartHandler,
   getShoppingCartsHandler,
   deleteShoppingCartsHandler,
+  deleteAllCartsHandler,
 };
