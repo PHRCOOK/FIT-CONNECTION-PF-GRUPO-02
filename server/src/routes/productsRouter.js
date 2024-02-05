@@ -1,7 +1,6 @@
 const { Router } = require("express");
 
 const {
-  getProductServicesHandler,
   getProductServicesByIdHandler,
   createProductServicesHandler,
   updateProductServicesHandler,

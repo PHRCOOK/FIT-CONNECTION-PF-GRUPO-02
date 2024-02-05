@@ -2,7 +2,6 @@ const {
   validateCreateProductServices,
 } = require("../../utils/validations/validateCreateProductServices");
 const {
-  getProductServices,
   getProductServicesById,
   createProductServices,
   updateProductServices,
