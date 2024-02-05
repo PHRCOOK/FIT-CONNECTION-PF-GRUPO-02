@@ -1,10 +1,15 @@
 $secondary: #8D99AE;
 $primary: #2B2D42;
+$success: #EDF2F4;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .nav-link:hover {
   background-color: $primary;
+  color: white
+}
+
+.navbar-nav .nav-link.active {
   color: white
 }
 
