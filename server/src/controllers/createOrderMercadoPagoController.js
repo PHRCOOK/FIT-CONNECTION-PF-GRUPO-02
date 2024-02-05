@@ -1,5 +1,7 @@
+require("dotenv").config();
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
-const client = new MercadoPagoConfig({ accessToken: 'TEST-4063707966079340-020216-0c3adbcfd3e8dc08a80ec9f41c78ae68-1666488094' });
+const { TokenMP } = process.env;
+const client = new MercadoPagoConfig({ accessToken: TokenMP });
 const preference = new Preference(client);
 const mercadoPaymentPreferences = async (userData, shoppingCard) => {
     try {
@@ -8,6 +10,9 @@ const mercadoPaymentPreferences = async (userData, shoppingCard) => {
                 id: index + 1,  // Puedes usar un identificador único del producto aquí
                 title: producto.name,
                 quantity: producto.quantity,
+                category_id: producto.category_id,
+                description: producto.description,
+                picture_url: producto.image_url,
                 unit_price: Math.round(producto.price)
             };
         });
