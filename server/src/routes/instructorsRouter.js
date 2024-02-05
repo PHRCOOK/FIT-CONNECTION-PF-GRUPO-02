@@ -9,5 +9,4 @@ instructorRouter.post("/", createInstructorHandler);
 instructorRouter.put("/:id", updateInstructorHandler);
 instructorRouter.delete("/delete/:id", deleteInstructorsHandler);
 
-
 module.exports = instructorRouter;

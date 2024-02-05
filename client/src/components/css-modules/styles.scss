@@ -1,0 +1,99 @@
+.custom-dimensions {
+  max-width: 70%;
+  max-height: 550px;
+  margin: 15px auto;
+}
+.d-flex {
+  background-color: #a9a9a9;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  align-items: center;
+}
+
+.btn-danger {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+  border-radius: 5px;
+  &:hover {
+    color: #fff;
+    background-color: #bd2130;
+    border-color: #bd2130;
+  }
+}
+
+.rounded-circle {
+  width: 80px;
+  border-radius: 70%;
+}
+
+.footer {
+  background-color: #a9a9a969;
+  padding: 10px;
+  border-radius: 5px;
+  align-items: center;
+
+  .social-media-buttons {
+    display: flex;
+    justify-content: space-around;
+    a {
+      color: #0d00ff;
+      font-size: 2em;
+
+      &:hover {
+        color: #888;
+      }
+    }
+  }
+  .contact-info {
+    padding: 20px;
+    color: #000000;
+    font-size: medium;
+    font-weight: bold;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+
+    p {
+      margin-bottom: 0px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+
+  &__image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  &__name {
+    margin: 20px 0;
+    color: #6004ff;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  &__description,
+  &__code,
+  &__price,
+  &__status,
+  &__stock,
+  &__category {
+    color: #000000;
+    font-size: 16px;
+  }
+}
+
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";

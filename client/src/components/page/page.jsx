@@ -3,6 +3,7 @@ import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
 import { applySettings } from "../../redux/action";
 import deleteUndefined from "../filters/deleteUndefined";
+import { Pagination } from "react-bootstrap"
 
 function Page() {
   const totalPages = useSelector((state) => state.totalPages);
@@ -13,19 +14,24 @@ function Page() {
 
   const handleClick = (event) => {
     const page = Number(event.target.value);
+    // console.log(event.target.value);
     // event.preventDefault();
+    console.log(filterSettings);
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
+    console.log(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
 
   const handlePrev = (event) => {
+    console.log(totalPages);
     const page = Number(filterSettings.page) - 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
   const handleNext = (event) => {
+    console.log(totalPages);
     const page = Number(filterSettings.page) + 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);

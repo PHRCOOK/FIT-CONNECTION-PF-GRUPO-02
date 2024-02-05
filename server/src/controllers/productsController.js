@@ -6,16 +6,6 @@ const {
 } = require("../../utils/filterProducts");
 const { Op } = require("sequelize");
 
-const getProductServices = async () => {
-  try {
-    const allProducts = await ProductServices.findAll({
-      order: [["name", "ASC"]],
-    });
-    return allProducts;
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
-};
 
 const getProductServicesById = async (id) => {
   try {
@@ -26,24 +16,6 @@ const getProductServicesById = async (id) => {
   }
 };
 
-const getProductServicesByName = async (name) => {
-  try {
-    const product = await ProductServices.findAll({
-      where: {
-        name: {
-          [Op.iLike]: `%${name}%`,
-        },
-      },
-    });
-
-    if (product.length === 0) {
-      throw new Error("No se encontro un producto con ese nombre.");
-    }
-    return product;
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
-};
 
 const createProductServices = async (
   name,
@@ -97,7 +69,11 @@ const updateProductServices = async (id, newData) => {
   try {
     const product = await ProductServices.findByPk(id);
     await product.update(newData);
-    return { message: "Producto actualizado exitosamente." };
+    const updatedProducts = await ProductServices.findAll();
+    return {
+      message: "Producto actualizado exitosamente.",
+      products: updatedProducts,
+    };
   } catch (error) {
     throw new Error(error.message);
   }
@@ -203,9 +179,7 @@ const filterAndOrder = async (
 };
 
 module.exports = {
-  getProductServices,
   getProductServicesById,
-  getProductServicesByName,
   createProductServices,
   updateProductServices,
   deleteProductServices,

@@ -1,5 +1,6 @@
 const { validateCreateInstructor } = require("../../utils/validations/validateCreateInstructor");
-const {createInstructorController, updateInstructorController, getInstructors, deleteInstructors} = require("../controllers/instructorControllers");
+const {createInstructorController, updateInstructorController, 
+  getInstructors, deleteInstructors} = require("../controllers/instructorControllers");
 
 
 const getInstructorHandler = async (req, res) => {
@@ -14,13 +15,17 @@ const getInstructorHandler = async (req, res) => {
 const createInstructorHandler = async (req, res) => {
   const { fullname, photo, description } = req.body;
 
-    try {
-        validateCreateInstructor({ fullname, photo, description });
-        const response = await createInstructorController(fullname, photo, description);
-        res.status(201).json(response);
-    } catch (error) {
-        res.status(409).json({ error: error.message })
-    };
+  try {
+    validateCreateInstructor({ fullname, photo, description });
+    const response = await createInstructorController(
+      fullname,
+      photo,
+      description
+    );
+    res.status(201).json(response);
+  } catch (error) {
+    res.status(409).json({ error: error.message });
+  }
 };
 
 // Este handler nos permite actualizar la información de un instructor en la base de datos.

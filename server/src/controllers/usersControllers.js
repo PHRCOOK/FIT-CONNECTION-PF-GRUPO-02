@@ -1,8 +1,9 @@
 const { Op } = require("sequelize");
-require('dotenv').config();
-const { MAIL_USERNAME } = process.env;
 const { User } = require("../db");
 const { transporter } = require("../../utils/transporter");
+const { generateWelcomeEmail } = require("../../utils/emailTemplates");
+const { MAIL_USERNAME } = process.env;
+
 
 // Controler encargado de crear los usuarios.
 const createUserController = async (fullname, email, password) => {
@@ -18,19 +19,19 @@ const createUserController = async (fullname, email, password) => {
       throw new Error("Ya existe un usuario con este email.");
     }
 
-    await User.create({ fullname, email, password });
+    const allUsers = await User.create({ fullname, email, password });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";
-    const body = `Hola ${fullname}, te damos la bienvenida a un gimnasio increíble.`;
+    const htmlBody = generateWelcomeEmail(fullname);
 
     await transporter.sendMail({
       from: MAIL_USERNAME,
       to: email,
       subject: affair,
-      text: body,
+      html: htmlBody,
     });
 
-    return { message: "Usuario creado con éxito y correo de bienvenida enviado." };
+    return { message: "Usuario creado con exito.", allUsers };
   } catch (error) {
     // Mostramos cualquier error que ocurra durante la creación del usuario.
     throw new Error(`Error al crear el usuario: ${error.message}.`);
