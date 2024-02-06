@@ -38,23 +38,27 @@ function admininstructorform() {
 
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (params.id) {
-      dispatch(putInstructor(params.id, instructorForm));
-      window.alert("Instructor modificado exitosamente");
-    } else {
-      dispatch(postInstructor(instructorForm));
-      window.alert("Instructor creado exitosamente");
-    }
+    try {
+      if (params.id) {
+        await dispatch(putInstructor(params.id, instructorForm));
+        window.alert("Instructor modificado exitosamente");
+      } else {
+        await dispatch(postInstructor(instructorForm));
+        window.alert("Instructor creado exitosamente");
+      }
 
-    setInstructorForm({
-      fullname: "",
-      photo: "",
-      description: "",
-      status: "",
-    });
-    navigate("/admin/instructors");
+      setInstructorForm({
+        fullname: "",
+        photo: "",
+        description: "",
+        status: "",
+      });
+      navigate("/admin/instructors");
+    } catch (error) {
+      window.alert(error);
+    }
   };
 
   const handleChange = (e) => {

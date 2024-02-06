@@ -3,6 +3,7 @@ import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
 import { applySettings } from "../../redux/action";
 import deleteUndefined from "../filters/deleteUndefined";
+import { Pagination, Row, Col, Button } from "react-bootstrap"
 
 function Page() {
   const totalPages = useSelector((state) => state.totalPages);
@@ -38,34 +39,61 @@ function Page() {
   };
 
   return (
-    <ul>
-      <li>
-        <button disabled={filterSettings.page === 1} onClick={handlePrev}>
-          Atras
-        </button>
-      </li>
-      {arrayTotalPages.map((page) => {
-        return (
-          <li key={`page${page}`}>
-            <button
-              disabled={filterSettings.page === page}
-              value={page}
-              onClick={handleClick}
-            >
-              {page}
-            </button>
-          </li>
-        );
-      })}
-      <li>
-        <button
-          disabled={filterSettings.page === totalPages}
-          onClick={handleNext}
-        >
-          Adelante
-        </button>
-      </li>
-    </ul>
+    <Row>
+      <Col>
+        <Pagination className="justify-content-center">
+          <Button disabled={filterSettings.page === 1} onClick={handlePrev} >
+            Atrás
+          </Button>
+          {arrayTotalPages.map((page) => {
+            return (
+              <Pagination.Item
+                key={`page${page}`}
+                disabled={filterSettings.page === page}
+                value={page}
+                onClick={handleClick}
+                active={filterSettings.page === page}
+              >
+                {page}
+              </Pagination.Item>
+            );
+          })}
+          <Button disabled={filterSettings.page === totalPages}
+            onClick={handleNext}>
+              Siguiente
+          </Button>
+        </Pagination>
+      </Col>
+    </Row>
+
+    // <ul>
+    //   <li>
+    //     <button disabled={filterSettings.page === 1} onClick={handlePrev}>
+    //       Atras
+    //     </button>
+    //   </li>
+    //   {arrayTotalPages.map((page) => {
+    //     return (
+    //       <li key={`page${page}`}>
+    //         <button
+    //           disabled={filterSettings.page === page}
+    //           value={page}
+    //           onClick={handleClick}
+    //         >
+    //           {page}
+    //         </button>
+    //       </li>
+    //     );
+    //   })}
+    //   <li>
+    //     <button
+    //       disabled={filterSettings.page === totalPages}
+    //       onClick={handleNext}
+    //     >
+    //       Adelante
+    //     </button>
+    //   </li>
+    // </ul>
   );
 }
 
