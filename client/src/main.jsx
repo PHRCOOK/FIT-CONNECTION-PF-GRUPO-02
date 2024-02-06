@@ -21,8 +21,6 @@ root.render(
       clientId={clientId}
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: "https://pabloelleproso.us.auth0.com/api/v2/",
-        scope: "read:current_user update:current_user_metadata",
       }}
     >
       <Provider store={store}>
