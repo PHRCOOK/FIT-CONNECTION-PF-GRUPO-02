@@ -26,9 +26,8 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
-      code: {
+      brand: {
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false,
       },
       image_url: {
