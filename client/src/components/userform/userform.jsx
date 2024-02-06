@@ -85,10 +85,11 @@ export default function userform() {
                   {errors.password && <FormText>{errors.password}</FormText>}
                 </Col>
               </Row>
-            </form>
-            <Button className="my-3" disabled={Object.values(form).some((value) => value === "")}>
+               <Button className="my-3" type="submit" disabled={Object.values(form).some((value) => value === "")}>
               Registrarse
             </Button>
+            </form>
+           
           </Card.Body>
         </Card>
       </Col>
