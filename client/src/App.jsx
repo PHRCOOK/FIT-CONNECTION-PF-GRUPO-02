@@ -15,15 +15,15 @@ import Admin from "./administrator/admin/admin";
 import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
+import Error404 from "./views/Error 404/Error404";
 
 axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
-  const location = useLocation();
   return (
     <>
-      {!location.pathname.startsWith("/admin") && <AppBar />}
-      <Container className="py-3 min-vh-100">
+      <AppBar />
+      <Container fluid className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
           <Route path={pathroutes.DETAIL} element={<Detail />} />
@@ -35,6 +35,7 @@ function App() {
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path="/admin/*" element={<Admin />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>
       <Footer />

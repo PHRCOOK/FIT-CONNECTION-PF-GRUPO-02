@@ -13,7 +13,7 @@ import {
   FormControl,
   FormCheck,
   Button,
-  Accordion
+  Accordion,
 } from "react-bootstrap";
 import deleteUndefined from "./deleteUndefined";
 
@@ -127,7 +127,7 @@ function Filters() {
                 })}
               </Col>
               <Col xs="12" md="6" className="py-2">
-                <span className="fw-bold">Orden</span>
+                <span className="fw-bold">Orden por precio</span>
                 <div key="ASC">
                   <FormCheck
                     type="radio"

@@ -3,9 +3,7 @@ export const validate = (input) => {
   if (!input.name) {
     errors.name = "It cannot be empty.";
   }
-  if (isNaN(input.price)) {
-    errors.price = "Price must be a valid number.";
-  }
+
   if (input.price < 0) {
     errors.price = "The price cannot be a negative number.";
   }

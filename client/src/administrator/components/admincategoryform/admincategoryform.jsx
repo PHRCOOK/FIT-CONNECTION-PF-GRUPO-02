@@ -36,22 +36,25 @@ function admincategoryform() {
 
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (params.id) {
-      dispatch(putCategory(params.id, categoryForm));
-      window.alert("Categoria modificada exitosamente");
-    } else {
-      dispatch(postCategory(categoryForm));
-      window.alert("Categoria creada exitosamente");
+    try {
+      if (params.id) {
+        await dispatch(putCategory(params.id, categoryForm));
+        window.alert("Categoria modificada exitosamente");
+      } else {
+        await dispatch(postCategory(categoryForm));
+        window.alert("Categoria creada exitosamente");
+      }
+      setCategoryForm({
+        name: "",
+        status: "",
+        is_service: "",
+      });
+      navigate("/admin/categories");
+    } catch (error) {
+      window.alert(error);
     }
-
-    setCategoryForm({
-      name: "",
-      status: "",
-      is_service: "",
-    });
-    navigate("/admin/categories");
   };
 
   const handleChange = (e) => {
