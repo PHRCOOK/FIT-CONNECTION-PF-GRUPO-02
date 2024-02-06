@@ -63,27 +63,32 @@ export default function formproduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (params.id) {
-        await dispatch(putProduct(params.id, productForm));
-        window.alert("Producto modificado exitosamente");
-      } else {
-        await dispatch(postProduct(productForm));
-        window.alert("Producto creado exitosamente");
+    const validationErrors = validate(productForm);
+    if (Object.keys(validationErrors).length === 0) {
+      try {
+        if (params.id) {
+          await dispatch(putProduct(params.id, productForm));
+          window.alert("Producto modificado exitosamente");
+        } else {
+          await dispatch(postProduct(productForm));
+          window.alert("Producto creado exitosamente");
+        }
+        setProductForm({
+          name: "",
+          price: "",
+          description: "",
+          status: "",
+          code: "",
+          image_url: "",
+          stock: "",
+          category_id: "",
+        });
+        navigate("/admin");
+      } catch (error) {
+        window.alert(error);
       }
-      setProductForm({
-        name: "",
-        price: "",
-        description: "",
-        status: "",
-        code: "",
-        image_url: "",
-        stock: "",
-        category_id: "",
-      });
-      navigate("/admin");
-    } catch (error) {
-      window.alert(error);
+    } else {
+      setErrors(validationErrors);
     }
   };
 
@@ -205,6 +210,7 @@ export default function formproduct() {
             as="textarea"
             value={productForm.description}
             onChange={handleChange}
+            maxLength={201}
           />
           {errors.description && (
             <FormText className="form-text">{errors.description}</FormText>
