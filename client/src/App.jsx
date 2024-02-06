@@ -16,7 +16,7 @@ import { Container } from "react-bootstrap";
 import axios from "axios";
 
 axios.defaults.baseURL =
-  "https://fit-connection-pf-grupo-02-production.up.railway.app";
+  "https://fit-connection-pf-grupo-02-production-3fef.up.railway.app";
 
 function App() {
   return (
