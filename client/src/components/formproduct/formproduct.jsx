@@ -65,16 +65,25 @@ export default function formproduct() {
     setErrors(validate({ ...productForm, [key]: parsedValue }));
   };
 
+  const handleFileChange = (e) => {
+    setProductForm({ ...productForm, image_url: e.target.files[0] });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate(productForm);
     if (Object.keys(validationErrors).length === 0) {
       try {
+        const formData = new FormData();
+        Object.keys(productForm).forEach((key) => {
+          formData.append(key, productForm[key]);
+        });
+  
         if (params.id) {
-          await dispatch(putProduct(params.id, productForm));
+          await dispatch(putProduct(params.id, formData));
           window.alert("Producto modificado exitosamente");
         } else {
-          await dispatch(postProduct(productForm));
+          await dispatch(postProduct(formData));
           window.alert("Producto creado exitosamente");
         }
         setProductForm({
@@ -188,8 +197,8 @@ export default function formproduct() {
               type="file"
               name="image_url"
               className="form-control"
-              value={productForm.image_url}
-              onChange={handleChange}
+              // value={productForm.image_url}
+              onChange={handleFileChange}
             />
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
