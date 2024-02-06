@@ -2,11 +2,11 @@ const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 const client = new MercadoPagoConfig({ accessToken: 'TEST-4063707966079340-020216-0c3adbcfd3e8dc08a80ec9f41c78ae68-1666488094' });
 const preference = new Preference(client);
 const { postPurchasesFunction } = require('../controllers/purchasesController')
-const mercadoPaymentPreferences = async (userData, shoppingCard) => {
+const mercadoPaymentPreferences = async (shoppingCard) => {
     try {
         const itemsArray = shoppingCard.map((producto, index) => {
             return {
-                id: index + 1,  // Puedes usar un identificador único del producto aquí
+                id: index + 1, 
                 title: producto.name,
                 quantity: producto.quantity,
                 category_id: producto.category_id,
@@ -15,10 +15,6 @@ const mercadoPaymentPreferences = async (userData, shoppingCard) => {
                 unit_price: Math.round(producto.price)
             };
         });
-        const payer = {
-            name: userData.fullname,
-            email: userData.email,
-        };
         const createPayment = await preference.create({
             body: {
                 items: itemsArray,
@@ -28,7 +24,7 @@ const mercadoPaymentPreferences = async (userData, shoppingCard) => {
                     pending: "http://localhost:3001/api/createorder/pending",
                     success: "http://localhost:3001/api/createorder/success",
                 },
-                notification_url: "https://60f7-201-188-177-32.ngrok-free.app/api/createorder/webhook"
+                notification_url: "https://06b4-190-196-40-121.ngrok-free.app/api/createorder/webhook"
             },
             requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
         })
