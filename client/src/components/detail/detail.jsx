@@ -48,6 +48,21 @@ const Detail = () => {
 
   const category = categories.find((category) => category.id === category_id);
 
+  //* funcion para crear el carrito de compras
+  const handleClick = async (e) => {
+    await axios
+      .post("http://localhost:3001/api/shoppingCart", {
+        user_id: "3",
+        product_id: id,
+        quantity: 1,
+      })
+      .then(({ data }) => {
+        window.alert("Agregado correctamente al carrito");
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
+  };
   return (
     <Card>
       <Card.Img
@@ -80,6 +95,7 @@ const Detail = () => {
             {description}
           </Col>
         </Row>
+        <button onClick={handleClick}> agregar al carrito</button>
       </Card.Body>
     </Card>
   );
