@@ -83,7 +83,6 @@ export const resetSettings = () => {
       const { data } = await axios.get("http://localhost:3001/api/products", {
         params: { sortOrder: "ASC", page: 1, size: 10 },
       });
-      console.log(data);
       return dispatch({
         type: RESET_FILTER,
         payload: data,
