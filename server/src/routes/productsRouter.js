@@ -17,7 +17,7 @@ productsRouter.get("/", productFilterAndOrderHandler); //<---------------- RUTA 
 
 // Rutas generales después
 productsRouter.get("/:id", getProductServicesByIdHandler);
-productsRouter.post("/", upload.single('image'), createProductServicesHandler);
+productsRouter.post("/", upload.single('image_url'), createProductServicesHandler);
 productsRouter.put("/update/:id", updateProductServicesHandler);
 productsRouter.delete("/delete/:id", deleteProductServicesHandler);
 
