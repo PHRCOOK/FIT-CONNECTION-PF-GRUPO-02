@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 import { postProduct, putProduct } from "../../redux/action";
 import validate from "./validate";
@@ -21,7 +21,7 @@ export default function formproduct() {
     price: "",
     description: "",
     status: "",
-    code: "",
+    brand: "",
     image_url: "",
     stock: "",
     category_id: "",
@@ -38,7 +38,7 @@ export default function formproduct() {
         price: productFiltered[0].price,
         description: productFiltered[0].description,
         status: productFiltered[0].status,
-        code: productFiltered[0].code,
+        brand: productFiltered[0].brand,
         image_url: productFiltered[0].image_url,
         stock: productFiltered[0].stock,
         category_id: productFiltered[0].category_id,
@@ -82,7 +82,7 @@ export default function formproduct() {
           price: "",
           description: "",
           status: "",
-          code: "",
+          brand: "",
           image_url: "",
           stock: "",
           category_id: "",
@@ -119,16 +119,16 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Code</FormLabel>
+            <FormLabel className="form-label">Brand</FormLabel>
             <FormControl
               type="text"
-              name="code"
+              name="brand"
               className="form-control"
-              value={productForm.code}
+              value={productForm.brand}
               onChange={handleChange}
             />
-            {errors.code && (
-              <FormText className="form-text">{errors.code}</FormText>
+            {errors.brand && (
+              <FormText className="form-text">{errors.brand}</FormText>
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
@@ -151,6 +151,10 @@ export default function formproduct() {
             {errors.category_id && (
               <FormText className="form-text">{errors.category_id}</FormText>
             )}
+
+            <Link to="/categories">
+            <button className="btn btn-primary mt-3">Crear Categoría</button>
+            </Link>
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
             <FormLabel className="form-label">Price</FormLabel>

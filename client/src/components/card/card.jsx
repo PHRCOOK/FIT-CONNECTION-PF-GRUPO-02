@@ -7,7 +7,7 @@ function AppCard({
   price,
   description,
   status,
-  code,
+  brand,
   image_url,
   stock,
   category,
@@ -27,7 +27,7 @@ function AppCard({
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
           <Col xs="12" md="6">
-            <span className="fw-bold">Codigo:</span> {code}
+            <span className="fw-bold">Brand:</span> {brand}
           </Col>
           <Col xs="12">{description}</Col>
         </Row>
