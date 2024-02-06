@@ -7,14 +7,18 @@ function AppCard({
   price,
   description,
   status,
-  code,
+  brand,
   image_url,
   stock,
   category,
 }) {
   return (
     <Card>
-      <Card.Img style={{ height: '300px', objectFit: 'contain' }} variant="top" src={image_url}/>
+      <Card.Img
+        style={{ height: "300px", objectFit: "contain" }}
+        variant="top"
+        src={image_url}
+      />
       <CardBody>
         <CardTitle>Nombre: {name}</CardTitle>
         <CardTitle>Id: {id}</CardTitle>
@@ -23,7 +27,7 @@ function AppCard({
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
           <Col xs="12" md="6">
-            <span className="fw-bold">Codigo:</span> {code}
+            <span className="fw-bold">Brand:</span> {brand}
           </Col>
           <Col xs="12">{description}</Col>
         </Row>

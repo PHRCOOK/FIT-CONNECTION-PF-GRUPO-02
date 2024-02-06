@@ -1,12 +1,13 @@
-const express = require('express');
-const usersRouter = require('./usersRouter');
-const instructorRouter = require('./instructorsRouter');
-const feedBackRouter = require('./feedBackRouter');
-const productsRouter = require('./productsRouter');
-const categoryRouter = require('./categoryRoute');
-const gymRoute = require('./gymRoute')
-const purchaseRoute = require('./purchasesRoute')
-
+const express = require("express");
+const usersRouter = require("./usersRouter");
+const instructorRouter = require("./instructorsRouter");
+const feedBackRouter = require("./feedBackRouter");
+const productsRouter = require("./productsRouter");
+const categoryRouter = require("./categoryRoute");
+const gymRoute = require("./gymRoute");
+const purchaseRoute = require("./purchasesRoute");
+const ShoppingCartRouter = require("./shoppingCartRouter");
+const paymentRouter = require('./paymentRoute')
 const router = express.Router();
 
 // Definir rutas aquí:
@@ -21,9 +22,12 @@ router.use("/api/products", productsRouter);
 
 router.use("/api/categories", categoryRouter);
 
-router.use('/api/purchases', purchaseRoute)
+router.use("/api/purchases", purchaseRoute);
 
+router.use("/api/gym", gymRoute);
 
+router.use("/api/shoppingCart", ShoppingCartRouter);
 
+router.use('/api/createorder', paymentRouter)
 
 module.exports = router;

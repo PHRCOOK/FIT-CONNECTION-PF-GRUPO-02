@@ -10,14 +10,29 @@ const Detail = () => {
 
   useEffect(() => {
     axios
-      .get(`products/${id}`)
+      .get(`api/products/${id}`)
       .then((response) => setProduct(response.data))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        console.error(error.response);
+      });
 
     axios
-      .get(`categories`)
-      .then((response) => setCategories(response.data))
-      .catch((error) => console.error(error));
+      .get(`api/categories`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.Items && Array.isArray(response.data.Items)) {
+          setCategories(response.data.Items);
+        } else {
+          console.error(
+            "La respuesta no contiene un array en la propiedad Items"
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        console.error(error.response);
+      });
   }, [id]);
 
   const {
@@ -25,7 +40,7 @@ const Detail = () => {
     price,
     description,
     status,
-    code,
+    brand,
     image_url,
     stock,
     category_id,
@@ -33,6 +48,21 @@ const Detail = () => {
 
   const category = categories.find((category) => category.id === category_id);
 
+  //* funcion para crear el carrito de compras
+  const handleClick = async (e) => {
+    await axios
+      .post("/api/shoppingCart", {
+        user_id: "1",
+        product_id: id,
+        quantity: 1,
+      })
+      .then(({ data }) => {
+        window.alert("Agregado correctamente al carrito");
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
+  };
   return (
     <Card>
       <Card.Img
@@ -44,11 +74,11 @@ const Detail = () => {
         <Card.Title>{name}</Card.Title>
         <Row>
           <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Codigo:</span> {code}
+            <span className="fw-bold">Brand:</span> {brand}
           </Col>
           <Col xs="12" md="6" lg="3">
             <span className="fw-bold">Categoria:</span>{" "}
-            {category ? category.name : "Cargando..."}
+            {category ? category.name : category}
           </Col>
           <Col xs="12" md="6" lg="3">
             <span className="fw-bold">Precio:</span> ${price}
@@ -65,6 +95,7 @@ const Detail = () => {
             {description}
           </Col>
         </Row>
+        <button onClick={handleClick}> agregar al carrito</button>
       </Card.Body>
     </Card>
   );

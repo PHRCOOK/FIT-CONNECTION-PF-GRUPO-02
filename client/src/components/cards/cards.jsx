@@ -20,7 +20,7 @@ function Cards() {
                 price={item.price}
                 description={item.description}
                 status={item.status}
-                code={item.code}
+                brand={item.brand}
                 image_url={item.image_url}
                 stock={item.stock}
                 category={item.category}

@@ -1,7 +1,6 @@
 const { Op } = require("sequelize");
 
-
-const filterProducts = (category_id, name, code) => {
+const filterProducts = (category_id, name, brand) => {
     const conditions = {};
 
     if (category_id) {
@@ -16,9 +15,9 @@ const filterProducts = (category_id, name, code) => {
         };
     }
 
-    if (code) {
-        conditions.code = {
-            [Op.iLike]: `%${code}%`,
+    if (brand) {
+        conditions.brand = {
+            [Op.iLike]: `%${brand}%`,
         };
     }
 
