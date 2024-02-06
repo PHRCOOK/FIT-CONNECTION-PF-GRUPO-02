@@ -1,5 +1,5 @@
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
-const client = new MercadoPagoConfig({ accessToken: 'TEST-4063707966079340-020216-0c3adbcfd3e8dc08a80ec9f41c78ae68-1666488094' });
+const client = new MercadoPagoConfig({ accessToken: 'TEST-1859931302050422-020618-3e65e9f762aa1817900eed462e03d36b-1666488094' });
 const preference = new Preference(client);
 const { postPurchasesFunction } = require('../controllers/purchasesController')
 const mercadoPaymentPreferences = async (shoppingCard) => {
@@ -18,13 +18,13 @@ const mercadoPaymentPreferences = async (shoppingCard) => {
         const createPayment = await preference.create({
             body: {
                 items: itemsArray,
-                payer: payer,
                 back_urls: {
                     failure: "http://localhost:3001/api/createorder/failure",
                     pending: "http://localhost:3001/api/createorder/pending",
                     success: "http://localhost:3001/api/createorder/success",
                 },
-                notification_url: "https://06b4-190-196-40-121.ngrok-free.app/api/createorder/webhook"
+                //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
+                notification_url: "https://28f4-201-188-190-30.ngrok-free.app/api/createorder/webhook"
             },
             requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
         })

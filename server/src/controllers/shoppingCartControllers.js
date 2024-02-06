@@ -14,7 +14,6 @@ const createShoppingCart = async (quantity, user_id, product_id) => {
 //? controlador para buscar todos los carritos por un id de usuario
 
 const getShoppingCarts = async (user_id) => {
-  console.log(user_id)
   const products = [];
   try {
     const carts = await ShoppingCart.findAll({ where: { user_id } });

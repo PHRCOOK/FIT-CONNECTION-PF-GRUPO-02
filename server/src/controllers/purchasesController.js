@@ -1,6 +1,6 @@
 const { Purchases, PurchaseDetail } = require('../db');
 const { sequelize } = require('../db');
-const { getShoppingCarts } = require('../controllers/shoppingCartControllers')
+const { getShoppingCarts, deleteAllCarts } = require('../controllers/shoppingCartControllers')
 const { updateStock, checkStockAvailability } = require('../../utils/stockVerific');
 const postPurchasesFunction = async (payment_method, payment_date, status, user_id) => {
     const detailss = await getShoppingCarts(user_id)
@@ -33,6 +33,7 @@ const postPurchasesFunction = async (payment_method, payment_date, status, user_
             );
             if (status !== "cancelled") await updateStock(status, stockk, t);
         });
+        await deleteAllCarts(user_id)
         return "Success"
     } catch (error) {
         return (`Viendo  ${error.message}`);
