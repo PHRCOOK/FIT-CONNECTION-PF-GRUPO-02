@@ -5,7 +5,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../../components/helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
-import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
@@ -53,72 +52,7 @@ export default function AppBar() {
     { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
   ];
 
-  const navLinks = linksData
-    .filter((linkData) => linkData.show && linkData.path)
-    .map((linkData) => (
-      <LinkContainer key={linkData.path} to={linkData.path}>
-        <Nav.Link
-          active={location.pathname === linkData.path}
-          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
-            location.pathname === linkData.path ? "bg-primary" : ""
-          }`}
-        >
-          {linkData.title}
-        </Nav.Link>
-      </LinkContainer>
-    ));
-
-  const buttons = linksData
-    .filter((linkData) => linkData.isButton)
-    .map((linkData) => (
-      <Button
-        key={linkData.title}
-        onClick={linkData.onClick}
-        className={`rounded fw-bold px-2 mx-1 my-md-1 ${
-          location.pathname === linkData.path ? "bg-primary" : ""
-        }`}
-      >
-        {linkData.title}
-      </Button>
-    ));
-
   return (
-    <Navbar collapseOnSelect bg="secondary" expand="lg">
-      <Container>
-        <LinkContainer to={pathroutes.HOME}>
-          <Navbar.Brand>
-            <Image
-              src={logo}
-              alt="Home"
-              className="border border-2 border-light"
-              roundedCircle
-            />
-          </Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="navbar-options" />
-        <Navbar.Collapse id="navbar-options">
-          <Nav className="ms-auto">
-            {navLinks}
-            {buttons}
-          </Nav>
-          {isAuthenticated && (
-            <React.Fragment>
-              <Image
-                src={user.picture}
-                alt="Profile"
-                className="border border-2 border-light"
-                roundedCircle
-              />
-              <Navbar.Text className="ms-2">
-                Signed in as:{" "}
-                <a href="#login">
-                  {isAdmin ? `${user.name} (Admin)` : user.name}
-                </a>
-              </Navbar.Text>
-            </React.Fragment>
-          )}
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div></div>
   );
 }

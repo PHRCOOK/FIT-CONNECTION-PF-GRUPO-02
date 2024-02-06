@@ -19,10 +19,9 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
-  const location = useLocation();
   return (
     <>
-      {!location.pathname.startsWith("/admin") && <AppBar />}
+      <AppBar />
       <Container className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
