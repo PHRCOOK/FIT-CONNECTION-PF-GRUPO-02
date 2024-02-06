@@ -14,7 +14,11 @@ function AppCard({
 }) {
   return (
     <Card>
-      <Card.Img style={{ height: '300px', objectFit: 'contain' }} variant="top" src={image_url}/>
+      <Card.Img
+        style={{ height: "300px", objectFit: "contain" }}
+        variant="top"
+        src={image_url}
+      />
       <CardBody>
         <CardTitle>Nombre: {name}</CardTitle>
         <CardTitle>Id: {id}</CardTitle>

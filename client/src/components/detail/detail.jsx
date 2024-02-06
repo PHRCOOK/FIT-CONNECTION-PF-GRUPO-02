@@ -10,14 +10,29 @@ const Detail = () => {
 
   useEffect(() => {
     axios
-      .get(`products/${id}`)
+      .get(`api/products/${id}`)
       .then((response) => setProduct(response.data))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        console.error(error.response);
+      });
 
     axios
-      .get(`categories`)
-      .then((response) => setCategories(response.data))
-      .catch((error) => console.error(error));
+      .get(`api/categories`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.Items && Array.isArray(response.data.Items)) {
+          setCategories(response.data.Items);
+        } else {
+          console.error(
+            "La respuesta no contiene un array en la propiedad Items"
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        console.error(error.response);
+      });
   }, [id]);
 
   const {
@@ -48,7 +63,7 @@ const Detail = () => {
           </Col>
           <Col xs="12" md="6" lg="3">
             <span className="fw-bold">Categoria:</span>{" "}
-            {category ? category.name : "Cargando..."}
+            {category ? category.name : category}
           </Col>
           <Col xs="12" md="6" lg="3">
             <span className="fw-bold">Precio:</span> ${price}
