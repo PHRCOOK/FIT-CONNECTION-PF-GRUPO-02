@@ -2,7 +2,43 @@ const { Purchases, PurchaseDetail } = require('../db');
 const { sequelize } = require('../db');
 const { getShoppingCarts } = require('../controllers/shoppingCartControllers')
 const { updateStock, checkStockAvailability } = require('../../utils/stockVerific');
-
+const postPurchasesFunction = async (payment_method, payment_date, status, user_id) => {
+    const detailss = await getShoppingCarts(user_id)
+    const stockk = detailss.map(detail => ({
+        product_id: detail.id,
+        quantity: detail.quantity
+      }));
+    try {
+        if (!payment_method || !payment_date || !status || !user_id || !stockk) {
+            return "Faltan datos"
+        }
+        await sequelize.transaction(async (t) => {
+            await checkStockAvailability(stockk, t);
+            const purchase = await Purchases.create(
+                { payment_method, payment_date, status, user_id },
+                { transaction: t }
+            );
+            const purchase_id = purchase.id;
+            await Promise.all(
+                stockk.map(async (detail) => {
+                    await PurchaseDetail.create(
+                        {
+                            product_id: detail.product_id,
+                            quantity: detail.quantity,
+                            purchase_id: purchase_id,
+                        },
+                        { transaction: t }
+                    );
+                })
+            );
+            if (status !== "cancelled") await updateStock(status, stockk, t);
+        });
+        return "Success"
+    } catch (error) {
+        return (`Viendo  ${error.message}`);
+    }
+};
+/*      Ruta modificada
 const postPurchasesController = async (req, res) => {
     const { payment_method, payment_date, status, user_id } = req.body;
     const detailss = await getShoppingCarts(user_id)
@@ -40,7 +76,7 @@ const postPurchasesController = async (req, res) => {
         return res.status(400).json({ error: error.message });
     }
 };
-
+*/
 const getPurchasesController = async () => {
     try {
         const purchases = await Purchases.findAll({
@@ -122,7 +158,8 @@ const putPurchasesController = async (req, res) => {
     }
 };
 module.exports = {
-    postPurchasesController,
+    //postPurchasesController,
     getPurchasesController,
-    putPurchasesController
+    putPurchasesController,
+    postPurchasesFunction
 };
