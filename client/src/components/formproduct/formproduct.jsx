@@ -181,7 +181,7 @@ export default function formproduct() {
           <Col xs="12" md="8" lg="6" className="pb-3">
             <FormLabel className="form-label">Image</FormLabel>
             <FormControl
-              type="text"
+              type="file"
               name="image_url"
               className="form-control"
               value={productForm.image_url}

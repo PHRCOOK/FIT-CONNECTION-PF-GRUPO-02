@@ -16,9 +16,9 @@ const validateCreateProductServices = ({ name, price, description, code, image_u
         throw new Error('Please enter a code.');
     }
 
-    if (!image_url) {
-        throw new Error('Please enter a image.');
-    }
+    // if (!image_url) {
+    //     throw new Error('Please enter a image.');
+    // }
 
     if (!stock) {
         throw new Error('Please enter a stock number.');
