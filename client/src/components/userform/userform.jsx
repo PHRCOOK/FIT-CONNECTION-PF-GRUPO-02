@@ -46,7 +46,7 @@ export default function userform() {
   return (
     <Row className="justify-content-center">
       <Col xs="12" md="6" lg="4" >
-        <Card className="bg-success">
+        <Card>
           <Card.Body className="m-3">
             <Card.Title className="fs-4 mb-3 fw-bold text-center">Formulario de Registro</Card.Title>
             <form onSubmit={handleSubmit}>
