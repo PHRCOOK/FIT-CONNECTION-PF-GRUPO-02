@@ -54,7 +54,11 @@ export default function formproduct() {
     let parsedValue = value;
 
     if (key === "stock" || key === "price") {
-      parsedValue = parseFloat(value);
+      if (isNaN(e.nativeEvent.data)) {
+        setErrors({ ...errors, [key]: "Only numbers admited" });
+        return;
+      }
+      parsedValue = Number(value);
     }
 
     setProductForm({ ...productForm, [key]: parsedValue });
@@ -83,7 +87,7 @@ export default function formproduct() {
           stock: "",
           category_id: "",
         });
-        navigate("/admin");
+        navigate("/product");
       } catch (error) {
         window.alert(error);
       }
@@ -220,7 +224,11 @@ export default function formproduct() {
           <button
             className="btn btn-primary"
             type="submit"
-            disabled={Object.values(productForm).some((value) => value === "")}
+            disabled={
+              Object.values(errors).some((error) => error !== "") ||
+              Object.values(productForm).some((value) => value === "")
+            }
+            maxLength={201}
           >
             {params.id ? "Update product" : "Create product"}
           </button>
