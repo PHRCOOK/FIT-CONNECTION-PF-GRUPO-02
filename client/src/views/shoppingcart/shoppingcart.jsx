@@ -1,5 +1,49 @@
-// import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Card from "../../components/card/card";
 
 export default function shoppingcart() {
-  return <div>shoppingcart</div>;
+  const [carritos, setCarritos] = useState([]);
+
+  useEffect(() => {
+    // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
+    axios
+      .get("http://localhost:3001/api/shoppingCart/3")
+      .then(({ data }) => {
+        setCarritos(data);
+      })
+      .catch((error) => {
+        window.alert("Error al obtener datos del carrito de compras:", error);
+      });
+
+    return setCarritos([]);
+  }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
+
+  return (
+    <div>
+      <h1>Shopping Cart</h1>
+      {carritos.length > 0 ? (
+        carritos.map((carrito) => (
+          <div>
+            <Card
+              key={carrito.id}
+              id={carrito.id}
+              name={carrito.name}
+              price={carrito.price}
+              description={carrito.description}
+              status={carrito.status}
+              code={carrito.code}
+              image_url={carrito.image_url}
+              stock={carrito.stock}
+              category={carrito.category_id}
+            />
+            <h2>Cantidad : {carrito.quantity}</h2>
+            <h2>categoria : {carrito.category_id}</h2>
+          </div>
+        ))
+      ) : (
+        <p>No hay carritos disponibles</p>
+      )}
+    </div>
+  );
 }
