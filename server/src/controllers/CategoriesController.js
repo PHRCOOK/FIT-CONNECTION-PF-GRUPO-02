@@ -1,7 +1,6 @@
 const { Categories } = require("../db");
 
 const getAllCategoriesController = async () => {
-  console.log("xxxxxxx");
   try {
     //Asignamos a categories todas las categorias
     const categories = await Categories.findAll();
@@ -10,6 +9,7 @@ const getAllCategoriesController = async () => {
       throw new Error("No existen categorias");
     }
     //retornamos las categorias de no entrar en el if anterior
+
     return { Items: categories };
   } catch (error) {
     throw new Error(error.message);
@@ -42,7 +42,11 @@ const putCategoriesController = async (id, updateData) => {
     if (putRowCount === 0) {
       throw new Error("Categoria no encontrada");
     }
-    return { message: "categoria Actualizada" };
+    const updatedCategories = await Categories.findAll();
+    return {
+      message: "Categoría actualizada",
+      categories: updatedCategories,
+    };
   } catch (error) {
     throw new Error(`Error al actualizar la categoria: ${error.message}`);
   }
@@ -59,7 +63,9 @@ const deleteCategoriesController = async (id) => {
       throw new Error(
         "Esta categoria no existe, Por ende no puede ser eliminada."
       );
-    return delCategory;
+    const categories = await Categories.findAll();
+
+    return categories;
   } catch (error) {
     throw new Error(`Error al eliminar la categoria: ${error.message}`);
   }

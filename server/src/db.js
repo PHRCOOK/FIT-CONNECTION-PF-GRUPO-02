@@ -11,14 +11,11 @@ const ShoppingCartModel = require("./models/ShoppingCartModel");
 const CategoriesModel = require("./models/CategoriesModel");
 const ProductServicesModel = require("./models/ProductServicesModel");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, BDD, DB_PORT } = process.env; // Agrego en el archivo .env nombre de la base de datos por si de pronto alguien usa un nombre diferente el estandar seria llamarla "fitconnection".
+const { DB_USER, DB_PASSWORD, DB_HOST, BDD } = process.env; // Agrego en el archivo .env nombre de la base de datos por si de pronto alguien usa un nombre diferente el estandar seria llamarla "fitconnection".
 
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${BDD}`,
-  {
-    logging: false,
-    native: false,
-  }
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${BDD}`,
+  { logging: false, native: false }
 );
 
 // Definimos los modelos.
@@ -55,10 +52,12 @@ User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
 
 //* Relaciones del modelo Products_services
 ProductServices.hasMany(ShoppingCart, {
+  as: "ShoppingCarts",
   as: "ShoppingCart",
   foreignKey: "product_id",
 });
-ProductServices.hasMany(PurchaseDetail, {
+
+ProductServices.hasOne(PurchaseDetail, {
   as: "PurchaseDetail",
   foreignKey: "product_id",
 });
@@ -76,7 +75,7 @@ Categories.hasMany(ProductServices, {
 
 //* Relaciones del modelo Purchases
 
-Purchases.hasOne(PurchaseDetail, {
+Purchases.hasMany(PurchaseDetail, {
   as: "PurchaseDetail",
   foreignKey: "purchase_id",
 });
@@ -94,4 +93,5 @@ FeedBack.belongsTo(Instructor, {
 module.exports = {
   ...sequelize.models,
   conn: sequelize,
+  sequelize
 };
