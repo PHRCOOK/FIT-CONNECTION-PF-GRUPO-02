@@ -3,14 +3,13 @@ const { Instructor } = require("../db");
 const getInstructors = async () => {
   try {
     //Hacemos la consulta para traer la data
-    const instructors = await Instructor.findAll();
-    
-    return instructors;
+    const instructor = await Instructor.findAll();
+    //si gym.length es igual a 0 emitimos error
+    return instructor;
   } catch (error) {
     throw new Error(error.message);
   }
 };
-
 
 // En este controller creamos un instructor en el Gym.
 const createInstructorController = async (fullname, photo, description) => {
@@ -60,18 +59,22 @@ const updateInstructorController = async (id, newDta) => {
   }
 };
 
-const deleteInstructors= async (id) => {
-    try {
-      const instructors = await Instructor.findByPk(id);
-      await instructors.destroy();
-      return { message: "Instructor deleted successfully" };
-    } catch (error) {
-      throw new Error({ error: error.message });
-    }
-  };
+const deleteInstructors = async (id) => {
+  try {
+    const instructors = await Instructor.findByPk(id);
+    await instructors.destroy();
+    const remainingInstructors = await Instructor.findAll();
+    return {
+      message: "Instructor deleted successfully",
+      instructors: remainingInstructors,
+    };
+  } catch (error) {
+    throw new Error({ error: error.message });
+  }
+};
 module.exports = {
-    createInstructorController,
-    updateInstructorController,
-    getInstructors,
-    deleteInstructors
+  createInstructorController,
+  updateInstructorController,
+  getInstructors,
+  deleteInstructors,
 };

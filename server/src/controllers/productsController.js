@@ -178,10 +178,11 @@ const filterAndOrder = async (
   }
 };
 
+
 module.exports = {
-  getProductServicesById,
-  createProductServices,
-  updateProductServices,
-  deleteProductServices,
-  filterAndOrder,
-};
+    getProductServicesById,
+    createProductServices,
+    updateProductServices,
+    deleteProductServices,
+    filterAndOrder,
+  };

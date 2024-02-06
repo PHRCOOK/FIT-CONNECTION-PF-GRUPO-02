@@ -37,6 +37,17 @@ export default function shoppingcart() {
       });
   };
 
+  const handlePayment = async () => {
+    try {
+      const items = JSON.stringify(carritos)
+      const paymentResponse = await axios.post('/api/createorder', items); // Envía una solicitud POST al backend con los datos del carrito
+      // Maneja la respuesta del pago según tus necesidades
+      window.location.href= paymentResponse.data.init_point
+    } catch (error) {
+      window.alert(`Error al procesar el pago: ${error.message}`);
+    }
+  };
+
   return (
     <div>
       <h1>Shopping Cart</h1>
@@ -64,6 +75,7 @@ export default function shoppingcart() {
       ) : (
         <p>No hay productos en el carrito</p>
       )}
+      <button onClick={handlePayment}>Pagar</button> {/* Botón para iniciar el proceso de pago */}
     </div>
   );
 }
