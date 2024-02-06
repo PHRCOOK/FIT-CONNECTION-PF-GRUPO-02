@@ -6,7 +6,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const domain = "dev-eqkkfue7vcj55cav.us.auth0.com";
 const clientId = "RDAxPbCfIkyBQZQNiJmgu3earcrvf7CW";
@@ -19,6 +19,7 @@ root.render(
     <Auth0Provider
       domain={domain}
       clientId={clientId}
+      cacheLocation="localstorage"
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}

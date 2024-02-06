@@ -10,9 +10,13 @@ function admincategories() {
   const navigate = useNavigate();
   const allCategories = useSelector((state) => state.allCategories);
 
-  const handleDelete = (id) => {
-    dispatch(deleteCategory(id));
-    window.alert("Categoria borrada correctamente");
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteCategory(id));
+      window.alert("Categoria borrada correctamente");
+    } catch (error) {
+      window.alert(error);
+    }
   };
 
   const handleModify = (id) => {

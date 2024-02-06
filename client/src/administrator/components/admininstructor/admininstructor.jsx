@@ -10,9 +10,13 @@ function admininstructor() {
   const navigate = useNavigate();
   const allInstructors = useSelector((state) => state.allInstructors);
 
-  const handleDelete = (id) => {
-    dispatch(deleteInstructor(id));
-    window.alert("Instructor borrado correctamente");
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteInstructor(id));
+      window.alert("Instructor borrado correctamente");
+    } catch (error) {
+      window.alert(error);
+    }
   };
 
   const handleModify = (id) => {
