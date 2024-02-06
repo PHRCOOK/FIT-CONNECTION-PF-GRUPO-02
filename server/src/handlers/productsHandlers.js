@@ -29,10 +29,10 @@ const createProductServicesHandler = async (req, res) => {
     description,
     status,
     brand,
-    image_url,
     stock,
     category_id,
   } = req.body;
+  const image_url = req.file;
   try {
     validateCreateProductServices({
       name,
@@ -40,7 +40,7 @@ const createProductServicesHandler = async (req, res) => {
       description,
       status,
       brand,
-      image_url,
+      // image_url,
       stock,
       category_id,
     });
@@ -58,6 +58,7 @@ const createProductServicesHandler = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+  console.log(req.file);
 };
 
 const updateProductServicesHandler = async (req, res) => {

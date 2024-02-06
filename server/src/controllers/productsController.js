@@ -49,7 +49,7 @@ const createProductServices = async (
       description,
       status,
       brand,
-      image_url,
+      image_url: image_url.path,
       stock,
     });
 

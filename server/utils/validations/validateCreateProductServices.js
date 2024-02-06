@@ -16,9 +16,9 @@ const validateCreateProductServices = ({ name, price, description, brand, image_
         throw new Error('Please enter a brand.');
     }
 
-    if (!image_url) {
-        throw new Error('Please enter a image.');
-    }
+    // if (!image_url) {
+    //     throw new Error('Please enter a image.');
+    // }
 
     if (!stock) {
         throw new Error('Please enter a stock number.');
@@ -31,14 +31,14 @@ const validateCreateProductServices = ({ name, price, description, brand, image_
     if (!isNaN(name)) {
         throw new Error('The name cannot be a number.')
     }
+    // Comentado para el nuevo form
+    // if (typeof price === "string") {
+    //     throw new Error('The price must be a number.')
+    // }
 
-    if (typeof price === "string") {
-        throw new Error('The price must be a number.')
-    }
-
-    if (typeof stock === "string") {
-        throw new Error('The stock must be a number.')
-    }
+    // if (typeof stock === "string") {
+    //     throw new Error('The stock must be a number.')
+    // }
 
 
     if (!isNaN(description)) {
