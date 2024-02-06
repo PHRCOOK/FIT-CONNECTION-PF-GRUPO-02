@@ -53,7 +53,7 @@ export default function formproduct() {
     const value = e.target.value;
     let parsedValue = value;
 
-    if (key === "price" || key === "stock") {
+    if (key === "stock" || key === "price") {
       parsedValue = parseFloat(value);
     }
 
@@ -61,17 +61,16 @@ export default function formproduct() {
     setErrors(validate({ ...productForm, [key]: parsedValue }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (params.id) {
-        dispatch(putProduct(params.id, productForm));
+        await dispatch(putProduct(params.id, productForm));
         window.alert("Producto modificado exitosamente");
       } else {
-        dispatch(postProduct(productForm));
+        await dispatch(postProduct(productForm));
         window.alert("Producto creado exitosamente");
       }
-
       setProductForm({
         name: "",
         price: "",
@@ -82,10 +81,9 @@ export default function formproduct() {
         stock: "",
         category_id: "",
       });
-
       navigate("/admin");
     } catch (error) {
-      console.error("Error al realizar la operación:", error.message);
+      window.alert(error);
     }
   };
 
