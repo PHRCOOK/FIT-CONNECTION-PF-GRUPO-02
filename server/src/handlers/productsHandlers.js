@@ -28,7 +28,7 @@ const createProductServicesHandler = async (req, res) => {
     price,
     description,
     status,
-    code,
+    brand,
     stock,
     category_id,
   } = req.body;
@@ -39,7 +39,7 @@ const createProductServicesHandler = async (req, res) => {
       price,
       description,
       status,
-      code,
+      brand,
       image_url,
       stock,
       category_id,
@@ -49,7 +49,7 @@ const createProductServicesHandler = async (req, res) => {
       price,
       description,
       status,
-      code,
+      brand,
       image_url,
       stock,
       category_id
@@ -90,7 +90,7 @@ const deleteProductServicesHandler = async (req, res) => {
 };
 
 const productFilterAndOrderHandler = async (req, res) => {
-  const { category_id, name, code, minPrice, maxPrice, sortOrder, page, size } =
+  const { category_id, name, brand, minPrice, maxPrice, sortOrder, page, size } =
     req.query;
   try {
     const response = await filterAndOrder(
@@ -99,7 +99,7 @@ const productFilterAndOrderHandler = async (req, res) => {
       maxPrice,
       category_id,
       name,
-      code,
+      brand,
       page,
       size
     );

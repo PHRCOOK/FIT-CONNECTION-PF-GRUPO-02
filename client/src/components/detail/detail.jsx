@@ -40,7 +40,7 @@ const Detail = () => {
     price,
     description,
     status,
-    code,
+    brand,
     image_url,
     stock,
     category_id,
@@ -74,7 +74,7 @@ const Detail = () => {
         <Card.Title>{name}</Card.Title>
         <Row>
           <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Codigo:</span> {code}
+            <span className="fw-bold">Brand:</span> {brand}
           </Col>
           <Col xs="12" md="6" lg="3">
             <span className="fw-bold">Categoria:</span>{" "}

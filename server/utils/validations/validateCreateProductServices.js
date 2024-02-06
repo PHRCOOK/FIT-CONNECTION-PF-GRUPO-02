@@ -1,4 +1,4 @@
-const validateCreateProductServices = ({ name, price, description, code, image_url, stock, category_id }) => {
+const validateCreateProductServices = ({ name, price, description, brand, image_url, stock, category_id }) => {
 
     if (!name) {
         throw new Error('Please enter a name.');
@@ -12,8 +12,8 @@ const validateCreateProductServices = ({ name, price, description, code, image_u
         throw new Error('Please enter a description.');
     }
 
-    if (!code) {
-        throw new Error('Please enter a code.');
+    if (!brand) {
+        throw new Error('Please enter a brand.');
     }
 
     // if (!image_url) {
