@@ -5,8 +5,7 @@ import Card from "../../components/card/card";
 export default function shoppingcart() {
   const [carritos, setCarritos] = useState([]);
 
-  useEffect(() => {
-    // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
+  const getCarritos = () => {
     axios
       .get("http://localhost:3001/api/shoppingCart/3")
       .then(({ data }) => {
@@ -15,18 +14,39 @@ export default function shoppingcart() {
       .catch((error) => {
         window.alert("Error al obtener datos del carrito de compras:", error);
       });
+  };
+  useEffect(() => {
+    // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
+    getCarritos();
 
     return setCarritos([]);
   }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
+
+  //* funcion para eliminar el registro de carrito
+
+  const handleClick = async (e) => {
+    let id = e.target.value;
+    await axios
+      .delete(`http://localhost:3001/api/shoppingCart/3/${id}`)
+      .then(({ data }) => {
+        window.alert("El registro de carrito se elimino");
+        getCarritos();
+      })
+      .catch((error) => {
+        window.alert(`Error: ${error.message}`);
+      });
+  };
 
   return (
     <div>
       <h1>Shopping Cart</h1>
       {carritos.length > 0 ? (
         carritos.map((carrito) => (
-          <div>
+          <div key={carrito.id}>
+            <button value={carrito.id} onClick={handleClick}>
+              eliminar
+            </button>
             <Card
-              key={carrito.id}
               id={carrito.id}
               name={carrito.name}
               price={carrito.price}
@@ -38,7 +58,7 @@ export default function shoppingcart() {
               category={carrito.category_id}
             />
             <h2>Cantidad : {carrito.quantity}</h2>
-            <h2>categoria : {carrito.category_id}</h2>
+            {/* <h2>categoria : {carrito.category_id}</h2> */}
           </div>
         ))
       ) : (
