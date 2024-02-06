@@ -1,5 +1,5 @@
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
-const client = new MercadoPagoConfig({ accessToken: 'TEST-1859931302050422-020618-3e65e9f762aa1817900eed462e03d36b-1666488094' });
+const client = new MercadoPagoConfig({ accessToken: 'TEST-4476023510988060-020619-237b8bf2aabd81ac0fea5588f2b7091c-1672469458' });
 const preference = new Preference(client);
 const { postPurchasesFunction } = require('../controllers/purchasesController')
 const mercadoPaymentPreferences = async (shoppingCard) => {
@@ -17,16 +17,19 @@ const mercadoPaymentPreferences = async (shoppingCard) => {
         });
         const createPayment = await preference.create({
             body: {
+                auto_return: "approved",
                 items: itemsArray,
                 back_urls: {
-                    failure: "http://localhost:3001/api/createorder/failure",
+                    failure: "http://localhost:3001/api/createorder/failure", //hay que modificar dicha ruta
                     pending: "http://localhost:3001/api/createorder/pending",
                     success: "http://localhost:3001/api/createorder/success",
                 },
                 //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
-                notification_url: "https://28f4-201-188-190-30.ngrok-free.app/api/createorder/webhook"
+                //USAR LOS USERS DE PRUEBA 
+                //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!! 
+                notification_url: "https://7a65-201-188-190-30.ngrok-free.app/api/createorder/webhook"
             },
-            requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
+            requestOptions: { idempotencyKey: 'eac7b2f362c87d105f7333c43787aad175783fd37b57632aa90cdb425e6b5856' }
         })
         return createPayment
     } catch (error) {
