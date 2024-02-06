@@ -5,7 +5,7 @@
       "server": "localhost",
       "port": 5432,
       "driver": "PostgreSQL",
-      "name": "fitconnectioin",
+      "name": "fitconnection",
       "database": "fitconnection",
       "username": "postgres"
     }
