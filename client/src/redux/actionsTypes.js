@@ -1,5 +1,0 @@
-export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIES";
-export const POST_PRODUCT = "POST_PRODUCT";
-export const APPLY_FILTER = "APPLY_FILTER";
-export const RESET_FILTER = "RESET_FILTER";
-export const EMPTY_FILTER = "EMPTY_FILTER";
