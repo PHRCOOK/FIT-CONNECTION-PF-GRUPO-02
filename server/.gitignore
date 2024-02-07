@@ -1,8 +1,0 @@
-.env
-
-node_modules
-
-fitconnection.session.sql
-
-package.json
-packge-lock.json
