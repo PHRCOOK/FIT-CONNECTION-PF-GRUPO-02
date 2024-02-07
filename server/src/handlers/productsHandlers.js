@@ -27,19 +27,19 @@ const createProductServicesHandler = async (req, res) => {
     price,
     description,
     status,
-    code,
-    image_url,
+    brand,
     stock,
     category_id,
   } = req.body;
+  const image_url = req.file;
   try {
     validateCreateProductServices({
       name,
       price,
       description,
       status,
-      code,
-      image_url,
+      brand,
+      // image_url,
       stock,
       category_id,
     });
@@ -48,7 +48,7 @@ const createProductServicesHandler = async (req, res) => {
       price,
       description,
       status,
-      code,
+      brand,
       image_url,
       stock,
       category_id
@@ -57,6 +57,7 @@ const createProductServicesHandler = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+  console.log(req.file);
 };
 
 const updateProductServicesHandler = async (req, res) => {
@@ -89,7 +90,7 @@ const deleteProductServicesHandler = async (req, res) => {
 };
 
 const productFilterAndOrderHandler = async (req, res) => {
-  const { category_id, name, code, minPrice, maxPrice, sortOrder, page, size } =
+  const { category_id, name, brand, minPrice, maxPrice, sortOrder, page, size } =
     req.query;
   try {
     const response = await filterAndOrder(
@@ -98,7 +99,7 @@ const productFilterAndOrderHandler = async (req, res) => {
       maxPrice,
       category_id,
       name,
-      code,
+      brand,
       page,
       size
     );

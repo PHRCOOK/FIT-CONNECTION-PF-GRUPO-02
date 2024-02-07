@@ -1,8 +1,8 @@
 .env
 
 node_modules
-
-<<<<<<< HEAD
+ngrok.exe
 fitconnection.session.sql
-=======
->>>>>>> 1b4e482c901e986b3ef6a63793edb8a268289656
+
+package.json
+packge-lock.json

@@ -6,6 +6,7 @@ const {
     getInactiveUsersController,
     updateUserController,
     getUserByIdController,
+    deleteUserController
 
 } = require("../controllers/usersControllers");
 // Handler para manejar la cración de un usuario.
@@ -65,10 +66,21 @@ const getDetailHandler = async (req, res) => {
     }    
 };
 
+const deleteUserControllerHandler = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await deleteUserController(id);
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(404).json({error: error.message})
+    }
+}
+
 module.exports = {
     createUserHandler,
     getActiveUsersHandler,
     updateUserHandler, 
     getInactiveUsersHandler,
     getDetailHandler,
+    deleteUserControllerHandler
 }

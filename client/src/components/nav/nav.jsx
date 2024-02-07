@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/img/logo-nav.png";
@@ -8,7 +8,22 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated, user, getIdTokenClaims } =
+    useAuth0();
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  useEffect(() => {
+    const getUserMetadata = async () => {
+      const claims = await getIdTokenClaims();
+      const roles = claims["https://pabloelleproso.us.auth0.com/roles"] || [];
+      const userIsAdmin = roles.includes("admin");
+      setIsAdmin(userIsAdmin);
+      console.log(`Is user admin? ${userIsAdmin}`);
+    };
+    if (user) {
+      getUserMetadata();
+    }
+  }, [user, getIdTokenClaims]);
 
   const linksData = [
     {
@@ -35,14 +50,23 @@ export default function AppBar() {
     { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
   ];
 
+  if (isAdmin) {
+    linksData.push({
+      path: pathroutes.ADMIN,
+      title: "Admin",
+      show: true,
+    });
+  }
+
   const navLinks = linksData
     .filter((linkData) => linkData.show && linkData.path)
     .map((linkData) => (
       <LinkContainer key={linkData.path} to={linkData.path}>
         <Nav.Link
           active={location.pathname === linkData.path}
-          className={`rounded fw-bold px-2 mx-1 my-md-1 ${location.pathname === linkData.path ? "bg-primary" : ""
-            }`}
+          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
+            location.pathname === linkData.path ? "bg-primary" : ""
+          }`}
         >
           {linkData.title}
         </Nav.Link>
@@ -55,8 +79,9 @@ export default function AppBar() {
       <Button
         key={linkData.title}
         onClick={linkData.onClick}
-        className={`rounded fw-bold px-2 mx-1 my-1 ${location.pathname === linkData.path ? "bg-primary" : ""
-          }`}
+        className={`rounded fw-bold px-2 mx-1 my-1 ${
+          location.pathname === linkData.path ? "bg-primary" : ""
+        }`}
       >
         {linkData.title}
       </Button>

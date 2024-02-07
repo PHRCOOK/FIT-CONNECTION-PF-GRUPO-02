@@ -13,7 +13,7 @@ import {
   FormControl,
   FormCheck,
   Button,
-  Accordion
+  Accordion,
 } from "react-bootstrap";
 import deleteUndefined from "./deleteUndefined";
 
@@ -70,14 +70,14 @@ function Filters() {
                 />
               </Col>
               <Col xs="12" md="6" className="py-1">
-                <FormLabel htmlFor="code">Codigo</FormLabel>
+                <FormLabel htmlFor="code">Brand</FormLabel>
                 <FormControl
-                  id="code"
-                  name="code"
+                  id="brand"
+                  name="brand"
                   type="text"
                   autoComplete="off"
                   onChange={handleFilter}
-                  value={filterSettings.code || ""}
+                  value={filterSettings.brand || ""}
                 />
               </Col>
               <Col xs="12" md="6" className="py-1">
@@ -127,7 +127,7 @@ function Filters() {
                 })}
               </Col>
               <Col xs="12" md="6" className="py-2">
-                <span className="fw-bold">Orden</span>
+                <span className="fw-bold">Orden por precio</span>
                 <div key="ASC">
                   <FormCheck
                     type="radio"

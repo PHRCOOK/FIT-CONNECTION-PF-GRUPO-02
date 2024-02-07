@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const upload = require("../services/multer");
 
 const {
   getProductServicesByIdHandler,
@@ -15,7 +16,7 @@ productsRouter.get("/", productFilterAndOrderHandler); //<---------------- RUTA 
 
 // Rutas generales después
 productsRouter.get("/:id", getProductServicesByIdHandler);
-productsRouter.post("/", createProductServicesHandler);
+productsRouter.post("/", upload.single('image_url'), createProductServicesHandler);
 productsRouter.put("/update/:id", updateProductServicesHandler);
 productsRouter.delete("/delete/:id", deleteProductServicesHandler);
 
