@@ -22,7 +22,7 @@ import axios from "axios";
 export const getAllCategories = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/categories");
+      const { data } = await axios.get("http://localhost:3001/api/categories");
 
       const items = data.Items;
 
@@ -39,7 +39,10 @@ export const getAllCategories = () => {
 export const postProduct = (product) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/api/products", product);
+      const { data } = await axios.post(
+        "http://localhost:3001/api/products",
+        product
+      );
       return dispatch({
         type: POST_PRODUCT,
         payload: data.product,
@@ -54,7 +57,7 @@ export const postProduct = (product) => {
 export const applySettings = (settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/products", {
+      const { data } = await axios.get("http://localhost:3001/api/products", {
         params: settings,
       });
 
@@ -77,7 +80,7 @@ export const applySettings = (settings) => {
 export const resetSettings = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/products", {
+      const { data } = await axios.get("http://localhost:3001/api/products", {
         params: { sortOrder: "ASC", page: 1, size: 10 },
       });
       return dispatch({
@@ -97,7 +100,9 @@ export const resetSettings = () => {
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/products/delete/${id}`);
+      const { data } = await axios.delete(
+        `http://localhost:3001/api/products/delete/${id}`
+      );
 
       return dispatch({
         type: DELETE_PRODUCT,
@@ -112,7 +117,7 @@ export const deleteProduct = (id) => {
 export const getAllProducts = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/products");
+      const { data } = await axios.get("http://localhost:3001/api/products");
       return dispatch({
         type: GET_ALL_PRODUCTS,
         payload: data.products,
@@ -126,7 +131,10 @@ export const getAllProducts = () => {
 export const putProduct = (id, product) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/products/update/${id}`, product);
+      const { data } = await axios.put(
+        `http://localhost:3001/api/products/update/${id}`,
+        product
+      );
       return dispatch({
         type: PUT_PRODUCT,
         payload: data.products,
@@ -141,7 +149,9 @@ export const putProduct = (id, product) => {
 export const deleteCategory = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/categories/${id}`);
+      const { data } = await axios.delete(
+        `http://localhost:3001/api/categories/${id}`
+      );
       return dispatch({
         type: DELETE_CATEGORY,
         payload: data.categories,
@@ -156,7 +166,10 @@ export const deleteCategory = (id) => {
 export const postCategory = (categoryForm) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/api/categories", categoryForm);
+      const { data } = await axios.post(
+        "http://localhost:3001/api/categories",
+        categoryForm
+      );
 
       return dispatch({
         type: POST_CATEGORY,
@@ -172,7 +185,10 @@ export const postCategory = (categoryForm) => {
 export const putCategory = (id, category) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/categories/${id}`, category);
+      const { data } = await axios.put(
+        `http://localhost:3001/api/categories/${id}`,
+        category
+      );
       return dispatch({
         type: PUT_CATEGORY,
         payload: data.response.categories,
@@ -187,7 +203,7 @@ export const putCategory = (id, category) => {
 export const getAllInstructors = () => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get("/api/instructors");
+      const { data } = await axios.get("http://localhost:3001/api/instructors");
 
       dispatch({
         type: GET_ALL_INSTRUCTORS,
@@ -202,7 +218,9 @@ export const getAllInstructors = () => {
 export const deleteInstructor = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/instructors/delete/${id}`);
+      const { data } = await axios.delete(
+        `http://localhost:3001/api/instructors/delete/${id}`
+      );
       dispatch({
         type: DELETE_INSTRUCTOR,
         payload: data.instructors,
@@ -216,7 +234,10 @@ export const deleteInstructor = (id) => {
 export const postInstructor = (instructorForm) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/api/instructors", instructorForm);
+      const { data } = await axios.post(
+        "http://localhost:3001/api/instructors",
+        instructorForm
+      );
 
       return dispatch({
         type: POST_INSTRCUTOR,
@@ -232,7 +253,10 @@ export const postInstructor = (instructorForm) => {
 export const putInstructor = (id, instructor) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/instructors/${id}`, instructor);
+      const { data } = await axios.put(
+        `http://localhost:3001/api/instructors/${id}`,
+        instructor
+      );
       return dispatch({
         type: PUT_INSTRUCTOR,
         payload: data.instructors,
@@ -247,7 +271,10 @@ export const putInstructor = (id, instructor) => {
 export const postUser = (form) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post("/api/users", form);
+      const { data } = await axios.post(
+        "http://localhost:3001/api/users",
+        form
+      );
       return dispatch({
         type: POST_USER,
         payload: data.allUsers,

@@ -15,9 +15,10 @@ import Admin from "./administrator/admin/admin";
 import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
+import Error404 from "./views/Error 404/Error404";
+import Category from "./components/createCategory/createCategory"
 
-axios.defaults.baseURL =
-  "https://fit-connection-pf-grupo-02-production.up.railway.app/";
+axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
   return (
@@ -34,7 +35,9 @@ function App() {
           <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
+          <Route path={pathroutes.CATEGORY} element={<Category/>} />
           <Route path="/admin/*" element={<Admin />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>
       <Footer />

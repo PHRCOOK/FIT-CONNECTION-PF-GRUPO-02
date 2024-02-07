@@ -1,9 +1,7 @@
 import React from "react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { Provider } from "react-redux";
-
-import { HashRouter } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import store from "./redux/store";
@@ -27,9 +25,9 @@ root.render(
       }}
     >
       <Provider store={store}>
-        <HashRouter>
+        <BrowserRouter>
           <App />
-        </HashRouter>
+        </BrowserRouter>
       </Provider>
     </Auth0Provider>
   </React.StrictMode>
