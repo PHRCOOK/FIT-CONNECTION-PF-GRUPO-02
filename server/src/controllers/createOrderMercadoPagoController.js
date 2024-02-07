@@ -27,9 +27,9 @@ const mercadoPaymentPreferences = async (shoppingCard) => {
                 //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
                 //USAR LOS USERS DE PRUEBA 
                 //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!! 
-                notification_url: "https://7a65-201-188-190-30.ngrok-free.app/api/createorder/webhook"
+                notification_url: "https://b430-201-188-190-30.ngrok-free.app/api/createorder/webhook"
             },
-            requestOptions: { idempotencyKey: 'eac7b2f362c87d105f7333c43787aad175783fd37b57632aa90cdb425e6b5856' }
+            requestOptions: { idempotencyKey: '54b9a173d9eaf68a9b36a045397fcb4592808d875615f45a19d37a104a065b91' }
         })
         return createPayment
     } catch (error) {
