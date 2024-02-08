@@ -1,10 +1,16 @@
-const { Router } = require('express');
-const { /*postPurchasesController,*/ putPurchasesController } = require('../controllers/purchasesController');
- const { getPurchasesHandler } = require('../handlers/purchasesHandler')
+const { Router } = require("express");
+const { requiresAuth } = require("express-openid-connect");
+const {
+  /*postPurchasesController,*/ putPurchasesController,
+} = require("../controllers/purchasesController");
+const { getPurchasesHandler } = require("../handlers/purchasesHandler");
+
 const purchasesRouter = Router();
 
-purchasesRouter.get('/', getPurchasesHandler);
-//purchasesRouter.post('/', postPurchasesController);
-purchasesRouter.put('/:id', putPurchasesController);
+// Solo los usuarios autenticados pueden obtener las compras
+purchasesRouter.get("/", requiresAuth(), getPurchasesHandler);
+
+// Solo los usuarios autenticados pueden actualizar las compras
+purchasesRouter.put("/:id", requiresAuth(), putPurchasesController);
 
 module.exports = purchasesRouter;

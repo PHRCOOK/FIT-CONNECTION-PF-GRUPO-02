@@ -1,12 +1,16 @@
 const { Router } = require("express");
-const { createFeedBackHandler, getFeedBacksHandler } = require("../handlers/feedBackHandlers");
-
+const { requiresAuth } = require("express-openid-connect");
+const {
+  createFeedBackHandler,
+  getFeedBacksHandler,
+} = require("../handlers/feedBackHandlers");
 
 const feedBackRouter = Router();
 
-feedBackRouter.post("/", createFeedBackHandler);
+// Solo los usuarios autenticados pueden crear retroalimentación
+feedBackRouter.post("/", requiresAuth(), createFeedBackHandler);
 
-feedBackRouter.get('/', getFeedBacksHandler);
-
+// Solo los usuarios autenticados pueden obtener la retroalimentación
+feedBackRouter.get("/", requiresAuth(), getFeedBacksHandler);
 
 module.exports = feedBackRouter;

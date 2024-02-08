@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { requiresAuth } = require("express-openid-connect");
 
 const {
   createShoppingCartHandler,
@@ -9,9 +10,20 @@ const {
 
 const shoppingCartRoutes = Router();
 
-shoppingCartRoutes.post("/", createShoppingCartHandler);
-shoppingCartRoutes.get("/:user_id", getShoppingCartsHandler);
-shoppingCartRoutes.delete("/:user_id/:product_id", deleteShoppingCartsHandler);
-shoppingCartRoutes.delete("/:user_id", deleteAllCartsHandler);
+// Solo los usuarios autenticados pueden crear un carrito de compras
+shoppingCartRoutes.post("/", requiresAuth(), createShoppingCartHandler);
+
+// Solo los usuarios autenticados pueden obtener sus carritos de compras
+shoppingCartRoutes.get("/:user_id", requiresAuth(), getShoppingCartsHandler);
+
+// Solo los usuarios autenticados pueden eliminar un producto de su carrito de compras
+shoppingCartRoutes.delete(
+  "/:user_id/:product_id",
+  requiresAuth(),
+  deleteShoppingCartsHandler
+);
+
+// Solo los usuarios autenticados pueden eliminar todos los productos de su carrito de compras
+shoppingCartRoutes.delete("/:user_id", requiresAuth(), deleteAllCartsHandler);
 
 module.exports = shoppingCartRoutes;

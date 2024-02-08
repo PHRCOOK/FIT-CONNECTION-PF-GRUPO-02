@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const upload = require("../services/multer");
+const { requiresAuth } = require("express-openid-connect");
 
 const {
   getProductServicesHandler,
@@ -12,13 +13,28 @@ const {
 
 const productsRouter = Router();
 
-// Rutas específicas primero
-productsRouter.get("/", productFilterAndOrderHandler); //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
+// Solo los usuarios autenticados pueden obtener los productos con filtros y ordenamiento
+productsRouter.get("/", requiresAuth(), productFilterAndOrderHandler);
 
-// Rutas generales después
-productsRouter.get("/:id", getProductServicesByIdHandler);
-productsRouter.post("/", upload.single('image_url'), createProductServicesHandler);
-productsRouter.put("/update/:id", updateProductServicesHandler);
-productsRouter.delete("/delete/:id", deleteProductServicesHandler);
+// Solo los usuarios autenticados pueden obtener los detalles de un producto
+productsRouter.get("/:id", requiresAuth(), getProductServicesByIdHandler);
+
+// Solo los usuarios autenticados pueden crear un producto
+productsRouter.post(
+  "/",
+  requiresAuth(),
+  upload.single("image_url"),
+  createProductServicesHandler
+);
+
+// Solo los usuarios autenticados pueden actualizar un producto
+productsRouter.put("/update/:id", requiresAuth(), updateProductServicesHandler);
+
+// Solo los usuarios autenticados pueden eliminar un producto
+productsRouter.delete(
+  "/delete/:id",
+  requiresAuth(),
+  deleteProductServicesHandler
+);
 
 module.exports = productsRouter;
