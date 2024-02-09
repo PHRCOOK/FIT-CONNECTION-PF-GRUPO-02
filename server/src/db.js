@@ -90,6 +90,9 @@ FeedBack.belongsTo(Instructor, {
   foreignKey: "instructor_id",
 });
 
+// Relación del modelo ClientInfo.
+ClientInfo.belongsTo(User, { as: 'User', foreignKey: 'user_id' });
+
 module.exports = {
   ...sequelize.models,
   conn: sequelize,
