@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
-export default function AppBar() {
+const AppBar = () => {
   const location = useLocation();
   const { loginWithRedirect, logout, isAuthenticated, user, getIdTokenClaims } =
     useAuth0();
@@ -15,15 +16,38 @@ export default function AppBar() {
   useEffect(() => {
     const getUserMetadata = async () => {
       const claims = await getIdTokenClaims();
+
+      if (isAuthenticated) {
+        console.log(`User email: ${user.email}`);
+        console.log(`User sub: ${claims.sub}`);
+        console.log(`User given_name: ${user.given_name}`);
+      }
+
       const roles = claims["https://pabloelleproso.us.auth0.com/roles"] || [];
       const userIsAdmin = roles.includes("admin");
       setIsAdmin(userIsAdmin);
       console.log(`Is user admin? ${userIsAdmin}`);
     };
+
     if (user) {
       getUserMetadata();
     }
-  }, [user, getIdTokenClaims]);
+  }, [user, getIdTokenClaims, isAuthenticated]);
+
+  const createUserHandler = async (fullname, email) => {
+    // Utilizando Axios para hacer la solicitud HTTP
+    try {
+      const response = await axios.post("http://localhost:5173/register", {
+        fullname,
+        email,
+      });
+
+      // Puedes manejar la respuesta según tus necesidades.
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error al enviar datos al backend:", error);
+    }
+  };
 
   const linksData = [
     {
@@ -35,9 +59,13 @@ export default function AppBar() {
     {
       path: pathroutes.FORMPRODUCT,
       title: "Crear productos",
-      show: location.pathname === pathroutes.PRODUCT,
+      show: isAuthenticated && location.pathname === pathroutes.PRODUCT,
     },
-    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
+    {
+      path: pathroutes.SHOPPINGCART,
+      title: "Carrito de compras",
+      show: isAuthenticated && location.pathname !== pathroutes.SHOPPINGCART,
+    },
     { path: pathroutes.STAFF, title: "Conocer staff", show: true },
     {
       title: isAuthenticated ? "Logout" : "Login",
@@ -47,7 +75,15 @@ export default function AppBar() {
         : () => loginWithRedirect(),
       isButton: true,
     },
-    { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
+    {
+      path: pathroutes.REGISTER,
+      title: "Registrate",
+      show: !isAuthenticated,
+      onClick: () => {
+        const { given_name: fullname, email } = user;
+        createUserHandler(fullname, email);
+      },
+    },
   ];
 
   if (isAdmin) {
@@ -123,4 +159,6 @@ export default function AppBar() {
       </Container>
     </Navbar>
   );
-}
+};
+
+export default AppBar;

@@ -16,14 +16,19 @@ import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
-import Category from "./components/createCategory/createCategory"
+import Category from "./components/createCategory/createCategory";
+import { useAuth0 } from "@auth0/auth0-react";
 
 axios.defaults.baseURL = "http://localhost:3001";
 
 function App() {
+  const auth0 = useAuth0();
+  console.log(auth0.user);
+
   return (
     <>
       <AppBar />
+
       <Container fluid className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
@@ -35,7 +40,7 @@ function App() {
           <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
-          <Route path={pathroutes.CATEGORY} element={<Category/>} />
+          <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
