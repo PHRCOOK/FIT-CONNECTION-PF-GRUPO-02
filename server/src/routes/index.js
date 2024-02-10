@@ -9,6 +9,7 @@ const gymRoute = require("./gymRoute");
 const purchaseRoute = require("./purchasesRoute");
 const ShoppingCartRouter = require("./shoppingCartRouter");
 const paymentRouter = require("./paymentRoute");
+const clientInfoRouter = require("./clientInfoRouter");
 const router = express.Router();
 
 // Definir rutas aquí:
@@ -29,6 +30,8 @@ router.use("/api/gym", requiresAuth(), gymRoute);
 
 router.use("/api/shoppingCart", requiresAuth(), ShoppingCartRouter);
 
-router.use("/api/createorder", requiresAuth(), paymentRouter);
+router.use("/api/createorder", paymentRouter);
+
+router.use("/api/clientInfo", clientInfoRouter);
 
 module.exports = router;
