@@ -1,5 +1,9 @@
 const { Router } = require('express');
-const { createClientInfoHandler, updateClientInfoHandler, getClientInfoHandler } = require('../handlers/clientInfoHandler');
+const { 
+    createClientInfoHandler, 
+    updateClientInfoHandler, 
+    getClientInfoHandler 
+} = require('../handlers/clientInfoHandler');
 
 
 const clientInfoRouter = Router();
