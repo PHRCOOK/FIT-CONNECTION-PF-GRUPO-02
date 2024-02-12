@@ -16,9 +16,12 @@ import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
-import Category from "./components/createCategory/createCategory"
+import Category from "./components/createCategory/createCategory";
+import UserProfile from "./views/UserProfile/UserProfile";
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL = "http://localhost:3001/";
+// axios.defaults.baseURL =
+//   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
   return (
@@ -35,7 +38,8 @@ function App() {
           <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
-          <Route path={pathroutes.CATEGORY} element={<Category/>} />
+          <Route path={pathroutes.CATEGORY} element={<Category />} />
+          <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
