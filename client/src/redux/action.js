@@ -293,12 +293,12 @@ export const postUserInfo = (info) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.post(`/api/clientInfo/${id}`, info);
-      const { infoClient } = data;
+      const { clientInfo } = data;
       const { user } = data;
 
       return dispatch({
         type: FETCH_USER_INFO,
-        payload: { ...infoClient, user, exists: true },
+        payload: { ...clientInfo, user, exists: true },
       });
     } catch (error) {
       console.log(error.message);
@@ -311,12 +311,12 @@ export const putUserInfo = (info) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/clientInfo/${id}`, info);
-      const { infoClient } = data;
+      const { clientInfo } = data;
       const { user } = data;
 
       return dispatch({
         type: FETCH_USER_INFO,
-        payload: { ...infoClient, user, exists: true },
+        payload: { ...clientInfo, user, exists: true },
       });
     } catch (error) {
       console.log(error.message);
