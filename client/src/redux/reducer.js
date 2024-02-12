@@ -15,6 +15,7 @@ import {
   POST_INSTRCUTOR,
   PUT_INSTRUCTOR,
   POST_USER,
+  FETCH_USER_INFO,
 } from "./actionsTypes";
 
 const initialState = {
@@ -29,6 +30,12 @@ const initialState = {
     size: 10,
   },
   totalPages: 0,
+  userInfo: {
+    address: null,
+    phone: null,
+    dni: null,
+    birth_date: null,
+  },
 };
 
 export const reducer = (state = initialState, action) => {
@@ -38,6 +45,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         allCategories: action.payload,
       };
+
     case POST_PRODUCT:
       return {
         ...state,
@@ -142,6 +150,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         allUsers: [...state.allUsers, action.payload],
+      };
+
+    case FETCH_USER_INFO:
+      return {
+        ...state,
+        userInfo: action.payload,
       };
 
     default:
