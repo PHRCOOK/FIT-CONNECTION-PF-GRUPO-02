@@ -1,4 +1,9 @@
-const { createClientInfoController, updateClientInfoController, getClientInfoController } = require("../controllers/clientInfoController");
+const { validateCreateClientInfo } = require("../../utils/validations/validateCreateClientInfo");
+const { 
+    createClientInfoController, 
+    updateClientInfoController, 
+    getClientInfoController 
+} = require("../controllers/clientInfoController");
 
 
 // Este handler nos permite manejar la información para crear la información de un usuario.
@@ -6,6 +11,7 @@ const createClientInfoHandler = async (req, res) => {
     const { user_id } = req.params;
     const { address, phone, dni, birth_date } = req.body;
     try {
+        validateCreateClientInfo({ address, phone, dni, birth_date })
         const response = await createClientInfoController(user_id, address, phone, dni, birth_date)
         res.status(201).json(response)
     } catch (error) {
