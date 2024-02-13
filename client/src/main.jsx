@@ -8,8 +8,8 @@ import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-const domain = "dev-eqkkfue7vcj55cav.us.auth0.com";
-const clientId = "RDAxPbCfIkyBQZQNiJmgu3earcrvf7CW";
+const domain = "https://pabloelleproso.us.auth0.com";
+const clientId = "J1C5DLRnm4PlJNL4AbcvuVqIus0g60rq";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
