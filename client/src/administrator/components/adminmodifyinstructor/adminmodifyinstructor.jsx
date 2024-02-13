@@ -4,7 +4,7 @@ import AdminInstructorForm from "../admininstructorform/admininstructorform";
 function adminmodifyinstructor() {
   return (
     <div>
-      <AdminInstructorForm />
+      <AdminInstructorForms />
     </div>
   );
 }

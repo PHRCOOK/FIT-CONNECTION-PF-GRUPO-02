@@ -40,7 +40,7 @@ function product(props) {
           src={image_url}
         />
         <CardBody>
-          <CardTitle>Nombre: {name}</CardTitle>
+          <CardTitle>Nombres: {name}</CardTitle>
           <CardTitle>Id: {id}</CardTitle>
           <Row>
             <Col xs="12" md="6">

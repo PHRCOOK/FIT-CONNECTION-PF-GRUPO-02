@@ -7,7 +7,7 @@ export const validate = (input) => {
     errors.fullname = "Debe haber un nombre";
   }
   if (!input.photo) {
-    errors.photo = "Debe subir una foto";
+    errors.photo = "Debes subir una foto";
   }
   if (!input.description) {
     errors.description = "Debe tener una descripcion";

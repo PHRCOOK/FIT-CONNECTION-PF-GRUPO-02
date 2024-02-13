@@ -4,7 +4,7 @@ import FormProduct from "../../../components/formproduct/formproduct";
 function adminmodifyproduct() {
   return (
     <div>
-      <FormProduct />
+      <FormProducts />
     </div>
   );
 }

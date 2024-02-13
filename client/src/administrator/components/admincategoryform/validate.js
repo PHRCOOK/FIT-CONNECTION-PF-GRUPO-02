@@ -1,7 +1,7 @@
 export const validate = (input) => {
   const errors = {};
   if (!input.name) {
-    errors.name = "Debe haber un nombre";
+    errors.name = "Debes haber un nombre";
   }
   if (!input.status) {
     errors.status = "Debe elegir un estado";

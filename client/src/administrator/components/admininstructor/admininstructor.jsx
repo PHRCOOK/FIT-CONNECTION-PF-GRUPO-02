@@ -32,7 +32,7 @@ function admininstructor() {
       <table>
         <thead>
           <tr>
-            <th>Instructor</th>
+            <th>Instructors</th>
             <th>Acciones</th>
           </tr>
         </thead>

@@ -4,7 +4,7 @@ import AdminCategoryForm from "../admincategoryform/admincategoryform";
 function adminmodifycategory() {
   return (
     <div>
-      <AdminCategoryForm />
+      <AdminCategoryForms />
     </div>
   );
 }

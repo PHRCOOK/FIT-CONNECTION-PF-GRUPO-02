@@ -130,7 +130,7 @@ function admincategoryform() {
                 (value) => value === ""
               )}
             >
-              {params.id ? "Update category" : "Create category"}
+              {params.id ? "Update category" : "Create categorys"}
             </button>
           </Col>
         </Row>
