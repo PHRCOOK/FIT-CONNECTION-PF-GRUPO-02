@@ -1,8 +1,0 @@
-.env
-
-node_modules
-ngrok.exe
-fitconnection.session.sql
-
-package.json
-packge-lock.json
