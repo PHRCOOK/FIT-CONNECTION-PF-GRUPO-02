@@ -12,5 +12,6 @@ feedBackRouter.post("/", requiresAuth(), createFeedBackHandler);
 
 // Solo los usuarios autenticados pueden obtener la retroalimentación
 feedBackRouter.get("/", requiresAuth(), getFeedBacksHandler);
+feedBackRouter.get("/", getFeedBacksHandler);
 
 module.exports = feedBackRouter;

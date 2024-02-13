@@ -39,7 +39,7 @@ function Filters() {
 
     let settingsToApply = { ...filterSettings };
 
-    settingsToApply = { ...settingsToApply, [key]: value || "" };
+    settingsToApply = { ...settingsToApply, [key]: value || "", page: 1 };
 
     deleteUndefined(settingsToApply);
 

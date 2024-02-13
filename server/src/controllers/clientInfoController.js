@@ -9,14 +9,14 @@ const createClientInfoController = async (user_id, address, phone, dni, birth_da
         if (!user) {
             throw new Error('User not found');
         }
-        const infoClient = await ClientInfo.create({address, phone, dni, birth_date})   
+        const clientInfo = await ClientInfo.create({address, phone, dni, birth_date})   
 
-        await user.setClientInfo(infoClient)
+        await user.setClientInfo(clientInfo)
 
         return { 
             message: 'Información creada con exito',
             user: user.fullname,
-            infoClient: infoClient
+            clientInfo: clientInfo
         } 
     } catch (error) {
         throw new Error(`Error al agregar la información ${error.message}`)
@@ -32,18 +32,18 @@ const updateClientInfoController = async (user_id, newData) => {
             throw new Error('User not found');
         }
 
-        const newInfoClient = await ClientInfo.findOne({
+        const newClientInfo = await ClientInfo.findOne({
             where: {
                 user_id: user_id,
             }
 
         })
-        await newInfoClient.update(newData);
+        await newClientInfo.update(newData);
         
         return { 
             message: "Información del usuario actualizada exitosamente.",
             user: user.fullname,
-            infoClient: newInfoClient,
+            clientInfo: newClientInfo,
         };
 
     } catch (error) {

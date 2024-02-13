@@ -17,5 +17,6 @@ const pathroutes = {
   FORMPRODUCT: "/formproduct",
   REGISTER: "/register",
   STORE: "/store",
+  USER_PROFILE: "/userprofile",
 };
 export default pathroutes;

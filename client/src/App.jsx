@@ -17,9 +17,12 @@ import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
 import Category from "./components/createCategory/createCategory";
-import { useAuth0 } from "@auth0/auth0-react";
+import UserProfile from "./views/UserProfile/UserProfile";
+import auth0 from "@auth0/auth0-react";
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL = "http://localhost:3001/";
+// axios.defaults.baseURL =
+//   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
   const auth0 = useAuth0();
@@ -41,6 +44,7 @@ function App() {
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
+          <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="*" element={<Error404 />} />
         </Routes>

@@ -3,7 +3,6 @@ const upload = require("../services/multer");
 const { requiresAuth } = require("express-openid-connect");
 
 const {
-  getProductServicesHandler,
   getProductServicesByIdHandler,
   createProductServicesHandler,
   updateProductServicesHandler,

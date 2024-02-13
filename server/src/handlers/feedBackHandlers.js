@@ -1,5 +1,5 @@
 const { validateCreateFeedBack } = require("../../utils/validations/validateCreateFeedBack");
-const { createFeedBackController, getFeedBacksController } = require("../controllers/feedBackControllers");
+const { createFeedBackController, getFeedBacksController, getFeedBackByNameController } = require("../controllers/feedBackControllers");
 
 
 const createFeedBackHandler = async (req, res) => {
@@ -14,15 +14,17 @@ const createFeedBackHandler = async (req, res) => {
     };
 };
 
-// Este handler nos permite manejar la busqueda de feedBacks.
+// Este handler nos permite manejar la busqueda de feedBacks dependiendo si nos envian un requerimiento para realizar una busqueda por nombre o no.
 const getFeedBacksHandler = async (req, res) => {
+  const { fullname } = req.query;
   try {
-    const response = await getFeedBacksController();
+    const response = fullname ? await getFeedBackByNameController(fullname) : await getFeedBacksController();
     res.status(200).json(response)
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
 }
+
 
 module.exports = {
   createFeedBackHandler,

@@ -4,9 +4,16 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
-import { postProduct, putProduct } from "../../redux/action";
+import { postProduct, putProduct, getAllCategories } from "../../redux/action";
 import validate from "./validate";
-import { Container, FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
+import {
+  Container,
+  FormControl,
+  FormLabel,
+  FormText,
+  Row,
+  Col,
+} from "react-bootstrap";
 
 export default function formproduct() {
   const dispatch = useDispatch();
@@ -15,6 +22,10 @@ export default function formproduct() {
 
   const allCategories = useSelector((state) => state.allCategories);
   const allProducts = useSelector((state) => state.allProducts);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  });
 
   const [productForm, setProductForm] = useState({
     name: "",

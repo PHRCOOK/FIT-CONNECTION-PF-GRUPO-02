@@ -3,7 +3,7 @@ import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
 import { applySettings } from "../../redux/action";
 import deleteUndefined from "../filters/deleteUndefined";
-import { Pagination, Row, Col, Button } from "react-bootstrap"
+import { Pagination, Row, Col, Button } from "react-bootstrap";
 
 function Page() {
   const totalPages = useSelector((state) => state.totalPages);
@@ -14,8 +14,7 @@ function Page() {
 
   const handleClick = (event) => {
     const page = Number(event.target.value);
-    // console.log(event.target.value);
-    // event.preventDefault();
+
     console.log(filterSettings);
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
@@ -24,14 +23,12 @@ function Page() {
   };
 
   const handlePrev = (event) => {
-    console.log(totalPages);
     const page = Number(filterSettings.page) - 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
   const handleNext = (event) => {
-    console.log(totalPages);
     const page = Number(filterSettings.page) + 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
@@ -42,7 +39,7 @@ function Page() {
     <Row>
       <Col>
         <Pagination className="justify-content-center">
-          <Button disabled={filterSettings.page === 1} onClick={handlePrev} >
+          <Button disabled={filterSettings.page === 1} onClick={handlePrev}>
             Atrás
           </Button>
           {arrayTotalPages.map((page) => {
@@ -58,9 +55,11 @@ function Page() {
               </Pagination.Item>
             );
           })}
-          <Button disabled={filterSettings.page === totalPages}
-            onClick={handleNext}>
-              Siguiente
+          <Button
+            disabled={filterSettings.page === totalPages}
+            onClick={handleNext}
+          >
+            Siguiente
           </Button>
         </Pagination>
       </Col>
