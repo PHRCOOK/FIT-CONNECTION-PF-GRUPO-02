@@ -1,7 +1,7 @@
 import React from "react";
 
 function adminclientsinfo() {
-  return <div>adminclientsinfos</div>;
+  return <div>adminclientsinfo</div>;
 }
 
 export default adminclientsinfo;

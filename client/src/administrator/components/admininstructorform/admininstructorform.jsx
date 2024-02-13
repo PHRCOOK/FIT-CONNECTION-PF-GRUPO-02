@@ -109,7 +109,7 @@ function admininstructorform() {
           </Col>
 
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Photos</FormLabel>
+            <FormLabel className="form-label">Photo</FormLabel>
             <FormControl
               type="text"
               name="photo"

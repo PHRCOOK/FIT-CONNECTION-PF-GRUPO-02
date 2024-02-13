@@ -52,7 +52,7 @@ function admincategories() {
           ))}
         </tbody>
       </table>
-      <button onClick={handleCreateCategory}>Crear categorias</button>
+      <button onClick={handleCreateCategory}>Crear categoria</button>
     </div>
   );
 }

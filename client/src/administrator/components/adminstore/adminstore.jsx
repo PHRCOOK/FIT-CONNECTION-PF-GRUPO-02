@@ -8,7 +8,7 @@ function AdminStore() {
   const allProducts = useSelector((state) => state.allProducts);
 
   if (!Array.isArray(allProducts)) {
-    return <p>Cargandos...</p>;
+    return <p>Cargando...</p>;
   }
   return (
     <Row>

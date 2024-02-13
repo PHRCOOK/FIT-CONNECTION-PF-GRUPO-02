@@ -14,7 +14,7 @@ function adminnavbar() {
     { path: "/admin/instructors", title: "Instructors" },
     { path: "/admin/categories", title: "Categories" },
     { path: "/admin/clientinfo", title: "Client info" },
-    { path: "/admin/dashboard", title: "Dashboards" },
+    { path: "/admin/dashboard", title: "Dashboard" },
   ];
 
   const links = [];
