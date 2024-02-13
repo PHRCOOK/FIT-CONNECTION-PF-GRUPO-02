@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@auth0/auth0-react": "^2.2.4",
-    "express-openid-connect": "^2.17.1"
-  }
-}
