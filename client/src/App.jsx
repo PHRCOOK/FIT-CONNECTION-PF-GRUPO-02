@@ -18,12 +18,16 @@ import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
 import Category from "./components/createCategory/createCategory";
 import UserProfile from "./views/UserProfile/UserProfile";
+import { useAuth0 } from "@auth0/auth0-react";
 
 axios.defaults.baseURL = "http://localhost:3001/";
 // axios.defaults.baseURL =
 //   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
+  const auth0 = useAuth0();
+  console.log(auth0.user);
+
   return (
     <>
       <AppBar />

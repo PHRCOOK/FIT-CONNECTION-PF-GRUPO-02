@@ -19,7 +19,15 @@ export default function AppBar() {
       const userIsAdmin = roles.includes("admin");
       setIsAdmin(userIsAdmin);
       console.log(`Is user admin? ${userIsAdmin}`);
+
+      // Imprimir datos del usuario en la consola
+      console.log("User Info:", {
+        name: user.name,
+        sub: user.sub,
+        email: user.email,
+      });
     };
+
     if (user) {
       getUserMetadata();
     }
