@@ -29,13 +29,13 @@ export default function AppBar() {
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
-      show: location.pathname !== pathroutes.PRODUCT,
+      show: true,
     },
     { path: pathroutes.SERVICE, title: "Servicios", show: true },
     {
       path: pathroutes.FORMPRODUCT,
       title: "Crear productos",
-      show: location.pathname === pathroutes.PRODUCT,
+      show: true,
     },
     { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
     { path: pathroutes.STAFF, title: "Conocer staff", show: true },

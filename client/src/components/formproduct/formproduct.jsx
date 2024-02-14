@@ -25,7 +25,7 @@ export default function formproduct() {
 
   useEffect(() => {
     dispatch(getAllCategories());
-  });
+  }, []);
 
   const [productForm, setProductForm] = useState({
     name: "",
@@ -89,7 +89,7 @@ export default function formproduct() {
         Object.keys(productForm).forEach((key) => {
           formData.append(key, productForm[key]);
         });
-  
+
         if (params.id) {
           await dispatch(putProduct(params.id, formData));
           window.alert("Producto modificado exitosamente");
@@ -173,7 +173,7 @@ export default function formproduct() {
             )}
 
             <Link to="/categories">
-            <button className="btn btn-primary mt-3">Crear Categoría</button>
+              <button className="btn btn-primary mt-3">Crear Categoría</button>
             </Link>
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">

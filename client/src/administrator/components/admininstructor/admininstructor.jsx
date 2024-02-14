@@ -1,14 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { deleteInstructor } from "../../../redux/action";
+import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
-function admininstructor() {
+function AdminInstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allInstructors = useSelector((state) => state.allInstructors);
+
+  useEffect(() => {
+    dispatch(getAllInstructors());
+  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -20,11 +24,11 @@ function admininstructor() {
   };
 
   const handleModify = (id) => {
-    navigate(`/admin/modifyinstructor/${id}`);
+    navigate(`/admin/instructor/modify/${id}`);
   };
 
   const handleCreateInstructor = () => {
-    navigate("/admin/createinstructor");
+    navigate("/admin/instructor/create");
   };
 
   return (
@@ -57,4 +61,4 @@ function admininstructor() {
   );
 }
 
-export default admininstructor;
+export default AdminInstructor;

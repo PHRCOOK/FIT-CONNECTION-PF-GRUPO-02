@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { postCategory, putCategory } from "../../../redux/action";
+import {
+  postCategory,
+  putCategory,
+  getAllCategories,
+} from "../../../redux/action";
 import validate from "./validate";
 
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
-function admincategoryform() {
+function Admincategoryform() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -16,7 +20,11 @@ function admincategoryform() {
   const allCategories = useSelector((state) => state.allCategories);
 
   useEffect(() => {
-    if (params.id) {
+    dispatch(getAllCategories());
+  }, []);
+
+  useEffect(() => {
+    if (params.id && allCategories.length) {
       const categoryFiltered = allCategories.filter(
         (category) => params.id === category.id.toString()
       );
@@ -26,7 +34,7 @@ function admincategoryform() {
         is_service: categoryFiltered[0].is_service,
       });
     }
-  }, [params]);
+  }, [params, allCategories]);
 
   const [categoryForm, setCategoryForm] = useState({
     name: "",
@@ -58,8 +66,10 @@ function admincategoryform() {
   };
 
   const handleChange = (e) => {
+    // console.log(categoryForm);
     let key = [e.target.name];
     let value = e.target.value;
+    console.log(value);
     setCategoryForm({ ...categoryForm, [key]: value });
     setErrors(validate({ ...categoryForm, [key]: value }));
   };
@@ -72,7 +82,7 @@ function admincategoryform() {
         </div>
         <Row>
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Name</FormLabel>
+            <FormLabel className="form-label">Nombre de la categoría</FormLabel>
             <FormControl
               type="text"
               name="name"
@@ -86,36 +96,36 @@ function admincategoryform() {
           </Col>
 
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Status</FormLabel>
+            <FormLabel className="form-label">Está disponible?</FormLabel>
             <select
               name="status"
               className="form-control"
-              defaultValue={"DEFAULT"}
               onChange={handleChange}
+              value={categoryForm.status}
             >
-              <option value="DEFAULT" disabled hidden>
+              <option value="" disabled hidden>
                 --
               </option>
-              <option>TRUE</option>
-              <option>FALSE</option>
+              <option value="true">Si</option>
+              <option value="false">No</option>
             </select>
             {errors.status && (
               <FormText className="form-text">{errors.status}</FormText>
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Service</FormLabel>
+            <FormLabel className="form-label">Es un servicio?</FormLabel>
             <select
               name="is_service"
               className="form-control"
-              defaultValue={"DEFAULT"}
               onChange={handleChange}
+              value={categoryForm.is_service}
             >
-              <option value="DEFAULT" disabled hidden>
+              <option value="" disabled hidden>
                 --
               </option>
-              <option>TRUE</option>
-              <option>FALSE</option>
+              <option value="true">Si</option>
+              <option value="false">No</option>
             </select>
             {errors.status && (
               <FormText className="form-text">{errors.status}</FormText>
@@ -130,7 +140,7 @@ function admincategoryform() {
                 (value) => value === ""
               )}
             >
-              {params.id ? "Update category" : "Create category"}
+              {params.id ? "Actualizar categoría" : "Crear categoría"}
             </button>
           </Col>
         </Row>
@@ -139,4 +149,4 @@ function admincategoryform() {
   );
 }
 
-export default admincategoryform;
+export default Admincategoryform;

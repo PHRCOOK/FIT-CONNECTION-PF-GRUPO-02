@@ -1,14 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getAllCategories } from "../../../redux/action";
 
 import { deleteCategory } from "../../../redux/action";
 
-function admincategories() {
+function Admincategories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allCategories = useSelector((state) => state.allCategories);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -20,11 +25,11 @@ function admincategories() {
   };
 
   const handleModify = (id) => {
-    navigate(`/admin/modifycategory/${id}`);
+    navigate(`/admin/categories/modify/${id}`);
   };
 
   const handleCreateCategory = () => {
-    navigate("/admin/createcategory");
+    navigate("/admin/categories/create");
   };
 
   return (
@@ -57,4 +62,4 @@ function admincategories() {
   );
 }
 
-export default admincategories;
+export default Admincategories;
