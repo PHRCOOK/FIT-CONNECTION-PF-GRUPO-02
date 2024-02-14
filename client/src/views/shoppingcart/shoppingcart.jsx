@@ -72,16 +72,16 @@ export default function shoppingcart() {
                   <Col>
                     <div className="fw-bold fs-2">Cantidad : {carrito.quantity}</div>
                     {/* <h2>categoria : {carrito.category_id}</h2> */}
-                    <Button className="my-3 btn btn-primary"value={carrito.id} onClick={handleClick}>
+                    <Button className="my-3 btn btn-primary" value={carrito.id} onClick={handleClick}>
                       eliminar
                     </Button>
-                    <Button className="mx-3 my-3 btn btn-primary" onClick={handlePayment}>Pagar</Button> {/* Botón para iniciar el proceso de pago */}
                   </Col>
                 </div>
               ))
             ) : (
               <p>No hay productos en el carrito</p>
             )}
+            <Button className="d-grid gap-2 col-3 mx-auto my-3 btn btn-primary" onClick={handlePayment}>Pagar</Button> {/* Botón para iniciar el proceso de pago */}
           </Col>
         </Row>
       </Card>
