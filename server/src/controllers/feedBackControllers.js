@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const { FeedBack, User, Instructor } = require("../db");
 
 // Este controller nos permite crear un comentario para calificar a un instructor vinculadolo por su id y lo asocia al usuario que realice el comentario.
@@ -30,7 +32,7 @@ const createFeedBackController = async (
     await newFeedBack.setUser(user);
     await newFeedBack.setInstructor(instructor);
 
-    return { message: "Comment created successfully." };
+    return { message: "Comment created successfully.", newFeedBack: newFeedBack};
   } catch (error) {
     throw new Error(`Error creating comment: ${error.message}`);
   }
@@ -54,8 +56,52 @@ const getFeedBacksController = async () => {
   }
 }
 
+// Este controller nos permite realizar la busqueda por el nombre del usuario o del instructor dependiendo de que llegue por query.
+const getFeedBackByNameController = async (fullname) => {
+  try {
+    const feedBackUserByName = await User.findOne({
+      where: {
+        fullname: {
+          [Op.iLike]: fullname, // Lo usamos para realizar comparaciones de cadenas sin distinción entre mayúsculas y minúsculas.
+        },
+      },
+      attributes: ['fullname'],
+      include: [
+        { model: FeedBack, as: "FeedBack" }
+      ]
+    });
+
+    const feedBackInstructorByName = await Instructor.findOne({
+      where: {
+        fullname: {
+          [Op.iLike]: fullname,
+        }, 
+      },
+      attributes: ['fullname'],
+      include: [
+        { model: FeedBack, as: "FeedBack" }
+      ]
+    })
+
+    if (feedBackUserByName && feedBackUserByName.FeedBack.length > 0) {
+      return feedBackUserByName;
+    } else if (feedBackInstructorByName && feedBackInstructorByName.FeedBack.length > 0) {
+      return feedBackInstructorByName;
+    } else if (feedBackUserByName) {
+      throw new Error("No se encontraron comentarios para el usuario.");
+    } else if (feedBackInstructorByName) {
+      throw new Error("No se encontraron comentarios para el instructor.");
+    }
+
+  } catch (error) {
+    throw new Error(`Error al buscar la información: ${error.message}`)
+  }
+}
+
 
 module.exports = {
   createFeedBackController,
   getFeedBacksController,
+  getFeedBackByNameController,
+
 };

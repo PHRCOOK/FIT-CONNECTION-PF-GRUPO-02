@@ -2,7 +2,6 @@ const { Router } = require("express");
 const upload = require("../services/multer");
 
 const {
-  getProductServicesHandler,
   getProductServicesByIdHandler,
   createProductServicesHandler,
   updateProductServicesHandler,
