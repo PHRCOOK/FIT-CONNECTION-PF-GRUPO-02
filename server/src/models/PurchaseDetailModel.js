@@ -7,7 +7,11 @@ module.exports = (database) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      product_id: {
+      item_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      item_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

@@ -7,6 +7,14 @@ module.exports = (database) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      item_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      item_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       quantity: {
         type: DataTypes.FLOAT,
         allowNull: false,
