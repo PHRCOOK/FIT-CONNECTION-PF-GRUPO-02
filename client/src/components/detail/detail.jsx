@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Button, Container } from "react-bootstrap";
 
 const Detail = () => {
   const { id } = useParams();
@@ -64,40 +64,49 @@ const Detail = () => {
       });
   };
   return (
-    <Card>
-      <Card.Img
-        style={{ height: "300px", objectFit: "contain" }}
-        variant="top"
-        src={image_url}
-      ></Card.Img>
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>
+    <Container>
+      <div className="fs-4 mb-3 fw-bold text-center">Detalle de Productos</div>
+      <Card>
         <Row>
-          <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Brand:</span> {brand}
+          <Col>
+            <Card.Img
+              style={{ height: "300px", objectFit: "contain" }}
+              variant="top"
+              src={image_url}
+            ></Card.Img>
           </Col>
-          <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Categoria:</span>{" "}
-            {category ? category.name : category}
-          </Col>
-          <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Precio:</span> ${price}
-          </Col>
-          <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Estado:</span>{" "}
-            {status ? "Activo" : "Inactivo"}
-          </Col>
-          <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Cantidad:</span> {stock}
-          </Col>
-          <Col xs="12" md="6" lg="3">
-            <span className="fw-bold">Descripcion: </span>
-            {description}
+          <Col>
+            <Card.Body>
+              <Card.Title>{name}</Card.Title>
+              <Row>
+                <Col xs="12" md="6">
+                  <span className="fw-bold">Brand:</span> {brand}
+                </Col>
+                <Col xs="12" md="6">
+                  <span className="fw-bold">Categoria:</span>{" "}
+                  {category ? category.name : category}
+                </Col>
+                <Col xs="12" md="6">
+                  <span className="fw-bold">Precio:</span> ${price}
+                </Col>
+                <Col xs="12" md="6">
+                  <span className="fw-bold">Estado:</span>{" "}
+                  {status ? "Activo" : "Inactivo"}
+                </Col>
+                <Col xs="12" md="6">
+                  <span className="fw-bold">Cantidad:</span> {stock}
+                </Col>
+                <Col xs="12">
+                  <span className="fw-bold">Descripcion: </span>
+                  {description}
+                </Col>
+              </Row>
+            </Card.Body>
           </Col>
         </Row>
-        <button onClick={handleClick}> agregar al carrito</button>
-      </Card.Body>
-    </Card>
+        <Button className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3" onClick={handleClick}> agregar al carrito</Button>
+      </Card >
+    </Container>
   );
 };
 
