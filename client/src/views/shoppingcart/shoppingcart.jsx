@@ -10,10 +10,19 @@ export default function shoppingcart() {
     axios
       .get("/api/shoppingCart/6")
       .then(({ data }) => {
+        if(data){
         setCarritos(data);
+      }else{
+        setCarritos([])
+      }
+
       })
       .catch((error) => {
-        window.alert("Error al obtener datos del carrito de compras:", error);
+        if (error.response && error.response.status === 500) {
+          setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
+        } else {
+          window.alert("Error al obtener datos del carrito de compras:", error);
+        }
       });
   };
   useEffect(() => {
@@ -79,7 +88,7 @@ export default function shoppingcart() {
                 </div>
               ))
             ) : (
-              <p>No hay productos en el carrito</p>
+              <p className="fs-4 mb-3 fw-bold text-center">No hay productos en el carrito</p>
             )}
             <Button className="d-grid gap-2 col-3 mx-auto my-3 btn btn-primary" onClick={handlePayment}>Pagar</Button> {/* Botón para iniciar el proceso de pago */}
           </Col>
@@ -88,3 +97,4 @@ export default function shoppingcart() {
     </Container>
   );
 }
+
