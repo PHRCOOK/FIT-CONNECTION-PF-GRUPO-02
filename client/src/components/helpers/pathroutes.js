@@ -18,5 +18,6 @@ const pathroutes = {
   REGISTER: "/register",
   STORE: "/store",
   USER_PROFILE: "/userprofile",
+  LOGIN: "/login",
 };
 export default pathroutes;

@@ -4,7 +4,7 @@ import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./views/home/home";
 import Form from "./components/userform/userform";
-import Product from "./components/product/product";
+// import Product from "./components/product/product";
 import Shoppingcart from "./views/shoppingcart/shoppingcart";
 import Services from "./views/services/services";
 import FormProduct from "./components/formproduct/formproduct";
@@ -17,6 +17,7 @@ import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
 import Category from "./administrator/components/admincategoryform/admincategoryform";
 import UserProfile from "./views/UserProfile/UserProfile";
+import Login from "./components/login/login";
 // import { useAuth0 } from "@auth0/auth0-react";
 
 //PRUEBAS DE LO Q DEJO ILEANA
@@ -44,6 +45,7 @@ function App() {
       <Container fluid className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
+          <Route path={pathroutes.LOGIN} element={<Login />} />
           <Route path={pathroutes.DETAIL} element={<Detail />} />
           <Route path={pathroutes.FORM} element={<Form />} />
           <Route path={pathroutes.PRODUCT} element={<Store />} />

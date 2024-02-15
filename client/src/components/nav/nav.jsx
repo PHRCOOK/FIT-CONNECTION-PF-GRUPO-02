@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
@@ -8,12 +8,12 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [isAdmin, setIsAdmin] = React.useState(false);
 
   useEffect(() => {
     const getUserMetadata = async () => {
-      // Imprimir datos del usuario en la consola
       console.log("User Info:", {
         name: user.name,
         sub: user.sub,
@@ -45,7 +45,7 @@ export default function AppBar() {
       show: true,
       onClick: isAuthenticated
         ? () => logout({ returnTo: window.location.origin })
-        : () => loginWithRedirect(),
+        : () => navigate(pathroutes.LOGIN), // Use navigate instead of history
       isButton: true,
     },
     { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
