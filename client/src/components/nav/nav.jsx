@@ -33,8 +33,8 @@ export default function AppBar() {
     },
     { path: pathroutes.SERVICE, title: "Servicios", show: true },
     {
-      path: pathroutes.FORMPRODUCT,
-      title: "Crear productos",
+      path: pathroutes.ADMIN,
+      title: "Acceso Admin",
       show: true,
     },
     { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },

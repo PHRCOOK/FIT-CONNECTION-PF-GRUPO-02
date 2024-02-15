@@ -7,9 +7,10 @@ function AdminLanding() {
 
   return (
     <div>
-      <AdminNavbar />
-      <button onClick={() => navigate(`/admin/categories/`)}>Categories</button>
+      {/* <AdminNavbar /> */}
+      <button onClick={() => navigate(`/admin/category/`)}>Categories</button>
       <button onClick={() => navigate(`/admin/instructor/`)}>Instructor</button>
+      <button onClick={() => navigate(`/admin/product/`)}>Productos</button>
     </div>
   );
 }

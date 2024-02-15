@@ -26,6 +26,7 @@ import Admincategoryform from "./administrator/components/admincategoryform/admi
 import AdminInstructor from "./administrator/components/admininstructor/admininstructor";
 import AdminInstructorForm from "./administrator/components/admininstructorform/admininstructorform";
 import AdminLanding from "./administrator/admin/AdminLanding";
+import AdminStore from "./administrator/components/adminstore/adminstore";
 // FIN PRUEBAS
 
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -49,14 +50,14 @@ function App() {
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
-          <Route path="/admin/categories" element={<Admincategories />} />
+          <Route path="/admin/category" element={<Admincategories />} />
           <Route path="/admin" element={<AdminLanding />} />
           <Route
-            path="/admin/categories/create"
+            path="/admin/category/create"
             element={<Admincategoryform />}
           />
           <Route
-            path="/admin/categories/modify/:id"
+            path="/admin/category/modify/:id"
             element={<Admincategoryform />}
           />
           <Route path="/admin/instructor" element={<AdminInstructor />} />
@@ -68,6 +69,7 @@ function App() {
             path="/admin/instructor/modify/:id"
             element={<AdminInstructorForm />}
           />
+          <Route path="/admin/product/" element={<AdminStore />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>

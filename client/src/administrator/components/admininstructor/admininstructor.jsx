@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
@@ -36,27 +37,34 @@ function AdminInstructor() {
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Instructor</th>
+            <th>Estatus</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {allInstructors.map((instructor) => (
-            <tr key={instructor.id}>
-              <td>{instructor.fullname}</td>
-              <td>
-                <button onClick={() => handleDelete(instructor.id)}>
-                  Borrar
-                </button>
-                <button onClick={() => handleModify(instructor.id)}>
-                  Modificar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {allInstructors.map((instructor) => {
+            console.log(instructor);
+            return (
+              <tr key={instructor.id}>
+                <td>{instructor.id}</td>
+                <td>{instructor.fullname}</td>
+                <td>{String(instructor.status)}</td>
+                <td>
+                  <Button onClick={() => handleDelete(instructor.id)}>
+                    Borrar
+                  </Button>
+                  <Button onClick={() => handleModify(instructor.id)}>
+                    Modificar
+                  </Button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-      <button onClick={handleCreateInstructor}>Crear instructor</button>
+      <Button onClick={handleCreateInstructor}>Crear instructor</Button>
     </div>
   );
 }
