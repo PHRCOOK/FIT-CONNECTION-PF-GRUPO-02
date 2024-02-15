@@ -25,7 +25,7 @@ export default function formproduct() {
 
   useEffect(() => {
     dispatch(getAllCategories());
-  });
+  },[]);
 
   const [productForm, setProductForm] = useState({
     name: "",

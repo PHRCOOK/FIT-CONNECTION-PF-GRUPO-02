@@ -16,7 +16,7 @@ import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
-import Category from "./components/createCategory/createCategory";
+import Category from "./administrator/components/admincategoryform/admincategoryform"
 import UserProfile from "./views/UserProfile/UserProfile";
 
 axios.defaults.baseURL = "http://localhost:3001/";
