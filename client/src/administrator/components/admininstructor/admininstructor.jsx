@@ -1,14 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-import { deleteInstructor } from "../../../redux/action";
+import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
-function admininstructor() {
+function AdminInstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allInstructors = useSelector((state) => state.allInstructors);
+
+  useEffect(() => {
+    dispatch(getAllInstructors());
+  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -20,11 +25,11 @@ function admininstructor() {
   };
 
   const handleModify = (id) => {
-    navigate(`/admin/modifyinstructor/${id}`);
+    navigate(`/admin/instructor/modify/${id}`);
   };
 
   const handleCreateInstructor = () => {
-    navigate("/admin/createinstructor");
+    navigate("/admin/instructor/create");
   };
 
   return (
@@ -32,29 +37,36 @@ function admininstructor() {
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Instructor</th>
+            <th>Estatus</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {allInstructors.map((instructor) => (
-            <tr key={instructor.id}>
-              <td>{instructor.fullname}</td>
-              <td>
-                <button onClick={() => handleDelete(instructor.id)}>
-                  Borrar
-                </button>
-                <button onClick={() => handleModify(instructor.id)}>
-                  Modificar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {allInstructors.map((instructor) => {
+            console.log(instructor);
+            return (
+              <tr key={instructor.id}>
+                <td>{instructor.id}</td>
+                <td>{instructor.fullname}</td>
+                <td>{String(instructor.status)}</td>
+                <td>
+                  <Button onClick={() => handleDelete(instructor.id)}>
+                    Borrar
+                  </Button>
+                  <Button onClick={() => handleModify(instructor.id)}>
+                    Modificar
+                  </Button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-      <button onClick={handleCreateInstructor}>Crear instructor</button>
+      <Button onClick={handleCreateInstructor}>Crear instructor</Button>
     </div>
   );
 }
 
-export default admininstructor;
+export default AdminInstructor;
