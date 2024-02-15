@@ -11,7 +11,7 @@ import reportWebVitals from "./reportWebVitals";
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const domain = "https://pabloelleproso.us.auth0.com";
-const clientId = "J1C5DLRnm4PlJNL4AbcvuVqIus0g60rq";
+const clientId = "htRNcTw4YHGioeiGudC6khHz7bU5rrry";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
