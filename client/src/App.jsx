@@ -11,7 +11,6 @@ import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
-import Admin from "./administrator/admin/admin";
 import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
@@ -19,6 +18,17 @@ import Error404 from "./views/Error 404/Error404";
 import Category from "./administrator/components/admincategoryform/admincategoryform"
 import UserProfile from "./views/UserProfile/UserProfile";
 import { useAuth0 } from "@auth0/auth0-react";
+
+//PRUEBAS DE LO Q DEJO ILEANA
+
+// import Admin from "./administrator/admin/admin";
+import Admincategories from "./administrator/components/admincategories/admincategories";
+import Admincategoryform from "./administrator/components/admincategoryform/admincategoryform";
+import AdminInstructor from "./administrator/components/admininstructor/admininstructor";
+import AdminInstructorForm from "./administrator/components/admininstructorform/admininstructorform";
+import AdminLanding from "./administrator/admin/AdminLanding";
+import AdminStore from "./administrator/components/adminstore/adminstore";
+// FIN PRUEBAS
 
 axios.defaults.baseURL = "http://localhost:3001/";
 // axios.defaults.baseURL =
@@ -44,7 +54,26 @@ function App() {
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
-          <Route path="/admin/*" element={<Admin />} />
+          <Route path="/admin/category" element={<Admincategories />} />
+          <Route path="/admin" element={<AdminLanding />} />
+          <Route
+            path="/admin/category/create"
+            element={<Admincategoryform />}
+          />
+          <Route
+            path="/admin/category/modify/:id"
+            element={<Admincategoryform />}
+          />
+          <Route path="/admin/instructor" element={<AdminInstructor />} />
+          <Route
+            path="/admin/instructor/create"
+            element={<AdminInstructorForm />}
+          />
+          <Route
+            path="/admin/instructor/modify/:id"
+            element={<AdminInstructorForm />}
+          />
+          <Route path="/admin/product/" element={<AdminStore />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>
