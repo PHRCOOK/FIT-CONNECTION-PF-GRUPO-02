@@ -1,7 +1,13 @@
-const {Router} = require('express');
+const { Router } = require("express");
+const upload = require("../services/multer");
 
-const { getProductServicesHandler, getProductServicesByIdHandler, getProductServicesByNameHandler, createProductServicesHandler, updateProductServicesHandler, deleteProductServicesHandler, filterByCategoryHandler, orderByPriceHandler, productfilterHandler, productFilterAndOrderHandler
-} = require('../handlers/productsHandlers');
+const {
+  getProductServicesByIdHandler,
+  createProductServicesHandler,
+  updateProductServicesHandler,
+  deleteProductServicesHandler,
+  productFilterAndOrderHandler,
+} = require("../handlers/productsHandlers");
 
 const productsRouter = Router();
 
@@ -10,13 +16,9 @@ const productsRouter = Router();
 productsRouter.get('/', productFilterAndOrderHandler);      //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
 
 // Rutas generales después
-productsRouter.get('/', getProductServicesHandler);
-productsRouter.get('/:id', getProductServicesByIdHandler);
-productsRouter.get('/getByName', getProductServicesByNameHandler);
-productsRouter.post('/', createProductServicesHandler);
-productsRouter.put('/update/:id', updateProductServicesHandler);
-productsRouter.delete('/delete/:id', deleteProductServicesHandler);
-
-
+productsRouter.get("/:id", getProductServicesByIdHandler);
+productsRouter.post("/", upload.single('image_url'), createProductServicesHandler);
+productsRouter.put("/update/:id", updateProductServicesHandler);
+productsRouter.delete("/delete/:id", deleteProductServicesHandler);
 
 module.exports = productsRouter;
