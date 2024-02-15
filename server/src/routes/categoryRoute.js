@@ -6,11 +6,11 @@ const {
   putCategoriesHandler,
 } = require("../handlers/categoryHandler");
 const categoryRouter = Router();
-const { jwtCheck } = require('../../utils/auth')
+// const { jwtCheck } = require("../../utils/auth");
 
 categoryRouter.get("/", getAllCategoriesHandler);
 categoryRouter.put("/:id", putCategoriesHandler);
 categoryRouter.delete("/:id", deleteCategoriesHandler);
-categoryRouter.post("/", jwtCheck, postCategoriesHandler);
+categoryRouter.post("/", postCategoriesHandler);
 
 module.exports = categoryRouter;

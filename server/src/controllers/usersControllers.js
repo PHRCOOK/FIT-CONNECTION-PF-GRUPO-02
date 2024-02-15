@@ -4,7 +4,6 @@ const { transporter } = require("../../utils/transporter");
 const { generateWelcomeEmail } = require("../../utils/emailTemplates");
 const { MAIL_USERNAME } = process.env;
 
-
 // Controler encargado de crear los usuarios.
 const createUserController = async (fullname, email, password) => {
   try {
@@ -142,7 +141,7 @@ const deleteUserController = async (id) => {
   } catch (error) {
     throw new Error({ error: error.message });
   }
-}
+};
 
 module.exports = {
   createUserController,
@@ -151,5 +150,5 @@ module.exports = {
   updateUserController,
   getInactiveUsersController,
   getUserByIdController,
-  deleteUserController
+  deleteUserController,
 };
