@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
@@ -8,23 +7,6 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  const [isAdmin, setIsAdmin] = React.useState(false);
-
-  useEffect(() => {
-    const getUserMetadata = async () => {
-      console.log("User Info:", {
-        name: user.name,
-        sub: user.sub,
-        email: user.email,
-      });
-    };
-
-    if (user) {
-      getUserMetadata();
-    }
-  }, [user]);
 
   const linksData = [
     {
@@ -40,24 +22,13 @@ export default function AppBar() {
     },
     { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
     { path: pathroutes.STAFF, title: "Conocer staff", show: true },
+    { path: pathroutes.REGISTER, title: "Registrate", show: true },
     {
-      title: isAuthenticated ? "Logout" : "Login",
+      path: pathroutes.LOGIN,
+      title: "Login",
       show: true,
-      onClick: isAuthenticated
-        ? () => logout({ returnTo: window.location.origin })
-        : () => navigate(pathroutes.LOGIN), // Use navigate instead of history
-      isButton: true,
     },
-    { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
   ];
-
-  if (isAdmin) {
-    linksData.push({
-      path: pathroutes.ADMIN,
-      title: "Admin",
-      show: true,
-    });
-  }
 
   const navLinks = linksData
     .filter((linkData) => linkData.show && linkData.path)
@@ -107,19 +78,6 @@ export default function AppBar() {
             {navLinks}
             {buttons}
           </Nav>
-          {isAuthenticated && (
-            <div className="my-1">
-              <Navbar.Text className="mx-3">
-                Signed in as: <a href="#login">{user.name}</a>
-              </Navbar.Text>
-              <Image
-                src={user.picture}
-                alt="Profile"
-                className="avatar border border-2 border-light"
-                roundedCircle
-              />
-            </div>
-          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
