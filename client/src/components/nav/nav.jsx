@@ -8,18 +8,11 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
-  const { loginWithRedirect, logout, isAuthenticated, user, getIdTokenClaims } =
-    useAuth0();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const [isAdmin, setIsAdmin] = React.useState(false);
 
   useEffect(() => {
     const getUserMetadata = async () => {
-      const claims = await getIdTokenClaims();
-      const roles = claims["https://pabloelleproso.us.auth0.com/roles"] || [];
-      const userIsAdmin = roles.includes("admin");
-      setIsAdmin(userIsAdmin);
-      console.log(`Is user admin? ${userIsAdmin}`);
-
       // Imprimir datos del usuario en la consola
       console.log("User Info:", {
         name: user.name,
@@ -31,7 +24,7 @@ export default function AppBar() {
     if (user) {
       getUserMetadata();
     }
-  }, [user, getIdTokenClaims]);
+  }, [user]);
 
   const linksData = [
     {

@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      fullname: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -18,12 +18,13 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
         validate: {
-          // Le agregamos una validación de formato.
+          // Le agregamos una validación de zzzzzformato.
           isEmail: {
             msg: "El formato del correo electrónico no es valido.",
           },
         },
       },
+
       password: {
         type: DataTypes.STRING,
         allowNull: false,

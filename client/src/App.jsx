@@ -15,9 +15,9 @@ import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
-import Category from "./administrator/components/admincategoryform/admincategoryform"
+import Category from "./administrator/components/admincategoryform/admincategoryform";
 import UserProfile from "./views/UserProfile/UserProfile";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 
 //PRUEBAS DE LO Q DEJO ILEANA
 
@@ -35,8 +35,8 @@ axios.defaults.baseURL = "http://localhost:3001/";
 //   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
-  const auth0 = useAuth0();
-  console.log(auth0.user);
+  // const auth0 = useAuth0();
+  // console.log(auth0.user);
 
   return (
     <>
