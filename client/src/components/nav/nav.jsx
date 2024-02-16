@@ -56,7 +56,7 @@ export default function AppBar() {
     // },
     {
       path: pathroutes.ADMIN,
-      title: "Acceso Admin",
+      title: "Herramientas Admin",
       show: location.pathname !== pathroutes.ADMIN,
     },
 
