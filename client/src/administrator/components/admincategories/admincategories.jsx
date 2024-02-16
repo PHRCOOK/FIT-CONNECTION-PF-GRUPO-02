@@ -2,9 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAllCategories } from "../../../redux/action";
-
-import { deleteCategory } from "../../../redux/action";
+import { getAllCategories, deleteCategory } from "../../../redux/action";
 
 import { Button } from "react-bootstrap";
 
@@ -17,9 +15,9 @@ function Admincategories() {
     dispatch(getAllCategories());
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     try {
-      await dispatch(deleteCategory(id));
+      dispatch(deleteCategory(id));
       window.alert("Categoria borrada correctamente");
     } catch (error) {
       window.alert(error);

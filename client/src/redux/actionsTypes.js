@@ -15,3 +15,5 @@ export const POST_INSTRCUTOR = "POST_INSTRCUTOR";
 export const PUT_INSTRUCTOR = "PUT_INSTRUCTOR";
 export const POST_USER = "POST_USER";
 export const FETCH_USER_INFO = "FETCH_USER_INFO";
+export const GET_ALL_USER = "GET_ALL_USER";
+export const EMPTY_ALL_USER = "EMPTY_ALL_USER";

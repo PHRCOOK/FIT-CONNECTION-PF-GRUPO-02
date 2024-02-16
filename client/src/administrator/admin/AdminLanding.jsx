@@ -11,6 +11,7 @@ function AdminLanding() {
       <button onClick={() => navigate(`/admin/category/`)}>Categories</button>
       <button onClick={() => navigate(`/admin/instructor/`)}>Instructor</button>
       <button onClick={() => navigate(`/admin/product/`)}>Productos</button>
+      <button onClick={() => navigate(`/admin/client/`)}>Clientes</button>
     </div>
   );
 }
