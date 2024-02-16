@@ -110,7 +110,7 @@ export default function AppBar() {
               alt="Profile"
               className="border border-2 border-light"
               roundedCircle
-              style={{ width: "60px", height: "60px" }} // Asegúrate de ajustar estos valores al tamaño de tu logo
+              style={{ width: "60px", height: "60px" }}
             />
           )}
         </Navbar.Collapse>
