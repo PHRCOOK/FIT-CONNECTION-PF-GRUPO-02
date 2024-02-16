@@ -16,6 +16,8 @@ import {
   PUT_INSTRUCTOR,
   POST_USER,
   FETCH_USER_INFO,
+  GET_ALL_USER,
+  EMPTY_ALL_USER,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -320,6 +322,47 @@ export const putUserInfo = (info) => {
       });
     } catch (error) {
       console.log(error.message);
+    }
+  };
+};
+
+export const getAllUsers = (status) => {
+  const path = status ? "/api/users" : "/api/users/inactive";
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(path);
+      const items = data.Items;
+
+      return dispatch({
+        type: GET_ALL_USER,
+        payload: items,
+      });
+    } catch (error) {
+      return dispatch({
+        type: EMPTY_ALL_USER,
+      });
+    }
+  };
+};
+
+export const putUser = (status, id, info) => {
+  const path = status ? "/api/users" : "/api/users/inactive";
+
+  return async (dispatch) => {
+    try {
+      await axios.put(`/api/users/${id}`, info);
+
+      const { data } = await axios.get(path);
+      const items = data.Items;
+
+      return dispatch({
+        type: GET_ALL_USER,
+        payload: items,
+      });
+    } catch (error) {
+      return dispatch({
+        type: EMPTY_ALL_USER,
+      });
     }
   };
 };
