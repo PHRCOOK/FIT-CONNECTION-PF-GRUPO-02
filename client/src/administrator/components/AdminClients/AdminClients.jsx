@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { FormSelect } from "react-bootstrap";
+import { FormSelect, Button, Table, Container } from "react-bootstrap";
 import { getAllUsers, putUser } from "../../../redux/action";
-import { Button } from "react-bootstrap";
 
 function AdminClients() {
   const dispatch = useDispatch();
@@ -35,20 +34,19 @@ function AdminClients() {
     navigate(`/admin/client/modifyinfo/${id}`);
   };
 
-  // const handleCreateUser = () => {
-  //   navigate("/admin/category/create");
-  // };
-
   return (
-    <div>
-      <div>
-        <label htmlFor="statusSelect">Seleccionar estatus</label>
+    <Container className="mt-3">
+      <div className="mb-3">
+        <label htmlFor="statusSelect" className="form-label">
+          Seleccionar estatus
+        </label>
         <FormSelect
           id="statusSelect"
           name="statusSelect"
           onChange={handleFilter}
           aria-label="Default select example"
           value={statusSelection}
+          className="form-select"
         >
           <option id="statusTrue" name="statusTrue" value={true}>
             Activos
@@ -59,7 +57,7 @@ function AdminClients() {
         </FormSelect>
       </div>
       {users.length ? (
-        <table>
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>Id</th>
@@ -81,13 +79,18 @@ function AdminClients() {
                   <td>{user.status ? "Activo" : "Inactivo"}</td>
                   <td>
                     <Button
+                      variant={user.status ? "danger" : "success"}
                       onClick={() => {
                         handleActivate(statusSelection, user.id, user.status);
                       }}
+                      className="me-2"
                     >
                       {user.status ? "Desactivar" : "Activar"}
                     </Button>
-                    <Button onClick={() => handleModifyUserInfo(user.id)}>
+                    <Button
+                      variant="info"
+                      onClick={() => handleModifyUserInfo(user.id)}
+                    >
                       Modificar datos personales
                     </Button>
                   </td>
@@ -95,11 +98,11 @@ function AdminClients() {
               );
             })}
           </tbody>
-        </table>
+        </Table>
       ) : (
         <h2>NO HAY USUARIOS PARA MOSTRAR</h2>
       )}
-    </div>
+    </Container>
   );
 }
 
