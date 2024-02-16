@@ -5,6 +5,7 @@ import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
+import axios from "axios";
 
 export default function AppBar() {
   const location = useLocation();
@@ -18,6 +19,12 @@ export default function AppBar() {
         email: user.email,
       };
       console.log(userData);
+
+      // Envía los datos del usuario a tu API
+      axios
+        .post("/api/users", userData)
+        .then((response) => console.log(response))
+        .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user]);
 
