@@ -10,6 +10,17 @@ export default function AppBar() {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth0();
 
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const userData = {
+        name: user.name,
+        sub: user.sub,
+        email: user.email,
+      };
+      console.log(userData);
+    }
+  }, [isAuthenticated, user]);
+
   const linksData = [
     {
       path: pathroutes.PRODUCT,
