@@ -20,7 +20,6 @@ export default function AppBar() {
       };
       console.log(userData);
 
-      // Envía los datos del usuario a tu API
       axios
         .post("/api/users", userData)
         .then((response) => console.log(response))
@@ -54,11 +53,7 @@ export default function AppBar() {
       title: "Conocer staff",
       show: location.pathname !== pathroutes.STAFF,
     },
-    {
-      path: pathroutes.REGISTER,
-      title: "Registrate",
-      show: !isAuthenticated && location.pathname !== pathroutes.REGISTER,
-    },
+
     {
       path: pathroutes.LOGIN,
       title: "Login",
