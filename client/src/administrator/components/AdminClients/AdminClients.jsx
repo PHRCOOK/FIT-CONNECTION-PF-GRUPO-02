@@ -57,7 +57,7 @@ function AdminClients() {
         </FormSelect>
       </div>
       {users.length ? (
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>Id</th>
