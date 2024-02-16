@@ -4,7 +4,7 @@ import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./views/home/home";
 import Form from "./components/userform/userform";
-import Product from "./components/product/product";
+// import Product from "./components/product/product";
 import Shoppingcart from "./views/shoppingcart/shoppingcart";
 import Services from "./views/services/services";
 import FormProduct from "./components/formproduct/formproduct";
@@ -15,8 +15,9 @@ import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
-import Category from "./administrator/components/admincategoryform/admincategoryform"
+import Category from "./administrator/components/admincategoryform/admincategoryform";
 import UserProfile from "./views/UserProfile/UserProfile";
+import Login from "./components/login/login";
 
 //PRUEBAS DE LO Q DEJO ILEANA
 
@@ -27,6 +28,7 @@ import AdminInstructor from "./administrator/components/admininstructor/adminins
 import AdminInstructorForm from "./administrator/components/admininstructorform/admininstructorform";
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
+import AdminClients from "./administrator/components/AdminClients/AdminClients";
 // FIN PRUEBAS
 
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -40,6 +42,7 @@ function App() {
       <Container fluid className="py-3 min-vh-100">
         <Routes>
           <Route path={pathroutes.HOME} element={<Home />} />
+          <Route path={pathroutes.LOGIN} element={<Login />} />
           <Route path={pathroutes.DETAIL} element={<Detail />} />
           <Route path={pathroutes.FORM} element={<Form />} />
           <Route path={pathroutes.PRODUCT} element={<Store />} />
@@ -50,8 +53,8 @@ function App() {
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
-          <Route path="/admin/category" element={<Admincategories />} />
           <Route path="/admin" element={<AdminLanding />} />
+          <Route path="/admin/category" element={<Admincategories />} />
           <Route
             path="/admin/category/create"
             element={<Admincategoryform />}
@@ -70,6 +73,12 @@ function App() {
             element={<AdminInstructorForm />}
           />
           <Route path="/admin/product/" element={<AdminStore />} />
+          <Route path="/admin/client/" element={<AdminClients />} />
+          <Route
+            path="/admin/client/modifyinfo/:id"
+            element={<UserProfile />}
+          />
+
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>

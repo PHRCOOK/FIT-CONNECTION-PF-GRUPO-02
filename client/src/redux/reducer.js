@@ -16,6 +16,8 @@ import {
   PUT_INSTRUCTOR,
   POST_USER,
   FETCH_USER_INFO,
+  GET_ALL_USER,
+  EMPTY_ALL_USER,
 } from "./actionsTypes";
 
 const initialState = {
@@ -150,6 +152,18 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         allUsers: [...state.allUsers, action.payload],
+      };
+
+    case GET_ALL_USER:
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+
+    case EMPTY_ALL_USER:
+      return {
+        ...state,
+        allUsers: [],
       };
 
     case FETCH_USER_INFO:
