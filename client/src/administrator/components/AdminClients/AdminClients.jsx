@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FormSelect } from "react-bootstrap";
-import { getAllUsers, putUser } from "../../redux/action";
+import { getAllUsers, putUser } from "../../../redux/action";
 import { Button } from "react-bootstrap";
 
 function AdminClients() {
@@ -77,8 +77,8 @@ function AdminClients() {
                   <td>{user.id}</td>
                   <td>{user.fullname}</td>
                   <td>{user.email}</td>
-                  <td>{String(user.is_admin)}</td>
-                  <td>{String(user.status)}</td>
+                  <td>{user.is_admin ? "Si" : "No"}</td>
+                  <td>{user.status ? "Activo" : "Inactivo"}</td>
                   <td>
                     <Button
                       onClick={() => {

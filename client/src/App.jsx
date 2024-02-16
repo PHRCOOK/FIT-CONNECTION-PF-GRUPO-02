@@ -27,7 +27,7 @@ import AdminInstructor from "./administrator/components/admininstructor/adminins
 import AdminInstructorForm from "./administrator/components/admininstructorform/admininstructorform";
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
-import AdminClients from "./administrator/AdminClients/AdminClients";
+import AdminClients from "./administrator/components/AdminClients/AdminClients";
 // FIN PRUEBAS
 
 axios.defaults.baseURL = "http://localhost:3001/";
