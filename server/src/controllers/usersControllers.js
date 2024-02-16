@@ -6,7 +6,7 @@ const { MAIL_USERNAME } = process.env;
 
 
 // Controler encargado de crear los usuarios.
-const createUserController = async (fullname, email, password) => {
+const createUserController = async (name, email, subAfterPipe) => {
   try {
     // Creamos una validación para que verifique si el usario ya existe por su propiedad email.
     const userExists = await User.findOne({
@@ -18,11 +18,11 @@ const createUserController = async (fullname, email, password) => {
     if (userExists) {
       throw new Error("Ya existe un usuario con este email.");
     }
-
-    const allUsers = await User.create({ fullname, email, password });
+    const sub=subAfterPipe
+    const allUsers = await User.create({ name, email, sub });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";
-    const htmlBody = generateWelcomeEmail(fullname);
+    const htmlBody = generateWelcomeEmail(name);
 
     await transporter.sendMail({
       from: MAIL_USERNAME,
@@ -66,7 +66,7 @@ const getActiveUsersController = async () => {
       },
       order: [
         // Le decimos que los resultados deben venir ordenados alfabéticamente por el nombre.
-        ["fullname", "ASC"],
+        ["name", "ASC"],
       ],
     });
 
@@ -88,7 +88,7 @@ const getInactiveUsersController = async () => {
       where: {
         status: false,
       },
-      order: [["fullname", "ASC"]],
+      order: [["name", "ASC"]],
     });
 
     if (inactiveUsers.length === 0) {
@@ -102,12 +102,12 @@ const getInactiveUsersController = async () => {
 };
 
 // Controller que nos trae solo un usuario por su nombre.
-const getUserByNameController = async (fullname) => {
+const getUserByNameController = async (name) => {
   try {
     const userByName = await User.findAll({
       where: {
-        fullname: {
-          [Op.iLike]: fullname, // Lo usamos para realizar comparaciones de cadenas sin distinción entre mayúsculas y minúsculas.
+        name: {
+          [Op.iLike]: `%${name}%`, // Lo usamos para realizar comparaciones de cadenas sin distinción entre mayúsculas y minúsculas.
         },
       },
     });
@@ -126,7 +126,7 @@ const getUserByNameController = async (fullname) => {
 const getUserByIdController = async (id) => {
   try {
     const userById = User.findByPk(id, {
-      attributes: ["fullname", "email", "is_admin", "status", "password"],
+      attributes: ["name", "email", "is_admin", "status", "sub"],
     });
     return userById;
   } catch (error) {
