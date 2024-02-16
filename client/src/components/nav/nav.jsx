@@ -96,6 +96,7 @@ export default function AppBar() {
               alt="Home"
               className="border border-2 border-light"
               roundedCircle
+              style={{ width: "90px", height: "90px" }}
             />
           </Navbar.Brand>
         </LinkContainer>
@@ -121,8 +122,7 @@ export default function AppBar() {
             <Image
               src={user.picture}
               alt="Profile"
-              className="border border-2 border-light"
-              roundedCircle
+              className="border border-2 border-light m-3"
               style={{ width: "60px", height: "60px" }}
             />
           )}
