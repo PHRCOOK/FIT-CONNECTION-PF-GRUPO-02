@@ -90,7 +90,6 @@ function AdminClients() {
                     <Button onClick={() => handleModifyUserInfo(user.id)}>
                       Modificar datos personales
                     </Button>
-                    <span>nota: es necesario este boton de modificar?</span>
                   </td>
                 </tr>
               );
