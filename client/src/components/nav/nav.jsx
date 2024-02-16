@@ -54,6 +54,12 @@ export default function AppBar() {
       show: location.pathname !== pathroutes.STAFF,
     },
 
+    // {
+    //   path: pathroutes.REGISTER,
+    //   title: "Registrate",
+    //   show: !isAuthenticated && location.pathname !== pathroutes.REGISTER,
+    // },
+
     {
       path: pathroutes.LOGIN,
       title: "Login",

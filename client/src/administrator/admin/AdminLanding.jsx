@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import AdminNavbar from "../components/adminnavbar/adminnavbar";
+// import AdminNavbar from "../components/adminnavbar/adminnavbar";
 import Button from "react-bootstrap/Button";
 
 function AdminLanding() {
