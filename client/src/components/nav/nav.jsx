@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
@@ -7,26 +8,53 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 
 export default function AppBar() {
   const location = useLocation();
+  const { isAuthenticated, user, logout } = useAuth0();
 
   const linksData = [
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
-      show: true,
+      show: location.pathname !== pathroutes.PRODUCT,
     },
-    { path: pathroutes.SERVICE, title: "Servicios", show: true },
+    {
+      path: pathroutes.SERVICE,
+      title: "Servicios",
+      show: location.pathname !== pathroutes.SERVICE,
+    },
     {
       path: pathroutes.ADMIN,
       title: "Acceso Admin",
-      show: true,
+      show: location.pathname !== pathroutes.ADMIN,
     },
-    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
-    { path: pathroutes.STAFF, title: "Conocer staff", show: true },
-    { path: pathroutes.REGISTER, title: "Registrate", show: true },
+    {
+      path: pathroutes.SHOPPINGCART,
+      title: "Carrito de compras",
+      show: location.pathname !== pathroutes.SHOPPINGCART,
+    },
+    {
+      path: pathroutes.STAFF,
+      title: "Conocer staff",
+      show: location.pathname !== pathroutes.STAFF,
+    },
+    {
+      path: pathroutes.REGISTER,
+      title: "Registrate",
+      show: !isAuthenticated && location.pathname !== pathroutes.REGISTER,
+    },
     {
       path: pathroutes.LOGIN,
       title: "Login",
-      show: true,
+      show: !isAuthenticated && location.pathname !== pathroutes.LOGIN,
+    },
+    {
+      title: "Logout",
+      show: isAuthenticated,
+      isButton: true,
+      onClick: () => {
+        if (isAuthenticated) {
+          logout({ returnTo: window.location.origin });
+        }
+      },
     },
   ];
 
@@ -43,20 +71,6 @@ export default function AppBar() {
           {linkData.title}
         </Nav.Link>
       </LinkContainer>
-    ));
-
-  const buttons = linksData
-    .filter((linkData) => linkData.isButton)
-    .map((linkData) => (
-      <Button
-        key={linkData.title}
-        onClick={linkData.onClick}
-        className={`rounded fw-bold px-2 mx-1 my-1 ${
-          location.pathname === linkData.path ? "bg-primary" : ""
-        }`}
-      >
-        {linkData.title}
-      </Button>
     ));
 
   return (
@@ -76,8 +90,29 @@ export default function AppBar() {
         <Navbar.Collapse id="navbar-options">
           <Nav className="ms-auto">
             {navLinks}
-            {buttons}
+            {isAuthenticated && (
+              <Button
+                onClick={() => logout({ returnTo: window.location.origin })}
+                className="rounded fw-bold px-2 mx-1 my-1"
+              >
+                Logout
+              </Button>
+            )}
           </Nav>
+          {isAuthenticated && (
+            <Navbar.Text>
+              Signed in as: <a href="#login">{user.name}</a>
+            </Navbar.Text>
+          )}
+          {isAuthenticated && (
+            <Image
+              src={user.picture}
+              alt="Profile"
+              className="border border-2 border-light"
+              roundedCircle
+              style={{ width: "60px", height: "60px" }} // Asegúrate de ajustar estos valores al tamaño de tu logo
+            />
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
