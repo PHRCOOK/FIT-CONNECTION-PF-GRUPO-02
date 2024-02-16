@@ -39,11 +39,6 @@ export default function AppBar() {
       show: location.pathname !== pathroutes.SERVICE,
     },
     {
-      path: pathroutes.ADMIN,
-      title: "Acceso Admin",
-      show: location.pathname !== pathroutes.ADMIN,
-    },
-    {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
       show: location.pathname !== pathroutes.SHOPPINGCART,
@@ -59,6 +54,11 @@ export default function AppBar() {
     //   title: "Registrate",
     //   show: !isAuthenticated && location.pathname !== pathroutes.REGISTER,
     // },
+    {
+      path: pathroutes.ADMIN,
+      title: "Acceso Admin",
+      show: location.pathname !== pathroutes.ADMIN,
+    },
 
     {
       path: pathroutes.LOGIN,
