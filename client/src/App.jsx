@@ -72,6 +72,11 @@ function App() {
           />
           <Route path="/admin/product/" element={<AdminStore />} />
           <Route path="/admin/client/" element={<AdminClients />} />
+          <Route
+            path="/admin/client/modifyinfo/:id"
+            element={<UserProfile />}
+          />
+
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>
