@@ -14,7 +14,7 @@ const pathroutes = {
   PRODUCT: "/product",
   SHOPPINGCART: "/shopping",
   SERVICE: "/services",
-  FORMPRODUCT: "/formproduct",
+  FORMPRODUCT: "/admin/product/create/",
   REGISTER: "/register",
   STORE: "/store",
   USER_PROFILE: "/userprofile",

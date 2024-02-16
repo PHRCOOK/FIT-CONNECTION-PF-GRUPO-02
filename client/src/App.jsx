@@ -15,7 +15,7 @@ import "./App.scss";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import Error404 from "./views/Error 404/Error404";
-import Category from "./administrator/components/admincategoryform/admincategoryform"
+import Category from "./administrator/components/admincategoryform/admincategoryform";
 import UserProfile from "./views/UserProfile/UserProfile";
 
 //PRUEBAS DE LO Q DEJO ILEANA
@@ -27,6 +27,7 @@ import AdminInstructor from "./administrator/components/admininstructor/adminins
 import AdminInstructorForm from "./administrator/components/admininstructorform/admininstructorform";
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
+import AdminClients from "./administrator/AdminClients/AdminClients";
 // FIN PRUEBAS
 
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -50,8 +51,8 @@ function App() {
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
-          <Route path="/admin/category" element={<Admincategories />} />
           <Route path="/admin" element={<AdminLanding />} />
+          <Route path="/admin/category" element={<Admincategories />} />
           <Route
             path="/admin/category/create"
             element={<Admincategoryform />}
@@ -70,6 +71,7 @@ function App() {
             element={<AdminInstructorForm />}
           />
           <Route path="/admin/product/" element={<AdminStore />} />
+          <Route path="/admin/client/" element={<AdminClients />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </Container>
