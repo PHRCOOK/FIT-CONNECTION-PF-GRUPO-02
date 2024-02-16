@@ -79,7 +79,7 @@ function AdminClients() {
                   <td>{user.status ? "Activo" : "Inactivo"}</td>
                   <td>
                     <Button
-                      variant={user.status ? "danger" : "success"}
+                      variant={user.status ? "danger" : "primary"}
                       onClick={() => {
                         handleActivate(statusSelection, user.id, user.status);
                       }}
