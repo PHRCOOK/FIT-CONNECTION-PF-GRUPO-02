@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { postInstructor, putInstructor } from "../../../redux/action";
+import {
+  postInstructor,
+  putInstructor,
+  getAllInstructors,
+} from "../../../redux/action";
 import validate from "./validate";
 
 import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
 
-function admininstructorform() {
+function AdminInstructorForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -16,7 +20,11 @@ function admininstructorform() {
   const allInstructors = useSelector((state) => state.allInstructors);
 
   useEffect(() => {
-    if (params.id) {
+    dispatch(getAllInstructors());
+  }, []);
+
+  useEffect(() => {
+    if (params.id && allInstructors.length) {
       const instructorFiltered = allInstructors.filter(
         (instructor) => params.id === instructor.id.toString()
       );
@@ -27,7 +35,7 @@ function admininstructorform() {
         status: instructorFiltered[0].status,
       });
     }
-  }, [params]);
+  }, [params, allInstructors]);
 
   const [instructorForm, setInstructorForm] = useState({
     fullname: "",
@@ -55,7 +63,7 @@ function admininstructorform() {
         description: "",
         status: "",
       });
-      navigate("/admin/instructors");
+      navigate("/admin/instructor");
     } catch (error) {
       window.alert(error);
     }
@@ -76,7 +84,7 @@ function admininstructorform() {
         </div>
         <Row>
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Fullname</FormLabel>
+            <FormLabel className="form-label">Nombre completo</FormLabel>
             <FormControl
               type="text"
               name="fullname"
@@ -90,18 +98,18 @@ function admininstructorform() {
           </Col>
 
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Status</FormLabel>
+            <FormLabel className="form-label">Está dispopnible?</FormLabel>
             <select
               name="status"
               className="form-control"
-              defaultValue={"DEFAULT"}
               onChange={handleChange}
+              value={instructorForm.status && ""}
             >
-              <option value="DEFAULT" disabled hidden>
+              <option value="" disabled hidden>
                 --
               </option>
-              <option>TRUE</option>
-              <option>FALSE</option>
+              <option value={true}>Si</option>
+              <option value={false}>No</option>
             </select>
             {errors.status && (
               <FormText className="form-text">{errors.status}</FormText>
@@ -109,7 +117,7 @@ function admininstructorform() {
           </Col>
 
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Photo</FormLabel>
+            <FormLabel className="form-label">Foto</FormLabel>
             <FormControl
               type="text"
               name="photo"
@@ -123,7 +131,7 @@ function admininstructorform() {
           </Col>
 
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Description</FormLabel>
+            <FormLabel className="form-label">Descripción</FormLabel>
             <FormControl
               as="textarea"
               name="description"
@@ -153,4 +161,4 @@ function admininstructorform() {
   );
 }
 
-export default admininstructorform;
+export default AdminInstructorForm;

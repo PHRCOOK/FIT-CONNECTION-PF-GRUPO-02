@@ -1,5 +1,6 @@
 // import React from "react";
 import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function AppCard({
   id,
@@ -14,13 +15,17 @@ function AppCard({
 }) {
   return (
     <Card>
-      <Card.Img
-        style={{ height: "300px", objectFit: "contain" }}
-        variant="top"
-        src={image_url}
-      />
+      <Link to={`/detail/${id}`}>
+        <Card.Img
+          style={{ height: "300px", objectFit: "contain" }}
+          variant="top"
+          src={image_url}
+        />
+      </Link>
       <CardBody>
-        <CardTitle>Nombre: {name}</CardTitle>
+        <Link to={`/detail/${id}`}>
+          <CardTitle>Nombre: {name}</CardTitle>
+        </Link>
         <CardTitle>Id: {id}</CardTitle>
         <Row>
           <Col xs="12" md="6">

@@ -1,35 +1,47 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
-import { Row, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import Product from "../products/products";
+import Filters from "../../../components/filters/filters";
+import Cards from "../../../components/cards/cards";
+import Page from "../../../components/page/page";
+import { Container, Row, Col, Offcanvas, Button } from "react-bootstrap";
+import { useState } from "react";
 
-function AdminStore() {
-  const allProducts = useSelector((state) => state.allProducts);
+function Store() {
+  const [show, setShow] = useState(false);
 
-  if (!Array.isArray(allProducts)) {
-    return <p>Cargando...</p>;
-  }
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <Row>
-      {allProducts.map((product) => (
-        <Col xs="12" md="6" lg="4" className="p-3" key={product.id}>
-          <Product
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            price={product.price}
-            description={product.description}
-            status={product.status}
-            code={product.code}
-            image_url={product.image_url}
-            stock={product.stock}
-            category={product.category}
-          />
+    <div>
+      <div className="fs-4 mb-3 fw-bold text-center">Nuestros Productos</div>
+      <Button
+        className="d-md-none btn btn-primary"
+        variant="primary"
+        onClick={handleShow}
+      >
+        Buscar Productos
+      </Button>
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Filtrar</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Filters />
+        </Offcanvas.Body>
+      </Offcanvas>
+      <Row>
+        <Col className="d-none d-md-block" xs="2">
+          <Filters />
         </Col>
-      ))}
-    </Row>
+        <Col>
+          <Container>
+            <Cards />
+          </Container>
+        </Col>
+      </Row>
+      <Page />
+    </div>
   );
 }
 
-export default AdminStore;
+export default Store;
