@@ -15,7 +15,7 @@ function AdminLanding() {
         className="mb-5 w-50"
         onClick={() => navigate(`/admin/category/`)}
       >
-        Categories
+        Categorias
       </Button>
       <Button
         variant="primary"
