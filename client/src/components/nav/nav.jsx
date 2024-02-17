@@ -23,6 +23,24 @@ export default function AppBar() {
         sub: user.sub,
         email: user.email,
       };
+      console.log(userData);
+
+      dispatch(fetchUser(userData));
+
+      axios
+        .post("/api/users", userData)
+        .then((response) => console.log(response))
+        .catch((error) => console.error(error));
+    }
+  }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const userData = {
+        name: user.name,
+        sub: user.sub,
+        email: user.email,
+      };
 
       dispatch(fetchUser(userData));
 
@@ -38,7 +56,6 @@ export default function AppBar() {
             console.log(
               `Es admin: ${userWithSameEmail.is_admin ? "Sí" : "No"}`
             );
-            // Asegúrate de actualizar el estado del usuario aquí si es necesario
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
             );
@@ -50,37 +67,46 @@ export default function AppBar() {
 
   const isAdmin = currentUser && currentUser.is_admin;
 
+  const shouldShowLogoOnly = location.pathname === pathroutes.LOGIN;
+
   const linksData = [
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
-      show: location.pathname !== pathroutes.PRODUCT,
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.PRODUCT,
     },
     {
       path: pathroutes.SERVICE,
       title: "Servicios",
-      show: location.pathname !== pathroutes.SERVICE,
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
     {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
-      show: location.pathname !== pathroutes.SHOPPINGCART,
+      show:
+        !shouldShowLogoOnly && location.pathname !== pathroutes.SHOPPINGCART,
     },
     {
       path: pathroutes.STAFF,
       title: "Conocer staff",
-      show: location.pathname !== pathroutes.STAFF,
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.STAFF,
     },
     // {
     //   path: pathroutes.REGISTER,
     //   title: "Registrate",
-    //   show: !isAuthenticated && location.pathname !== pathroutes.REGISTER,
+    //   show:
+    //     !isAuthenticated &&
+    //     !shouldShowLogoOnly &&
+    //     location.pathname !== pathroutes.REGISTER,
     // },
     {
       path: pathroutes.ADMIN,
       title: "Herramientas Admin",
       show:
-        isAuthenticated && isAdmin && location.pathname !== pathroutes.ADMIN,
+        isAuthenticated &&
+        isAdmin &&
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.ADMIN,
     },
     {
       path: pathroutes.LOGIN,
@@ -117,44 +143,62 @@ export default function AppBar() {
   return (
     <Navbar collapseOnSelect bg="secondary" expand="lg">
       <Container>
-        <LinkContainer to={pathroutes.HOME}>
-          <Navbar.Brand>
-            <Image
-              src={logo}
-              alt="Home"
-              className="border border-2 border-light"
-              roundedCircle
-              style={{ width: "85px", height: "85px" }}
-            />
-          </Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="navbar-options" />
-        <Navbar.Collapse id="navbar-options">
-          <Nav className="ms-auto">
-            {navLinks}
-            {isAuthenticated && (
-              <Button
-                onClick={() => logout({ returnTo: window.location.origin })}
-                className="rounded fw-bold px-2 mx-1 my-1"
-              >
-                Logout
-              </Button>
-            )}
-          </Nav>
-          {isAuthenticated && (
-            <Navbar.Text>
-              <a href="#/userprofile">{user.name}</a>
-            </Navbar.Text>
-          )}
-          {isAuthenticated && (
-            <Image
-              src={user.picture}
-              alt="Profile"
-              className="border border-2 border-light m-3"
-              style={{ width: "80px", height: "80px" }}
-            />
-          )}
-        </Navbar.Collapse>
+        {shouldShowLogoOnly ? (
+          // Muestra solo el logo en la barra de navegación si estás en la ruta de login
+          <LinkContainer to={pathroutes.HOME}>
+            <Navbar.Brand>
+              <Image
+                src={logo}
+                alt="Home"
+                className="border border-2 border-light"
+                roundedCircle
+                style={{ width: "85px", height: "85px" }}
+              />
+            </Navbar.Brand>
+          </LinkContainer>
+        ) : (
+          // Muestra la barra de navegación completa para otras rutas
+          <>
+            <LinkContainer to={pathroutes.HOME}>
+              <Navbar.Brand>
+                <Image
+                  src={logo}
+                  alt="Home"
+                  className="border border-2 border-light"
+                  roundedCircle
+                  style={{ width: "85px", height: "85px" }}
+                />
+              </Navbar.Brand>
+            </LinkContainer>
+            <Navbar.Toggle aria-controls="navbar-options" />
+            <Navbar.Collapse id="navbar-options">
+              <Nav className="ms-auto">
+                {navLinks}
+                {isAuthenticated && (
+                  <Button
+                    onClick={() => logout({ returnTo: window.location.origin })}
+                    className="rounded fw-bold px-2 mx-1 my-1"
+                  >
+                    Logout
+                  </Button>
+                )}
+              </Nav>
+              {isAuthenticated && (
+                <Navbar.Text>
+                  <a href="#/userprofile">{user.name}</a>
+                </Navbar.Text>
+              )}
+              {isAuthenticated && (
+                <Image
+                  src={user.picture}
+                  alt="Profile"
+                  className="border border-2 border-light m-3"
+                  style={{ width: "80px", height: "80px" }}
+                />
+              )}
+            </Navbar.Collapse>
+          </>
+        )}
       </Container>
     </Navbar>
   );
