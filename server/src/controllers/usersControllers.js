@@ -15,8 +15,13 @@ const createUserController = async (name, email, subAfterPipe) => {
     });
 
     if (userExists) {
-      throw new Error("Ya existe un usuario con este email.");
+      // Si el usuario ya existe, simplemente retornamos el usuario existente.
+      return {
+        message: "Usuario ya existe, continuando con el inicio de sesión.",
+        userExists,
+      };
     }
+
     const sub = subAfterPipe;
     const allUsers = await User.create({ name, email, sub });
 
