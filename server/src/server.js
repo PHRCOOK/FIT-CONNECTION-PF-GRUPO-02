@@ -20,8 +20,8 @@ server.use((req, res, next) => {
    next();
 });
 
-server.use(express.json());
 server.use(cors())
+server.use(express.json());
 server.use(morgan("dev")) // Middlerware que nos permite visualizar los errores en la terminal.
 
 
