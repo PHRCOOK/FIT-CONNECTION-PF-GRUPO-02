@@ -7,7 +7,7 @@ const {
 const categoryRouter = Router();
 const { authorization } = require('../../utils/auth')
 
-categoryRouter.get("/", getAllCategoriesHandler);
+categoryRouter.get("/", authorization, getAllCategoriesHandler);
 categoryRouter.put("/:id", authorization, putCategoriesHandler);
 categoryRouter.post("/", authorization, postCategoriesHandler);
 
