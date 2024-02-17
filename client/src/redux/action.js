@@ -25,7 +25,7 @@ import {
 import axios from "axios";
 
 export const setIsAdmin = (is_Admin) => ({
-  type: "SET_IS_ADMIN",
+  type: SET_IS_ADMIN,
   payload: is_Admin,
 });
 
