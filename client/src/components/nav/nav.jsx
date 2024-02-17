@@ -121,7 +121,7 @@ export default function AppBar() {
           </Nav>
           {isAuthenticated && (
             <Navbar.Text>
-              <a href="#login">{user.name}</a>
+              <a href="#/userprofile">{user.name}</a>
             </Navbar.Text>
           )}
           {isAuthenticated && (
