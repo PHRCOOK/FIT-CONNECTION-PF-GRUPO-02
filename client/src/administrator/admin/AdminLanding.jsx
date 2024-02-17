@@ -39,7 +39,7 @@ function AdminLanding() {
         className="mb-5 w-50"
         onClick={() => navigate(`/admin/client/`)}
       >
-        Clientes
+        Usuarios
       </Button>
     </div>
   );

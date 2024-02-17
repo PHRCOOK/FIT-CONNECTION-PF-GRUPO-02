@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-nav.png";
@@ -6,26 +6,49 @@ import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../redux/action";
 
 export default function AppBar() {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth0();
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  const currentUser = useSelector((state) => state.currentUser);
+
+  useEffect(() => {
     if (isAuthenticated) {
       const userData = {
         name: user.name,
         sub: user.sub,
         email: user.email,
       };
-      console.log(userData);
+
+      dispatch(fetchUser(userData));
 
       axios
-        .post("/api/users", userData)
-        .then((response) => console.log(response))
+        .get("/api/users", { params: { email: user.email } })
+        .then((response) => {
+          const userWithSameEmail = response.data.Items.find(
+            (item) => item.email === user.email
+          );
+          console.log(userWithSameEmail);
+
+          if (userWithSameEmail) {
+            console.log(
+              `Es admin: ${userWithSameEmail.is_admin ? "Sí" : "No"}`
+            );
+            // Asegúrate de actualizar el estado del usuario aquí si es necesario
+            dispatch(
+              fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
+            );
+          }
+        })
         .catch((error) => console.error(error));
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, dispatch]);
+
+  const isAdmin = currentUser && currentUser.is_admin;
 
   const linksData = [
     {
@@ -48,7 +71,6 @@ export default function AppBar() {
       title: "Conocer staff",
       show: location.pathname !== pathroutes.STAFF,
     },
-
     // {
     //   path: pathroutes.REGISTER,
     //   title: "Registrate",
@@ -57,9 +79,9 @@ export default function AppBar() {
     {
       path: pathroutes.ADMIN,
       title: "Herramientas Admin",
-      show: location.pathname !== pathroutes.ADMIN,
+      show:
+        isAuthenticated && isAdmin && location.pathname !== pathroutes.ADMIN,
     },
-
     {
       path: pathroutes.LOGIN,
       title: "Login",

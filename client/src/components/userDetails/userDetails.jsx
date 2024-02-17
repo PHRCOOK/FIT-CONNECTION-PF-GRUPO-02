@@ -14,7 +14,6 @@ import {
 // const user_id = 1;
 
 function UserDetails({ user_id }) {
-  console.log(user_id);
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo);
   const [newUserInfo, setNewUserInfo] = useState({ ...userInfo });
@@ -37,13 +36,6 @@ function UserDetails({ user_id }) {
     );
     setIsButtonDisabled(checkInfo);
   }, [newUserInfo]);
-
-  const userInfo2 = {
-    address: null,
-    phone: null,
-    dni: null,
-    birth_date: null,
-  };
 
   const handleUserInfo = (event) => {
     const key = event.target.name;

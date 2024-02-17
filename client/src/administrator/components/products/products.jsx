@@ -3,6 +3,7 @@ import React from "react";
 import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { deleteProduct } from "../../../redux/action";
 
@@ -27,7 +28,11 @@ function product(props) {
 
   const handleDelete = (id) => {
     dispatch(deleteProduct(id));
-    window.alert("Producto borrado correctamente");
+    Swal.fire({
+      icon: "success",
+      title: "Proceso Exitoso",
+      text: "Producto borrado correctamente",
+    })
     navigate("/admin");
   };
 

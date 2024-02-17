@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 import {
   postInstructor,
@@ -51,10 +52,18 @@ function AdminInstructorForm() {
     try {
       if (params.id) {
         await dispatch(putInstructor(params.id, instructorForm));
-        window.alert("Instructor modificado exitosamente");
+        Swal.fire({
+          icon: "success",
+          title: "Proceso Exitoso",
+          text: "Instructor modificado exitosamente",
+        })
       } else {
         await dispatch(postInstructor(instructorForm));
-        window.alert("Instructor creado exitosamente");
+        Swal.fire({
+          icon: "success",
+          title: "Proceso Exitoso",
+          text: "Instructor creado exitosamente",
+        })
       }
 
       setInstructorForm({

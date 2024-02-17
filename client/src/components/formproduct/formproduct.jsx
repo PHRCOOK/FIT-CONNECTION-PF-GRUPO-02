@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import Swal from "sweetalert2"
 
 import { postProduct, putProduct, getAllCategories } from "../../redux/action";
 import validate from "./validate";
@@ -12,7 +13,7 @@ import {
   FormLabel,
   FormText,
   Row,
-  Col,
+  Col
 } from "react-bootstrap";
 
 export default function formproduct() {
@@ -92,10 +93,18 @@ export default function formproduct() {
 
         if (params.id) {
           await dispatch(putProduct(params.id, formData));
-          window.alert("Producto modificado exitosamente");
+          Swal.fire({
+            icon:"success",
+            title:"Proceso Exitoso",
+            text: "Producto modificado exitosamente",
+          })
         } else {
           await dispatch(postProduct(formData));
-          window.alert("Producto creado exitosamente");
+          Swal.fire({
+            icon:"success",
+            title:"Proceso Exitoso",
+            text: "Producto creado exitosamente",
+          })
         }
         setProductForm({
           name: "",
@@ -109,7 +118,11 @@ export default function formproduct() {
         });
         navigate("/product");
       } catch (error) {
-        window.alert(error);
+        Swal.fire({
+          icon:"error",
+          title:"Error",
+          text: "No se pudo crear el producto",
+        })
       }
     } else {
       setErrors(validationErrors);
@@ -172,7 +185,7 @@ export default function formproduct() {
               <FormText className="form-text">{errors.category_id}</FormText>
             )}
 
-            <Link to="/categories">
+            <Link to="/admin/category/create">
               <button className="btn btn-primary mt-3">Crear Categoría</button>
             </Link>
           </Col>

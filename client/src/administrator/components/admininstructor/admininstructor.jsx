@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Table, Container } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
@@ -18,9 +19,17 @@ function AdminInstructor() {
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteInstructor(id));
-      window.alert("Instructor borrado correctamente");
+      Swal.fire({
+        icon:"success",
+        title:"Proceso Exitoso",
+        text:"Instructor borrado correctamente",
+      })
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text:"Error al borrar instructor",
+      })
     }
   };
 

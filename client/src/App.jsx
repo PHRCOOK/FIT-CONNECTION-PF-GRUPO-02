@@ -48,7 +48,6 @@ function App() {
           <Route path={pathroutes.PRODUCT} element={<Store />} />
           <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
           <Route path={pathroutes.SERVICE} element={<Services />} />
-          <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
@@ -79,6 +78,7 @@ function App() {
             element={<AdminInstructorForm />}
           />
           <Route path={pathroutes.ADMINPRODUCT} element={<AdminStore />} />
+          <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.ADMINCLIENT} element={<AdminClients />} />
           <Route
             path={pathroutes.ADMINCLIENTPROFILE}
