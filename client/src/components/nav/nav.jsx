@@ -17,26 +17,38 @@ export default function AppBar() {
   const currentUser = useSelector((state) => state.currentUser);
 
   useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
-
-  useEffect(() => {
     if (isAuthenticated) {
       const userData = {
         name: user.name,
         sub: user.sub,
         email: user.email,
       };
-      console.log(userData);
 
       dispatch(fetchUser(userData));
 
       axios
-        .post("/api/users", userData)
-        .then((response) => console.log(response))
+        .get("/api/users", { params: { email: user.email } })
+        .then((response) => {
+          const userWithSameEmail = response.data.Items.find(
+            (item) => item.email === user.email
+          );
+          console.log(userWithSameEmail);
+
+          if (userWithSameEmail) {
+            console.log(
+              `Es admin: ${userWithSameEmail.is_admin ? "Sí" : "No"}`
+            );
+            // Asegúrate de actualizar el estado del usuario aquí si es necesario
+            dispatch(
+              fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
+            );
+          }
+        })
         .catch((error) => console.error(error));
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, dispatch]);
+
+  const isAdmin = currentUser && currentUser.is_admin;
 
   const linksData = [
     {
@@ -59,7 +71,6 @@ export default function AppBar() {
       title: "Conocer staff",
       show: location.pathname !== pathroutes.STAFF,
     },
-
     // {
     //   path: pathroutes.REGISTER,
     //   title: "Registrate",
@@ -68,9 +79,9 @@ export default function AppBar() {
     {
       path: pathroutes.ADMIN,
       title: "Herramientas Admin",
-      show: location.pathname !== pathroutes.ADMIN,
+      show:
+        isAuthenticated && isAdmin && location.pathname !== pathroutes.ADMIN,
     },
-
     {
       path: pathroutes.LOGIN,
       title: "Login",
