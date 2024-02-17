@@ -17,7 +17,7 @@ const createUserHandler = async (req, res) => {
     validateCreateUser({ name, email, sub });
     const subAfterPipe = extractSubAfterPipe(sub);
     const response = await createUserController(name, email, subAfterPipe);
-    console.log(response);
+    //console.log(response);
     res.status(201).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
