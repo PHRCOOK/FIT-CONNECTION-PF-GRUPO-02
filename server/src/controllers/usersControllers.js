@@ -17,7 +17,7 @@ const createUserController = async (name, email, subAfterPipe) => {
     if (userExists) {
       throw new Error("Ya existe un usuario con este email.");
     }
-    const sub=subAfterPipe
+    const sub = subAfterPipe;
     const allUsers = await User.create({ name, email, sub });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";

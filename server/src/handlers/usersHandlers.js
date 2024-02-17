@@ -77,7 +77,6 @@ const getDetailHandler = async (req, res) => {
   }
 };
 
-
 module.exports = {
   createUserHandler,
   getActiveUsersHandler,
