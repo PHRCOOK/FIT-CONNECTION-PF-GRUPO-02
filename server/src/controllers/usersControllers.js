@@ -133,16 +133,6 @@ const getUserByIdController = async (id) => {
   }
 };
 
-const deleteUserController = async (id) => {
-  try {
-    const users = await User.findByPk(id);
-    await users.destroy();
-    return { message: "users deleted successfully" };
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
-};
-
 module.exports = {
   createUserController,
   getActiveUsersController,
@@ -150,5 +140,4 @@ module.exports = {
   updateUserController,
   getInactiveUsersController,
   getUserByIdController,
-  deleteUserController,
 };

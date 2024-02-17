@@ -5,7 +5,6 @@ const {
   getProductServicesById,
   createProductServices,
   updateProductServices,
-  deleteProductServices,
   filterAndOrder,
 } = require("../controllers/productsController");
 
@@ -79,16 +78,6 @@ const updateProductServicesHandler = async (req, res) => {
   }
 };
 
-const deleteProductServicesHandler = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const response = await deleteProductServices(id);
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 const productFilterAndOrderHandler = async (req, res) => {
   const { category_id, name, brand, minPrice, maxPrice, sortOrder, page, size } =
     req.query;
@@ -113,6 +102,5 @@ module.exports = {
   getProductServicesByIdHandler,
   createProductServicesHandler,
   updateProductServicesHandler,
-  deleteProductServicesHandler,
   productFilterAndOrderHandler,
 };

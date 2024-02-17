@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FormSelect, Button, Table, Container } from "react-bootstrap";
 import { getAllUsers, putUser } from "../../../redux/action";
+import Swal from "sweetalert2";
 
 function AdminClients() {
   const dispatch = useDispatch();
@@ -26,7 +27,11 @@ function AdminClients() {
     try {
       dispatch(putUser(statusSelection, id, { status: newStatus }));
     } catch (error) {
-      window.alert("No se pudo cambiar el status del usuario");
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text:"No se pudo cambiar el status del usuario",
+      })
     }
   };
 
