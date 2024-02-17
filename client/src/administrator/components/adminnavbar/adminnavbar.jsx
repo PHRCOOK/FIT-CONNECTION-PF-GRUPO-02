@@ -5,7 +5,8 @@ import logo from "../../../assets/img/logo-nav.png";
 
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image } from "react-bootstrap";
-function adminnavbar() {
+
+function AdminNavbar() {
   const location = useLocation();
 
   const linksData = [
@@ -57,4 +58,4 @@ function adminnavbar() {
   );
 }
 
-export default adminnavbar;
+export default AdminNavbar;

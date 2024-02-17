@@ -6,6 +6,7 @@ const {
   putCategoriesHandler,
 } = require("../handlers/categoryHandler");
 const categoryRouter = Router();
+// const { jwtCheck } = require("../../utils/auth");
 
 categoryRouter.get("/", getAllCategoriesHandler);
 categoryRouter.put("/:id", putCategoriesHandler);
