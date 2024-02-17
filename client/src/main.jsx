@@ -13,6 +13,7 @@ import reportWebVitals from "./reportWebVitals";
 const domain = "dev-eqkkfue7vcj55cav.us.auth0.com";
 const clientId = "2QgS3XkBb9US9OfVbk9kyvS1muFDF6Ap";
 
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 

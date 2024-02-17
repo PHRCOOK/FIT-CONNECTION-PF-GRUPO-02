@@ -4,7 +4,15 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import validate from "./validate";
-import { FormControl, FormLabel, FormText, Row, Col, Button, Card } from "react-bootstrap";
+import {
+  FormControl,
+  FormLabel,
+  FormText,
+  Row,
+  Col,
+  Button,
+  Card,
+} from "react-bootstrap";
 
 import { postUser } from "../../redux/action";
 
@@ -45,10 +53,12 @@ export default function userform() {
 
   return (
     <Row className="justify-content-center">
-      <Col xs="12" md="6" lg="4" >
+      <Col xs="12" md="6" lg="4">
         <Card>
           <Card.Body className="m-3">
-            <Card.Title className="fs-4 mb-3 fw-bold text-center">Formulario de Registro</Card.Title>
+            <Card.Title className="fs-4 mb-3 fw-bold text-center">
+              Formulario de Registro
+            </Card.Title>
             <form onSubmit={handleSubmit}>
               <Row>
                 <Col xs="12" className="my-3">
@@ -85,11 +95,14 @@ export default function userform() {
                   {errors.password && <FormText>{errors.password}</FormText>}
                 </Col>
               </Row>
-               <Button className="my-3" type="submit" disabled={Object.values(form).some((value) => value === "")}>
-              Registrarse
-            </Button>
+              <Button
+                className="my-3"
+                type="submit"
+                disabled={Object.values(form).some((value) => value === "")}
+              >
+                Registrarse
+              </Button>
             </form>
-           
           </Card.Body>
         </Card>
       </Col>

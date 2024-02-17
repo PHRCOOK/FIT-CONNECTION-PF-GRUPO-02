@@ -79,16 +79,6 @@ const updateProductServices = async (id, newData) => {
   }
 };
 
-const deleteProductServices = async (id) => {
-  try {
-    const product = await ProductServices.findByPk(id);
-    await product.destroy();
-    return { message: "Product deleted successfully" };
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
-};
-
 // ESTE ES EL CONROLLER DE  FILTROS Y ORDENAMIENTOS COMBINADOS
 
 const filterAndOrder = async (
@@ -183,6 +173,5 @@ module.exports = {
     getProductServicesById,
     createProductServices,
     updateProductServices,
-    deleteProductServices,
     filterAndOrder,
   };

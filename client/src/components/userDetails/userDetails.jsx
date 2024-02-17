@@ -8,12 +8,13 @@ import {
   FormLabel,
   FormControl,
   Button,
-  Card
+  Card,
 } from "react-bootstrap";
 
-const user_id = 1;
+// const user_id = 1;
 
-function UserDetails() {
+function UserDetails({ user_id }) {
+  console.log(user_id);
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo);
   const [newUserInfo, setNewUserInfo] = useState({ ...userInfo });
@@ -78,7 +79,7 @@ function UserDetails() {
               onChange={handleUserInfo}
               value={newUserInfo.user || ""}
 
-            // value={filterSettings.name || ""}
+              // value={filterSettings.name || ""}
             />
           </Col>
         </Row>

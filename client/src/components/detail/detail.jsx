@@ -51,8 +51,8 @@ const Detail = () => {
   //* funcion para crear el carrito de compras
   const handleClick = async (e) => {
     await axios
-      .post("http://localhost:3001/api/shoppingCart", {
-        user_id: "6",
+      .post("/api/shoppingCart", {
+        user_id: "1",
         product_id: id,
         quantity: 1,
       })
@@ -70,6 +70,7 @@ const Detail = () => {
         <Row>
           <Col>
             <Card.Img
+              className="my-3"
               style={{ height: "300px", objectFit: "contain" }}
               variant="top"
               src={image_url}

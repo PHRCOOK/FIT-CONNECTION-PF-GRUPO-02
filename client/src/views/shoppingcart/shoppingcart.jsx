@@ -8,7 +8,7 @@ export default function shoppingcart() {
 
   const getCarritos = () => {
     axios
-      .get("/api/shoppingCart/6")
+      .get("/api/shoppingCart/1")
       .then(({ data }) => {
         if(data){
         setCarritos(data);
@@ -37,7 +37,7 @@ export default function shoppingcart() {
   const handleClick = async (e) => {
     let id = e.target.value;
     await axios
-      .delete(`/api/shoppingCart/6/${id}`)
+      .delete(`/api/shoppingCart/1/${id}`)
       .then(({ data }) => {
         window.alert("El registro de carrito se elimino");
         getCarritos();
@@ -61,7 +61,7 @@ export default function shoppingcart() {
   return (
     <Container>
       <div className="fs-4 mb-3 fw-bold text-center">Shopping Cart</div>
-      <Card >
+      <Card>
         <Row>
           <Col className="my-3 mx-3">
             {carritos.length > 0 ? (
