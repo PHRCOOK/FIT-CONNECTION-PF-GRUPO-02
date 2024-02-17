@@ -34,6 +34,16 @@ function AdminClients() {
     navigate(`/admin/client/modifyinfo/${id}`);
   };
 
+  const handleChangeAdminAcces = (event) => {
+    console.log(event.target.name);
+    console.log(event.target.value);
+    console.log(event.target.id);
+
+    const { name, value, id } = event.target;
+
+    dispatch(putUser(statusSelection, id, { [name]: value }));
+  };
+
   return (
     <Container className="mt-3">
       <div className="mb-3">
@@ -73,9 +83,25 @@ function AdminClients() {
               return (
                 <tr key={user.id + user.fullname}>
                   <td>{user.id}</td>
-                  <td>{user.fullname}</td>
+                  <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>{user.is_admin ? "Si" : "No"}</td>
+                  <td>
+                    <FormSelect
+                      id={user.id}
+                      name="is_admin"
+                      onChange={handleChangeAdminAcces}
+                      aria-label="Default select example"
+                      value={user.is_admin}
+                      className="form-select"
+                    >
+                      <option id="statusTrue" name="statusTrue" value={true}>
+                        Si
+                      </option>
+                      <option id="statusFalse" name="statusFalse" value={false}>
+                        No
+                      </option>
+                    </FormSelect>
+                  </td>
                   <td>{user.status ? "Activo" : "Inactivo"}</td>
                   <td>
                     <Button

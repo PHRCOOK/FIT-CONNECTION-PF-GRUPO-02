@@ -18,6 +18,7 @@ import {
   FETCH_USER_INFO,
   GET_ALL_USER,
   EMPTY_ALL_USER,
+  FETCH_CURRENT_USER,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -294,7 +295,13 @@ export const postUserInfo = (info) => {
   const { id } = info;
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(`/api/clientInfo/${id}`, info);
+      const parsedInfo = {
+        address: info.address,
+        phone: Number(info.phone),
+        dni: Number(info.dni),
+        birth_date: info.birth_date,
+      };
+      const { data } = await axios.post(`/api/clientInfo/${id}`, parsedInfo);
       const { clientInfo } = data;
       const { user } = data;
 
@@ -312,7 +319,13 @@ export const putUserInfo = (info) => {
   const { id } = info;
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/clientInfo/${id}`, info);
+      const parsedInfo = {
+        address: info.address,
+        phone: Number(info.phone),
+        dni: Number(info.dni),
+        birth_date: info.birth_date,
+      };
+      const { data } = await axios.put(`/api/clientInfo/${id}`, parsedInfo);
       const { clientInfo } = data;
       const { user } = data;
 
@@ -364,5 +377,12 @@ export const putUser = (status, id, info) => {
         type: EMPTY_ALL_USER,
       });
     }
+  };
+};
+
+export const fetchUser = (user) => {
+  return {
+    type: FETCH_CURRENT_USER,
+    payload: user,
   };
 };

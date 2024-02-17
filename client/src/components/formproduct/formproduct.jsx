@@ -172,7 +172,7 @@ export default function formproduct() {
               <FormText className="form-text">{errors.category_id}</FormText>
             )}
 
-            <Link to="/categories">
+            <Link to="/admin/category/create">
               <button className="btn btn-primary mt-3">Crear Categoría</button>
             </Link>
           </Col>
