@@ -39,11 +39,6 @@ export default function AppBar() {
       show: location.pathname !== pathroutes.SERVICE,
     },
     {
-      path: pathroutes.ADMIN,
-      title: "Acceso Admin",
-      show: location.pathname !== pathroutes.ADMIN,
-    },
-    {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
       show: location.pathname !== pathroutes.SHOPPINGCART,
@@ -52,6 +47,17 @@ export default function AppBar() {
       path: pathroutes.STAFF,
       title: "Conocer staff",
       show: location.pathname !== pathroutes.STAFF,
+    },
+
+    // {
+    //   path: pathroutes.REGISTER,
+    //   title: "Registrate",
+    //   show: !isAuthenticated && location.pathname !== pathroutes.REGISTER,
+    // },
+    {
+      path: pathroutes.ADMIN,
+      title: "Herramientas Admin",
+      show: location.pathname !== pathroutes.ADMIN,
     },
 
     {
@@ -96,6 +102,7 @@ export default function AppBar() {
               alt="Home"
               className="border border-2 border-light"
               roundedCircle
+              style={{ width: "85px", height: "85px" }}
             />
           </Navbar.Brand>
         </LinkContainer>
@@ -114,16 +121,15 @@ export default function AppBar() {
           </Nav>
           {isAuthenticated && (
             <Navbar.Text>
-              <a href="#login">{user.name}</a>
+              <a href="#/userprofile">{user.name}</a>
             </Navbar.Text>
           )}
           {isAuthenticated && (
             <Image
               src={user.picture}
               alt="Profile"
-              className="border border-2 border-light"
-              roundedCircle
-              style={{ width: "60px", height: "60px" }}
+              className="border border-2 border-light m-3"
+              style={{ width: "80px", height: "80px" }}
             />
           )}
         </Navbar.Collapse>

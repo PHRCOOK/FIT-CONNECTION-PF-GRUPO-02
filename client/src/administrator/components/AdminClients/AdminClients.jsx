@@ -57,7 +57,7 @@ function AdminClients() {
         </FormSelect>
       </div>
       {users.length ? (
-        <Table striped bordered hover>
+        <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>Id</th>
@@ -79,7 +79,7 @@ function AdminClients() {
                   <td>{user.status ? "Activo" : "Inactivo"}</td>
                   <td>
                     <Button
-                      variant={user.status ? "danger" : "success"}
+                      variant={user.status ? "danger" : "primary"}
                       onClick={() => {
                         handleActivate(statusSelection, user.id, user.status);
                       }}
