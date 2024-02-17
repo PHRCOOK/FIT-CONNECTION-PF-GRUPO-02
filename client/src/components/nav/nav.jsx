@@ -23,6 +23,24 @@ export default function AppBar() {
         sub: user.sub,
         email: user.email,
       };
+      console.log(userData);
+
+      dispatch(fetchUser(userData));
+
+      axios
+        .post("/api/users", userData)
+        .then((response) => console.log(response))
+        .catch((error) => console.error(error));
+    }
+  }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const userData = {
+        name: user.name,
+        sub: user.sub,
+        email: user.email,
+      };
 
       dispatch(fetchUser(userData));
 
@@ -38,7 +56,6 @@ export default function AppBar() {
             console.log(
               `Es admin: ${userWithSameEmail.is_admin ? "Sí" : "No"}`
             );
-            // Asegúrate de actualizar el estado del usuario aquí si es necesario
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
             );
