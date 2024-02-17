@@ -68,7 +68,7 @@ User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
 ProductServices.hasMany(ShoppingCart, {
   as: "ShoppingCarts",
   as: "ShoppingCart",
-  foreignKey: "item_id",
+  foreignKey: "product_id",
   constraints: false, // Para que no se caiga la base de datos.
 });
 
@@ -112,10 +112,23 @@ ClientInfo.belongsTo(User, { as: 'User', foreignKey: 'user_id' });
 Membership.hasMany(ShoppingCart, { 
   as: "ShoppingCart",
   as: "ShoppingCarts",
-  foreignKey: "item_id",
+  foreignKey: "membership_id",
   constraints: false, // Para que no se caiga la base de datos.
  });
 Membership.hasOne(PurchaseDetail, { as: "PurchaseDetail", foreignKey: "membership_id" });
+
+// Relaciones del modelo ShoppingCart
+ShoppingCart.belongsTo(ProductServices, { 
+  as: "Product",
+  foreignKey: "product_id",
+  constraints: false,
+});
+
+ShoppingCart.belongsTo(Membership, {
+  as: "Membership",
+  foreignKey: "membership_id",
+  constraints: false, // Para que no se caiga la base de datos.
+});
 
 module.exports = {
   ...sequelize.models,

@@ -1,20 +1,20 @@
 const { ShoppingCart, ProductServices, Membership } = require("../db");
 
 //? Controlador para crear un carrito de compra
-const createShoppingCart = async (quantity, user_id, item_type, item_id) => {
+const createShoppingCart = async (quantity, user_id, product_id, membership_id) => {
   try {
-    // Verificar si el item_type es válido
-    if (item_type !== 'product' && item_type !== 'membership') {
-      throw new Error(`Invalid item_type: ${item_type}`);
-    }
-
-    await ShoppingCart.create({ quantity, user_id, item_type, item_id });
-
-    return { message: "Carrito creado exitosamente." };
+    const shoppingCart = await ShoppingCart.create({
+      quantity,
+      user_id,
+      product_id,
+      membership_id,
+    });
+    return shoppingCart;
   } catch (error) {
-    throw new Error(`Error al crear carrito: ${error.message}`);
+    console.log(`Error creando el carrito de compras: ${error.message}`);
+    throw new Error(`Error creando el carrito de compras: ${error.message}`);
   }
-};
+}
 
 //? controlador para buscar todos los carritos por un id de usuario
 
@@ -28,22 +28,21 @@ const getShoppingCarts = async (user_id) => {
     await Promise.all(
       carts.map(async (cart) => {
         let item;
-        if (cart.item_type === 'product') {
-          item = await ProductServices.findAll({
-            where: { id: cart.item_id },
+        if (cart.product_id) {
+          item = await ProductServices.findOne({
+            where: { id: cart.product_id },
           });
-        } else if (cart.item_type === 'membership') {
-          item = await Membership.findAll({
-            where: { id: cart.item_id },
+        } else if (cart.membership_id) {
+          item = await Membership.findOne({
+            where: { id: cart.membership_id },
           });
         }
 
         console.log(`Fetched item: ${JSON.stringify(item)}`);
 
-        // Verificar si item es un array antes de asignar quantity
-        if (Array.isArray(item) && item.length > 0) {
+        if (item) {
           const itemWithQuantity = {
-            ...item[0].dataValues,
+            ...item.get(),
             quantity: cart.quantity,
           };
 
@@ -62,23 +61,30 @@ const getShoppingCarts = async (user_id) => {
     );
     return items;
   } catch (error) {
+    console.log(`Error buscando los carritos: ${error.message}`);
     throw new Error(`Error buscando los carritos: ${error.message}`);
   }
 };
 
-const deleteShoppingCarts = async (user_id, item_type, item_id) => {
+const deleteShoppingCarts = async (user_id, product_id, membership_id) => {
   const shoppingCarts = await getShoppingCarts(user_id);
 
   if (!shoppingCarts.length > 0) {
     throw new Error("No hay carrito de compras para ese usuario");
   }
   try {
+    let whereClause = {
+      user_id,
+    };
+
+    if (product_id) {
+      whereClause.product_id = product_id;
+    } else if (membership_id) {
+      whereClause.membership_id = membership_id;
+    }
+
     await ShoppingCart.destroy({
-      where: {
-        user_id,
-        item_type,
-        item_id,
-      },
+      where: whereClause,
     });
     return "Shopping cart eliminado correctamente.";
   } catch (error) {

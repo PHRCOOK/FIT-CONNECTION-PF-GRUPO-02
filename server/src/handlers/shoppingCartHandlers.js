@@ -7,14 +7,14 @@ const {
 
 //? handler para crear un carrito
 const createShoppingCartHandler = async (req, res) => {
-  const { quantity, user_id, item_type, item_id } = req.body;
+  const { quantity, user_id, product_id, membership_id } = req.body;
 
-  if (!quantity || !user_id || !item_type || !item_id) {
+  if (!quantity || !user_id || !(product_id || membership_id) || (product_id && membership_id)) {
     res.status(400).json({ error: "Faltan datos para crear un carrito" });
     return;
   }
   try {
-    const response = await createShoppingCart(quantity, user_id, item_type, item_id);
+    const response = await createShoppingCart(quantity, user_id, product_id, membership_id);
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -46,13 +46,13 @@ const getShoppingCartsHandler = async (req, res) => {
 //* handler para eliminar un carrito
 
 const deleteShoppingCartsHandler = async (req, res) => {
-  const {user_id, item_type, item_id} = req.params;
-  if (!user_id || !item_type || !item_id) {
+  const {user_id, product_id, membership_id} = req.params;
+  if (!user_id || !product_id || !membership_id) {
     res.status(400).json({ error: "Faltan datos para eliminar el carrito" });
   }
 
   try {
-    const response = await deleteShoppingCarts(user_id, item_type, item_id);
+    const response = await deleteShoppingCarts(user_id, product_id, membership_id);
     console.log(response);
     res.status(200).json(response);
   } catch (error) {
