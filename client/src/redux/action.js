@@ -156,7 +156,6 @@ export const deleteCategory = (id) => {
     }
   };
 };
-
 export const postCategory = (categoryForm) => {
   return async (dispatch) => {
     try {
