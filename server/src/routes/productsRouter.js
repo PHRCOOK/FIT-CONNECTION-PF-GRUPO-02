@@ -12,7 +12,7 @@ const productsRouter = Router();
 const { authorization } = require('../../utils/auth')
 // Rutas específicas primero
 
-productsRouter.get('/', authorization, productFilterAndOrderHandler);      //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
+productsRouter.get('/', productFilterAndOrderHandler);      //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!
 
 // Rutas generales después
 productsRouter.get("/:id", getProductServicesByIdHandler);

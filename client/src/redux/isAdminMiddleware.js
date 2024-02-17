@@ -26,10 +26,9 @@ import {
 
 const isAdminMiddleware = store => next => action => {
   const { isAdmin } = store.getState();
-  console.log("Hola",store.getState())
   // Lista de acciones que requieren verificación de isAdmin
-  const actionsToCheck = [GET_ALL_PRODUCTS /* otras acciones aquí */];
-  if (actionsToCheck.includes(action.type) && !isAdmin) {
+  const actionsToCheck = [ /* otras acciones aquí */];//Añadir las actions a proteger y verificar que esten protegidas en el back!! 
+  if (actionsToCheck.includes(action.type) && !isAdmin || actionsToCheck.includes(action.type)=== undefined) {
     throw new Error('El usuario no es administrador');
   }
 
