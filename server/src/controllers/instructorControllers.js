@@ -59,22 +59,8 @@ const updateInstructorController = async (id, newDta) => {
   }
 };
 
-const deleteInstructors = async (id) => {
-  try {
-    const instructors = await Instructor.findByPk(id);
-    await instructors.destroy();
-    const remainingInstructors = await Instructor.findAll();
-    return {
-      message: "Instructor deleted successfully",
-      instructors: remainingInstructors,
-    };
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
-};
 module.exports = {
   createInstructorController,
   updateInstructorController,
   getInstructors,
-  deleteInstructors,
 };

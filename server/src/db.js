@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config()
 const { Sequelize } = require("sequelize");
 const UserModel = require("./models/UserModel");
 const GymModel = require("./models/GymModel");
@@ -38,7 +38,7 @@ PurchasesModel(sequelize);
 PurchaseDetailModel(sequelize);
 ShoppingCartModel(sequelize);
 CategoriesModel(sequelize);
-ProductServicesModel(sequelize);
+ProductServicesModel(sequelize)
 
 //relaciones de la BDD
 const {
