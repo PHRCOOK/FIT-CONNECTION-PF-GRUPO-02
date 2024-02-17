@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories, deleteCategory } from "../../../redux/action";
+import Swal from "sweetalert2";
 
 import { Button, Table, Container } from "react-bootstrap";
 
@@ -18,9 +19,17 @@ function Admincategories() {
   const handleDelete = (id) => {
     try {
       dispatch(deleteCategory(id));
-      window.alert("Categoria borrada correctamente");
+      Swal.fire({
+        icon:"success",
+        title:"Proceso Exitoso",
+        text:"Categoria borrada correctamente",
+      })
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text: "Error al borrar categoria",
+      })
     }
   };
 

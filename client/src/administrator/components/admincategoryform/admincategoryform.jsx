@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 import {
   postCategory,
@@ -49,10 +50,18 @@ function Admincategoryform() {
     try {
       if (params.id) {
         await dispatch(putCategory(params.id, categoryForm));
-        window.alert("Categoria modificada exitosamente");
+        Swal.fire({
+          icon:"success",
+          title:"Proceso Exitoso",
+          text: "Categoria modificada exitosamente",
+        })
       } else {
         await dispatch(postCategory(categoryForm));
-        window.alert("Categoria creada exitosamente");
+        Swal.fire({
+          icon:"success",
+          title:"Poceso Exitoso",
+          text:"Categoria creada exitosamente",
+        })
       }
       setCategoryForm({
         name: "",
@@ -61,7 +70,11 @@ function Admincategoryform() {
       });
       navigate("/admin/categories");
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text:"Error en categoria",
+      })
     }
   };
 
