@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories, deleteCategory } from "../../../redux/action";
 
-import { Button } from "react-bootstrap";
+import { Button, Table, Container } from "react-bootstrap";
 
 function Admincategories() {
   const dispatch = useDispatch();
@@ -34,38 +34,41 @@ function Admincategories() {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Categoría</th>
-            <th>Estatus</th>
-            <th>Es servicio?</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allCategories.map((category) => {
-            return (
-              <tr key={category.name}>
-                <td>{category.id}</td>
-                <td>{category.name}</td>
-                <td>{String(category.status)}</td>
-                <td>{String(category.is_service)}</td>
-                <td>
-                  <Button onClick={() => handleDelete(category.id)}>
-                    Borrar
-                  </Button>
-                  <Button onClick={() => handleModify(category.id)}>
-                    Modificar
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <Button onClick={handleCreateCategory}>Crear categoria</Button>
+      <Container>
+
+        <Table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Categoría</th>
+              <th>Estatus</th>
+              <th>Es servicio?</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allCategories.map((category) => {
+              return (
+                <tr key={category.name}>
+                  <td>{category.id}</td>
+                  <td>{category.name}</td>
+                  <td>{String(category.status)}</td>
+                  <td>{String(category.is_service)}</td>
+                  <td>
+                    <Button className="mx-2 my-1" onClick={() => handleDelete(category.id)}>
+                      Borrar
+                    </Button>
+                    <Button className="mx-2 my-1" onClick={() => handleModify(category.id)}>
+                      Modificar
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+        <Button onClick={handleCreateCategory}>Crear categoria</Button>
+      </Container>
     </div>
   );
 }
