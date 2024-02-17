@@ -19,9 +19,15 @@ import {
   GET_ALL_USER,
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
+  SET_IS_ADMIN,
 } from "./actionsTypes";
 
 import axios from "axios";
+
+export const setIsAdmin = (is_Admin) => ({
+  type: "SET_IS_ADMIN",
+  payload: is_Admin,
+});
 
 export const getAllCategories = () => {
   return async (dispatch) => {

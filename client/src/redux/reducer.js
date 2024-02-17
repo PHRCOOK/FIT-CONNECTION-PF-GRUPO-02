@@ -19,6 +19,7 @@ import {
   GET_ALL_USER,
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
+  SET_IS_ADMIN,
 } from "./actionsTypes";
 
 const initialState = {
@@ -178,6 +179,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case SET_IS_ADMIN:
+      return {
+        ...state,
+        is_Admin: action.payload,
       };
 
     default:

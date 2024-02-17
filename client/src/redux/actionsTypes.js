@@ -18,3 +18,4 @@ export const FETCH_USER_INFO = "FETCH_USER_INFO";
 export const GET_ALL_USER = "GET_ALL_USER";
 export const EMPTY_ALL_USER = "EMPTY_ALL_USER";
 export const FETCH_CURRENT_USER = "FETCH_CURRENT_USER";
+export const SET_IS_ADMIN = "SET_IS_ADMIN";
