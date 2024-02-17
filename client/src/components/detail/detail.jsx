@@ -70,6 +70,7 @@ const Detail = () => {
         <Row>
           <Col>
             <Card.Img
+              className="my-3"
               style={{ height: "300px", objectFit: "contain" }}
               variant="top"
               src={image_url}

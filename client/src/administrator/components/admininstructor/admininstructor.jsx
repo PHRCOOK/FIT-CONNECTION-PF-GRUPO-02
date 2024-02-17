@@ -2,7 +2,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Table, Container } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
@@ -18,9 +19,17 @@ function AdminInstructor() {
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteInstructor(id));
-      window.alert("Instructor borrado correctamente");
+      Swal.fire({
+        icon:"success",
+        title:"Proceso Exitoso",
+        text:"Instructor borrado correctamente",
+      })
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text:"Error al borrar instructor",
+      })
     }
   };
 
@@ -34,37 +43,40 @@ function AdminInstructor() {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Instructor</th>
-            <th>Estatus</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allInstructors.map((instructor) => {
-            console.log(instructor);
-            return (
-              <tr key={instructor.id}>
-                <td>{instructor.id}</td>
-                <td>{instructor.fullname}</td>
-                <td>{String(instructor.status)}</td>
-                <td>
-                  <Button onClick={() => handleDelete(instructor.id)}>
-                    Borrar
-                  </Button>
-                  <Button onClick={() => handleModify(instructor.id)}>
-                    Modificar
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <Button onClick={handleCreateInstructor}>Crear instructor</Button>
+      <Container>
+
+        <Table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Instructor</th>
+              <th>Estatus</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allInstructors.map((instructor) => {
+              console.log(instructor);
+              return (
+                <tr key={instructor.id}>
+                  <td>{instructor.id}</td>
+                  <td>{instructor.fullname}</td>
+                  <td>{String(instructor.status)}</td>
+                  <td>
+                    <Button className="mx-2 my-1" onClick={() => handleDelete(instructor.id)}>
+                      Borrar
+                    </Button>
+                    <Button className="mx-2 my-1" onClick={() => handleModify(instructor.id)}>
+                      Modificar
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+        <Button onClick={handleCreateInstructor}>Crear instructor</Button>
+      </Container>
     </div>
   );
 }

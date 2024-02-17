@@ -18,6 +18,7 @@ import {
   FETCH_USER_INFO,
   GET_ALL_USER,
   EMPTY_ALL_USER,
+  FETCH_CURRENT_USER,
 } from "./actionsTypes";
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
     dni: null,
     birth_date: null,
   },
+  currentUser: {},
 };
 
 export const reducer = (state = initialState, action) => {
@@ -170,6 +172,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         userInfo: action.payload,
+      };
+
+    case FETCH_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.payload,
       };
 
     default:

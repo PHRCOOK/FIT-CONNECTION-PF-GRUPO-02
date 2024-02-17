@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-nav.png";
@@ -6,12 +6,21 @@ import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../redux/action";
 
 export default function AppBar() {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth0();
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  const currentUser = useSelector((state) => state.currentUser);
+
+  useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
+
+  useEffect(() => {
     if (isAuthenticated) {
       const userData = {
         name: user.name,
@@ -19,6 +28,8 @@ export default function AppBar() {
         email: user.email,
       };
       console.log(userData);
+
+      dispatch(fetchUser(userData));
 
       axios
         .post("/api/users", userData)
