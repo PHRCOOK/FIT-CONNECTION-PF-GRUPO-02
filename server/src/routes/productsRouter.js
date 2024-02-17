@@ -5,7 +5,6 @@ const {
   getProductServicesByIdHandler,
   createProductServicesHandler,
   updateProductServicesHandler,
-  deleteProductServicesHandler,
   productFilterAndOrderHandler,
 } = require("../handlers/productsHandlers");
 
@@ -19,6 +18,5 @@ productsRouter.get('/', productFilterAndOrderHandler);      //<---------------- 
 productsRouter.get("/:id", getProductServicesByIdHandler);
 productsRouter.post("/", upload.single('image_url'), createProductServicesHandler);
 productsRouter.put("/update/:id", updateProductServicesHandler);
-productsRouter.delete("/delete/:id", deleteProductServicesHandler);
 
 module.exports = productsRouter;
