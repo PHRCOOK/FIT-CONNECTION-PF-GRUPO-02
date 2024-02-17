@@ -14,9 +14,10 @@ function AppCard({
   category,
 }) {
   return (
-    <Card>
+    <Card className="p-3">
       <Link to={`/detail/${id}`}>
         <Card.Img
+          className="my-1"
           style={{ height: "300px", objectFit: "contain" }}
           variant="top"
           src={image_url}

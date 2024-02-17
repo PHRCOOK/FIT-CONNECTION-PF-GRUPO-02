@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Table, Container } from "react-bootstrap";
 
 import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
@@ -34,37 +34,40 @@ function AdminInstructor() {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Instructor</th>
-            <th>Estatus</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allInstructors.map((instructor) => {
-            console.log(instructor);
-            return (
-              <tr key={instructor.id}>
-                <td>{instructor.id}</td>
-                <td>{instructor.fullname}</td>
-                <td>{String(instructor.status)}</td>
-                <td>
-                  <Button onClick={() => handleDelete(instructor.id)}>
-                    Borrar
-                  </Button>
-                  <Button onClick={() => handleModify(instructor.id)}>
-                    Modificar
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <Button onClick={handleCreateInstructor}>Crear instructor</Button>
+      <Container>
+
+        <Table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Instructor</th>
+              <th>Estatus</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allInstructors.map((instructor) => {
+              console.log(instructor);
+              return (
+                <tr key={instructor.id}>
+                  <td>{instructor.id}</td>
+                  <td>{instructor.fullname}</td>
+                  <td>{String(instructor.status)}</td>
+                  <td>
+                    <Button className="mx-2 my-1" onClick={() => handleDelete(instructor.id)}>
+                      Borrar
+                    </Button>
+                    <Button className="mx-2 my-1" onClick={() => handleModify(instructor.id)}>
+                      Modificar
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+        <Button onClick={handleCreateInstructor}>Crear instructor</Button>
+      </Container>
     </div>
   );
 }

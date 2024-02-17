@@ -61,7 +61,7 @@ export default function shoppingcart() {
   return (
     <Container>
       <div className="fs-4 mb-3 fw-bold text-center">Shopping Cart</div>
-      <Card >
+      <Card>
         <Row>
           <Col className="my-3 mx-3">
             {carritos.length > 0 ? (

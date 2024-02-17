@@ -10,7 +10,7 @@ import {
 } from "../../../redux/action";
 import validate from "./validate";
 
-import { FormControl, FormLabel, FormText, Row, Col } from "react-bootstrap";
+import { FormControl, FormLabel, FormText, Row, Col, Container } from "react-bootstrap";
 
 function AdminInstructorForm() {
   const dispatch = useDispatch();
@@ -82,80 +82,81 @@ function AdminInstructorForm() {
         <div className="fs-4 mb-3 fw-bold text-center">
           {params.id ? "Modificacion de instructor" : "Creación de instructor"}
         </div>
-        <Row>
-          <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Nombre completo</FormLabel>
-            <FormControl
-              type="text"
-              name="fullname"
-              className="form-control"
-              value={instructorForm.fullname}
-              onChange={handleChange}
-            />
-            {errors.fullname && (
-              <FormText className="form-text">{errors.fullname}</FormText>
-            )}
-          </Col>
-
-          <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Está dispopnible?</FormLabel>
-            <select
-              name="status"
-              className="form-control"
-              onChange={handleChange}
-              value={instructorForm.status && ""}
-            >
-              <option value="" disabled hidden>
-                --
-              </option>
-              <option value={true}>Si</option>
-              <option value={false}>No</option>
-            </select>
-            {errors.status && (
-              <FormText className="form-text">{errors.status}</FormText>
-            )}
-          </Col>
-
-          <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Foto</FormLabel>
-            <FormControl
-              type="text"
-              name="photo"
-              className="form-control"
-              value={instructorForm.photo}
-              onChange={handleChange}
-            />
-            {errors.photo && (
-              <FormText className="form-text">{errors.photo}</FormText>
-            )}
-          </Col>
-
-          <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Descripción</FormLabel>
-            <FormControl
-              as="textarea"
-              name="description"
-              className="form-control"
-              value={instructorForm.description}
-              onChange={handleChange}
-            />
-            {errors.description && (
-              <FormText className="form-text">{errors.description}</FormText>
-            )}
-          </Col>
-
-          <Col xs="12" className="pb-3">
-            <button
-              className="btn btn-primary"
-              type="submit"
-              disabled={Object.values(instructorForm).some(
-                (value) => value === ""
+        <Container>
+          <Row>
+            <Col xs="12" className="pb-3">
+              <FormLabel className="form-label">Nombre completo</FormLabel>
+              <FormControl
+                type="text"
+                name="fullname"
+                className="form-control"
+                value={instructorForm.fullname}
+                onChange={handleChange}
+              />
+              {errors.fullname && (
+                <FormText className="form-text">{errors.fullname}</FormText>
               )}
-            >
-              {params.id ? "Update instructor" : "Create instructor"}
-            </button>
-          </Col>
-        </Row>
+            </Col>
+            <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
+              <FormLabel className="form-label">Está dispopnible?</FormLabel>
+              <select
+                name="status"
+                className="form-control"
+                onChange={handleChange}
+                value={instructorForm.status && ""}
+              >
+                <option value="" disabled hidden>
+                  --
+                </option>
+                <option value={true}>Si</option>
+                <option value={false}>No</option>
+              </select>
+              {errors.status && (
+                <FormText className="form-text">{errors.status}</FormText>
+              )}
+            </Col>
+
+            <Col xs="12" className="pb-3">
+              <FormLabel className="form-label">Foto</FormLabel>
+              <FormControl
+                type="text"
+                name="photo"
+                className="form-control"
+                value={instructorForm.photo}
+                onChange={handleChange}
+              />
+              {errors.photo && (
+                <FormText className="form-text">{errors.photo}</FormText>
+              )}
+            </Col>
+
+            <Col xs="12" className="pb-3">
+              <FormLabel className="form-label">Descripción</FormLabel>
+              <FormControl
+                as="textarea"
+                name="description"
+                className="form-control"
+                value={instructorForm.description}
+                onChange={handleChange}
+              />
+              {errors.description && (
+                <FormText className="form-text">{errors.description}</FormText>
+              )}
+            </Col>
+
+            <Col xs="12" className="pb-3">
+              <button
+                className="btn btn-primary"
+                type="submit"
+                disabled={Object.values(instructorForm).some(
+                  (value) => value === ""
+                )}
+              >
+                {params.id ? "Update instructor" : "Create instructor"}
+              </button>
+            </Col>
+          </Row>
+        </Container>
       </form>
     </div>
   );
