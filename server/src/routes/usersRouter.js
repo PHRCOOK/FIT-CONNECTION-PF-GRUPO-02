@@ -5,7 +5,7 @@ const {
   updateUserHandler,
   getInactiveUsersHandler,
   getDetailHandler,
-  deleteUserControllerHandler,
+  getUserByEmailHandler,
 } = require("../handlers/usersHandlers");
 
 const usersRouter = Router();
@@ -18,8 +18,9 @@ usersRouter.get("/inactive", getInactiveUsersHandler);
 
 usersRouter.get("/:id", getDetailHandler);
 
+usersRouter.get("/email/:email", getUserByEmailHandler);
+
 usersRouter.put("/:id", updateUserHandler);
 
-usersRouter.delete("/:id", deleteUserControllerHandler);
 
 module.exports = usersRouter;

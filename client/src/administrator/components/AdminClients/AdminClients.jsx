@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FormSelect, Button, Table, Container } from "react-bootstrap";
 import { getAllUsers, putUser } from "../../../redux/action";
+import Swal from "sweetalert2";
 
 function AdminClients() {
   const dispatch = useDispatch();
@@ -26,12 +27,26 @@ function AdminClients() {
     try {
       dispatch(putUser(statusSelection, id, { status: newStatus }));
     } catch (error) {
-      window.alert("No se pudo cambiar el status del usuario");
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text:"No se pudo cambiar el status del usuario",
+      })
     }
   };
 
   const handleModifyUserInfo = (id) => {
     navigate(`/admin/client/modifyinfo/${id}`);
+  };
+
+  const handleChangeAdminAcces = (event) => {
+    console.log(event.target.name);
+    console.log(event.target.value);
+    console.log(event.target.id);
+
+    const { name, value, id } = event.target;
+
+    dispatch(putUser(statusSelection, id, { [name]: value }));
   };
 
   return (
@@ -73,9 +88,25 @@ function AdminClients() {
               return (
                 <tr key={user.id + user.fullname}>
                   <td>{user.id}</td>
-                  <td>{user.fullname}</td>
+                  <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>{user.is_admin ? "Si" : "No"}</td>
+                  <td>
+                    <FormSelect
+                      id={user.id}
+                      name="is_admin"
+                      onChange={handleChangeAdminAcces}
+                      aria-label="Default select example"
+                      value={user.is_admin}
+                      className="form-select"
+                    >
+                      <option id="statusTrue" name="statusTrue" value={true}>
+                        Si
+                      </option>
+                      <option id="statusFalse" name="statusFalse" value={false}>
+                        No
+                      </option>
+                    </FormSelect>
+                  </td>
                   <td>{user.status ? "Activo" : "Inactivo"}</td>
                   <td>
                     <Button

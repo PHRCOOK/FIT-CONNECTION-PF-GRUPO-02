@@ -41,7 +41,7 @@ function AdminProductCard({
   };
 
   return (
-    <Card>
+    <Card className="p-3">
       <Card.Img
         style={{ height: "300px", objectFit: "contain" }}
         variant="top"
@@ -70,6 +70,7 @@ function AdminProductCard({
         </Row>
       </CardBody>
       <Button
+        className="mx-3 my-2"
         variant="primary"
         onClick={() => {
           handleModify(id);
@@ -78,6 +79,7 @@ function AdminProductCard({
         Modificar
       </Button>
       <Button
+        className="mx-3 my-2"
         variant="secondary"
         onClick={() => {
           handleDelete(id);

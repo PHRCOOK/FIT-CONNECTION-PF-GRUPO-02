@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AppCard from "../../components/card/card";
 import { Button, Row, Col, Card, Container } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export default function shoppingcart() {
   const [carritos, setCarritos] = useState([]);
@@ -21,7 +22,11 @@ export default function shoppingcart() {
         if (error.response && error.response.status === 500) {
           setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
         } else {
-          window.alert("Error al obtener datos del carrito de compras:", error);
+          Swal.fire({
+            icon:"error",
+            title:"Error",
+            text: "Error al obtener los datoso del carrito de compras", error,
+          })
         }
       });
   };
@@ -39,11 +44,19 @@ export default function shoppingcart() {
     await axios
       .delete(`/api/shoppingCart/1/${id}`)
       .then(({ data }) => {
-        window.alert("El registro de carrito se elimino");
+        Swal.fire({
+          icon:"success",
+          title:"Proceso Exitoso",
+          text: "El registro de carrito se elimino",
+        })
         getCarritos();
       })
       .catch((error) => {
-        window.alert(`Error: ${error.message}`);
+        Swal.fire({
+          icon:"error",
+          title:"Error",
+          text: `Error: ${error.message}`,
+        })
       });
   };
 
@@ -54,14 +67,18 @@ export default function shoppingcart() {
       // Maneja la respuesta del pago según tus necesidades
       window.location.href = paymentResponse.data.init_point
     } catch (error) {
-      window.alert(`Error al procesar el pago: ${error.message}`);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text: `Error al procesar el pago: ${error.message}`,
+      })
     }
   };
 
   return (
     <Container>
       <div className="fs-4 mb-3 fw-bold text-center">Shopping Cart</div>
-      <Card >
+      <Card>
         <Row>
           <Col className="my-3 mx-3">
             {carritos.length > 0 ? (

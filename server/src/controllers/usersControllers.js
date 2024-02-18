@@ -15,9 +15,14 @@ const createUserController = async (name, email, subAfterPipe) => {
     });
 
     if (userExists) {
-      throw new Error("Ya existe un usuario con este email.");
+      // Si el usuario ya existe, simplemente retornamos el usuario existente.
+      return {
+        message: "Usuario ya existe, continuando con el inicio de sesión.",
+        userExists,
+      };
     }
-    const sub=subAfterPipe
+
+    const sub = subAfterPipe;
     const allUsers = await User.create({ name, email, sub });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";
@@ -133,13 +138,23 @@ const getUserByIdController = async (id) => {
   }
 };
 
-const deleteUserController = async (id) => {
+// Este controller nos permite realizar la busqueda de un usuario por su email.
+const getUserByEmailController = async (email) => {
   try {
-    const users = await User.findByPk(id);
-    await users.destroy();
-    return { message: "users deleted successfully" };
+    const userByEmail = await User.findOne({
+      where: {
+        email: { [Op.iLike]: email },
+      },
+      attributes: ['id', 'name', 'email', 'is_admin'],
+    });
+
+    if (!userByEmail) {
+      throw new Error("No existe un usuario con ese email.");
+    }
+
+    return userByEmail;
   } catch (error) {
-    throw new Error({ error: error.message });
+    throw new Error(error.message);
   }
 };
 
@@ -150,5 +165,6 @@ module.exports = {
   updateUserController,
   getInactiveUsersController,
   getUserByIdController,
-  deleteUserController,
+  getUserByEmailController,
+
 };

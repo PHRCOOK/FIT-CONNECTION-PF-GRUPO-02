@@ -13,6 +13,7 @@ import reportWebVitals from "./reportWebVitals";
 const domain = "https://pabloelleproso.us.auth0.com";
 const clientId = "htRNcTw4YHGioeiGudC6khHz7bU5rrry";
 
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 

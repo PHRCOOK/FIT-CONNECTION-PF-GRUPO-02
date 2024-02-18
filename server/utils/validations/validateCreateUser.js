@@ -10,7 +10,7 @@ const validateCreateUser = ({ name, email, sub }) => {
     }
 
     if (!sub) {
-        throw new Error('Please enter a password.');
+        throw new Error('Please enter a sub.');
     }
 
     if (!isNaN(name)) {

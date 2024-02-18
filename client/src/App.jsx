@@ -48,34 +48,40 @@ function App() {
           <Route path={pathroutes.PRODUCT} element={<Store />} />
           <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
           <Route path={pathroutes.SERVICE} element={<Services />} />
-          <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
           <Route path={pathroutes.REGISTER} element={<UserForm />} />
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
-          <Route path="/admin" element={<AdminLanding />} />
-          <Route path="/admin/category" element={<Admincategories />} />
+          <Route path={pathroutes.ADMIN} element={<AdminLanding />} />
           <Route
-            path="/admin/category/create"
+            path={pathroutes.ADMINCATEGORY}
+            element={<Admincategories />}
+          />
+          <Route
+            path={pathroutes.ADMINCATEGORYCREATE}
             element={<Admincategoryform />}
           />
           <Route
-            path="/admin/category/modify/:id"
+            path={pathroutes.ADMINCATEGORYMODIFY}
             element={<Admincategoryform />}
           />
-          <Route path="/admin/instructor" element={<AdminInstructor />} />
           <Route
-            path="/admin/instructor/create"
+            path={pathroutes.ADMININSTRUCTOR}
+            element={<AdminInstructor />}
+          />
+          <Route
+            path={pathroutes.ADMININSTRUCTORCREATE}
             element={<AdminInstructorForm />}
           />
           <Route
-            path="/admin/instructor/modify/:id"
+            path={pathroutes.ADMININSTRUCTORMODIFY}
             element={<AdminInstructorForm />}
           />
-          <Route path="/admin/product/" element={<AdminStore />} />
-          <Route path="/admin/client/" element={<AdminClients />} />
+          <Route path={pathroutes.ADMINPRODUCT} element={<AdminStore />} />
+          <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
+          <Route path={pathroutes.ADMINCLIENT} element={<AdminClients />} />
           <Route
-            path="/admin/client/modifyinfo/:id"
+            path={pathroutes.ADMINCLIENTPROFILE}
             element={<UserProfile />}
           />
 

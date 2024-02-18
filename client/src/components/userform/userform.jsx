@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import validate from "./validate";
+import Swal from "sweetalert2";
 import {
   FormControl,
   FormLabel,
@@ -32,7 +33,11 @@ export default function userform() {
     e.preventDefault();
     try {
       await dispatch(postUser(form));
-      window.alert("Usuario registrado correctamente.");
+      Swal.fire({
+        icon:"success",
+        title:"Proceso Exitoso",
+        text: "Usuario registrado correctamente",
+      })
       setForm({
         fullname: "",
         email: "",
@@ -40,7 +45,11 @@ export default function userform() {
       });
       navigate("/product");
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text: "Error en el registro de usuario",
+      })
     }
   };
 
