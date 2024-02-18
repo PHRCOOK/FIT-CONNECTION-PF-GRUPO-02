@@ -11,7 +11,7 @@ const shoppingCartRoutes = Router();
 
 shoppingCartRoutes.post("/", createShoppingCartHandler);
 shoppingCartRoutes.get("/:user_id", getShoppingCartsHandler);
-shoppingCartRoutes.delete("/:user_id/:product_id/:membership_id", deleteShoppingCartsHandler);
+shoppingCartRoutes.delete("/:user_id/:product_id", deleteShoppingCartsHandler);
 shoppingCartRoutes.delete("/:user_id", deleteAllCartsHandler);
 
 module.exports = shoppingCartRoutes;
