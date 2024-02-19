@@ -9,7 +9,7 @@ const {
 } = require("../handlers/productsHandlers");
 
 const productsRouter = Router();
-
+const { authorization } = require('../../utils/auth')
 // Rutas específicas primero
 
 productsRouter.get('/', productFilterAndOrderHandler);      //<---------------- RUTA DE FILTROS Y ORDENAMIENTO!!!

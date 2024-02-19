@@ -138,6 +138,26 @@ const getUserByIdController = async (id) => {
   }
 };
 
+// Este controller nos permite realizar la busqueda de un usuario por su email.
+const getUserByEmailController = async (email) => {
+  try {
+    const userByEmail = await User.findOne({
+      where: {
+        email: { [Op.iLike]: email },
+      },
+      attributes: ['id', 'name', 'email', 'is_admin'],
+    });
+
+    if (!userByEmail) {
+      throw new Error("No existe un usuario con ese email.");
+    }
+
+    return userByEmail;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   createUserController,
   getActiveUsersController,
@@ -145,4 +165,6 @@ module.exports = {
   updateUserController,
   getInactiveUsersController,
   getUserByIdController,
+  getUserByEmailController,
+
 };

@@ -9,6 +9,7 @@ const {
   getInactiveUsersController,
   updateUserController,
   getUserByIdController,
+  getUserByEmailController,
 } = require("../controllers/usersControllers");
 // Handler para manejar la cración de un usuario.
 const createUserHandler = async (req, res) => {
@@ -17,7 +18,7 @@ const createUserHandler = async (req, res) => {
     validateCreateUser({ name, email, sub });
     const subAfterPipe = extractSubAfterPipe(sub);
     const response = await createUserController(name, email, subAfterPipe);
-    console.log(response);
+    //console.log(response);
     res.status(201).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -77,10 +78,23 @@ const getDetailHandler = async (req, res) => {
   }
 };
 
+// Este Handler maneja la busqueda de un usuario por su email.
+const getUserByEmailHandler = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const response = await getUserByEmailController(email)
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(404).json({error: error.message})
+  }
+};
+
 module.exports = {
   createUserHandler,
   getActiveUsersHandler,
   updateUserHandler,
   getInactiveUsersHandler,
   getDetailHandler,
+  getUserByEmailHandler,
+
 };
