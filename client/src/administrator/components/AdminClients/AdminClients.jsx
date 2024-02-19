@@ -41,16 +41,23 @@ function AdminClients() {
 
   const handleChangeAdminAcces = (event) => {
     const { name, value, id } = event.target;
+
     if (
       users.filter((u) => u.is_admin).length <= 1 &&
       users.find((u) => u.id === Number(id)).is_admin
     ) {
-      return window.alert(
-        "No pueden quitarse los permisos administrador a todos los usuarios"
-      );
+      Swal.fire({
+        title: "Error",
+        text: "No pueden quitarse los permisos administrador a todos los usuarios",
+        icon: "error",
+        customClass: {
+          confirmButton: "swal-btn-class",
+        },
+      });
+      return;
     }
+
     dispatch(putUser(statusSelection, id, { [name]: value }));
-    console.log();
   };
 
   return (
