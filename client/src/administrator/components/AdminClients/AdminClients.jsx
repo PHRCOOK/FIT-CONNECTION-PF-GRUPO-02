@@ -119,10 +119,11 @@ function AdminClients() {
                         handleActivate(statusSelection, user.id, user.status);
                       }}
                       className="me-2"
-                      disabled={user.is_admin === true}
+                      disabled={user.is_admin && user.status}
                     >
                       {user.status ? "Desactivar" : "Activar"}
                     </Button>
+
                     <Button
                       variant="info"
                       onClick={() => handleModifyUserInfo(user.id)}
