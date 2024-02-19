@@ -41,7 +41,16 @@ function AdminClients() {
 
   const handleChangeAdminAcces = (event) => {
     const { name, value, id } = event.target;
+    if (
+      users.filter((u) => u.is_admin).length <= 1 &&
+      users.find((u) => u.id === Number(id)).is_admin
+    ) {
+      return window.alert(
+        "No pueden quitarse los permisos administrador a todos los usuarios"
+      );
+    }
     dispatch(putUser(statusSelection, id, { [name]: value }));
+    console.log();
   };
 
   return (
@@ -81,7 +90,7 @@ function AdminClients() {
           <tbody>
             {users.map((user) => {
               return (
-                <tr key={user.id + user.fullname}>
+                <tr key={user.id + user.name}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
