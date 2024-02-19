@@ -28,10 +28,10 @@ function AdminClients() {
       dispatch(putUser(statusSelection, id, { status: newStatus }));
     } catch (error) {
       Swal.fire({
-        icon:"error",
-        title:"Error",
-        text:"No se pudo cambiar el status del usuario",
-      })
+        icon: "error",
+        title: "Error",
+        text: "No se pudo cambiar el status del usuario",
+      });
     }
   };
 
@@ -40,12 +40,7 @@ function AdminClients() {
   };
 
   const handleChangeAdminAcces = (event) => {
-    console.log(event.target.name);
-    console.log(event.target.value);
-    console.log(event.target.id);
-
     const { name, value, id } = event.target;
-
     dispatch(putUser(statusSelection, id, { [name]: value }));
   };
 
@@ -115,6 +110,7 @@ function AdminClients() {
                         handleActivate(statusSelection, user.id, user.status);
                       }}
                       className="me-2"
+                      disabled={user.is_admin === true}
                     >
                       {user.status ? "Desactivar" : "Activar"}
                     </Button>
