@@ -35,14 +35,10 @@ axios.defaults.baseURL = "http://localhost:3001/";
 //   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
-  // Auth0 authentication
   const { isAuthenticated, user, logout } = useAuth0();
   const dispatch = useDispatch();
-
-  // Redux state
   const currentUser = useSelector((state) => state.currentUser);
 
-  // Effect to fetch user data and update Redux store on authentication
   useEffect(() => {
     if (isAuthenticated) {
       const userData = {
@@ -60,7 +56,6 @@ function App() {
     }
   }, [isAuthenticated, user, dispatch]);
 
-  // Effect to check if the authenticated user is an admin
   useEffect(() => {
     if (isAuthenticated) {
       const userData = {
@@ -92,7 +87,6 @@ function App() {
     }
   }, [isAuthenticated, user, dispatch]);
 
-  // Function to check if the current user is an admin
   const isAdmin = currentUser && currentUser.is_admin;
 
   return (
