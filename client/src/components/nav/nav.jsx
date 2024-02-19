@@ -57,9 +57,7 @@ export default function AppBar() {
               `Es admin: ${userWithSameEmail.is_admin ? "Sí" : "No"}`
             );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
-            dispatch(
-              fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
-            );
+            dispatch(fetchUser(userWithSameEmail));
           }
         })
         .catch((error) => console.error(error));

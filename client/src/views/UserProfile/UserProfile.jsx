@@ -1,12 +1,14 @@
 import { useLocation, useParams } from "react-router-dom";
 import UserDetails from "../../components/userDetails/userDetails";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function UserProfile() {
-  const isAdminCurrentUser = useLocation().pathname.includes("admin");
+  const currentUser = useSelector((state) => state.currentUser);
+  const isAdmin = useSelector((state) => state.isAdmin);
 
-  const id = (isAdminCurrentUser && useParams().id) || 1;
+  const id = (isAdmin && useParams().id) || currentUser.id;
   return (
     <div>
       <UserDetails user_id={id} />
