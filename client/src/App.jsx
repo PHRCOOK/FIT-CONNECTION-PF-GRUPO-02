@@ -29,6 +29,7 @@ import AdminInstructorForm from "./administrator/components/admininstructorform/
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
+import { useSelector } from "react-redux";
 // FIN PRUEBAS
 
 axios.defaults.baseURL = "http://localhost:3001/";
@@ -36,6 +37,8 @@ axios.defaults.baseURL = "http://localhost:3001/";
 //   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
+  const isAdmin = useSelector((state) => state.isAdmin);
+
   return (
     <>
       <AppBar />
@@ -53,37 +56,49 @@ function App() {
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.CATEGORY} element={<Category />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
-          <Route path={pathroutes.ADMIN} element={<AdminLanding />} />
+          <Route
+            path={pathroutes.ADMIN}
+            element={isAdmin ? <AdminLanding /> : <Error404 />}
+          />
           <Route
             path={pathroutes.ADMINCATEGORY}
-            element={<Admincategories />}
+            element={isAdmin ? <Admincategories /> : <Error404 />}
           />
           <Route
             path={pathroutes.ADMINCATEGORYCREATE}
-            element={<Admincategoryform />}
+            element={isAdmin ? <Admincategoryform /> : <Error404 />}
           />
           <Route
             path={pathroutes.ADMINCATEGORYMODIFY}
-            element={<Admincategoryform />}
+            element={isAdmin ? <Admincategoryform /> : <Error404 />}
           />
           <Route
             path={pathroutes.ADMININSTRUCTOR}
-            element={<AdminInstructor />}
+            element={isAdmin ? <AdminInstructor /> : <Error404 />}
           />
           <Route
             path={pathroutes.ADMININSTRUCTORCREATE}
-            element={<AdminInstructorForm />}
+            element={isAdmin ? <AdminInstructorForm /> : <Error404 />}
           />
           <Route
             path={pathroutes.ADMININSTRUCTORMODIFY}
-            element={<AdminInstructorForm />}
+            element={isAdmin ? <AdminInstructorForm /> : <Error404 />}
           />
-          <Route path={pathroutes.ADMINPRODUCT} element={<AdminStore />} />
-          <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
-          <Route path={pathroutes.ADMINCLIENT} element={<AdminClients />} />
+          <Route
+            path={pathroutes.ADMINPRODUCT}
+            element={isAdmin ? <AdminStore /> : <Error404 />}
+          />
+          <Route
+            path={pathroutes.FORMPRODUCT}
+            element={isAdmin ? <FormProduct /> : <Error404 />}
+          />
+          <Route
+            path={pathroutes.ADMINCLIENT}
+            element={isAdmin ? <AdminClients /> : <Error404 />}
+          />
           <Route
             path={pathroutes.ADMINCLIENTPROFILE}
-            element={<UserProfile />}
+            element={isAdmin ? <UserProfile /> : <Error404 />}
           />
 
           <Route path="*" element={<Error404 />} />
