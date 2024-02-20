@@ -4,10 +4,10 @@ const { getShoppingCarts } = require('../controllers/shoppingCartControllers')
 
 const mercadoPaymentPreferencesHandler = async (req, res) =>{
     try {
-        const { user_id } = req.body
-        console.log(user_id)
+        console.log(req)
+        const { id } = req.params
         //const userData = await getUserByIdController(user_id);
-        const shoppingCart = await getShoppingCarts(user_id);
+        const shoppingCart = await getShoppingCarts(id);
         const response = await mercadoPaymentPreferences(shoppingCart)
         res.status(200).json(response)
     } catch (error) {

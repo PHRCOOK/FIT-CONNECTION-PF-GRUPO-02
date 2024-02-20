@@ -11,6 +11,7 @@ const mercadoPaymentPreferences = async (shoppingCard) => {
                 quantity: producto.quantity,
                 category_id: producto.category_id,
                 description: producto.description,
+                brand: producto.brand,
                 picture_url: producto.image_url,
                 unit_price: Math.round(producto.price)
             };

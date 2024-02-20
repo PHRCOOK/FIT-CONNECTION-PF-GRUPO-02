@@ -72,8 +72,9 @@ export default function AppBar() {
             (item) => item.email === user.email
           );
           console.log("Properties of userWithSameEmail:", userWithSameEmail);
-
+          // Establecer isAdmin en el estado de Redux
           if (userWithSameEmail) {
+            localStorage.setItem("isAdmin", userWithSameEmail.is_admin);
             dispatch(setUserShopping(userWithSameEmail));
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(fetchUser(userWithSameEmail));
