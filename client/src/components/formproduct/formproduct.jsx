@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 import {
   postProduct,
@@ -28,14 +29,8 @@ export default function formproduct() {
 
   const [disableButton, setDisableButton] = useState(false);
   const allCategories = useSelector((state) => state.allCategories);
-  const allProducts = useSelector((state) => state.allProducts);
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-    dispatch(getAllProducts());
-
-    console.log(params);
-  }, []);
+  const [currentProduct, setCurrentProduct] = useState({});
 
   const [productForm, setProductForm] = useState({
     name: "",
@@ -48,26 +43,59 @@ export default function formproduct() {
     category_id: "",
   });
 
-  useEffect(() => {
-    console.log(allProducts);
-    if (params.id && allProducts.length) {
-      const productFiltered = allProducts.filter(
-        (product) => params.id === product.id.toString()
-      );
-      console.log(productFiltered);
-      setProductForm({
-        ...productForm,
-        name: productFiltered[0].name,
-        price: productFiltered[0].price,
-        description: productFiltered[0].description,
-        status: productFiltered[0].status,
-        brand: productFiltered[0].brand,
-        image_url: productFiltered[0].image_url,
-        stock: productFiltered[0].stock,
-        category_id: productFiltered[0].category_id,
+  const allProducts = useSelector((state) => state.allProducts);
+
+  const fetchProduct = async () => {
+    const { id } = params;
+    try {
+      if (id) {
+        const response = await axios(`api/products/${id}`);
+        console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        console.log(response);
+        console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        setProductForm(response.data);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No existe producto con ese id",
       });
     }
-  }, [params, allProducts]);
+  };
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [params]);
+
+  useEffect(() => {
+    console.log(currentProduct);
+  }, [currentProduct]);
+
+  // useEffect(() => {
+  //   console.log(allProducts);
+  //   if (params.id && allProducts.length) {
+  //     const productFiltered = allProducts.filter(
+  //       (product) => params.id === product.id.toString()
+  //     );
+  //     console.log(productFiltered);
+  //     setProductForm({
+  //       ...productForm,
+  //       name: productFiltered[0].name,
+  //       price: productFiltered[0].price,
+  //       description: productFiltered[0].description,
+  //       status: productFiltered[0].status,
+  //       brand: productFiltered[0].brand,
+  //       image_url: productFiltered[0].image_url,
+  //       stock: productFiltered[0].stock,
+  //       category_id: productFiltered[0].category_id,
+  //     });
+  //   }
+  // }, [params, allProducts]);
 
   const [errors, setErrors] = useState({});
 
@@ -92,7 +120,7 @@ export default function formproduct() {
     setProductForm({ ...productForm, image_url: e.target.files[0] });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     setDisableButton(true);
     e.preventDefault();
     const validationErrors = validate(productForm);
@@ -104,14 +132,14 @@ export default function formproduct() {
         });
 
         if (params.id) {
-          await dispatch(putProduct(params.id, formData));
+          dispatch(putProduct(params.id, formData));
           Swal.fire({
             icon: "success",
             title: "Proceso Exitoso",
             text: "Producto modificado exitosamente",
           });
         } else {
-          await dispatch(postProduct(formData));
+          dispatch(postProduct(formData));
           Swal.fire({
             icon: "success",
             title: "Proceso Exitoso",

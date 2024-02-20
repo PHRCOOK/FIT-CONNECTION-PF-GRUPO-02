@@ -12,6 +12,9 @@ const getProductServicesByIdHandler = async (req, res) => {
   const { id } = req.params;
   try {
     const response = await getProductServicesById(id);
+    if (!response) {
+      throw new Error("Not found");
+    }
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
