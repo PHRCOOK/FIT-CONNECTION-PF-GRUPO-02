@@ -8,11 +8,14 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setIsAdmin } from "../../redux/action";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function AppBar() {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth0();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const currentUser = useSelector((state) => state.currentUser);
 
@@ -44,20 +47,65 @@ export default function AppBar() {
       dispatch(fetchUser(userData));
 
       axios
-        .get("/api/users", { params: { email: user.email } })
-        .then((response) => {
+        .post("/api/users", userData)
+        .then((response) => console.log(response))
+        .catch((error) => console.error(error));
+    }
+  }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (isAuthenticated) {
+        const userData = {
+          name: user.name,
+          sub: user.sub,
+          email: user.email,
+        };
+
+        dispatch(fetchUser(userData));
+
+        try {
+          const response = await axios.get("/api/users", {
+            params: { email: user.email },
+          });
+
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
 
+          console.log("Properties of userWithSameEmail:", userWithSameEmail);
+
           if (userWithSameEmail) {
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(fetchUser(userWithSameEmail));
+            // console.log("Is Admin:", userWithSameEmail.is_admin);
+
+            if (userWithSameEmail.status === true) {
+              console.log("Estado Activo");
+            }
+          } else {
+            console.log("Inactive Status");
+            const result = await Swal.fire({
+              icon: "error",
+              title: "Usuario Baneado",
+              text: "Este usuario ah sido baneado",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              showCancelButton: false,
+              confirmButtonText: "Si, cierra la sesion",
+            });
+            if (result.isConfirmed) {
+              logout();
+            }
           }
-        })
-        .catch((error) => console.error(error));
-    }
-  }, [isAuthenticated, user, dispatch]);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [isAuthenticated, user, dispatch, logout]);
 
   const isAdmin = currentUser && currentUser.is_admin;
 
