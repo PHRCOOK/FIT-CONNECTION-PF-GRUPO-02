@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-const Detail = () => {
+const Detail = ({ sub }) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
+  const user = useSelector((state) => state.userShopping);
+  console.log(user);
 
   useEffect(() => {
     axios
@@ -52,7 +55,7 @@ const Detail = () => {
   const handleClick = async (e) => {
     await axios
       .post("/api/shoppingCart", {
-        user_id: "1",
+        user_id: user.id,
         product_id: id,
         quantity: 1,
       })
@@ -105,8 +108,14 @@ const Detail = () => {
             </Card.Body>
           </Col>
         </Row>
-        <Button className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3" onClick={handleClick}> agregar al carrito</Button>
-      </Card >
+        <Button
+          className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
+          onClick={handleClick}
+        >
+          {" "}
+          agregar al carrito
+        </Button>
+      </Card>
     </Container>
   );
 };

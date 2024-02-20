@@ -7,9 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, setIsAdmin } from "../../redux/action";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 
 export default function AppBar() {
   const location = useLocation();
@@ -76,6 +74,7 @@ export default function AppBar() {
           console.log("Properties of userWithSameEmail:", userWithSameEmail);
 
           if (userWithSameEmail) {
+            dispatch(setUserShopping(userWithSameEmail));
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(fetchUser(userWithSameEmail));
             // console.log("Is Admin:", userWithSameEmail.is_admin);
