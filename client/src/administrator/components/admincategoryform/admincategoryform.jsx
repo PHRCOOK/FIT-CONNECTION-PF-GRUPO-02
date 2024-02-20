@@ -11,7 +11,14 @@ import {
 } from "../../../redux/action";
 import validate from "./validate";
 
-import { FormControl, FormLabel, FormText, Row, Col, Container } from "react-bootstrap";
+import {
+  FormControl,
+  FormLabel,
+  FormText,
+  Row,
+  Col,
+  Container,
+} from "react-bootstrap";
 
 function Admincategoryform() {
   const dispatch = useDispatch();
@@ -51,30 +58,30 @@ function Admincategoryform() {
       if (params.id) {
         await dispatch(putCategory(params.id, categoryForm));
         Swal.fire({
-          icon:"success",
-          title:"Proceso Exitoso",
+          icon: "success",
+          title: "Proceso Exitoso",
           text: "Categoria modificada exitosamente",
-        })
+        });
       } else {
         await dispatch(postCategory(categoryForm));
         Swal.fire({
-          icon:"success",
-          title:"Poceso Exitoso",
-          text:"Categoria creada exitosamente",
-        })
+          icon: "success",
+          title: "Poceso Exitoso",
+          text: "Categoria creada exitosamente",
+        });
       }
       setCategoryForm({
         name: "",
         status: "",
         is_service: "",
       });
-      navigate("/admin/categories");
+      navigate("/admin/category");
     } catch (error) {
       Swal.fire({
-        icon:"error",
-        title:"Error",
-        text:"Error en categoria",
-      })
+        icon: "error",
+        title: "Error",
+        text: "Error en categoria",
+      });
     }
   };
 
@@ -94,10 +101,11 @@ function Admincategoryform() {
           {params.id ? "Modificacion de categoria" : "Creación de categoria"}
         </div>
         <Container>
-
           <Row>
             <Col xs="12" className="pb-3">
-              <FormLabel className="form-label">Nombre de la categoría</FormLabel>
+              <FormLabel className="form-label">
+                Nombre de la categoría
+              </FormLabel>
               <FormControl
                 type="text"
                 name="name"

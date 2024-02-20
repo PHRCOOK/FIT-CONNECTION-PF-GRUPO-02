@@ -8,7 +8,6 @@ const {
   filterAndOrder,
 } = require("../controllers/productsController");
 
-
 const getProductServicesByIdHandler = async (req, res) => {
   const { id } = req.params;
   try {
@@ -19,17 +18,9 @@ const getProductServicesByIdHandler = async (req, res) => {
   }
 };
 
-
 const createProductServicesHandler = async (req, res) => {
-  const {
-    name,
-    price,
-    description,
-    status,
-    brand,
-    stock,
-    category_id,
-  } = req.body;
+  const { name, price, description, status, brand, stock, category_id } =
+    req.body;
   const image_url = req.file;
   try {
     validateCreateProductServices({
@@ -79,8 +70,16 @@ const updateProductServicesHandler = async (req, res) => {
 };
 
 const productFilterAndOrderHandler = async (req, res) => {
-  const { category_id, name, brand, minPrice, maxPrice, sortOrder, page, size } =
-    req.query;
+  const {
+    category_id,
+    name,
+    brand,
+    minPrice,
+    maxPrice,
+    sortOrder,
+    page,
+    size,
+  } = req.query;
   try {
     const response = await filterAndOrder(
       sortOrder,

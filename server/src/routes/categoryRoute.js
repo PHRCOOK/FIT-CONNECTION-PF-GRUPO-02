@@ -5,7 +5,7 @@ const {
   putCategoriesHandler,
 } = require("../handlers/categoryHandler");
 const categoryRouter = Router();
-const { authorization } = require('../../utils/auth')
+const { authorization } = require("../../utils/auth");
 
 categoryRouter.get("/", getAllCategoriesHandler);
 categoryRouter.put("/:id", authorization, putCategoriesHandler);

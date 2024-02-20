@@ -7,7 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, setIsAdmin  } from "../../redux/action";
+import { fetchUser, setIsAdmin } from "../../redux/action";
 
 export default function AppBar() {
   const location = useLocation();
@@ -16,7 +16,6 @@ export default function AppBar() {
 
   const currentUser = useSelector((state) => state.currentUser);
 
-
   useEffect(() => {
     if (isAuthenticated) {
       const userData = {
@@ -24,7 +23,6 @@ export default function AppBar() {
         sub: user.sub,
         email: user.email,
       };
-      console.log(userData);
 
       dispatch(fetchUser(userData));
 
@@ -51,16 +49,10 @@ export default function AppBar() {
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
-          console.log(userWithSameEmail);
 
           if (userWithSameEmail) {
-            console.log(
-              `Es admin: ${userWithSameEmail.is_admin ? "Sí" : "No"}`
-            );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
-            dispatch(
-              fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin }),
-            );
+            dispatch(fetchUser(userWithSameEmail));
           }
         })
         .catch((error) => console.error(error));
@@ -75,7 +67,10 @@ export default function AppBar() {
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
-      show: !shouldShowLogoOnly && location.pathname !== pathroutes.PRODUCT,
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.PRODUCT &&
+        !isAdmin,
     },
     {
       path: pathroutes.SERVICE,
@@ -86,21 +81,15 @@ export default function AppBar() {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
       show:
-        !shouldShowLogoOnly && location.pathname !== pathroutes.SHOPPINGCART,
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.SHOPPINGCART &&
+        !isAdmin,
     },
     {
       path: pathroutes.STAFF,
       title: "Conocer staff",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.STAFF,
     },
-    // {
-    //   path: pathroutes.REGISTER,
-    //   title: "Registrate",
-    //   show:
-    //     !isAuthenticated &&
-    //     !shouldShowLogoOnly &&
-    //     location.pathname !== pathroutes.REGISTER,
-    // },
     {
       path: pathroutes.ADMIN,
       title: "Herramientas Admin",
@@ -146,7 +135,6 @@ export default function AppBar() {
     <Navbar collapseOnSelect bg="secondary" expand="lg">
       <Container>
         {shouldShowLogoOnly ? (
-          // Muestra solo el logo en la barra de navegación si estás en la ruta de login
           <LinkContainer to={pathroutes.HOME}>
             <Navbar.Brand>
               <Image
@@ -159,7 +147,6 @@ export default function AppBar() {
             </Navbar.Brand>
           </LinkContainer>
         ) : (
-          // Muestra la barra de navegación completa para otras rutas
           <>
             <LinkContainer to={pathroutes.HOME}>
               <Navbar.Brand>

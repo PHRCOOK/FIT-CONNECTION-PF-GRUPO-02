@@ -28,10 +28,10 @@ function AdminClients() {
       dispatch(putUser(statusSelection, id, { status: newStatus }));
     } catch (error) {
       Swal.fire({
-        icon:"error",
-        title:"Error",
-        text:"No se pudo cambiar el status del usuario",
-      })
+        icon: "error",
+        title: "Error",
+        text: "No se pudo cambiar el status del usuario",
+      });
     }
   };
 
@@ -40,11 +40,22 @@ function AdminClients() {
   };
 
   const handleChangeAdminAcces = (event) => {
-    console.log(event.target.name);
-    console.log(event.target.value);
-    console.log(event.target.id);
-
     const { name, value, id } = event.target;
+
+    if (
+      users.filter((u) => u.is_admin).length <= 1 &&
+      users.find((u) => u.id === Number(id)).is_admin
+    ) {
+      Swal.fire({
+        title: "Error",
+        text: "No pueden quitarse los permisos administrador a todos los usuarios",
+        icon: "error",
+        customClass: {
+          confirmButton: "swal-btn-class",
+        },
+      });
+      return;
+    }
 
     dispatch(putUser(statusSelection, id, { [name]: value }));
   };
@@ -86,7 +97,7 @@ function AdminClients() {
           <tbody>
             {users.map((user) => {
               return (
-                <tr key={user.id + user.fullname}>
+                <tr key={user.id + user.name}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
@@ -115,9 +126,11 @@ function AdminClients() {
                         handleActivate(statusSelection, user.id, user.status);
                       }}
                       className="me-2"
+                      disabled={user.is_admin && user.status}
                     >
                       {user.status ? "Desactivar" : "Activar"}
                     </Button>
+
                     <Button
                       variant="info"
                       onClick={() => handleModifyUserInfo(user.id)}
