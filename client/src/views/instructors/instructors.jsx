@@ -5,7 +5,6 @@ import { Card, Row, Col } from "react-bootstrap";
 
 function Instructors() {
   const dispatch = useDispatch();
-
   const allInstructors = useSelector((state) => state.allInstructors);
 
   useEffect(() => {
@@ -13,24 +12,28 @@ function Instructors() {
   }, [dispatch]);
 
   return (
-    <Row xs={1} md={2} className="g-4">
+    <Row xs={1} md={2} lg={3} className="g-4">
       {allInstructors.map((instructor) => (
         <Col key={instructor.id}>
-          <Card ali border="danger" style={{ width: "25rem" }}>
+          <Card className="custom-card" border="primary">
             <Card.Img
               variant="top"
               src={instructor.photo}
-              style={{
-                width: "300px",
-                height: "300px",
-                margin: "20px",
-                border: "solid",
-              }}
+              className="rounded custom-card-img"
             />
             <Card.Body>
-              <Card.Title>{instructor.fullname}</Card.Title>
-              <Card.Text>{instructor.description}</Card.Text>
+              <Card.Title className="text-primary">
+                {instructor.fullname}
+              </Card.Title>
+              <Card.Text className="text-muted">
+                {instructor.description}
+              </Card.Text>
             </Card.Body>
+            <Card.Footer>
+              <small className="text-muted">
+                Last updated {instructor.lastUpdated}
+              </small>
+            </Card.Footer>
           </Card>
         </Col>
       ))}

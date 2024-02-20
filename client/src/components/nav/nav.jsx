@@ -122,6 +122,11 @@ export default function AppBar() {
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
     {
+      path: pathroutes.INSTRUCTOR,
+      title: "Instructores",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
+    },
+    {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
       show:
