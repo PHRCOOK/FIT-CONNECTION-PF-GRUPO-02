@@ -100,7 +100,9 @@ function Admincategories() {
                       <td>{category.is_service ? "Si" : "No"}</td>
                       <td>
                         <Button
-                          className="mx-2 my-1"
+                          className={`mx-2 my-1 ${
+                            statusSelection ? "btn-danger" : "btn-primary"
+                          }`}
                           onClick={() =>
                             handleDelete(category.id, category.status)
                           }
