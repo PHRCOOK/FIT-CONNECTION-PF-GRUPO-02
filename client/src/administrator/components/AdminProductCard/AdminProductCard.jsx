@@ -2,6 +2,9 @@ import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "../../../redux/action";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { deleteProduct } from "../../../redux/action";
 
 function AdminProductCard({
   id,
@@ -13,8 +16,11 @@ function AdminProductCard({
   image_url,
   stock,
   category_id,
+  statusSelection,
 }) {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const allCategories = useSelector((state) => state.allCategories);
 
@@ -30,11 +36,31 @@ function AdminProductCard({
 
   const handleModify = (id) => {
     console.log(id);
-    // navigate(`/admin/modifyproduct/${id}`);
+    navigate(`/admin/product/modify/${id}`);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, status) => {
     console.log(id);
+    console.log(status);
+    const newStatus = !status;
+    try {
+      dispatch(deleteProduct(id, { status: newStatus }));
+
+      Swal.fire({
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: statusSelection
+          ? "Producto desactivado correctamente"
+          : "Producto activado correctamente",
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error al borrar producto",
+      });
+    }
     // dispatch(deleteProduct(id));
     // window.alert("Producto borrado correctamente");
     // navigate("/admin");
@@ -82,10 +108,10 @@ function AdminProductCard({
         className="mx-3 my-2"
         variant="secondary"
         onClick={() => {
-          handleDelete(id);
+          handleDelete(id, status);
         }}
       >
-        Borrar
+        {statusSelection ? "Desactivar" : "Activar"}
       </Button>
     </Card>
   );

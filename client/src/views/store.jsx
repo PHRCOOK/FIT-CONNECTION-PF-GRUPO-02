@@ -3,10 +3,12 @@ import Filters from "../components/filters/filters";
 import AppCards from "../components/cards/cards";
 import Page from "../components/page/page";
 import { Container, Row, Col, Offcanvas, Button } from "react-bootstrap";
-import { useState } from 'react';
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Store() {
   const [show, setShow] = useState(false);
+  const totalPages = useSelector((state) => state.totalPages);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -14,7 +16,11 @@ function Store() {
   return (
     <div>
       <div className="fs-4 mb-3 fw-bold text-center">Nuestros Productos</div>
-      <Button className="d-md-none btn btn-primary" variant="primary" onClick={handleShow}>
+      <Button
+        className="d-md-none btn btn-primary"
+        variant="primary"
+        onClick={handleShow}
+      >
         Buscar Productos
       </Button>
       <Offcanvas show={show} onHide={handleClose}>
@@ -26,16 +32,16 @@ function Store() {
         </Offcanvas.Body>
       </Offcanvas>
       <Row>
-        <Col className="d-none d-md-block" xs="2" >
+        <Col className="d-none d-md-block" xs="2">
           <Filters />
         </Col>
         <Col>
           <Container>
-            <AppCards />
+            <AppCards statusSelection={true} />
           </Container>
         </Col>
       </Row>
-      <Page />
+      {totalPages > 1 && <Page />}
     </div>
   );
 }

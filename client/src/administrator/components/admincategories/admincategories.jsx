@@ -1,35 +1,41 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories, deleteCategory } from "../../../redux/action";
 import Swal from "sweetalert2";
 
-import { Button, Table, Container } from "react-bootstrap";
+import { Button, Table, Container, FormSelect } from "react-bootstrap";
 
 function Admincategories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allCategories = useSelector((state) => state.allCategories);
 
+  const [statusSelection, setStatusSelection] = useState(true);
+
   useEffect(() => {
     dispatch(getAllCategories());
   }, []);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, status) => {
+    const newStatus = !status;
     try {
-      dispatch(deleteCategory(id));
+      dispatch(deleteCategory(id, { status: newStatus }));
+
       Swal.fire({
-        icon:"success",
-        title:"Proceso Exitoso",
-        text:"Categoria borrada correctamente",
-      })
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: statusSelection
+          ? "Categoria desactivada correctamente"
+          : "Categoria activada correctamente",
+      });
     } catch (error) {
       Swal.fire({
-        icon:"error",
-        title:"Error",
+        icon: "error",
+        title: "Error",
         text: "Error al borrar categoria",
-      })
+      });
     }
   };
 
@@ -41,10 +47,34 @@ function Admincategories() {
     navigate("/admin/category/create");
   };
 
+  const handleStatusSelect = (event) => {
+    const status = event.target.value === "true";
+    setStatusSelection(status);
+  };
+
   return (
     <div>
       <Container>
-
+        <div className="mb-3">
+          <label htmlFor="statusSelect" className="form-label">
+            Seleccionar estatus
+          </label>
+          <FormSelect
+            id="statusSelect"
+            name="statusSelect"
+            onChange={handleStatusSelect}
+            aria-label="Default select example"
+            value={statusSelection}
+            className="form-select"
+          >
+            <option id="statusTrue" name="statusTrue" value={true}>
+              Activos
+            </option>
+            <option id="statusFalse" name="statusFalse" value={false}>
+              Inactivos
+            </option>
+          </FormSelect>
+        </div>
         <Table>
           <thead>
             <tr>
@@ -55,26 +85,40 @@ function Admincategories() {
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            {allCategories.map((category) => {
-              return (
-                <tr key={category.name}>
-                  <td>{category.id}</td>
-                  <td>{category.name}</td>
-                  <td>{String(category.status)}</td>
-                  <td>{String(category.is_service)}</td>
-                  <td>
-                    <Button className="mx-2 my-1" onClick={() => handleDelete(category.id)}>
-                      Borrar
-                    </Button>
-                    <Button className="mx-2 my-1" onClick={() => handleModify(category.id)}>
-                      Modificar
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+          {!allCategories ? (
+            ""
+          ) : (
+            <tbody>
+              {allCategories
+                .filter((category) => category.status === statusSelection)
+                .map((category) => {
+                  return (
+                    <tr key={category.name}>
+                      <td>{category.id}</td>
+                      <td>{category.name}</td>
+                      <td>{category.status ? "Activo" : "Inactivo"}</td>
+                      <td>{category.is_service ? "Si" : "No"}</td>
+                      <td>
+                        <Button
+                          className="mx-2 my-1"
+                          onClick={() =>
+                            handleDelete(category.id, category.status)
+                          }
+                        >
+                          {statusSelection ? "Desactivar" : "Activar"}
+                        </Button>
+                        <Button
+                          className="mx-2 my-1"
+                          onClick={() => handleModify(category.id)}
+                        >
+                          Modificar
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          )}
         </Table>
         <Button onClick={handleCreateCategory}>Crear categoria</Button>
       </Container>
