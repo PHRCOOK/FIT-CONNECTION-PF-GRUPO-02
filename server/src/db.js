@@ -38,7 +38,7 @@ PurchasesModel(sequelize);
 PurchaseDetailModel(sequelize);
 ShoppingCartModel(sequelize);
 CategoriesModel(sequelize);
-ProductServicesModel(sequelize)
+ProductServicesModel(sequelize);
 
 //relaciones de la BDD
 const {
