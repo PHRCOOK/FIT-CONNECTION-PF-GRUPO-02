@@ -50,23 +50,6 @@ function App() {
       dispatch(fetchUser(userData));
 
       axios
-        .post("/api/users", userData)
-        .then((response) => console.log(response))
-        .catch((error) => console.error(error));
-    }
-  }, [isAuthenticated, user, dispatch]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      const userData = {
-        name: user.name,
-        sub: user.sub,
-        email: user.email,
-      };
-
-      dispatch(fetchUser(userData));
-
-      axios
         .get("/api/users", { params: { email: user.email } })
         .then((response) => {
           const userWithSameEmail = response.data.Items.find(
@@ -75,7 +58,7 @@ function App() {
 
           if (userWithSameEmail) {
             console.log(
-              `Is admin: ${userWithSameEmail.is_admin ? "Yes" : "No"}`
+              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
             );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(

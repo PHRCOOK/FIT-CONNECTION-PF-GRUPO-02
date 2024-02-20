@@ -5,12 +5,11 @@ import AppCard from "../../components/card/card";
 import { Button, Row, Col, Card, Container } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export default function shoppingcart({ sub }) {
+export default function shoppingcart() {
   const [carritos, setCarritos] = useState([]);
   const user = useSelector((state) => state.userShopping);
-  console.log(user);
 
-  const getCarritos = () => {
+  const getCarritos = (user) => {
     axios
       .get(`/api/shoppingCart/${user.id}`)
       .then(({ data }) => {
@@ -35,10 +34,12 @@ export default function shoppingcart({ sub }) {
   };
   useEffect(() => {
     // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
-    getCarritos();
+    if (user) {
+      getCarritos(user);
+    }
 
     return setCarritos([]);
-  }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
+  }, [user]); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
 
   //* funcion para eliminar el registro de carrito
 
