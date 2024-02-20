@@ -7,7 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, setIsAdmin } from "../../redux/action";
+import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 
 export default function AppBar() {
   const location = useLocation();
@@ -51,6 +51,7 @@ export default function AppBar() {
           );
 
           if (userWithSameEmail) {
+            dispatch(setUserShopping(userWithSameEmail));
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(fetchUser(userWithSameEmail));
           }
