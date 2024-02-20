@@ -27,6 +27,7 @@ import AdminInstructorForm from "./administrator/components/admininstructorform/
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
+import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 
 import "./App.scss";
 
@@ -105,9 +106,15 @@ function App() {
           {isAdmin && (
             <>
               <Route path={pathroutes.REGISTER} element={<UserForm />} />
-              <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
+              <Route
+                path={pathroutes.CREATE_PRODUCT}
+                element={<FormProduct />}
+              />
+              <Route
+                path={pathroutes.MODIFY_PRODUCT}
+                element={<FormProduct />}
+              />
               <Route path={pathroutes.CATEGORY} element={<Category />} />
-              <Route path={pathroutes.FORM} element={<Form />} />
               <Route path={pathroutes.ADMIN} element={<AdminLanding />} />
               <Route
                 path={pathroutes.ADMINCATEGORY}
@@ -139,6 +146,7 @@ function App() {
                 path={pathroutes.ADMINCLIENTPROFILE}
                 element={<UserProfile />}
               />
+              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
           <Route path="*" element={<Error404 />} />

@@ -104,10 +104,12 @@ export const resetSettings = () => {
   };
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/products/delete/${id}`);
+      const { data } = await axios.put(`/api/products/update/${id}`, settings);
+      console.log(data);
+      console.log(data.products);
 
       return dispatch({
         type: DELETE_PRODUCT,
@@ -148,13 +150,14 @@ export const putProduct = (id, product) => {
   };
 };
 
-export const deleteCategory = (id) => {
+export const deleteCategory = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/categories/${id}`);
+      const { data } = await axios.put(`/api/categories/${id}`, settings);
+      const newCategories = data.response.categories;
       return dispatch({
         type: DELETE_CATEGORY,
-        payload: data.categories,
+        payload: newCategories,
       });
     } catch (error) {
       const message = error.response.data.error;
@@ -208,10 +211,11 @@ export const getAllInstructors = () => {
   };
 };
 
-export const deleteInstructor = (id) => {
+export const deleteInstructor = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/instructors/delete/${id}`);
+      const { data } = await axios.put(`/api/instructors/${id}`, settings);
+      console.log(data.instructors);
       dispatch({
         type: DELETE_INSTRUCTOR,
         payload: data.instructors,

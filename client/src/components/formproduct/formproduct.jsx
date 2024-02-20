@@ -3,9 +3,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 
-import { postProduct, putProduct, getAllCategories } from "../../redux/action";
+import {
+  postProduct,
+  putProduct,
+  getAllCategories,
+  getAllProducts,
+} from "../../redux/action";
 import validate from "./validate";
 import {
   Container,
@@ -13,7 +18,7 @@ import {
   FormLabel,
   FormText,
   Row,
-  Col
+  Col,
 } from "react-bootstrap";
 
 export default function formproduct() {
@@ -21,11 +26,15 @@ export default function formproduct() {
   const navigate = useNavigate();
   const params = useParams();
 
+  const [disableButton, setDisableButton] = useState(false);
   const allCategories = useSelector((state) => state.allCategories);
   const allProducts = useSelector((state) => state.allProducts);
 
   useEffect(() => {
     dispatch(getAllCategories());
+    dispatch(getAllProducts());
+
+    console.log(params);
   }, []);
 
   const [productForm, setProductForm] = useState({
@@ -40,10 +49,12 @@ export default function formproduct() {
   });
 
   useEffect(() => {
-    if (params.id) {
+    console.log(allProducts);
+    if (params.id && allProducts.length) {
       const productFiltered = allProducts.filter(
         (product) => params.id === product.id.toString()
       );
+      console.log(productFiltered);
       setProductForm({
         ...productForm,
         name: productFiltered[0].name,
@@ -56,7 +67,7 @@ export default function formproduct() {
         category_id: productFiltered[0].category_id,
       });
     }
-  }, [params]);
+  }, [params, allProducts]);
 
   const [errors, setErrors] = useState({});
 
@@ -82,6 +93,7 @@ export default function formproduct() {
   };
 
   const handleSubmit = async (e) => {
+    setDisableButton(true);
     e.preventDefault();
     const validationErrors = validate(productForm);
     if (Object.keys(validationErrors).length === 0) {
@@ -94,17 +106,17 @@ export default function formproduct() {
         if (params.id) {
           await dispatch(putProduct(params.id, formData));
           Swal.fire({
-            icon:"success",
-            title:"Proceso Exitoso",
+            icon: "success",
+            title: "Proceso Exitoso",
             text: "Producto modificado exitosamente",
-          })
+          });
         } else {
           await dispatch(postProduct(formData));
           Swal.fire({
-            icon:"success",
-            title:"Proceso Exitoso",
+            icon: "success",
+            title: "Proceso Exitoso",
             text: "Producto creado exitosamente",
-          })
+          });
         }
         setProductForm({
           name: "",
@@ -119,10 +131,10 @@ export default function formproduct() {
         navigate("/product");
       } catch (error) {
         Swal.fire({
-          icon:"error",
-          title:"Error",
+          icon: "error",
+          title: "Error",
           text: "No se pudo crear el producto",
-        })
+        });
       }
     } else {
       setErrors(validationErrors);
@@ -139,7 +151,7 @@ export default function formproduct() {
         </div>
         <Row>
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Name</FormLabel>
+            <FormLabel className="form-label">Nombre</FormLabel>
             <FormControl
               type="text"
               name="name"
@@ -152,7 +164,7 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Brand</FormLabel>
+            <FormLabel className="form-label">Marca</FormLabel>
             <FormControl
               type="text"
               name="brand"
@@ -165,11 +177,11 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Category</FormLabel>
+            <FormLabel className="form-label">Categoría</FormLabel>
             <select
               name="category_id"
               className="form-control"
-              defaultValue={"DEFAULT"}
+              value={productForm.category_id || "DEFAULT"}
               onChange={handleChange}
             >
               <option value="DEFAULT" disabled hidden>
@@ -190,7 +202,7 @@ export default function formproduct() {
             </Link>
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Price</FormLabel>
+            <FormLabel className="form-label">Precio</FormLabel>
             <FormControl
               type="text"
               name="price"
@@ -216,7 +228,7 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" md="8" lg="6" className="pb-3">
-            <FormLabel className="form-label">Image</FormLabel>
+            <FormLabel className="form-label">Imagen</FormLabel>
             <FormControl
               type="file"
               name="image_url"
@@ -226,11 +238,11 @@ export default function formproduct() {
             />
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Status</FormLabel>
+            <FormLabel className="form-label">Estatus</FormLabel>
             <select
               name="status"
               className="form-control"
-              defaultValue={"DEFAULT"}
+              value={productForm.status || "DEFAULT"}
               onChange={handleChange}
             >
               <option value="DEFAULT" disabled hidden>
@@ -244,7 +256,7 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Description</FormLabel>
+            <FormLabel className="form-label">Descripción</FormLabel>
             <FormControl
               rows="5"
               name="description"
@@ -263,11 +275,13 @@ export default function formproduct() {
               type="submit"
               disabled={
                 Object.values(errors).some((error) => error !== "") ||
-                Object.values(productForm).some((value) => value === "")
+                Object.values(productForm).some(
+                  (value) => value === "" || disableButton
+                )
               }
               maxLength={201}
             >
-              {params.id ? "Update product" : "Create product"}
+              {params.id ? "Actualizar producto" : "Crear producto"}
             </button>
           </Col>
         </Row>

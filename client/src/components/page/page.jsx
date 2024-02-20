@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
 import { applySettings } from "../../redux/action";
@@ -10,15 +10,17 @@ function Page() {
   const filterSettings = useSelector((state) => state.filterSettings);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log(totalPages);
+  }, []);
+
   const arrayTotalPages = createList(totalPages);
 
   const handleClick = (event) => {
     const page = Number(event.target.value);
 
-    console.log(filterSettings);
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
-    console.log(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
 
@@ -64,35 +66,6 @@ function Page() {
         </Pagination>
       </Col>
     </Row>
-
-    // <ul>
-    //   <li>
-    //     <button disabled={filterSettings.page === 1} onClick={handlePrev}>
-    //       Atras
-    //     </button>
-    //   </li>
-    //   {arrayTotalPages.map((page) => {
-    //     return (
-    //       <li key={`page${page}`}>
-    //         <button
-    //           disabled={filterSettings.page === page}
-    //           value={page}
-    //           onClick={handleClick}
-    //         >
-    //           {page}
-    //         </button>
-    //       </li>
-    //     );
-    //   })}
-    //   <li>
-    //     <button
-    //       disabled={filterSettings.page === totalPages}
-    //       onClick={handleNext}
-    //     >
-    //       Adelante
-    //     </button>
-    //   </li>
-    // </ul>
   );
 }
 

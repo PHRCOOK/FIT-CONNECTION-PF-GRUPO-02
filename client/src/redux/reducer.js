@@ -96,6 +96,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         allProducts: action.payload,
+        productsToShow: action.payload,
       };
 
     case GET_ALL_PRODUCTS:
@@ -181,11 +182,11 @@ export const reducer = (state = initialState, action) => {
         ...state,
         currentUser: action.payload,
       };
-      case SET_IS_ADMIN:
-        return {
-          ...state,
-          isAdmin: action.payload,
-        };
+    case SET_IS_ADMIN:
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
 
     default:
       return { ...state };
