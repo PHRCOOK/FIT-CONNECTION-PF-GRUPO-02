@@ -83,6 +83,10 @@ export default function AppBar() {
           } else {
             console.log("Inactive Status");
             setShowAlert(true);
+
+            // Espera a que se cree el nuevo usuario antes de mostrar la alerta
+            await axios.post("/api/users", userData);
+
             const result = await Swal.fire({
               icon: "error",
               title: "Usuario Baneado",
