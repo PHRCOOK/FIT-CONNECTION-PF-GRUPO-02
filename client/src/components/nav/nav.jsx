@@ -127,11 +127,11 @@ export default function AppBar() {
       title: "Servicios",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
-    {
-      path: pathroutes.INSTRUCTOR,
-      title: "Instructores",
-      show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
-    },
+    // {
+    //   path: pathroutes.INSTRUCTOR,
+    //   title: "Instructores",
+    //   show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
+    // },
     {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
