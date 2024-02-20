@@ -28,6 +28,7 @@ import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
 import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
+import Instructors from "./views/instructors/instructors";
 
 import "./App.scss";
 
@@ -86,6 +87,7 @@ function App() {
           <Route path={pathroutes.SERVICE} element={<Services />} />
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
+          <Route path={pathroutes.INSTRUCTOR} element={<Instructors />} />
           {isAdmin && (
             <>
               <Route path={pathroutes.REGISTER} element={<UserForm />} />
