@@ -20,6 +20,7 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
+  SET_USER_SHOPPING,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -388,6 +389,13 @@ export const putUser = (status, id, info) => {
 export const fetchUser = (user) => {
   return {
     type: FETCH_CURRENT_USER,
+    payload: user,
+  };
+};
+
+export const setUserShopping = (user) => {
+  return {
+    type: SET_USER_SHOPPING,
     payload: user,
   };
 };

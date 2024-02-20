@@ -20,9 +20,11 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
+  SET_USER_SHOPPING,
 } from "./actionsTypes";
 
 const initialState = {
+  userShopping: null,
   allCategories: [],
   allProducts: [],
   allInstructors: [],
@@ -181,12 +183,14 @@ export const reducer = (state = initialState, action) => {
         ...state,
         currentUser: action.payload,
       };
-      case SET_IS_ADMIN:
-        return {
-          ...state,
-          isAdmin: action.payload,
-        };
+    case SET_IS_ADMIN:
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
 
+    case SET_USER_SHOPPING:
+      return { ...state, userShopping: action.payload };
     default:
       return { ...state };
   }
