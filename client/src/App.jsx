@@ -74,7 +74,7 @@ function App() {
           );
           if (userWithSameEmail) {
             console.log(
-              `Is admin: ${userWithSameEmail.is_admin ? "Yes" : "No"}`
+              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
             );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
