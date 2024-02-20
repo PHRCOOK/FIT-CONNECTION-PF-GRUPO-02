@@ -8,12 +8,13 @@ import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
+import Swal from "sweetalert2";
 
 export default function AppBar() {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth0();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const currentUser = useSelector((state) => state.currentUser);
 
@@ -77,7 +78,6 @@ export default function AppBar() {
             dispatch(setUserShopping(userWithSameEmail));
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(fetchUser(userWithSameEmail));
-            // console.log("Is Admin:", userWithSameEmail.is_admin);
 
             if (userWithSameEmail.status === true) {
               console.log("Estado Activo");
