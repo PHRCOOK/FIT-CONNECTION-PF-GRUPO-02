@@ -20,6 +20,10 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
+  GET_ALL_MEMBERSHIPS,
+  POST_MEMBERSHIP,
+  DELETE_MEMBERSHIP,
+  PUT_MEMBERSHIP,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -389,5 +393,63 @@ export const fetchUser = (user) => {
   return {
     type: FETCH_CURRENT_USER,
     payload: user,
+  };
+};
+
+export const getAllMemberships = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("/api/memberships");
+      return dispatch({
+        type: GET_ALL_MEMBERSHIPS,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const postMembership = (membership) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post("/api/memberships", membership);
+      return dispatch({
+        type: POST_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
+  };
+};
+
+export const deleteMembership = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/memberships/delete/${id}`);
+      return dispatch({
+        type: DELETE_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const putMembership = (id, membership) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/memberships/update/${id}`, membership);
+      return dispatch({
+        type: PUT_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
   };
 };
