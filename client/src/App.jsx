@@ -72,7 +72,6 @@ function App() {
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
-
           if (userWithSameEmail) {
             console.log(
               `Is admin: ${userWithSameEmail.is_admin ? "Yes" : "No"}`
@@ -86,7 +85,6 @@ function App() {
         .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user, dispatch]);
-
   const isAdmin = currentUser && currentUser.is_admin;
 
   return (

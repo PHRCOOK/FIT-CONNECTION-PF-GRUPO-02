@@ -25,10 +25,13 @@ import {
 
 
 const isAdminMiddleware = store => next => action => {
-  const { isAdmin } = store.getState();
+  //const { isAdmin } = store.getState();
+const isAdminString = localStorage.getItem('isAdmin'); // Obtener el valor de isAdmin del localStorage como string
+const isAdmin = isAdminString === 'true';
+  console.log("Hola", isAdmin);
   // Lista de acciones que requieren verificación de isAdmin
 
-  const actionsToCheck = [POST_CATEGORY, PUT_CATEGORY  /* otras acciones aquí */];//Añadir las actions a proteger y verificar que esten protegidas en el back!! 
+  const actionsToCheck = [POST_CATEGORY, PUT_CATEGORY,  /* otras acciones aquí */];//Añadir las actions a proteger y verificar que esten protegidas en el back!! 
   if (actionsToCheck.includes(action.type) && !isAdmin || actionsToCheck.includes(action.type)=== undefined) {
     throw new Error('El usuario no es administrador');
   }

@@ -35,7 +35,9 @@ export default function shoppingcart({ sub }) {
   };
   useEffect(() => {
     // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
-    getCarritos();
+    if(user){
+      getCarritos(user);
+    }
 
     return setCarritos([]);
   }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
