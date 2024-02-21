@@ -20,6 +20,7 @@ function Instructors() {
               variant="top"
               src={instructor.photo}
               className="rounded custom-card-img"
+              style={{ height: "200px", width: "100%", objectFit: "contain" }}
             />
             <Card.Body>
               <Card.Title className="text-primary">
