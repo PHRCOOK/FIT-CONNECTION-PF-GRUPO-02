@@ -138,7 +138,7 @@ export default function formproduct() {
       try {
         const formData = await createFormData(productForm);
         if (params.id) {
-          await dispatch(putProduct(params.id, formData));
+          await dispatch(putProduct(params.id, productForm));
           Swal.fire({
             icon: "success",
             title: "Proceso Exitoso",

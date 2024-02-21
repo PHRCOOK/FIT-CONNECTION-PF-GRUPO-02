@@ -139,6 +139,7 @@ export const getAllProducts = () => {
 };
 
 export const putProduct = (id, product) => {
+  console.log(id);
   console.log(product);
   return async (dispatch) => {
     try {
