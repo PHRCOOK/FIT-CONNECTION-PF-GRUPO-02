@@ -29,6 +29,7 @@ import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
 import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 import Instructors from "./views/instructors/instructors";
+import Chat from "./components/chat/chatComponent";
 
 import "./App.scss";
 
@@ -101,6 +102,7 @@ function App() {
           <Route path={pathroutes.SHOPPINGCART} element={<Shoppingcart />} />
           <Route path={pathroutes.SERVICE} element={<Services />} />
           <Route path={pathroutes.STORE} element={<Store />} />
+          <Route path={pathroutes.CHAT} element={<Chat />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
           <Route path={pathroutes.INSTRUCTOR} element={<Instructors />} />
           {isAdmin && (

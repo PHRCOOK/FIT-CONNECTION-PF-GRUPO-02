@@ -18,45 +18,10 @@ export default function AppBar() {
 
   const currentUser = useSelector((state) => state.currentUser);
 
-  useEffect(() => {
-    const createOrUpdateUser = async () => {
-      try {
-        if (isAuthenticated) {
-          const response = await axios.get("/api/users", {
-            params: { email: user.email },
-          });
-
-          const userWithSameEmail = response.data.Items.find(
-            (item) => item.email === user.email
-          );
-
-          if (!userWithSameEmail) {
-            // Si no existe un usuario con el mismo correo electrónico, crea uno nuevo
-            const userData = {
-              name: user.name,
-              sub: user.sub,
-              email: user.email,
-              status: true,
-            };
-
-            await axios.post("/api/users", userData);
-          }
-
-          // Resto de tu lógica para obtener y verificar datos del usuario
-          fetchUserDataAndPerformChecks();
-        }
-      } catch (error) {
-        console.error("Error creating or updating user:", error);
-      }
-    };
-
-    createOrUpdateUser();
-  }, [isAuthenticated, user, dispatch]);
-
   const fetchUserDataAndPerformChecks = async () => {
     try {
       // Resto de tu lógica para obtener y verificar datos del usuario
-      dispatch(fetchUser(userData));
+      // dispatch(fetchUser(userData));
 
       const response = await axios.get("/api/users", {
         params: { email: user.email },
@@ -103,11 +68,52 @@ export default function AppBar() {
     }
   };
 
+  useEffect(() => {
+    const createOrUpdateUser = async () => {
+      try {
+        if (isAuthenticated) {
+          const response = await axios.get("/api/users", {
+            params: { email: user.email },
+          });
+
+          const userWithSameEmail = response.data.Items.find(
+            (item) => item.email === user.email
+          );
+
+          if (!userWithSameEmail) {
+            // Si no existe un usuario con el mismo correo electrónico, crea uno nuevo
+            const userData = {
+              name: user.name,
+              sub: user.sub,
+              email: user.email,
+              status: true,
+            };
+
+            await axios.post("/api/users", userData);
+          }
+
+          // Resto de tu lógica para obtener y verificar datos del usuario
+          fetchUserDataAndPerformChecks();
+        }
+      } catch (error) {
+        console.error("Error creating or updating user:", error);
+      }
+    };
+
+    createOrUpdateUser();
+  }, [isAuthenticated, user, dispatch]);
+
   const isAdmin = currentUser && currentUser.is_admin;
 
   const shouldShowLogoOnly = location.pathname === pathroutes.LOGIN;
 
   const linksData = [
+    {
+      path: pathroutes.CHAT,
+      title: "Chat",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.CHAT,
+    },
+
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
