@@ -1,5 +1,5 @@
 
-const generateWelcomeEmail = (fullname) => {
+const generateWelcomeEmail = (name) => {
   const styledHtmlBody = `
   <html>
     <head>
@@ -44,7 +44,7 @@ const generateWelcomeEmail = (fullname) => {
     <body>
       <div class="container">
         <img src="https://res.cloudinary.com/dsx7vnkzm/image/upload/v1707071610/l8x5r0mdoi0pfsmd2olv.png" alt="Logo del Gimnasio">
-        <h1>Bienvenido a nuestro gimnasio, <span>${fullname} 🏋🏽‍♂️ !</span></h1>
+        <h1>Bienvenido a nuestro gimnasio, <span>${name} 🏋🏽‍♂️ !</span></h1>
         <p>¡Estamos emocionados de tenerte como parte de nuestra comunidad!</p>
         <p>Disfruta de todos nuestros servicios y no dudes en ponerte en contacto si necesitas ayuda.</p>
         <p>¡Que tengas un excelente día 😎 !</p>
