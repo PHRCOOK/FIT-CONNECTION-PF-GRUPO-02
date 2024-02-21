@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams, Link, Form } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -117,64 +117,63 @@ export default function formproduct() {
     setProductForm({ ...productForm, image_url: e.target.files[0] });
   };
 
-  // const createFormData = (data) => {
-  //   const formData = new FormData();
-  //   console.log(data);
-  //   console.log(formData);
-  //   Object.keys(data).forEach((key) => {
-  //     console.log(key, data[key]);
-  //     formData.append(key, data[key]);
-  //   });
-  //   formData.append("prueba", "OK");
-  //   console.log(formData);
-  //   return formData;
-  // };
+  const createFormData = (data) => {
+    const formData = new FormData();
+    console.log(data);
+    console.log(formData);
+    Object.keys(data).forEach((key) => {
+      console.log(key, data[key]);
+      formData.append(key, data[key]);
+    });
+    formData.append("prueba", "OK");
+    console.log(formData);
+    return formData;
+  };
 
   const handleSubmit = async (e) => {
     setDisableButton(true);
     e.preventDefault();
     const validationErrors = validate(productForm);
-
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const formData = new FormData();
-        Object.keys(productForm).forEach((key) => {
-          formData.append(key, productForm[key, productForm[key]]);
-        });
-        console.log(formData.get("image_url"));
-
+        const formData = await createFormData(productForm);
         if (params.id) {
-          await dispatch(putProduct(params.id, formData));
+          await dispatch(putProduct(params.id, productForm));
           Swal.fire({
             icon: "success",
-            title: "Producto actualizado",
-            showConfirmButton: false,
-            timer: 1500,
+            title: "Proceso Exitoso",
+            text: "Producto modificado exitosamente",
           });
-          navigate("/admin/products");
         } else {
           await dispatch(postProduct(formData));
           Swal.fire({
             icon: "success",
-            title: "Producto creado",
-            showConfirmButton: false,
-            timer: 1500,
+            title: "Proceso Exitoso",
+            text: "Producto creado exitosamente",
           });
-          navigate("/admin/products");
         }
-        console.log(FormData);
+        setProductForm({
+          name: "",
+          price: "",
+          description: "",
+          status: "",
+          brand: "",
+          image_url: "",
+          stock: "",
+          category_id: "",
+        });
+        navigate("/admin/product/");
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: error.message,
+          text: "No se pudo crear el producto",
         });
       }
     } else {
       setErrors(validationErrors);
     }
   };
-
 
   return (
     <Container>
