@@ -12,6 +12,9 @@ const getProductServicesByIdHandler = async (req, res) => {
   const { id } = req.params;
   try {
     const response = await getProductServicesById(id);
+    if (!response) {
+      throw new Error("Not found");
+    }
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -22,6 +25,9 @@ const createProductServicesHandler = async (req, res) => {
   const { name, price, description, status, brand, stock, category_id } =
     req.body;
   const image_url = req.file;
+
+  console.log("body", req.body);
+
   try {
     validateCreateProductServices({
       name,
@@ -45,14 +51,17 @@ const createProductServicesHandler = async (req, res) => {
     );
     res.status(201).json(response);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
-  console.log(req.file);
 };
 
 const updateProductServicesHandler = async (req, res) => {
   const { id } = req.params;
-  const { name, price, description, status, code, image_url, stock } = req.body;
+  const { name, price, description, status, code, stock } = req.body;
+  const image_url = req.file;
+
+  console.log("body", req.body);
   try {
     const response = await updateProductServices(id, {
       name,
@@ -65,6 +74,7 @@ const updateProductServicesHandler = async (req, res) => {
     });
     res.status(200).json(response);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };

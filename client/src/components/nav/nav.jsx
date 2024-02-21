@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-nav.png";
@@ -14,56 +14,14 @@ export default function AppBar() {
   const location = useLocation();
   const { isAuthenticated, user, logout } = useAuth0();
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
   const currentUser = useSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const userData = {
-        name: user.name,
-        sub: user.sub,
-        email: user.email,
-      };
-
-      dispatch(fetchUser(userData));
-
-      axios
-        .post("/api/users", userData)
-        .then((response) => console.log(response))
-        .catch((error) => console.error(error));
-    }
-  }, [isAuthenticated, user]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      const userData = {
-        name: user.name,
-        sub: user.sub,
-        email: user.email,
-      };
-
-      dispatch(fetchUser(userData));
-
-      axios
-        .post("/api/users", userData)
-        .then((response) => console.log(response))
-        .catch((error) => console.error(error));
-    }
-  }, [isAuthenticated, user]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (isAuthenticated) {
-        const userData = {
-          name: user.name,
-          sub: user.sub,
-          email: user.email,
-        };
-
-        dispatch(fetchUser(userData));
-
-        try {
+    const createOrUpdateUser = async () => {
+      try {
+        if (isAuthenticated) {
           const response = await axios.get("/api/users", {
             params: { email: user.email },
           });
@@ -71,40 +29,79 @@ export default function AppBar() {
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
-          console.log("Properties of userWithSameEmail:", userWithSameEmail);
-          // Establecer isAdmin en el estado de Redux
-          if (userWithSameEmail) {
-            localStorage.setItem("isAdmin", userWithSameEmail.is_admin);
-            dispatch(setUserShopping(userWithSameEmail));
-            dispatch(setIsAdmin(userWithSameEmail.is_admin));
-            dispatch(fetchUser(userWithSameEmail));
 
-            if (userWithSameEmail.status === true) {
-              console.log("Estado Activo");
-            }
-          } else {
-            console.log("Inactive Status");
-            const result = await Swal.fire({
-              icon: "error",
-              title: "Usuario Baneado",
-              text: "Este usuario ah sido baneado",
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              showCancelButton: false,
-              confirmButtonText: "Si, cierra la sesion",
-            });
-            if (result.isConfirmed) {
-              logout();
-            }
+          if (!userWithSameEmail) {
+            // Si no existe un usuario con el mismo correo electrónico, crea uno nuevo
+            const userData = {
+              name: user.name,
+              sub: user.sub,
+              email: user.email,
+              status: true,
+            };
+
+            await axios.post("/api/users", userData);
           }
-        } catch (error) {
-          console.error(error);
+
+          // Resto de tu lógica para obtener y verificar datos del usuario
+          fetchUserDataAndPerformChecks();
         }
+      } catch (error) {
+        console.error("Error creating or updating user:", error);
       }
     };
 
-    fetchData();
-  }, [isAuthenticated, user, dispatch, logout]);
+    createOrUpdateUser();
+  }, [isAuthenticated, user, dispatch]);
+
+  const fetchUserDataAndPerformChecks = async () => {
+    try {
+      // Resto de tu lógica para obtener y verificar datos del usuario
+      dispatch(fetchUser(userData));
+
+      const response = await axios.get("/api/users", {
+        params: { email: user.email },
+      });
+
+      console.log("Server response:", response);
+
+      const userWithSameEmail = response.data.Items.find(
+        (item) => item.email === user.email
+      );
+
+      console.log("Properties of userWithSameEmail:", userWithSameEmail);
+
+      if (userWithSameEmail) {
+        dispatch(setUserShopping(userWithSameEmail));
+        dispatch(setIsAdmin(userWithSameEmail.is_admin));
+
+        if (userWithSameEmail.status === true) {
+          console.log("Estado Activo");
+          setShowAlert(false);
+        }
+      } else {
+        console.log("Inactive Status");
+        setShowAlert(true);
+
+        // Espera a que se cree el nuevo usuario antes de mostrar la alerta
+        await axios.post("/api/users", userData);
+
+        const result = await Swal.fire({
+          icon: "error",
+          title: "Usuario Baneado",
+          text: "Este usuario ha sido baneado",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showCancelButton: false,
+          confirmButtonText: "Si, cierra la sesion",
+        });
+        if (result.isConfirmed) {
+          logout();
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   const isAdmin = currentUser && currentUser.is_admin;
 
@@ -123,6 +120,11 @@ export default function AppBar() {
       path: pathroutes.SERVICE,
       title: "Servicios",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
+    },
+    {
+      path: pathroutes.INSTRUCTOR,
+      title: "Instructores",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
     },
     {
       path: pathroutes.SHOPPINGCART,

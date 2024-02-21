@@ -98,6 +98,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         allProducts: action.payload,
+        productsToShow: action.payload,
       };
 
     case GET_ALL_PRODUCTS:
