@@ -9,7 +9,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 import Swal from "sweetalert2";
-import { FaShoppingCart, FaComment } from "react-icons/fa"; // Importa los íconos necesarios
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ChatIcon from "@mui/icons-material/Chat";
 
 export default function AppBar() {
   const location = useLocation();
@@ -179,9 +180,9 @@ export default function AppBar() {
           }`}
         >
           {linkData.title === "Carrito de compras" ? (
-            <FaShoppingCart size={20} />
+            <ShoppingCartIcon fontSize="large" />
           ) : linkData.title === "Chat" ? (
-            <FaComment size={20} />
+            <ChatIcon fontSize="large" />
           ) : (
             linkData.title
           )}
