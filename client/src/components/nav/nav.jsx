@@ -38,14 +38,14 @@ export default function AppBar() {
         params: { email: user.email },
       });
 
-      console.log("Server response:", response);
+      // console.log("Server response:", response);
 
       // Buscar un usuario con el mismo correo electrónico en la respuesta del servidor
       const userWithSameEmail = response.data.Items.find(
         (item) => item.email === user.email
       );
 
-      console.log("Properties of userWithSameEmail:", userWithSameEmail);
+      // console.log("Properties of userWithSameEmail:", userWithSameEmail);
 
       if (userWithSameEmail) {
         // Si se encuentra un usuario con el mismo correo electrónico
@@ -53,7 +53,7 @@ export default function AppBar() {
         dispatch(setIsAdmin(userWithSameEmail.is_admin));
 
         if (userWithSameEmail.status === true) {
-          console.log("Active Status");
+          // console.log("Active Status");
           setShowAlert(false);
         }
       } else {

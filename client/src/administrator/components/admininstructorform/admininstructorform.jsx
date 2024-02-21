@@ -88,9 +88,6 @@ function AdminInstructorForm() {
   const handleChange = (e) => {
     let key = e.target.name;
     let value = e.target.value;
-    console.log("key", key);
-    console.log("value", value);
-    console.log(instructorForm);
     setInstructorForm({ ...instructorForm, [key]: value });
     setErrors(validate({ ...instructorForm, [key]: value }));
   };

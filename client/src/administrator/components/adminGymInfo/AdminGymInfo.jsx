@@ -18,23 +18,23 @@ function AdminGymInfo() {
     address: "",
     phone: "",
     nit: "",
-    logo: "",
-    smtp_host: "",
-    smtp_port: "",
-    smtp_user: "",
-    smtp_password: "",
-    smtp_tls: "",
-    smtp_ssl: "",
+    map: "",
   });
+
+  // useEffect(() => {
+  //   console.log(gymInfo);
+  // }, [gymInfo]);
 
   const [exists, setExists] = useState(false);
 
   const fetchInfo = async () => {
     try {
-      const gym = await axios("/api/gym");
-      setGymInfo(gym);
+      console.log("vvvvvvvvvvvv");
+      const { data } = await axios("/api/gym");
       setExists(true);
+      setGymInfo(data);
     } catch (error) {
+      console.log(error);
       // Swal.fire({
       //   icon: "error",
       //   title: "Aun no se ha creado el gimnasio",
@@ -47,9 +47,9 @@ function AdminGymInfo() {
     fetchInfo();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(gymInfo);
-  // }, [gymInfo]);
+  useEffect(() => {
+    console.log(gymInfo);
+  }, [gymInfo]);
 
   const props = [
     {
@@ -71,42 +71,11 @@ function AdminGymInfo() {
       name: "Teléfono",
     },
     { property: "nit", type: "text", value: gymInfo.nit || "", name: "NIT" },
-    { property: "logo", type: "text", value: gymInfo.logo || "", name: "Logo" },
     {
-      property: "smtp_host",
+      property: "map",
       type: "text",
-      value: gymInfo.smtp_host || "",
-      name: "smtp_host",
-    },
-    {
-      property: "smtp_port",
-      type: "number",
-      value: gymInfo.smtp_port || "",
-      name: "smtp_port",
-    },
-    {
-      property: "smtp_user",
-      type: "text",
-      value: gymInfo.smtp_user || "",
-      name: "smtp_user",
-    },
-    {
-      property: "smtp_password",
-      type: "text",
-      value: gymInfo.smtp_password || "",
-      name: "smtp_password",
-    },
-    {
-      property: "smtp_tls",
-      type: "text",
-      value: gymInfo.smtp_tls || "",
-      name: "smtp_tls",
-    },
-    {
-      property: "smtp_ssl",
-      type: "text",
-      value: gymInfo.smtp_ssl || "",
-      name: "smtp_ssl",
+      value: gymInfo.map || "",
+      name: "Ubicacion",
     },
   ];
   const handleChange = (event) => {
