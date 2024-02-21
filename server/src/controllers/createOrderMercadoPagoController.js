@@ -1,6 +1,8 @@
 
+require("dotenv").config();
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
-const client = new MercadoPagoConfig({ accessToken: 'TEST-1859931302050422-020618-3e65e9f762aa1817900eed462e03d36b-1666488094' });
+const { TokenMP } = process.env;
+const client = new MercadoPagoConfig({ accessToken: TokenMP });
 const preference = new Preference(client);
 const { postPurchasesFunction } = require('../controllers/purchasesController')
 const mercadoPaymentPreferences = async (shoppingCard, userId) => {
@@ -18,7 +20,7 @@ const mercadoPaymentPreferences = async (shoppingCard, userId) => {
         });
         const createPayment = await preference.create({
             body: {
-                //auto_return: "approved",
+                auto_return: "approved",
                 items: itemsArray,
                 back_urls: {
                     failure: "http://localhost:3001/api/createorder/failure", //hay que modificar dicha ruta

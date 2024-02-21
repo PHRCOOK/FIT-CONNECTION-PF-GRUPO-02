@@ -7,7 +7,10 @@ const { receiveWebhook } = require('../controllers/createOrderMercadoPagoControl
 const paymentRoute = Router();
 
 paymentRoute.post("/", mercadoPaymentPreferencesHandler);
-paymentRoute.get("/success", (req, res) => res.status(201).json("success"));
+paymentRoute.get("/success", (req, res) => {
+    const urlDestino = 'http://localhost:5173/#/product'
+    res.redirect(302, urlDestino);;
+});
 paymentRoute.get("/pending", (req, res) => res.json("pending"));
 paymentRoute.get("/failure", (req, res) => res.json("failure"));
 paymentRoute.post("/webhook", receiveWebhook)
