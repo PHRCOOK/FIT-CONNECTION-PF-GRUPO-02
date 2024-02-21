@@ -166,6 +166,7 @@ function App() {
                 path={pathroutes.ADMINSERVICESMODIFY}
                 element={<AdminServicesForm />}
                 />
+              <Route path={pathroutes.MODIFYSERVICE} element={<AdminServicesForm />} />
               <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
