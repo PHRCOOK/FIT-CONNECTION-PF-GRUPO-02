@@ -11,7 +11,14 @@ import {
 } from "../../../redux/action";
 import validate from "./validate";
 
-import { FormControl, FormLabel, FormText, Row, Col, Container } from "react-bootstrap";
+import {
+  FormControl,
+  FormLabel,
+  FormText,
+  Row,
+  Col,
+  Container,
+} from "react-bootstrap";
 
 function AdminInstructorForm() {
   const dispatch = useDispatch();
@@ -33,7 +40,7 @@ function AdminInstructorForm() {
         fullname: instructorFiltered[0].fullname,
         photo: instructorFiltered[0].photo,
         description: instructorFiltered[0].description,
-        status: instructorFiltered[0].status,
+        status: Boolean(instructorFiltered[0].status),
       });
     }
   }, [params, allInstructors]);
@@ -56,14 +63,14 @@ function AdminInstructorForm() {
           icon: "success",
           title: "Proceso Exitoso",
           text: "Instructor modificado exitosamente",
-        })
+        });
       } else {
         await dispatch(postInstructor(instructorForm));
         Swal.fire({
           icon: "success",
           title: "Proceso Exitoso",
           text: "Instructor creado exitosamente",
-        })
+        });
       }
 
       setInstructorForm({
@@ -79,8 +86,11 @@ function AdminInstructorForm() {
   };
 
   const handleChange = (e) => {
-    let key = [e.target.name];
+    let key = e.target.name;
     let value = e.target.value;
+    console.log("key", key);
+    console.log("value", value);
+    console.log(instructorForm);
     setInstructorForm({ ...instructorForm, [key]: value });
     setErrors(validate({ ...instructorForm, [key]: value }));
   };
@@ -112,7 +122,7 @@ function AdminInstructorForm() {
                 name="status"
                 className="form-control"
                 onChange={handleChange}
-                value={instructorForm.status && ""}
+                value={instructorForm.status || ""}
               >
                 <option value="" disabled hidden>
                   --
