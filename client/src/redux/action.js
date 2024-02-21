@@ -20,6 +20,10 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
+  GET_ALL_MEMBERSHIPS,
+  POST_MEMBERSHIP,
+  DELETE_MEMBERSHIP,
+  PUT_MEMBERSHIP,
   SET_USER_SHOPPING,
 } from "./actionsTypes";
 
@@ -205,7 +209,7 @@ export const getAllInstructors = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/instructors");
-      console.log(data);
+      // console.log(data);
       const items = data.Items;
       dispatch({
         type: GET_ALL_INSTRUCTORS,
@@ -402,6 +406,63 @@ export const fetchUser = (user) => {
   };
 };
 
+export const getAllMemberships = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("/api/memberships");
+      return dispatch({
+        type: GET_ALL_MEMBERSHIPS,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const postMembership = (membership) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post("/api/memberships", membership);
+      return dispatch({
+        type: POST_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
+  };
+};
+
+export const deleteMembership = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/memberships/delete/${id}`);
+      return dispatch({
+        type: DELETE_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const putMembership = (id, membership) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(`/api/memberships/update/${id}`, membership);
+      return dispatch({
+        type: PUT_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
+  };
+};
 export const setUserShopping = (user) => {
   return {
     type: SET_USER_SHOPPING,

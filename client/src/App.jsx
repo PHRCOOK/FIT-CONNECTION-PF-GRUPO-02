@@ -27,9 +27,12 @@ import AdminInstructorForm from "./administrator/components/admininstructorform/
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
+import AdminServices from "./administrator/components/AdminServices/AdminServices";
+import AdminServicesForm from "./administrator/components/AdminServicesForm/AdminServicesForm";
 import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 import Instructors from "./views/instructors/instructors";
 import Chat from "./components/chat/chatComponent";
+import InstructorDetail from "./components/InstructorDetail/InstructorDetail";
 
 import "./App.scss";
 
@@ -54,7 +57,7 @@ function App() {
 
       axios
         .post("/api/users", userData)
-        .then((response) => console.log(response))
+        // .then((response) => console.log(response))
         .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user, dispatch]);
@@ -76,9 +79,9 @@ function App() {
             (item) => item.email === user.email
           );
           if (userWithSameEmail) {
-            console.log(
-              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
-            );
+            // console.log(
+            //   `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
+            // );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
@@ -105,6 +108,10 @@ function App() {
           <Route path={pathroutes.CHAT} element={<Chat />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
           <Route path={pathroutes.INSTRUCTOR} element={<Instructors />} />
+          <Route
+            path={pathroutes.INSTRUCTOR_DETAIL}
+            element={<InstructorDetail />}
+          />
           {isAdmin && (
             <>
               <Route path={pathroutes.REGISTER} element={<UserForm />} />
@@ -147,6 +154,18 @@ function App() {
               <Route
                 path={pathroutes.ADMINCLIENTPROFILE}
                 element={<UserProfile />}
+              />
+              <Route
+                path={pathroutes.ADMINSERVICES}
+                element={<AdminServices />}
+              />
+              <Route
+                path={pathroutes.FORMSERVICE}
+                element={<AdminServicesForm />}
+              />
+              <Route
+                path={pathroutes.ADMINSERVICESMODIFY}
+                element={<AdminServicesForm />}
               />
               <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>

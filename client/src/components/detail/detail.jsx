@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react"; // Import useAuth0
 
 const Detail = ({ sub }) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
   const user = useSelector((state) => state.userShopping);
+  const { isAuthenticated, loginWithRedirect } = useAuth0(); // Access isAuthenticated and loginWithRedirect from useAuth0
 
   useEffect(() => {
     axios
@@ -116,13 +118,21 @@ const Detail = ({ sub }) => {
             </Card.Body>
           </Col>
         </Row>
-        <Button
-          className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
-          onClick={handleClick}
-        >
-          {" "}
-          agregar al carrito
-        </Button>
+        {isAuthenticated ? (
+          <Button
+            className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
+            onClick={handleClick}
+          >
+            agregar al carrito
+          </Button>
+        ) : (
+          <Button
+            className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
+            onClick={() => loginWithRedirect()}
+          >
+            Login
+          </Button>
+        )}
       </Card>
     </Container>
   );

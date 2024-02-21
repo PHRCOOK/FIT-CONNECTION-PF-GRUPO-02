@@ -3,10 +3,14 @@ import Filters from "../components/filters/filters";
 import AppCards from "../components/cards/cards";
 import Page from "../components/page/page";
 import { Container, Row, Col, Offcanvas, Button } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 function Store() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [show, setShow] = useState(false);
   const totalPages = useSelector((state) => state.totalPages);
 

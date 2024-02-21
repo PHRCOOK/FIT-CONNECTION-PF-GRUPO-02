@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllInstructors } from "../../redux/action";
 import { Card, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Instructors() {
   const dispatch = useDispatch();
@@ -12,24 +13,39 @@ function Instructors() {
     dispatch(getAllInstructors());
   }, [dispatch]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  // useEffect(() => {
+  //   console.log(allInstructors);
+  // }, [allInstructors]);
+
   return (
     <Row xs={1} md={2} className="g-4">
-      {allInstructors.map((instructor) => (
-        <Col key={instructor.id}>
-          <Card ali border="danger" style={{ width: "25rem" }}>
-            <Card.Img
-              variant="top"
-              src={instructor.photo}
-              className="rounded custom-card-img"
-              style={{ height: "200px", width: "100%", objectFit: "contain" }}
-            />
-            <Card.Body>
-              <Card.Title>{instructor.fullname}</Card.Title>
-              <Card.Text>{instructor.description}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
+      {allInstructors
+        .filter((instructor) => instructor.status)
+        .map((instructor) => (
+          <Col key={instructor.id}>
+            <Link to={`/instructors/${instructor.id}/${instructor.fullname}`}>
+              <Card border="danger" style={{ width: "25rem" }}>
+                <Card.Img
+                  variant="top"
+                  src={instructor.photo}
+                  className="rounded custom-card-img"
+                  style={{
+                    height: "200px",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+                <Card.Body>
+                  <Card.Title>{instructor.fullname}</Card.Title>
+                  <Card.Text>{instructor.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
+        ))}
     </Row>
   );
 }
