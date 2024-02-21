@@ -157,12 +157,15 @@ function App() {
                 path={pathroutes.ADMINCLIENTPROFILE}
                 element={<UserProfile />}
               />
-              <Route path={pathroutes.ADMINSERVICES} element={<AdminServices />} />
+              <Route
+                path={pathroutes.ADMINSERVICES}
+                element={<AdminServices />}
+              />
               <Route
                 path={pathroutes.FORMSERVICE}
                 element={<AdminServicesForm />}
-                />
-                <Route
+              />
+              <Route
                 path={pathroutes.ADMINSERVICESMODIFY}
                 element={<AdminServicesForm />}
                 />

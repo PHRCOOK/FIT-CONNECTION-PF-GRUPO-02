@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
 
-function InstructorDetail() {
-  const { fullname, id } = useParams();
-  const params = useParams();
+const InstructorDetail = () => {
+  const { id } = useParams();
   const [instructorInfo, setInstructorInfo] = useState({
     description: "",
     fullname: "",
@@ -13,14 +12,29 @@ function InstructorDetail() {
     photo: "",
     status: false,
   });
+  const [rating, setRating] = useState(0);
 
   const fetchInstructor = async (id) => {
     try {
       const { data } = await axios(`/api/instructors/${id}`);
-      console.log(data);
       setInstructorInfo(data);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+  };
+
+  const submitRating = async (instructorId, rating) => {
+    try {
+      // Envia la calificación al servidor (ajustar la URL y los datos según tu API)
+      await axios.post(`/api/instructors/${instructorId}/ratings`, { rating });
+      console.log("Calificación enviada exitosamente");
+      // Puedes realizar alguna acción adicional después de enviar la calificación
+    } catch (error) {
+      console.error("Error al enviar la calificación", error);
     }
   };
 
@@ -28,7 +42,7 @@ function InstructorDetail() {
     if (id) {
       fetchInstructor(id);
     }
-  }, [fullname]);
+  }, [id]);
 
   return (
     <Container>
@@ -47,7 +61,7 @@ function InstructorDetail() {
           </Col>
           <Col>
             <Card.Body>
-              <Card.Title>{name}</Card.Title>
+              <Card.Title>{instructorInfo.fullname}</Card.Title>
               <Row>
                 <Col xs="12" md="6">
                   <span className="fw-bold">Nombre:</span>{" "}
@@ -66,8 +80,40 @@ function InstructorDetail() {
           </Col>
         </Row>
       </Card>
+      <div className="my-3 text-center">
+        <span className="fw-bold">Calificación: </span>
+        <StarRating rating={rating} onRatingChange={handleRatingChange} />
+        <Button
+          variant="primary"
+          onClick={() => submitRating(instructorInfo.id, rating)}
+        >
+          Enviar Calificación
+        </Button>
+      </div>
     </Container>
   );
-}
+};
+
+const StarRating = ({ rating, onRatingChange }) => {
+  const stars = Array.from({ length: 5 }, (_, index) => index + 1);
+
+  return (
+    <div>
+      {stars.map((star) => (
+        <span
+          key={star}
+          onClick={() => onRatingChange(star)}
+          style={{
+            cursor: "pointer",
+            fontSize: "20px",
+            color: star <= rating ? "gold" : "gray",
+          }}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+};
 
 export default InstructorDetail;
