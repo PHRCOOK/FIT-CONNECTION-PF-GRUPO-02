@@ -1,7 +1,6 @@
 const pathroutes = {
   ADMIN: "/admin",
   CLIENT: "/clientinfo",
-  FORMPRODUCTAD: "/createproduct",
   INSTRUCTOR: "/instructors",
   CATEGORY: "/categories",
   CREATEDINST: "/createinstructor",
@@ -18,18 +17,22 @@ const pathroutes = {
   STORE: "/store",
   USER_PROFILE: "/userprofile",
   LOGIN: "/login",
-  ADMIN: "/admin",
   ADMINCATEGORY: "/admin/category",
   ADMINCATEGORYCREATE: "/admin/category/create",
   ADMINCATEGORYMODIFY: "admin/category/modify/:id",
   ADMININSTRUCTOR: "/admin/instructor",
   ADMININSTRUCTORCREATE: "/admin/instructor/create",
   ADMININSTRUCTORMODIFY: "/admin/instructor/modify/:id",
-  FORMPRODUCT: "/admin/product/create",
+  CREATE_PRODUCT: "/admin/product/create",
+  MODIFY_PRODUCT: "/admin/product/modify/:id",
   ADMINPRODUCT: "/admin/product/",
   ADMINCLIENT: "/admin/client/",
   ADMINCLIENTPROFILE: "/admin/client/modifyinfo/:id",
+<<<<<<< HEAD
   ADMINSERVICES: "/admin/membership/",
   FORMSERVICE: "/admin/services/create",
+=======
+  GYM_INFO: "admin/gimnasio/",
+>>>>>>> 128e90d366e108256d12d0bc1f232d475081100d
 };
 export default pathroutes;

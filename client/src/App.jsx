@@ -29,6 +29,8 @@ import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
 import AdminServices from "./administrator/components/AdminServices/AdminServices";
 import AdminServicesForm from "./administrator/components/AdminServicesForm/AdminServicesForm";
+import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
+import Instructors from "./views/instructors/instructors";
 
 import "./App.scss";
 
@@ -77,7 +79,7 @@ function App() {
 
           if (userWithSameEmail) {
             console.log(
-              `Is admin: ${userWithSameEmail.is_admin ? "Yes" : "No"}`
+              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
             );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
@@ -104,12 +106,19 @@ function App() {
           <Route path={pathroutes.SERVICE} element={<Services />} />
           <Route path={pathroutes.STORE} element={<Store />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
+          <Route path={pathroutes.INSTRUCTOR} element={<Instructors />} />
           {isAdmin && (
             <>
               <Route path={pathroutes.REGISTER} element={<UserForm />} />
-              <Route path={pathroutes.FORMPRODUCT} element={<FormProduct />} />
+              <Route
+                path={pathroutes.CREATE_PRODUCT}
+                element={<FormProduct />}
+              />
+              <Route
+                path={pathroutes.MODIFY_PRODUCT}
+                element={<FormProduct />}
+              />
               <Route path={pathroutes.CATEGORY} element={<Category />} />
-              <Route path={pathroutes.FORM} element={<Form />} />
               <Route path={pathroutes.ADMIN} element={<AdminLanding />} />
               <Route
                 path={pathroutes.ADMINCATEGORY}
@@ -150,6 +159,7 @@ function App() {
                 path={pathroutes.ADMINSERVICESMODIFY}
                 element={<AdminServicesForm />}
                 />
+              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
           <Route path="*" element={<Error404 />} />

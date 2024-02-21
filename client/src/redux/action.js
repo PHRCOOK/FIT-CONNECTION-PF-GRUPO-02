@@ -20,10 +20,14 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
+<<<<<<< HEAD
   GET_ALL_MEMBERSHIPS,
   POST_MEMBERSHIP,
   DELETE_MEMBERSHIP,
   PUT_MEMBERSHIP,
+=======
+  SET_USER_SHOPPING,
+>>>>>>> 128e90d366e108256d12d0bc1f232d475081100d
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -51,6 +55,7 @@ export const getAllCategories = () => {
 };
 
 export const postProduct = (product) => {
+  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.post("/api/products", product);
@@ -60,6 +65,7 @@ export const postProduct = (product) => {
       });
     } catch (error) {
       const message = error.response.data.error;
+      console.log(error);
       throw new Error(message);
     }
   };
@@ -108,10 +114,12 @@ export const resetSettings = () => {
   };
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/products/delete/${id}`);
+      const { data } = await axios.put(`/api/products/update/${id}`, settings);
+      console.log(data);
+      console.log(data.products);
 
       return dispatch({
         type: DELETE_PRODUCT,
@@ -138,6 +146,7 @@ export const getAllProducts = () => {
 };
 
 export const putProduct = (id, product) => {
+  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/update/${id}`, product);
@@ -152,13 +161,14 @@ export const putProduct = (id, product) => {
   };
 };
 
-export const deleteCategory = (id) => {
+export const deleteCategory = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/categories/${id}`);
+      const { data } = await axios.put(`/api/categories/${id}`, settings);
+      const newCategories = data.response.categories;
       return dispatch({
         type: DELETE_CATEGORY,
-        payload: data.categories,
+        payload: newCategories,
       });
     } catch (error) {
       const message = error.response.data.error;
@@ -201,10 +211,11 @@ export const getAllInstructors = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/instructors");
-
+      console.log(data);
+      const items = data.Items;
       dispatch({
         type: GET_ALL_INSTRUCTORS,
-        payload: data,
+        payload: items,
       });
     } catch (error) {
       throw new Error(error);
@@ -212,10 +223,11 @@ export const getAllInstructors = () => {
   };
 };
 
-export const deleteInstructor = (id) => {
+export const deleteInstructor = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/instructors/delete/${id}`);
+      const { data } = await axios.put(`/api/instructors/${id}`, settings);
+      console.log(data.instructors);
       dispatch({
         type: DELETE_INSTRUCTOR,
         payload: data.instructors,
@@ -396,6 +408,7 @@ export const fetchUser = (user) => {
   };
 };
 
+<<<<<<< HEAD
 export const getAllMemberships = () => {
   return async (dispatch) => {
     try {
@@ -453,3 +466,11 @@ export const putMembership = (id, membership) => {
     }
   };
 };
+=======
+export const setUserShopping = (user) => {
+  return {
+    type: SET_USER_SHOPPING,
+    payload: user,
+  };
+};
+>>>>>>> 128e90d366e108256d12d0bc1f232d475081100d

@@ -5,7 +5,7 @@ const getInstructors = async () => {
     //Hacemos la consulta para traer la data
     const instructor = await Instructor.findAll();
     //si gym.length es igual a 0 emitimos error
-    return instructor;
+    return { Items: instructor } ;
   } catch (error) {
     throw new Error(error.message);
   }

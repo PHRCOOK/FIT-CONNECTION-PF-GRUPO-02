@@ -49,6 +49,14 @@ function AdminLanding() {
         >
         Membresías
         </Button>
+      <Button
+        variant="primary"
+        size="lg"
+        className="mb-5 w-50"
+        onClick={() => navigate(`/admin/gimnasio/`)}
+      >
+        Informacion del Gimnasio
+      </Button>
     </div>
   );
 }

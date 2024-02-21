@@ -55,7 +55,9 @@ function Filters() {
     <Container>
       <Row>
         <Col xs="12" className="py-1">
-          <FormLabel className="fw-bold" htmlFor="name">Nombre</FormLabel>
+          <FormLabel className="fw-bold" htmlFor="name">
+            Nombre
+          </FormLabel>
           <FormControl
             id="name"
             name="name"
@@ -78,7 +80,9 @@ function Filters() {
         </Col>
         <Col xs="12" className="py-1">
           <div>
-            <FormLabel className="fw-bold" htmlFor="valorMinimo">Valor mínimo</FormLabel>
+            <FormLabel className="fw-bold" htmlFor="valorMinimo">
+              Valor mínimo
+            </FormLabel>
             <FormControl
               type="number"
               id="minPrice"
@@ -90,7 +94,9 @@ function Filters() {
           </div>
         </Col>
         <Col xs="12" className="py-1">
-          <FormLabel className="fw-bold" htmlFor="valorMaximo">Valor máximo</FormLabel>
+          <FormLabel className="fw-bold" htmlFor="valorMaximo">
+            Valor máximo
+          </FormLabel>
           <FormControl
             type="number"
             id="maxPrice"
@@ -102,25 +108,31 @@ function Filters() {
         </Col>
         <span className="fw-bold">Categorias</span>
         <Col xs="12" className="py-2">
-          <FormSelect onChange={handleFilter} aria-label="Default select example">
-            <option>Selecciona una categoría</option>
-            {categories.map((category) => {
-              if (!category.is_service) {
-                return (
-                  <option
-                    key={category.id}
-                    id={category.id}
-                    name="category_id"
-                    value={category.id}
-                    // value={
-                    //   Number(filterSettings.category_id) === category.id
-                    // }   
-                  >
-                    {category.name}
-                  </option>
-                );
-              }
-            })}
+          <FormSelect
+            onChange={handleFilter}
+            aria-label="Default select example"
+            name="category_id"
+          >
+            <option value="">Selecciona una categoría</option>
+            {categories
+              .filter((category) => category.status === true)
+              .map((category) => {
+                if (!category.is_service) {
+                  return (
+                    <option
+                      key={category.id}
+                      id={category.id}
+                      name="category_id"
+                      value={category.id}
+                      // value={
+                      //   Number(filterSettings.category_id) === category.id
+                      // }
+                    >
+                      {category.name}
+                    </option>
+                  );
+                }
+              })}
           </FormSelect>
         </Col>
         <Col xs="12" className="py-2">
@@ -152,7 +164,7 @@ function Filters() {
       <Button variant="primary" onClick={handleReset}>
         Reset Filters
       </Button>
-    </Container >
+    </Container>
   );
 }
 
