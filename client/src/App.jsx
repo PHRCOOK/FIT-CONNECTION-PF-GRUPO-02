@@ -27,6 +27,8 @@ import AdminInstructorForm from "./administrator/components/admininstructorform/
 import AdminLanding from "./administrator/admin/AdminLanding";
 import AdminStore from "./administrator/components/adminstore/adminstore";
 import AdminClients from "./administrator/components/AdminClients/AdminClients";
+import AdminServices from "./administrator/components/AdminServices/AdminServices";
+import AdminServicesForm from "./administrator/components/AdminServicesForm/AdminServicesForm";
 import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 import Instructors from "./views/instructors/instructors";
 import Chat from "./components/chat/chatComponent";
@@ -155,6 +157,15 @@ function App() {
                 path={pathroutes.ADMINCLIENTPROFILE}
                 element={<UserProfile />}
               />
+              <Route path={pathroutes.ADMINSERVICES} element={<AdminServices />} />
+              <Route
+                path={pathroutes.FORMSERVICE}
+                element={<AdminServicesForm />}
+                />
+                <Route
+                path={pathroutes.ADMINSERVICESMODIFY}
+                element={<AdminServicesForm />}
+                />
               <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}

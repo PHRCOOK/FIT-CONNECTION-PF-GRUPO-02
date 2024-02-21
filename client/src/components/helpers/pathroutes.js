@@ -29,6 +29,8 @@ const pathroutes = {
   ADMINPRODUCT: "/admin/product/",
   ADMINCLIENT: "/admin/client/",
   ADMINCLIENTPROFILE: "/admin/client/modifyinfo/:id",
+  ADMINSERVICES: "/admin/membership/",
+  FORMSERVICE: "/admin/services/create",
   GYM_INFO: "admin/gimnasio/",
   CHAT: "/chat",
 };
