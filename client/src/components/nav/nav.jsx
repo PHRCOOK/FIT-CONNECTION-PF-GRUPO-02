@@ -156,7 +156,7 @@ export default function AppBar() {
     },
     {
       path: pathroutes.SERVICE,
-      title: "Servicios",
+      title: "Membresias",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
     {
