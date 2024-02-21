@@ -46,7 +46,6 @@ export default function AppBar() {
         console.log("Inactive Status");
         setShowAlert(true);
 
-        // Now you can use userData
         userData = {
           name: user.name,
           sub: user.sub,
@@ -88,7 +87,6 @@ export default function AppBar() {
           );
 
           if (!userWithSameEmail) {
-            // If no user with the same email exists, create a new one
             let userData = {
               name: user.name,
               sub: user.sub,
@@ -98,8 +96,6 @@ export default function AppBar() {
 
             await axios.post("/api/users", userData);
           }
-
-          // Rest of your logic to fetch and verify user data
           fetchUserDataAndPerformChecks();
         }
       } catch (error) {
