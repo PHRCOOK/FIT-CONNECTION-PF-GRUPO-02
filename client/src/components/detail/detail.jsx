@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
@@ -9,7 +10,6 @@ const Detail = ({ sub }) => {
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
   const user = useSelector((state) => state.userShopping);
-  console.log(user);
 
   useEffect(() => {
     axios
@@ -51,21 +51,29 @@ const Detail = ({ sub }) => {
 
   const category = categories.find((category) => category.id === category_id);
 
-  //* funcion para crear el carrito de compras
   const handleClick = async (e) => {
-    await axios
-      .post("/api/shoppingCart", {
+    try {
+      await axios.post("/api/shoppingCart", {
         user_id: user.id,
         product_id: id,
         quantity: 1,
-      })
-      .then(({ data }) => {
-        window.alert("Agregado correctamente al carrito");
-      })
-      .catch((error) => {
-        window.alert(error);
       });
+
+      Swal.fire({
+        icon: "success",
+        title: "Agregado correctamente al carrito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al agregar al carrito",
+        text: error.message || "Hubo un problema",
+      });
+    }
   };
+
   return (
     <Container>
       <div className="fs-4 mb-3 fw-bold text-center">Detalle de Productos</div>
