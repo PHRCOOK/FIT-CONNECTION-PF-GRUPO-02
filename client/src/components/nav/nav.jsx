@@ -111,7 +111,10 @@ export default function AppBar() {
     {
       path: pathroutes.CHAT,
       title: "Chat",
-      show: !shouldShowLogoOnly && location.pathname !== pathroutes.CHAT,
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.CHAT &&
+        isAuthenticated,
     },
 
     {
