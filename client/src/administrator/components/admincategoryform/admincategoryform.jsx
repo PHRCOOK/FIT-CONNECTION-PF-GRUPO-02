@@ -86,10 +86,8 @@ function Admincategoryform() {
   };
 
   const handleChange = (e) => {
-    // console.log(categoryForm);
     let key = [e.target.name];
     let value = e.target.value;
-    console.log(value);
     setCategoryForm({ ...categoryForm, [key]: value });
     setErrors(validate({ ...categoryForm, [key]: value }));
   };

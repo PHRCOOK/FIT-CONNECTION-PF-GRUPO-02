@@ -12,7 +12,7 @@ export const validate = (input) => {
   if (!input.description) {
     errors.description = "Debe tener una descripcion";
   }
-  if (!input.status) {
+  if (input.status === "") {
     errors.status = "Debe elegir un estado";
   }
   return errors;

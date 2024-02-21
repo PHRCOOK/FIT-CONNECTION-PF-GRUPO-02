@@ -1,4 +1,4 @@
-require("dotenv").config()
+require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const UserModel = require("./models/UserModel");
 const GymModel = require("./models/GymModel");
@@ -11,6 +11,7 @@ const ShoppingCartModel = require("./models/ShoppingCartModel");
 const CategoriesModel = require("./models/CategoriesModel");
 const ProductServicesModel = require("./models/ProductServicesModel");
 const MembershipModel = require("./models/MembershipModel");
+const MessageModel = require("./models/MessagesModel");
 
 //! IMPORTANTE IMPORTANTE IMPORTANTE
 
@@ -41,6 +42,7 @@ ShoppingCartModel(sequelize);
 CategoriesModel(sequelize);
 ProductServicesModel(sequelize);
 MembershipModel(sequelize);
+MessageModel(sequelize);
 
 //relaciones de la BDD
 const {
@@ -54,6 +56,7 @@ const {
   PurchaseDetail,
   Instructor,
   Membership,
+  Message,
 } = sequelize.models;
 
 //* Relaciones del modelo User
@@ -107,7 +110,12 @@ FeedBack.belongsTo(Instructor, {
 });
 
 // Relación del modelo ClientInfo.
-ClientInfo.belongsTo(User, { as: 'User', foreignKey: 'user_id' });
+ClientInfo.belongsTo(User, { as: "User", foreignKey: "user_id" });
+
+//* Relaciones del modelo Messages
+
+Message.belongsTo(User, { foreignKey: "from_user_id", as: "fromUser" });
+Message.belongsTo(User, { foreignKey: "to_user_id", as: "toUser" });
 
 // Relaciones del modelo Membership
 Membership.belongsTo(User, { as: "User", foreignKey: "user_id" });

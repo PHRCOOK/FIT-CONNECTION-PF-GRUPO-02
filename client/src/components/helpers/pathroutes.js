@@ -2,6 +2,7 @@ const pathroutes = {
   ADMIN: "/admin",
   CLIENT: "/clientinfo",
   INSTRUCTOR: "/instructors",
+  INSTRUCTOR_DETAIL: "/instructors/:id/:fullname",
   CATEGORY: "/categories",
   CREATEDINST: "/createinstructor",
   MODIFY: "/modifycategory/:id",
@@ -31,5 +32,6 @@ const pathroutes = {
   ADMINSERVICES: "/admin/membership/",
   FORMSERVICE: "/admin/services/create",
   GYM_INFO: "admin/gimnasio/",
+  CHAT: "/chat",
 };
 export default pathroutes;

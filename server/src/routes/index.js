@@ -11,6 +11,7 @@ const paymentRouter = require("./paymentRoute");
 const clientInfoRouter = require("./clientInfoRouter");
 const membershipsRouter = require("./membershipsRouter");
 const router = express.Router();
+const messagesRouter = require("./messagesRouter");
 
 // Definir rutas aquí:
 
@@ -35,5 +36,7 @@ router.use("/api/createorder", paymentRouter);
 router.use("/api/clientInfo", clientInfoRouter);
 
 router.use("/api/memberships", membershipsRouter);
+
+router.use("/api/messages", messagesRouter);
 
 module.exports = router;
