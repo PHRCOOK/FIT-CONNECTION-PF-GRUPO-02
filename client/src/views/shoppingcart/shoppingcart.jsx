@@ -34,7 +34,7 @@ export default function shoppingcart() {
   };
   useEffect(() => {
     // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
-    if(user){
+    if (user) {
       getCarritos(user);
     }
 
@@ -66,10 +66,13 @@ export default function shoppingcart() {
 
   const handlePayment = async () => {
     try {
-      const items = JSON.stringify(carritos);
-      const paymentResponse = await axios.post(`/api/createorder/${user.id}`, items); // Envía una solicitud POST al backend con los datos del carrito
+      //const items = JSON.stringify(carritos);
+      const payload = {
+        user_id: user.id, // Agregar el ID al payload
+      };
+      const paymentResponse = await axios.post(`/api/createorder/`, payload); // Envía una solicitud POST al backend con los datos del carrito
       // Maneja la respuesta del pago según tus necesidades
-      window.location.href = paymentResponse.data.init_point;
+      window.location.href = paymentResponse.data.sandbox_init_point;
     } catch (error) {
       Swal.fire({
         icon: "error",
