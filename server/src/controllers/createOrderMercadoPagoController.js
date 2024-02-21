@@ -5,7 +5,6 @@ const preference = new Preference(client);
 const { postPurchasesFunction } = require('../controllers/purchasesController')
 const mercadoPaymentPreferences = async (shoppingCard, userId) => {
     try {
-        console.log("asdasdasd",userId)
         const itemsArray = shoppingCard.map((producto, index) => {
             return {
                 id: index + 1, 
