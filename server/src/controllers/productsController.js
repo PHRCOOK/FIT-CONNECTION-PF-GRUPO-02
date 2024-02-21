@@ -6,7 +6,6 @@ const {
 } = require("../../utils/filterProducts");
 const { Op } = require("sequelize");
 
-
 const getProductServicesById = async (id) => {
   try {
     const product = await ProductServices.findByPk(id);
@@ -15,7 +14,6 @@ const getProductServicesById = async (id) => {
     throw new Error({ error: error.message });
   }
 };
-
 
 const createProductServices = async (
   name,
@@ -28,14 +26,14 @@ const createProductServices = async (
   category_id
 ) => {
   try {
-  //   const productCode = await ProductServices.findOne({
-  //     where: {
-  //       code: code,
-  //     },
-  //   });
-  //   if (productCode) {
-  //     throw new Error("There is already a product with that code");
-  //   }
+    //   const productCode = await ProductServices.findOne({
+    //     where: {
+    //       code: code,
+    //     },
+    //   });
+    //   if (productCode) {
+    //     throw new Error("There is already a product with that code");
+    //   }
     // Buscamos la categoria correspondiente con el id proporcionado.
     const category = await Categories.findByPk(category_id);
 
@@ -168,10 +166,9 @@ const filterAndOrder = async (
   }
 };
 
-
 module.exports = {
-    getProductServicesById,
-    createProductServices,
-    updateProductServices,
-    filterAndOrder,
-  };
+  getProductServicesById,
+  createProductServices,
+  updateProductServices,
+  filterAndOrder,
+};

@@ -50,9 +50,6 @@ export default function formproduct() {
     try {
       if (id) {
         const response = await axios(`api/products/${id}`);
-        console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        console.log(response);
-        console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
         setProductForm(response.data);
       }
     } catch (error) {
@@ -120,26 +117,35 @@ export default function formproduct() {
     setProductForm({ ...productForm, image_url: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const createFormData = (data) => {
+    const formData = new FormData();
+    console.log(data);
+    console.log(formData);
+    Object.keys(data).forEach((key) => {
+      console.log(key, data[key]);
+      formData.append(key, data[key]);
+    });
+    formData.append("prueba", "OK");
+    console.log(formData);
+    return formData;
+  };
+
+  const handleSubmit = async (e) => {
     setDisableButton(true);
     e.preventDefault();
     const validationErrors = validate(productForm);
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const formData = new FormData();
-        Object.keys(productForm).forEach((key) => {
-          formData.append(key, productForm[key]);
-        });
-
+        const formData = await createFormData(productForm);
         if (params.id) {
-          dispatch(putProduct(params.id, formData));
+          await dispatch(putProduct(params.id, formData));
           Swal.fire({
             icon: "success",
             title: "Proceso Exitoso",
             text: "Producto modificado exitosamente",
           });
         } else {
-          dispatch(postProduct(formData));
+          await dispatch(postProduct(formData));
           Swal.fire({
             icon: "success",
             title: "Proceso Exitoso",
@@ -156,7 +162,7 @@ export default function formproduct() {
           stock: "",
           category_id: "",
         });
-        navigate("/product");
+        navigate("/admin/product/");
       } catch (error) {
         Swal.fire({
           icon: "error",

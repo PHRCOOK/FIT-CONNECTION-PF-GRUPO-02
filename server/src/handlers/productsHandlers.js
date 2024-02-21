@@ -24,7 +24,10 @@ const getProductServicesByIdHandler = async (req, res) => {
 const createProductServicesHandler = async (req, res) => {
   const { name, price, description, status, brand, stock, category_id } =
     req.body;
-  const image_url = req.file;
+  const { image_url } = req.body;
+
+  console.log("image_url", image_url);
+
   try {
     validateCreateProductServices({
       name,
@@ -48,6 +51,7 @@ const createProductServicesHandler = async (req, res) => {
     );
     res.status(201).json(response);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
   console.log(req.file);
@@ -56,6 +60,7 @@ const createProductServicesHandler = async (req, res) => {
 const updateProductServicesHandler = async (req, res) => {
   const { id } = req.params;
   const { name, price, description, status, code, image_url, stock } = req.body;
+  console.log("body", req.body);
   try {
     const response = await updateProductServices(id, {
       name,
@@ -68,6 +73,7 @@ const updateProductServicesHandler = async (req, res) => {
     });
     res.status(200).json(response);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };

@@ -48,6 +48,7 @@ export const getAllCategories = () => {
 };
 
 export const postProduct = (product) => {
+  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.post("/api/products", product);
@@ -57,6 +58,7 @@ export const postProduct = (product) => {
       });
     } catch (error) {
       const message = error.response.data.error;
+      console.log(error);
       throw new Error(message);
     }
   };
@@ -137,6 +139,7 @@ export const getAllProducts = () => {
 };
 
 export const putProduct = (id, product) => {
+  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/update/${id}`, product);
