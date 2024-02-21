@@ -40,7 +40,7 @@ function AdminInstructorForm() {
         fullname: instructorFiltered[0].fullname,
         photo: instructorFiltered[0].photo,
         description: instructorFiltered[0].description,
-        status: Boolean(instructorFiltered[0].status),
+        status: instructorFiltered[0].status,
       });
     }
   }, [params, allInstructors]);
@@ -55,6 +55,7 @@ function AdminInstructorForm() {
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
+    console.log(instructorForm);
     e.preventDefault();
     try {
       if (params.id) {
@@ -88,6 +89,9 @@ function AdminInstructorForm() {
   const handleChange = (e) => {
     let key = e.target.name;
     let value = e.target.value;
+    if (key === "status") {
+      value = value === "true";
+    }
     setInstructorForm({ ...instructorForm, [key]: value });
     setErrors(validate({ ...instructorForm, [key]: value }));
   };
@@ -119,13 +123,13 @@ function AdminInstructorForm() {
                 name="status"
                 className="form-control"
                 onChange={handleChange}
-                value={instructorForm.status || ""}
+                value={String(instructorForm.status) || ""}
               >
                 <option value="" disabled hidden>
                   --
                 </option>
-                <option value={true}>Si</option>
-                <option value={false}>No</option>
+                <option value="true">Si</option>
+                <option value="false">No</option>
               </select>
               {errors.status && (
                 <FormText className="form-text">{errors.status}</FormText>

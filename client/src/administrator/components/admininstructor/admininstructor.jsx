@@ -92,7 +92,6 @@ function AdminInstructor() {
               {allInstructors
                 .filter((instructor) => instructor.status === statusSelection)
                 .map((instructor) => {
-                  console.log(instructor);
                   return (
                     <tr key={instructor.id}>
                       <td>{instructor.id}</td>

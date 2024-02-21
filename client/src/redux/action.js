@@ -205,7 +205,7 @@ export const getAllInstructors = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/instructors");
-      console.log(data);
+      // console.log(data);
       const items = data.Items;
       dispatch({
         type: GET_ALL_INSTRUCTORS,

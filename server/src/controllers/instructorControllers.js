@@ -5,14 +5,19 @@ const getInstructors = async () => {
     //Hacemos la consulta para traer la data
     const instructor = await Instructor.findAll();
     //si gym.length es igual a 0 emitimos error
-    return { Items: instructor } ;
+    return { Items: instructor };
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
 // En este controller creamos un instructor en el Gym.
-const createInstructorController = async (fullname, photo, description) => {
+const createInstructorController = async (
+  fullname,
+  photo,
+  description,
+  status
+) => {
   try {
     const instrutorExists = await Instructor.findOne({
       where: {
@@ -28,6 +33,7 @@ const createInstructorController = async (fullname, photo, description) => {
       fullname,
       photo,
       description,
+      status,
     });
 
     return {
