@@ -24,9 +24,9 @@ const getProductServicesByIdHandler = async (req, res) => {
 const createProductServicesHandler = async (req, res) => {
   const { name, price, description, status, brand, stock, category_id } =
     req.body;
-  const { image_url } = req.body;
+  const image_url = req.file;
 
-  console.log("image_url", image_url);
+  console.log("body", req.body);
 
   try {
     validateCreateProductServices({
@@ -54,12 +54,13 @@ const createProductServicesHandler = async (req, res) => {
     console.log(error);
     res.status(400).json({ error: error.message });
   }
-  console.log(req.file);
 };
 
 const updateProductServicesHandler = async (req, res) => {
   const { id } = req.params;
-  const { name, price, description, status, code, image_url, stock } = req.body;
+  const { name, price, description, status, code, stock } = req.body;
+  const image_url = req.file;
+
   console.log("body", req.body);
   try {
     const response = await updateProductServices(id, {
