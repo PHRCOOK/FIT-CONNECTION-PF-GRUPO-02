@@ -18,102 +18,112 @@ export default function AppBar() {
 
   const currentUser = useSelector((state) => state.currentUser);
 
+  const fetchUserDataAndPerformChecks = async () => {
+    try {
+      let userData; // Define userData here
+
+      const response = await axios.get("/api/users", {
+        params: { email: user.email },
+      });
+
+      console.log("Server response:", response);
+
+      const userWithSameEmail = response.data.Items.find(
+        (item) => item.email === user.email
+      );
+
+      console.log("Properties of userWithSameEmail:", userWithSameEmail);
+
+      if (userWithSameEmail) {
+        dispatch(setUserShopping(userWithSameEmail));
+        dispatch(setIsAdmin(userWithSameEmail.is_admin));
+
+        if (userWithSameEmail.status === true) {
+          console.log("Estado Activo");
+          setShowAlert(false);
+        }
+      } else {
+        console.log("Inactive Status");
+        setShowAlert(true);
+
+        // Now you can use userData
+        userData = {
+          name: user.name,
+          sub: user.sub,
+          email: user.email,
+          status: true,
+        };
+
+        // Rest of the logic
+        await axios.post("/api/users", userData);
+
+        const result = await Swal.fire({
+          icon: "error",
+          title: "Usuario Baneado",
+          text: "Este usuario ha sido baneado",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showCancelButton: false,
+          confirmButtonText: "Si, cierra la sesion",
+        });
+        if (result.isConfirmed) {
+          logout();
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   useEffect(() => {
-    if (isAuthenticated) {
-      const userData = {
-        name: user.name,
-        sub: user.sub,
-        email: user.email,
-        status: true,
-      };
+    const createOrUpdateUser = async () => {
+      try {
+        if (isAuthenticated) {
+          const response = await axios.get("/api/users", {
+            params: { email: user.email },
+          });
 
-      dispatch(fetchUser(userData));
-
-      axios
-        .get("/api/users", { params: { email: user.email } })
-        .then((response) => {
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
 
           if (!userWithSameEmail) {
-            // Si no existe un usuario con el mismo correo electrónico, crea uno nuevo
-            axios
-              .post("/api/users", userData)
-              .then((response) => console.log(response))
-              .catch((error) => console.error(error));
-          }
-        })
-        .catch((error) => console.error(error));
-    }
-  }, [isAuthenticated, user, dispatch]);
+            // If no user with the same email exists, create a new one
+            let userData = {
+              name: user.name,
+              sub: user.sub,
+              email: user.email,
+              status: true,
+            };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (isAuthenticated) {
-          const userData = {
-            name: user.name,
-            sub: user.sub,
-            email: user.email,
-          };
-
-          dispatch(fetchUser(userData));
-
-          const response = await axios.get("/api/users", {
-            params: { email: user.email },
-          });
-
-          console.log("Server response:", response);
-
-          const userWithSameEmail = response.data.Items.find(
-            (item) => item.email === user.email
-          );
-
-          console.log("Properties of userWithSameEmail:", userWithSameEmail);
-
-          if (userWithSameEmail) {
-            dispatch(setUserShopping(userWithSameEmail));
-            dispatch(setIsAdmin(userWithSameEmail.is_admin));
-
-            if (userWithSameEmail.status === true) {
-              console.log("Estado Activo");
-              setShowAlert(false);
-            }
-          } else {
-            console.log("Inactive Status");
-            setShowAlert(true);
-
-            // Espera a que se cree el nuevo usuario antes de mostrar la alerta
             await axios.post("/api/users", userData);
-
-            const result = await Swal.fire({
-              icon: "error",
-              title: "Usuario Baneado",
-              text: "Este usuario ha sido baneado",
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              showCancelButton: false,
-              confirmButtonText: "Si, cierra la sesion",
-            });
-            if (result.isConfirmed) {
-              logout();
-            }
           }
+
+          // Rest of your logic to fetch and verify user data
+          fetchUserDataAndPerformChecks();
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error creating or updating user:", error);
       }
     };
 
-    fetchData();
-  }, [isAuthenticated, user, dispatch, logout]);
+    createOrUpdateUser();
+  }, [isAuthenticated, user, dispatch]);
 
   const isAdmin = currentUser && currentUser.is_admin;
 
   const shouldShowLogoOnly = location.pathname === pathroutes.LOGIN;
 
   const linksData = [
+    {
+      path: pathroutes.CHAT,
+      title: "Chat",
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.CHAT &&
+        isAuthenticated,
+    },
+
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
@@ -127,11 +137,11 @@ export default function AppBar() {
       title: "Servicios",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
-    // {
-    //   path: pathroutes.INSTRUCTOR,
-    //   title: "Instructores",
-    //   show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
-    // },
+    {
+      path: pathroutes.INSTRUCTOR,
+      title: "Instructores",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
+    },
     {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",

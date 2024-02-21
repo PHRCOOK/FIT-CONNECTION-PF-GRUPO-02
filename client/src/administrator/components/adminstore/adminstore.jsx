@@ -66,7 +66,7 @@ function Store() {
       <Button
         variant="primary"
         onClick={() => {
-          navigate(pathroutes.FORMPRODUCT);
+          navigate(pathroutes.CREATE_PRODUCT);
         }}
       >
         Crear Producto

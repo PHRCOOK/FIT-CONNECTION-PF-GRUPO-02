@@ -76,46 +76,51 @@ function AdminInstructor() {
             </option>
           </FormSelect>
         </div>
-        <Table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Instructor</th>
-              <th>Estatus</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allInstructors
-              .filter((instructor) => instructor.status === statusSelection)
-              .map((instructor) => {
-                console.log(instructor);
-                return (
-                  <tr key={instructor.id}>
-                    <td>{instructor.id}</td>
-                    <td>{instructor.fullname}</td>
-                    <td>{instructor.status ? "Activo" : "Inactivo"}</td>
-                    <td>
-                      <Button
-                        className="mx-2 my-1"
-                        onClick={() =>
-                          handleDelete(instructor.id, instructor.status)
-                        }
-                      >
-                        {statusSelection ? "Desactivar" : "Activar"}
-                      </Button>
-                      <Button
-                        className="mx-2 my-1"
-                        onClick={() => handleModify(instructor.id)}
-                      >
-                        Modificar
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
+        {!allInstructors.length ? (
+          ""
+        ) : (
+          <Table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Instructor</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allInstructors
+                .filter((instructor) => instructor.status === statusSelection)
+                .map((instructor) => {
+                  console.log(instructor);
+                  return (
+                    <tr key={instructor.id}>
+                      <td>{instructor.id}</td>
+                      <td>{instructor.fullname}</td>
+                      <td>{instructor.status ? "Activo" : "Inactivo"}</td>
+                      <td>
+                        <Button
+                          className="mx-2 my-1"
+                          variant={statusSelection ? "danger" : "primary"}
+                          onClick={() =>
+                            handleDelete(instructor.id, instructor.status)
+                          }
+                        >
+                          {statusSelection ? "Desactivar" : "Activar"}
+                        </Button>
+                        <Button
+                          className="mx-2 my-1"
+                          onClick={() => handleModify(instructor.id)}
+                        >
+                          Modificar
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
+        )}
         <Button onClick={handleCreateInstructor}>Crear instructor</Button>
       </Container>
     </div>

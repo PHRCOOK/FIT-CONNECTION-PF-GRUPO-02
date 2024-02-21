@@ -29,5 +29,6 @@ const pathroutes = {
   ADMINCLIENT: "/admin/client/",
   ADMINCLIENTPROFILE: "/admin/client/modifyinfo/:id",
   GYM_INFO: "admin/gimnasio/",
+  CHAT: "/chat",
 };
 export default pathroutes;
