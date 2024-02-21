@@ -68,7 +68,7 @@ export default function shoppingcart() {
     try {
       //const items = JSON.stringify(carritos);
       const payload = {
-        user_id: user.id, // Agregar el ID al payload
+        userId: user.id, // Agregar el ID al payload
       };
       const paymentResponse = await axios.post(`/api/createorder/`, payload); // Envía una solicitud POST al backend con los datos del carrito
       // Maneja la respuesta del pago según tus necesidades
