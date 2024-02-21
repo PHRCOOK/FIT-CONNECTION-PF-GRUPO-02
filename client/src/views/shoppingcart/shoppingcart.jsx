@@ -1,254 +1,137 @@
-import React, { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useLocation } from "react-router-dom";
-import logo from "../../assets/img/logo-nav.png";
-import pathroutes from "../helpers/pathroutes";
-import { LinkContainer } from "react-router-bootstrap";
-import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
+import { useSelector } from "react-redux";
+import AppCard from "../../components/card/card";
+import { Button, Row, Col, Card, Container } from "react-bootstrap";
 import Swal from "sweetalert2";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import ChatIcon from "@mui/icons-material/Chat";
 
-export default function AppBar() {
-  const location = useLocation();
-  const { isAuthenticated, user, logout } = useAuth0();
-  const dispatch = useDispatch();
-  const [showAlert, setShowAlert] = useState(false);
-  const currentUser = useSelector((state) => state.currentUser);
+export default function shoppingcart() {
+  const [carritos, setCarritos] = useState([]);
+  const user = useSelector((state) => state.userShopping);
 
-  const fetchUserDataAndPerformChecks = async () => {
-    try {
-      let userData;
-      const response = await axios.get("/api/users", {
-        params: { email: user.email },
+  const getCarritos = (user) => {
+    axios
+      .get(`/api/shoppingCart/${user.id}`)
+      .then(({ data }) => {
+        if (data) {
+          setCarritos(data);
+        } else {
+          setCarritos([]);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 500) {
+          setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al obtener los datos del carrito de compras",
+            error,
+          });
+        }
       });
-      const userWithSameEmail = response.data.Items.find(
-        (item) => item.email === user.email
-      );
+  };
+  useEffect(() => {
+    // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
+    if (user) {
+      getCarritos(user);
+    }
 
-      if (userWithSameEmail) {
-        dispatch(setUserShopping(userWithSameEmail));
-        dispatch(setIsAdmin(userWithSameEmail.is_admin));
+    return setCarritos([]);
+  }, [user]); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
 
-        if (userWithSameEmail.status === true) {
-          setShowAlert(false);
-        }
-      } else {
-        console.log("Inactive Status");
-        setShowAlert(true);
+  //* funcion para eliminar el registro de carrito
 
-        userData = {
-          name: user.name,
-          sub: user.sub,
-          email: user.email,
-          status: true,
-        };
-
-        await axios.post("/api/users", userData);
-
-        const result = await Swal.fire({
-          icon: "error",
-          title: "Usuario Baneado",
-          text: "Este usuario ha sido baneado",
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-          showCancelButton: false,
-          confirmButtonText: "Si, cierra la sesion",
+  const handleClick = async (e) => {
+    let id = e.target.value;
+    await axios
+      .delete(`/api/shoppingCart/${user.id}/${id}`)
+      .then(({ data }) => {
+        Swal.fire({
+          icon: "success",
+          title: "Proceso Exitoso",
+          text: "El registro de carrito se elimino",
         });
-        if (result.isConfirmed) {
-          logout();
-        }
-      }
+        getCarritos();
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `Error: ${error.message}`,
+        });
+      });
+  };
+
+  const handlePayment = async () => {
+    try {
+      //const items = JSON.stringify(carritos);
+      const payload = {
+        userId: user.id, // Agregar el ID al payload
+      };
+      const paymentResponse = await axios.post(`/api/createorder/`, payload); // Envía una solicitud POST al backend con los datos del carrito
+      // Maneja la respuesta del pago según tus necesidades
+      window.location.href = paymentResponse.data.sandbox_init_point;
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Error al procesar el pago: ${error.message}`,
+      });
     }
   };
 
-  useEffect(() => {
-    const createOrUpdateUser = async () => {
-      try {
-        if (isAuthenticated) {
-          const response = await axios.get("/api/users", {
-            params: { email: user.email },
-          });
-
-          const userWithSameEmail = response.data.Items.find(
-            (item) => item.email === user.email
-          );
-
-          if (!userWithSameEmail) {
-            let userData = {
-              name: user.name,
-              sub: user.sub,
-              email: user.email,
-              status: true,
-            };
-
-            await axios.post("/api/users", userData);
-          }
-
-          fetchUserDataAndPerformChecks();
-        }
-      } catch (error) {
-        console.error("Error creating or updating user:", error);
-      }
-    };
-
-    createOrUpdateUser();
-  }, [isAuthenticated, user, dispatch]);
-
-  const isAdmin = currentUser && currentUser.is_admin;
-  const shouldShowLogoOnly = location.pathname === pathroutes.LOGIN;
-
-  const linksData = [
-    {
-      path: pathroutes.PRODUCT,
-      title: "Productos",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.PRODUCT &&
-        !isAdmin,
-    },
-    {
-      path: pathroutes.SERVICE,
-      title: "Membresias",
-      show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
-    },
-    {
-      path: pathroutes.INSTRUCTOR,
-      title: "Instructores",
-      show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
-    },
-    {
-      path: pathroutes.SHOPPINGCART,
-      title: "Carrito de compras",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.SHOPPINGCART &&
-        !isAdmin,
-    },
-
-    {
-      path: pathroutes.STAFF,
-      title: "Conocer staff",
-      show: !shouldShowLogoOnly && location.pathname !== pathroutes.STAFF,
-    },
-    {
-      path: pathroutes.ADMIN,
-      title: "Herramientas Admin",
-      show:
-        isAuthenticated &&
-        isAdmin &&
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.ADMIN,
-    },
-    {
-      path: pathroutes.CHAT,
-      title: "Chat",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.CHAT &&
-        isAuthenticated,
-    },
-    {
-      path: pathroutes.LOGIN,
-      title: "Login",
-      show: !isAuthenticated && location.pathname !== pathroutes.LOGIN,
-    },
-    {
-      title: "Logout",
-      show: isAuthenticated,
-      isButton: true,
-      onClick: () => {
-        if (isAuthenticated) {
-          logout({ returnTo: window.location.origin });
-        }
-      },
-    },
-  ];
-
-  const navLinks = linksData
-    .filter((linkData) => linkData.show && linkData.path)
-    .map((linkData) => (
-      <LinkContainer key={linkData.path} to={linkData.path}>
-        <Nav.Link
-          active={location.pathname === linkData.path}
-          className={`rounded fw-bold px-2 mx-1 my-md-1 ${
-            location.pathname === linkData.path ? "bg-primary" : ""
-          }`}
-        >
-          {linkData.title === "Carrito de compras" ? (
-            <ShoppingCartIcon fontSize="large" />
-          ) : linkData.title === "Chat" ? (
-            <ChatIcon fontSize="large" />
-          ) : (
-            linkData.title
-          )}
-        </Nav.Link>
-      </LinkContainer>
-    ));
-
   return (
-    <Navbar collapseOnSelect bg="secondary" expand="lg">
-      <Container>
-        {shouldShowLogoOnly ? (
-          <LinkContainer to={pathroutes.HOME}>
-            <Navbar.Brand>
-              <Image
-                src={logo}
-                alt="Home"
-                className="border border-2 border-light"
-                roundedCircle
-                style={{ width: "85px", height: "85px" }}
-              />
-            </Navbar.Brand>
-          </LinkContainer>
-        ) : (
-          <>
-            <LinkContainer to={pathroutes.HOME}>
-              <Navbar.Brand>
-                <Image
-                  src={logo}
-                  alt="Home"
-                  className="border border-2 border-light"
-                  roundedCircle
-                  style={{ width: "85px", height: "85px" }}
-                />
-              </Navbar.Brand>
-            </LinkContainer>
-            <Navbar.Toggle aria-controls="navbar-options" />
-            <Navbar.Collapse id="navbar-options">
-              <Nav className="ms-auto">
-                {navLinks}
-                {isAuthenticated && (
-                  <Button
-                    onClick={() => logout({ returnTo: window.location.origin })}
-                    className="rounded fw-bold px-2 mx-1 my-1"
-                  >
-                    Logout
-                  </Button>
-                )}
-              </Nav>
-              {isAuthenticated && (
-                <Navbar.Text>
-                  <a href="#/userprofile">{user.name}</a>
-                </Navbar.Text>
-              )}
-              {isAuthenticated && (
-                <Image
-                  src={user.picture}
-                  alt="Profile"
-                  className="border border-2 border-light m-3"
-                  style={{ width: "80px", height: "80px" }}
-                />
-              )}
-            </Navbar.Collapse>
-          </>
-        )}
-      </Container>
-    </Navbar>
+    <Container>
+      <div className="fs-4 mb-3 fw-bold text-center">Shopping Cart</div>
+      <Card>
+        <Row>
+          <Col className="my-3 mx-3">
+            {carritos.length > 0 ? (
+              carritos.map((carrito) => (
+                <div key={carrito.id}>
+                  <AppCard
+                    id={carrito.id}
+                    name={carrito.name}
+                    price={carrito.price}
+                    description={carrito.description}
+                    status={carrito.status}
+                    brand={carrito.brand}
+                    image_url={carrito.image_url}
+                    stock={carrito.stock}
+                    category={carrito.category_id}
+                  />
+                  <Col>
+                    <div className="fw-bold fs-2">
+                      Cantidad : {carrito.quantity}
+                    </div>
+                    {/* <h2>categoria : {carrito.category_id}</h2> */}
+                    <Button
+                      className="my-3 btn btn-primary"
+                      value={carrito.id}
+                      onClick={handleClick}
+                    >
+                      eliminar
+                    </Button>
+                  </Col>
+                </div>
+              ))
+            ) : (
+              <p className="fs-4 mb-3 fw-bold text-center">
+                No hay productos en el carrito
+              </p>
+            )}
+            <Button
+              className="d-grid gap-2 col-3 mx-auto my-3 btn btn-primary"
+              onClick={handlePayment}
+            >
+              Pagar
+            </Button>{" "}
+            {/* Botón para iniciar el proceso de pago */}
+          </Col>
+        </Row>
+      </Card>
+    </Container>
   );
 }
