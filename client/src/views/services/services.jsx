@@ -8,7 +8,7 @@ function services() {
   }, []);
   return (
     <div>
-      <h1>SERVICIOS</h1>
+      <h1>MEMBRESIAS</h1>
       <MembershipsCards />
     </div>
   );
