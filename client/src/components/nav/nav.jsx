@@ -130,14 +130,7 @@ export default function AppBar() {
         location.pathname !== pathroutes.SHOPPINGCART &&
         !isAdmin,
     },
-    {
-      path: pathroutes.CHAT,
-      title: "Chat",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.CHAT &&
-        isAuthenticated,
-    },
+
     {
       path: pathroutes.STAFF,
       title: "Conocer staff",
@@ -151,6 +144,14 @@ export default function AppBar() {
         isAdmin &&
         !shouldShowLogoOnly &&
         location.pathname !== pathroutes.ADMIN,
+    },
+    {
+      path: pathroutes.CHAT,
+      title: "Chat",
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.CHAT &&
+        isAuthenticated,
     },
     {
       path: pathroutes.LOGIN,
