@@ -40,7 +40,6 @@ const AdminServicesForm = () => {
   }, [params]);
 
   const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
     setMembershipForm({ ...membershipForm, [e.target.name]: e.target.value });
     setErrors(validate({ ...membershipForm, [e.target.name]: e.target.value }));
@@ -72,35 +71,7 @@ const AdminServicesForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const requiredFields = [
-      "name",
-      "price",
-      "duration",
-      "description",
-      "status",
-      "image_url",
-    ];
-    const emptyFields = requiredFields.filter(
-      (field) => !membershipForm[field]
-    );
-
-    if (emptyFields.length > 0) {
-      Swal.fire({
-        title: "Error",
-        text: `Por favor, completa todos los campos obligatorios. Faltan: ${emptyFields.join(
-          ", "
-        )}`,
-        icon: "error",
-        customClass: {
-          confirmButton: "btn btn-danger",
-        },
-      });
-      return;
-    }
-
     const validationsErrors = validate(membershipForm);
-
     if (Object.keys(validationsErrors).length === 0) {
       try {
         const formData = new FormData();
@@ -208,6 +179,7 @@ const AdminServicesForm = () => {
                 as="select"
                 name="status"
                 defaultValue={"DEFAULT"}
+                // value={membershipForm.status}
                 onChange={handleChange}
               >
                 <option value="DEFAULT" disabled hidden>
