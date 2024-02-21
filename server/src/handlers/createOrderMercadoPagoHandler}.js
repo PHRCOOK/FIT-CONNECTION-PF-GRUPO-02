@@ -2,18 +2,16 @@ const { mercadoPaymentPreferences } = require('../controllers/createOrderMercado
 const { getUserByIdController } = require('../controllers/usersControllers')
 const { getShoppingCarts } = require('../controllers/shoppingCartControllers')
 
-const mercadoPaymentPreferencesHandler = async (req, res) =>{
+const mercadoPaymentPreferencesHandler = async (req, res) => {
+    const {user_id} = req.body
     try {
-        console.log(req)
-        const { id } = req.params
-        //const userData = await getUserByIdController(user_id);
-        const shoppingCart = await getShoppingCarts(id);
+        const shoppingCart = await getShoppingCarts(user_id);
         const response = await mercadoPaymentPreferences(shoppingCart)
         res.status(200).json(response)
     } catch (error) {
-        res.status(500).json({error: error.message})
+        res.status(500).json({ error: error.message })
     }
 }
-module.exports ={
+module.exports = {
     mercadoPaymentPreferencesHandler
 }
