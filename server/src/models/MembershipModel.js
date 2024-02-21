@@ -17,11 +17,11 @@ module.exports = (sequelize) => {
         },
         start_date: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true, // Se habilita para que se pueda crear sin fecha de inicio hasta que se active
         },
         expiration_date: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true, // Se habilita para que se pueda crear sin fecha de expiración hasta que se active
         },
         duration: {
         type: DataTypes.INTEGER,

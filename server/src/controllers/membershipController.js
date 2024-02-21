@@ -42,7 +42,7 @@ const createMembership = async (
         });
         return membership;
     } catch (error) {
-        throw new Error({ error: error.message });
+        throw new Error(error.message);
     }
 }
 

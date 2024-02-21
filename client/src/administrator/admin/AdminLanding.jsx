@@ -41,6 +41,14 @@ function AdminLanding() {
       >
         Usuarios
       </Button>
+      <Button
+        variant="primary"
+        size="lg"
+        className="mb-5 w-50"
+        onClick={() => navigate(`/admin/membership/`)}
+        >
+        Membresías
+        </Button>
     </div>
   );
 }
