@@ -9,6 +9,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 import Swal from "sweetalert2";
+import { FaShoppingCart } from "react-icons/fa"; // Importa el ícono de carrito de compras
 
 // Componente funcional que representa la barra de navegación
 export default function AppBar() {
@@ -213,7 +214,11 @@ export default function AppBar() {
             location.pathname === linkData.path ? "bg-primary" : ""
           }`}
         >
-          {linkData.title}
+          {linkData.title === "Carrito de compras" ? (
+            <FaShoppingCart size={20} />
+          ) : (
+            linkData.title
+          )}
         </Nav.Link>
       </LinkContainer>
     ));
