@@ -18,7 +18,7 @@ const mercadoPaymentPreferences = async (shoppingCard, userId) => {
         });
         const createPayment = await preference.create({
             body: {
-                //auto_return: "approved",
+                auto_return: "approved",
                 items: itemsArray,
                 back_urls: {
                     failure: "http://localhost:3001/api/createorder/failure", //hay que modificar dicha ruta
