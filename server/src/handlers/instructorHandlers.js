@@ -10,7 +10,22 @@ const {
 const getInstructorHandler = async (req, res) => {
   try {
     const instructor = await getInstructors();
+    console.log(instructor);
     return res.status(200).json(instructor);
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ error: "Not Found.", message: error.message });
+  }
+};
+
+const getInstructorByIDHandler = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const instructor = await getInstructors();
+    return res
+      .status(200)
+      .json(instructor.Items.find((i) => i.dataValues.id == id));
   } catch (error) {
     return res
       .status(404)
@@ -57,4 +72,5 @@ module.exports = {
   createInstructorHandler,
   updateInstructorHandler,
   getInstructorHandler,
+  getInstructorByIDHandler,
 };

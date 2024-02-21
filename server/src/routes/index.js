@@ -33,6 +33,7 @@ router.use("/api/shoppingCart", ShoppingCartRouter);
 router.use("/api/createorder", paymentRouter);
 
 router.use("/api/clientInfo", clientInfoRouter);
+
 router.use("/api/messages", messagesRouter);
 
 module.exports = router;

@@ -2,6 +2,7 @@ const pathroutes = {
   ADMIN: "/admin",
   CLIENT: "/clientinfo",
   INSTRUCTOR: "/instructors",
+  INSTRUCTOR_DETAIL: "/instructors/:id/:fullname",
   CATEGORY: "/categories",
   CREATEDINST: "/createinstructor",
   MODIFY: "/modifycategory/:id",

@@ -7,6 +7,10 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function Store() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [show, setShow] = useState(false);
   const totalPages = useSelector((state) => state.totalPages);
 

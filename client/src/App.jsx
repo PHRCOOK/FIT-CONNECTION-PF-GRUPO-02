@@ -30,6 +30,7 @@ import AdminClients from "./administrator/components/AdminClients/AdminClients";
 import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 import Instructors from "./views/instructors/instructors";
 import Chat from "./components/chat/chatComponent";
+import InstructorDetail from "./components/InstructorDetail/InstructorDetail";
 
 import "./App.scss";
 
@@ -54,7 +55,7 @@ function App() {
 
       axios
         .post("/api/users", userData)
-        .then((response) => console.log(response))
+        // .then((response) => console.log(response))
         .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user, dispatch]);
@@ -77,9 +78,9 @@ function App() {
           );
 
           if (userWithSameEmail) {
-            console.log(
-              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
-            );
+            // console.log(
+            //   `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
+            // );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
@@ -107,6 +108,10 @@ function App() {
           <Route path={pathroutes.CHAT} element={<Chat />} />
           <Route path={pathroutes.USER_PROFILE} element={<UserProfile />} />
           <Route path={pathroutes.INSTRUCTOR} element={<Instructors />} />
+          <Route
+            path={pathroutes.INSTRUCTOR_DETAIL}
+            element={<InstructorDetail />}
+          />
           {isAdmin && (
             <>
               <Route path={pathroutes.REGISTER} element={<UserForm />} />
