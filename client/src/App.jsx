@@ -57,7 +57,7 @@ function App() {
 
       axios
         .post("/api/users", userData)
-        .then((response) => console.log(response))
+        // .then((response) => console.log(response))
         .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user, dispatch]);
@@ -80,9 +80,9 @@ function App() {
           );
 
           if (userWithSameEmail) {
-            console.log(
-              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
-            );
+            // console.log(
+            //   `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
+            // );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })

@@ -9,59 +9,36 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 import Swal from "sweetalert2";
-import { FaShoppingCart } from "react-icons/fa"; // Importa el ícono de carrito de compras
+import { FaShoppingCart, FaComment } from "react-icons/fa"; // Importa los íconos necesarios
 
-// Componente funcional que representa la barra de navegación
 export default function AppBar() {
-  // Hook de React para obtener la ubicación actual de la aplicación
   const location = useLocation();
-
-  // Hook de autenticación de Auth0 para gestionar el estado de autenticación y el usuario
   const { isAuthenticated, user, logout } = useAuth0();
-
-  // Hook de Redux para despachar acciones
   const dispatch = useDispatch();
-
-  // Estado local para mostrar u ocultar una alerta
   const [showAlert, setShowAlert] = useState(false);
-
-  // Selector de Redux para obtener el estado del usuario actual
   const currentUser = useSelector((state) => state.currentUser);
 
-  // Función asíncrona para obtener datos del usuario desde el servidor y realizar comprobaciones
   const fetchUserDataAndPerformChecks = async () => {
     try {
       let userData;
-
-      // Petición GET al servidor para obtener datos del usuario
       const response = await axios.get("/api/users", {
         params: { email: user.email },
       });
-
-      // console.log("Server response:", response);
-
-      // Buscar un usuario con el mismo correo electrónico en la respuesta del servidor
       const userWithSameEmail = response.data.Items.find(
         (item) => item.email === user.email
       );
 
-      // console.log("Properties of userWithSameEmail:", userWithSameEmail);
-
       if (userWithSameEmail) {
-        // Si se encuentra un usuario con el mismo correo electrónico
         dispatch(setUserShopping(userWithSameEmail));
         dispatch(setIsAdmin(userWithSameEmail.is_admin));
 
         if (userWithSameEmail.status === true) {
-          // console.log("Active Status");
           setShowAlert(false);
         }
       } else {
-        // Si no se encuentra un usuario con el mismo correo electrónico
         console.log("Inactive Status");
         setShowAlert(true);
 
-        // Crear un nuevo objeto userData para el usuario
         userData = {
           name: user.name,
           sub: user.sub,
@@ -69,10 +46,8 @@ export default function AppBar() {
           status: true,
         };
 
-        // Enviar una solicitud POST para crear un nuevo usuario en el servidor
         await axios.post("/api/users", userData);
 
-        // Mostrar una alerta al usuario informando que ha sido baneado
         const result = await Swal.fire({
           icon: "error",
           title: "Usuario Baneado",
@@ -91,23 +66,18 @@ export default function AppBar() {
     }
   };
 
-  // Efecto secundario que se ejecuta cuando cambia la autenticación, el usuario o el estado del almacenamiento Redux
   useEffect(() => {
     const createOrUpdateUser = async () => {
       try {
-        // Verificar si el usuario está autenticado
         if (isAuthenticated) {
-          // Obtener datos del usuario desde el servidor
           const response = await axios.get("/api/users", {
             params: { email: user.email },
           });
 
-          // Buscar un usuario con el mismo correo electrónico en la respuesta del servidor
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
 
-          // Si no se encuentra un usuario con el mismo correo electrónico, crear uno nuevo
           if (!userWithSameEmail) {
             let userData = {
               name: user.name,
@@ -118,7 +88,7 @@ export default function AppBar() {
 
             await axios.post("/api/users", userData);
           }
-          // Realizar comprobaciones adicionales y actualizar el estado
+
           fetchUserDataAndPerformChecks();
         }
       } catch (error) {
@@ -126,26 +96,13 @@ export default function AppBar() {
       }
     };
 
-    // Llamar a la función de creación o actualización del usuario
     createOrUpdateUser();
   }, [isAuthenticated, user, dispatch]);
 
-  // Verificar si el usuario actual tiene privilegios de administrador
   const isAdmin = currentUser && currentUser.is_admin;
-
-  // Verificar si se debe mostrar solo el logo en lugar de la barra de navegación completa
   const shouldShowLogoOnly = location.pathname === pathroutes.LOGIN;
 
-  // Datos de los enlaces de navegación
   const linksData = [
-    {
-      path: pathroutes.CHAT,
-      title: "Chat",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.CHAT &&
-        isAuthenticated,
-    },
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
@@ -171,6 +128,14 @@ export default function AppBar() {
         !shouldShowLogoOnly &&
         location.pathname !== pathroutes.SHOPPINGCART &&
         !isAdmin,
+    },
+    {
+      path: pathroutes.CHAT,
+      title: "Chat",
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.CHAT &&
+        isAuthenticated,
     },
     {
       path: pathroutes.STAFF,
@@ -203,7 +168,6 @@ export default function AppBar() {
     },
   ];
 
-  // Filtrar y mapear los enlaces de navegación que deben mostrarse
   const navLinks = linksData
     .filter((linkData) => linkData.show && linkData.path)
     .map((linkData) => (
@@ -216,6 +180,8 @@ export default function AppBar() {
         >
           {linkData.title === "Carrito de compras" ? (
             <FaShoppingCart size={20} />
+          ) : linkData.title === "Chat" ? (
+            <FaComment size={20} />
           ) : (
             linkData.title
           )}
@@ -223,12 +189,10 @@ export default function AppBar() {
       </LinkContainer>
     ));
 
-  // Estructura JSX del componente AppBar
   return (
     <Navbar collapseOnSelect bg="secondary" expand="lg">
       <Container>
         {shouldShowLogoOnly ? (
-          // Mostrar solo el logo cuando se está en la página de login
           <LinkContainer to={pathroutes.HOME}>
             <Navbar.Brand>
               <Image
@@ -241,7 +205,6 @@ export default function AppBar() {
             </Navbar.Brand>
           </LinkContainer>
         ) : (
-          // Mostrar el logo y la barra de navegación completa en otras páginas
           <>
             <LinkContainer to={pathroutes.HOME}>
               <Navbar.Brand>
@@ -259,7 +222,6 @@ export default function AppBar() {
               <Nav className="ms-auto">
                 {navLinks}
                 {isAuthenticated && (
-                  // Botón de logout visible solo cuando el usuario está autenticado
                   <Button
                     onClick={() => logout({ returnTo: window.location.origin })}
                     className="rounded fw-bold px-2 mx-1 my-1"
@@ -269,13 +231,11 @@ export default function AppBar() {
                 )}
               </Nav>
               {isAuthenticated && (
-                // Enlace al perfil del usuario y visualización de su nombre
                 <Navbar.Text>
                   <a href="#/userprofile">{user.name}</a>
                 </Navbar.Text>
               )}
               {isAuthenticated && (
-                // Mostrar la imagen del perfil del usuario
                 <Image
                   src={user.picture}
                   alt="Profile"
