@@ -24,7 +24,7 @@ const getProductServicesByIdHandler = async (req, res) => {
 const createProductServicesHandler = async (req, res) => {
   const { name, price, description, status, brand, stock, category_id } =
     req.body;
-  const { image_url } = req.body;
+  const { image_url } = req.file;
 
   console.log("image_url", image_url);
 

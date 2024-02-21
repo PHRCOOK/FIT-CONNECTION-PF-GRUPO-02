@@ -20,22 +20,16 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
-<<<<<<< HEAD
   GET_ALL_MEMBERSHIPS,
   POST_MEMBERSHIP,
   DELETE_MEMBERSHIP,
   PUT_MEMBERSHIP,
-} from "./actionsTypes";
-
-const initialState = {
-  allMemberships: [],
-=======
   SET_USER_SHOPPING,
 } from "./actionsTypes";
 
 const initialState = {
+  allMemberships: [],
   userShopping: null,
->>>>>>> 128e90d366e108256d12d0bc1f232d475081100d
   allCategories: [],
   allProducts: [],
   allInstructors: [],
@@ -201,7 +195,6 @@ export const reducer = (state = initialState, action) => {
         isAdmin: action.payload,
       };
 
-<<<<<<< HEAD
     case GET_ALL_MEMBERSHIPS:
       return {
         ...state,
@@ -226,10 +219,8 @@ export const reducer = (state = initialState, action) => {
         allMemberships: action.payload,
       };
 
-=======
     case SET_USER_SHOPPING:
       return { ...state, userShopping: action.payload };
->>>>>>> 128e90d366e108256d12d0bc1f232d475081100d
     default:
       return { ...state };
   }

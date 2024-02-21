@@ -20,14 +20,11 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
-<<<<<<< HEAD
   GET_ALL_MEMBERSHIPS,
   POST_MEMBERSHIP,
   DELETE_MEMBERSHIP,
   PUT_MEMBERSHIP,
-=======
   SET_USER_SHOPPING,
->>>>>>> 128e90d366e108256d12d0bc1f232d475081100d
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -408,7 +405,6 @@ export const fetchUser = (user) => {
   };
 };
 
-<<<<<<< HEAD
 export const getAllMemberships = () => {
   return async (dispatch) => {
     try {
@@ -466,11 +462,9 @@ export const putMembership = (id, membership) => {
     }
   };
 };
-=======
 export const setUserShopping = (user) => {
   return {
     type: SET_USER_SHOPPING,
     payload: user,
   };
 };
->>>>>>> 128e90d366e108256d12d0bc1f232d475081100d
