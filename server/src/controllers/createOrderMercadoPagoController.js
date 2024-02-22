@@ -48,11 +48,10 @@ const receiveWebhook = async (req, res) => {
     try {
         if(type === "payment"){
             const payment = await new Payment(client).get({id:data.id})
-            const { status, payment_type_id, date_approved, metadata } = payment
-            const {client_id} = metadata
-            console.log("Status",status);
-            const response = postPurchasesFunction(payment_type_id, date_approved, status, client_id)
-            return res.status(200).json(response)
+            const { status, payment_type_id, date_approved, metadata } = payment;
+            const {client_id} = metadata;
+            const response = postPurchasesFunction(payment_type_id, date_approved, status, client_id);
+            return res.status(200).json(response);
         }
     } catch (error) {
         return res.status(404).json({error:error.message})
