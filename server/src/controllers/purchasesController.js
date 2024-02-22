@@ -20,9 +20,7 @@ const postPurchasesFunction = async (payment_method, payment_date, status, user_
                 { payment_method, payment_date, status, user_id },
                 { transaction: t }
             );
-            console.log("purchase", purchase)
             const purchase_id = purchase.id;
-            console.log("purchase_id", purchase_id)
             await Promise.all(
                 stockk.map(async (detail) => {
                     await PurchaseDetail.create(
