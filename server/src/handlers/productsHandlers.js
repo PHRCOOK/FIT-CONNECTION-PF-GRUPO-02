@@ -13,7 +13,7 @@ const getProductServicesByIdHandler = async (req, res) => {
   try {
     const response = await getProductServicesById(id);
     if (!response) {
-      throw new Error("Not found");
+      throw new Error("No encontrado");
     }
     res.status(200).json(response);
   } catch (error) {

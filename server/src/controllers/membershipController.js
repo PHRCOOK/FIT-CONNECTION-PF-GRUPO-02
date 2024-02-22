@@ -60,7 +60,7 @@ const deleteMembership = async (id) => {
     try {
         const membership = await Membership.findByPk(id);
         await membership.destroy();
-        return { message: "Membership deleted successfully." };
+        return { message: "Membresía eliminada exitosamente." };
     } catch (error) {
         throw new Error({ error: error.message });
     }

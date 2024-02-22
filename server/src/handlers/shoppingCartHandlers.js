@@ -10,7 +10,7 @@ const createShoppingCartHandler = async (req, res) => {
   const { quantity, user_id, product_id } = req.body;
 
   if (!quantity || !user_id || !product_id) {
-    res.status(400).json({ error: "Falta información para crear el carrito" });
+    res.status(400).json({ error: "Falta información para crear el carro de compra" });
   }
   try {
     const response = await createShoppingCart(quantity, user_id, product_id);
@@ -25,7 +25,7 @@ const createShoppingCartHandler = async (req, res) => {
 const getShoppingCartsHandler = async (req, res) => {
   const { user_id } = req.params;
   if (!user_id) {
-    res.status(400).json({ error: "no se ha proporcionado un id de usuario" });
+    res.status(400).json({ error: "No se ha proporcionado un id de usuario" });
     return;
   }
   if (isNaN(Number(user_id))) {
@@ -48,7 +48,7 @@ const deleteShoppingCartsHandler = async (req, res) => {
   const { user_id, product_id } = req.params;
 
   if (!user_id || !product_id) {
-    res.status(400).json({ error: "Faltan datos para eliminar un carrito" });
+    res.status(400).json({ error: "Faltan datos para eliminar el carro de compra" });
   }
 
   try {
@@ -63,7 +63,7 @@ const deleteShoppingCartsHandler = async (req, res) => {
 const deleteAllCartsHandler = async (req, res) => {
   const { user_id } = req.params;
   if (!user_id) {
-    res.status(400).json({ error: "Faltan datos para eliminar los carritos" });
+    res.status(400).json({ error: "Faltan datos para eliminar el carro de compra" });
   }
 
   try {

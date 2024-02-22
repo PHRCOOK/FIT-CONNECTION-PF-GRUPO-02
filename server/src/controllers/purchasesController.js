@@ -124,7 +124,7 @@ const putPurchasesController = async (req, res) => {
         });
 
         if (!existingPurchase) {
-            return res.status(404).json({ error: "Purchase not found" });
+            return res.status(404).json({ error: "Compra no encontrada" });
         }
 
         // Verificar si el estado actual es "cancelled" y el nuevo estado es el mismo
@@ -144,7 +144,7 @@ const putPurchasesController = async (req, res) => {
             });
         if (putRowCount === 0) {
             await transaction.rollback();
-            return res.status(404).json({ error: "Purchase not found" });
+            return res.status(404).json({ error: "Compra no encontrada" });
         }
         // Actualiza el stock solo si la compra se completó
         if (status === "completed" || status === "cancelled") {
@@ -159,7 +159,7 @@ const putPurchasesController = async (req, res) => {
         // Rollback de la transacción en caso de error
         await transaction.rollback();
 
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({ error: "Error Interno del Servidor" });
     }
 };
 module.exports = {
