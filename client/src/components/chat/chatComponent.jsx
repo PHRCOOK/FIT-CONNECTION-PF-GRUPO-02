@@ -9,9 +9,10 @@ const ChatComponent = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [userList, setUsersList] = useState([]);
   const [messageInput, setMessageInput] = useState({
-    from: null,
+    from_user_id: null,
     message: "",
-    to: null,
+    to_user_id: null,
+    sender_type: false,
   });
   const [messages, setMessages] = useState([]);
 
@@ -21,12 +22,12 @@ const ChatComponent = () => {
 
     // Escucha los mensajes para el usuario actual
     newSocket.on(`message to ${id}`, (message) => {
-      setMessages((prevMessages) => [...prevMessages, message.message]);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     // Escucha los mensajes para el destinatario actual
     newSocket.on(`message to ${messageInput.to}`, (message) => {
-      setMessages((prevMessages) => [...prevMessages, message.message]);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
     return () => {
       newSocket.disconnect();
@@ -48,7 +49,12 @@ const ChatComponent = () => {
       };
 
       fetchMessages();
-      setMessageInput({ from: id, message: "", to: "admin" });
+      setMessageInput({
+        from_user_id: id,
+        message: "",
+        to_user_id: "admin",
+        sender_type: false,
+      });
     }
   }, [id]);
 
@@ -63,7 +69,12 @@ const ChatComponent = () => {
   };
   useEffect(() => {
     if (is_admin) {
-      setMessageInput({ from: id, message: "", to: null });
+      setMessageInput({
+        from_user_id: id,
+        message: "",
+        to_user_id: null,
+        sender_type: true,
+      });
       getUsers();
     }
   }, []);
@@ -84,20 +95,25 @@ const ChatComponent = () => {
 
   // Manejar cambio de usuario seleccionado
   const handleUserSelect = (userId, fullname) => {
+    setMessages([]);
     setSelectedUser(fullname);
     loadMessages(userId);
-    setMessageInput({ ...messageInput, to: userId });
+    setMessageInput({ ...messageInput, to_user_id: userId });
   };
 
   // Manejar envío de mensaje
-  const handleMessageSend = () => {
+  const handleMessageSend = async () => {
     // Lógica para enviar el mensaje al backend y actualizar el estado 'messages'
+    if (!messageInput.message.length) {
+      window.alert("No se pueden enviar mensajes vacios");
+      return;
+    }
     if (socket) {
       // Enviar una copia del mensaje actual
       socket.emit("sendMessage", { ...messageInput });
       // Limpiar el campo del mensaje después de enviarlo
+
       setMessageInput({ ...messageInput, message: "" });
-      setMessages([...messages, messageInput]);
     }
   };
 
@@ -112,7 +128,10 @@ const ChatComponent = () => {
             {userList
               .filter((user) => user.id !== id)
               .map((user) => (
-                <li onClick={() => handleUserSelect(user.id, user.name)}>
+                <li
+                  key={user.id}
+                  onClick={() => handleUserSelect(user.id, user.name)}
+                >
                   {user.name}
                 </li>
               ))}
@@ -128,7 +147,14 @@ const ChatComponent = () => {
             {/* Aquí puedes mostrar el historial de mensajes */}
             {/* Ejemplo básico */}
             {messages.map((message, index) => (
-              <div key={index}>{message.message}</div>
+              <div key={index}>
+                {message.sender_type !== true ? (
+                  <span>{selectedUser} : </span>
+                ) : (
+                  <span>Admin : </span>
+                )}
+                {message.message}
+              </div>
             ))}
           </div>
           {/* Input para enviar mensaje */}
@@ -147,7 +173,14 @@ const ChatComponent = () => {
         <div>
           {/* Mostrar historial de mensajes */}
           {messages.map((message, index) => (
-            <div key={index}>{message.message}</div>
+            <div key={index}>
+              {Number(message.from_user_id) !== Number(id) ? (
+                <span>Admin : </span>
+              ) : (
+                <span>Tú : </span>
+              )}
+              {message.message}
+            </div>
           ))}
           {/* Input para enviar mensaje */}
           <input

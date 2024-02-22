@@ -12,5 +12,6 @@ module.exports = (sequelize) => {
     message: {
       type: DataTypes.TEXT,
     },
+    sender_type: { type: DataTypes.BOOLEAN, defaultValue: false },
   });
 };
