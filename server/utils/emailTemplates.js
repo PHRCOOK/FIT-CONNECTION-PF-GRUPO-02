@@ -64,10 +64,7 @@ const generateWelcomeEmail = (fullname) => {
           background-color: #e74c3c;
           color: #fff;
         }
-
-        p {
-          color: #333;
-        }
+        
       </style>
     </head>
     <body>
