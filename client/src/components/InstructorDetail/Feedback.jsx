@@ -12,7 +12,7 @@ const Feedback = ({ fetchComments }) => {
 
   const currentUser = useSelector((state) => state.userShopping);
 
-  const stars = Array.from({ length: 10 }, (_, index) => index + 1);
+  const stars = Array.from({ length: 5 }, (_, index) => index + 1);
   const rating = 0;
   const [feedback, setFeedback] = useState({
     raiting: 0,
@@ -100,7 +100,7 @@ const Feedback = ({ fetchComments }) => {
         <Button
           disabled={
             Boolean(feedback.raiting < 1) ||
-            Boolean(feedback.raiting > 10) ||
+            Boolean(feedback.raiting > 5) ||
             Boolean(feedback.comment.length < 1) ||
             Boolean(feedback.comment.length > 200)
           }
