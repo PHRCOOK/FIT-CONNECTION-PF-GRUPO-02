@@ -40,7 +40,8 @@ const generateWelcomeEmail = (fullname) => {
         p {
           margin-bottom: 10px;
           line-height: 1.5;
-          color: #fff; 
+          color: whitesmoke; 
+          font-size: 16px; 
           background: linear-gradient(90deg, #e74c3c, #333); 
           padding: 10px;
           border-radius: 8px;
@@ -60,9 +61,7 @@ const generateWelcomeEmail = (fullname) => {
           color: #fff;
         }
 
-        p {
-          color: #333;
-        }
+ 
       </style>
     </head>
     <body>
