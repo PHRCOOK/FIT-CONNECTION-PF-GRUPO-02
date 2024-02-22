@@ -52,7 +52,7 @@ export default function AppBar() {
         const result = await Swal.fire({
           icon: "error",
           title: "Usuario Baneado",
-          text: "Este usuario ha sido baneado",
+          text: "Este usuario ha sido bloqueado",
           allowOutsideClick: false,
           allowEscapeKey: false,
           showCancelButton: false,
