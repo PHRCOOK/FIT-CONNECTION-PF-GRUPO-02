@@ -5,9 +5,9 @@ const createShoppingCart = async (quantity, user_id, product_id) => {
   try {
     await ShoppingCart.create({ quantity, user_id, product_id });
 
-    return { message: "Carrito creado exitosamente." };
+    return { message: "Carro de compra creado exitosamente." };
   } catch (error) {
-    throw new Error(`Error al crear carrito: ${error.message}`);
+    throw new Error(`Error al crear el carro de compra : ${error.message}`);
   }
 };
 
@@ -18,7 +18,7 @@ const getShoppingCarts = async (user_id) => {
   try {
     const carts = await ShoppingCart.findAll({ where: { user_id } });
     if (!carts.length) {
-      throw new Error(`No hay carritos asociados al id de usuario ${user_id}`);
+      throw new Error(`No existe un carro de compra asociado al id de usuario ${user_id}`);
     }
     await Promise.all(
       carts.map(async (cart) => {
@@ -48,7 +48,7 @@ const getShoppingCarts = async (user_id) => {
     );
     return products;
   } catch (error) {
-    throw new Error(`Error buscando los carritos: ${error.message}`);
+    throw new Error(`Error buscando el carro de compra : ${error.message}`);
   }
 };
 
@@ -56,7 +56,7 @@ const deleteShoppingCarts = async (user_id, product_id) => {
   const shoppingCarts = await getShoppingCarts(user_id);
 
   if (!shoppingCarts.length > 0) {
-    throw new Error("No hay carrito de compras para ese usuario");
+    throw new Error("No hay carro de compra para ese usuario");
   }
   try {
     await ShoppingCart.destroy({
@@ -65,9 +65,9 @@ const deleteShoppingCarts = async (user_id, product_id) => {
         product_id,
       },
     });
-    return "Shopping cart eliminado correctamente.";
+    return "Carro de compra eliminado correctamente.";
   } catch (error) {
-    throw new Error("Error al eliminar shopping cart:", error);
+    throw new Error("Error al eliminar el carro de compra :", error);
   }
 };
 
@@ -75,7 +75,7 @@ const deleteAllCarts = async (user_id) => {
   const shoppingCarts = await getShoppingCarts(user_id);
 
   if (!shoppingCarts.length > 0) {
-    throw new Error("No hay carritos de compras para ese usuario");
+    throw new Error("No hay carro de compra para ese usuario");
   }
 
   try {
@@ -84,9 +84,9 @@ const deleteAllCarts = async (user_id) => {
         user_id,
       },
     });
-    return "Shopping cart eliminado correctamente.";
+    return "Carro de compra eliminado correctamente.";
   } catch (error) {
-    throw new Error("Error al eliminar shopping cart:", error);
+    throw new Error("Error al eliminar el carro de compra:", error);
   }
 };
 module.exports = {

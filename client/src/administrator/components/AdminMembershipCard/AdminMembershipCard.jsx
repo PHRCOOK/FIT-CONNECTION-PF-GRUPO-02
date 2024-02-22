@@ -12,11 +12,12 @@ const AdminMembershipCard = ({
   description,
   status,
   image_url,
+  statusSelection,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [newStatus, setNewStatus] = useState(status);
+  // const [newStatus, setNewStatus] = useState(status);
 
   const handleModify = (id) => {
     navigate(`/admin/membership/modify/${id}`);
@@ -26,11 +27,11 @@ const AdminMembershipCard = ({
     const newStatus = !status;
     try {
       dispatch(putMembership(id, { status: newStatus }));
-      setNewStatus(newStatus);
+      // setNewStatus(newStatus);
       Swal.fire({
         icon: "success",
         title: "Proceso Exitoso",
-        text: newStatus
+        text: statusSelection
           ? "Membresía activada correctamente"
           : "Membresía desactivada correctamente",
       });

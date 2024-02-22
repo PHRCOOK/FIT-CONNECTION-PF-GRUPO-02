@@ -7,7 +7,7 @@ const createClientInfoController = async (user_id, address, phone, dni, birth_da
         const user = await User.findByPk(user_id);
         
         if (!user) {
-            throw new Error('User not found');
+            throw new Error('Usuario no encontrado');
         }
         const clientInfo = await ClientInfo.create({address, phone, dni, birth_date})   
 
@@ -29,7 +29,7 @@ const updateClientInfoController = async (user_id, newData) => {
         const user = await User.findByPk(user_id);
         
         if (!user) {
-            throw new Error('User not found');
+            throw new Error('Usuario no encontrado');
         }
 
         const newClientInfo = await ClientInfo.findOne({

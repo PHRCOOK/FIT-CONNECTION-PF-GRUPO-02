@@ -16,9 +16,9 @@ const createFeedBackController = async (
     const instructor = await Instructor.findByPk(instructor_id);
 
     if (!user) {
-      throw new Error("User not found.");
+      throw new Error("Usuario no encontrado");
     } else if (!instructor) {
-      throw new Error("Instructor not found.");
+      throw new Error("Instructor no encontrado");
     }
 
     // Creamos el nuevo comentario.
@@ -32,9 +32,12 @@ const createFeedBackController = async (
     await newFeedBack.setUser(user);
     await newFeedBack.setInstructor(instructor);
 
-    return { message: "Comment created successfully.", newFeedBack: newFeedBack};
+    return {
+      message: "Comentario creado exitosamente",
+      newFeedBack: newFeedBack,
+    };
   } catch (error) {
-    throw new Error(`Error creating comment: ${error.message}`);
+    throw new Error(`Error creando el comentario: ${error.message}`);
   }
 };
 
@@ -42,19 +45,19 @@ const createFeedBackController = async (
 const getFeedBacksController = async () => {
   try {
     const feedBacks = await FeedBack.findAll({
-      include:[ 
-        { model: Instructor, as: 'Instructor', attributes: ['fullname'] },
-        { model: User, as: 'User', attributes: ['fullname'] }
+      include: [
+        { model: Instructor, as: "Instructor", attributes: ["fullname", "id"] },
+        { model: User, as: "User", attributes: ["name", "id"] },
       ],
     });
     if (!feedBacks) {
-      throw new Error('No comment found.')
+      throw new Error("Comentario no encontrado");
     }
-    return {Items: feedBacks};
+    return { Items: feedBacks };
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
-}
+};
 
 // Este controller nos permite realizar la busqueda por el nombre del usuario o del instructor dependiendo de que llegue por query.
 const getFeedBackByNameController = async (fullname) => {
@@ -65,43 +68,52 @@ const getFeedBackByNameController = async (fullname) => {
           [Op.iLike]: fullname, // Lo usamos para realizar comparaciones de cadenas sin distinción entre mayúsculas y minúsculas.
         },
       },
-      attributes: ['fullname'],
-      include: [
-        { model: FeedBack, as: "FeedBack" }
-      ]
+      attributes: ["fullname"],
+      include: [{ model: FeedBack, as: "FeedBack" }],
     });
 
     const feedBackInstructorByName = await Instructor.findOne({
       where: {
         fullname: {
           [Op.iLike]: fullname,
-        }, 
+        },
       },
-      attributes: ['fullname'],
-      include: [
-        { model: FeedBack, as: "FeedBack" }
-      ]
-    })
+      attributes: ["fullname"],
+      include: [{ model: FeedBack, as: "FeedBack" }],
+    });
 
     if (feedBackUserByName && feedBackUserByName.FeedBack.length > 0) {
       return feedBackUserByName;
-    } else if (feedBackInstructorByName && feedBackInstructorByName.FeedBack.length > 0) {
+    } else if (
+      feedBackInstructorByName &&
+      feedBackInstructorByName.FeedBack.length > 0
+    ) {
       return feedBackInstructorByName;
     } else if (feedBackUserByName) {
       throw new Error("No se encontraron comentarios para el usuario.");
     } else if (feedBackInstructorByName) {
       throw new Error("No se encontraron comentarios para el instructor.");
     }
-
   } catch (error) {
-    throw new Error(`Error al buscar la información: ${error.message}`)
+    throw new Error(`Error al buscar la información: ${error.message}`);
+  }
+};
+
+// Controller para modificar los feedbacks.
+const putFeedBackController = async (id, status) => {
+  try {
+    const feedBack = await FeedBack.findByPk(id)
+    const feedBackUpdated = await feedBack.update({ status })
+    return { message: "Comentario actualizado con exito", FeedBack: feedBackUpdated } 
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
-
 
 module.exports = {
   createFeedBackController,
   getFeedBacksController,
   getFeedBackByNameController,
+  putFeedBackController,
 
 };

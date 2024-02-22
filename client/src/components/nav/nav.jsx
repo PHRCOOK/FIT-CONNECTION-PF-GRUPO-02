@@ -37,7 +37,7 @@ export default function AppBar() {
           setShowAlert(false);
         }
       } else {
-        console.log("Inactive Status");
+        console.log("Estado Inactivo");
         setShowAlert(true);
 
         userData = {
@@ -51,8 +51,8 @@ export default function AppBar() {
 
         const result = await Swal.fire({
           icon: "error",
-          title: "Usuario Baneado",
-          text: "Este usuario ha sido baneado",
+          title: "Usuario Bloqueado",
+          text: "Este usuario ha sido bloqueado",
           allowOutsideClick: false,
           allowEscapeKey: false,
           showCancelButton: false,
@@ -91,6 +91,7 @@ export default function AppBar() {
           }
 
           fetchUserDataAndPerformChecks();
+          localStorage.setItem("isAdmin", String(userWithSameEmail.is_admin));
         }
       } catch (error) {
         console.error("Error creating or updating user:", error);
