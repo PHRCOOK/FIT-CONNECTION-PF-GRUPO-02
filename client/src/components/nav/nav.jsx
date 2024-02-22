@@ -37,7 +37,7 @@ export default function AppBar() {
           setShowAlert(false);
         }
       } else {
-        console.log("Inactive Status");
+        console.log("Estado Inactivo");
         setShowAlert(true);
 
         userData = {
@@ -90,9 +90,8 @@ export default function AppBar() {
             await axios.post("/api/users", userData);
           }
 
-          localStorage.setItem("isAdmin", String(userWithSameEmail.is_admin));
-
           fetchUserDataAndPerformChecks();
+          localStorage.setItem("isAdmin", String(userWithSameEmail.is_admin));
         }
       } catch (error) {
         console.error("Error creating or updating user:", error);

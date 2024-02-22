@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   GET_ALL_CATEGORIES,
   POST_PRODUCT,
@@ -23,24 +23,28 @@ import {
   SET_IS_ADMIN,
 } from "./actionsTypes";
 
-
-const isAdminMiddleware = store => next => action => {
+const isAdminMiddleware = (store) => (next) => (action) => {
   //const { isAdmin } = store.getState();
-const isAdminString = localStorage.getItem('isAdmin'); // Obtener el valor de isAdmin del localStorage como string
-const isAdmin = isAdminString === 'true';
-  console.log("Hola", isAdmin);
+  const isAdminString = localStorage.getItem("isAdmin"); // Obtener el valor de isAdmin del localStorage como string
+  const isAdmin = isAdminString === "true";
+  console.log("Es Admin", isAdmin);
   // Lista de acciones que requieren verificación de isAdmin
 
-  const actionsToCheck = [POST_CATEGORY, PUT_CATEGORY,  /* otras acciones aquí */];//Añadir las actions a proteger y verificar que esten protegidas en el back!! 
-  if (actionsToCheck.includes(action.type) && !isAdmin || actionsToCheck.includes(action.type)=== undefined) {
-    throw new Error('El usuario no es administrador');
+  const actionsToCheck = [
+    POST_CATEGORY,
+    PUT_CATEGORY /* otras acciones aquí */,
+  ]; //Añadir las actions a proteger y verificar que esten protegidas en el back!!
+  if (
+    (actionsToCheck.includes(action.type) && !isAdmin) ||
+    actionsToCheck.includes(action.type) === undefined
+  ) {
+    throw new Error("El usuario no es administrador");
   }
 
   if (isAdmin) {
-    axios.defaults.headers.common['is_admin'] = isAdmin;
+    axios.defaults.headers.common["is_admin"] = isAdmin;
   } else {
-
-    delete axios.defaults.headers.common['is_admin'];
+    delete axios.defaults.headers.common["is_admin"];
   }
   return next(action);
 };
