@@ -27,23 +27,32 @@ const generateWelcomeEmail = (fullname) => {
 
         h1 {
           color: #e74c3c;
+          font-weight: bold;
         }
 
         h1 span {
-          color: #000;
+          background: linear-gradient(90deg, #000, #333);
+          color: #fff;
+          padding: 5px;
+          border-radius: 5px;
         }
 
         p {
           margin-bottom: 10px;
           line-height: 1.5;
-          color: #555;
+          color: #fff; 
+          background: linear-gradient(90deg, #e74c3c, #333); 
+          padding: 10px;
+          border-radius: 8px;
         }
 
-        /* Nuevos estilos */
         .gym-logo {
           border-radius: 50%;
           border: 2px solid #e74c3c;
           padding: 5px;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         h1 span, .gym-logo {
@@ -58,7 +67,7 @@ const generateWelcomeEmail = (fullname) => {
     </head>
     <body>
       <div class="container">
-        <img src="https://res.cloudinary.com/dsx7vnkzm/image/upload/v1707071610/l8x5r0mdoi0pfsmd2olv.png" alt="Logo del Gimnasio">
+        <img class="gym-logo" src="https://res.cloudinary.com/dsx7vnkzm/image/upload/v1707071610/l8x5r0mdoi0pfsmd2olv.png" alt="Logo del Gimnasio">
         <h1>Bienvenido a nuestro gimnasio, <span>${fullname} 🏋🏽‍♂️ !</span></h1>
         <p>¡Estamos emocionados de tenerte como parte de nuestra comunidad!</p>
         <p>Disfruta de todos nuestros servicios y no dudes en ponerte en contacto si necesitas ayuda.</p>
