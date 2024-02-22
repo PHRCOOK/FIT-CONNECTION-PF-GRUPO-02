@@ -34,5 +34,6 @@ const pathroutes = {
   MODIFYSERVICE: "/admin/membership/modify/:id",
   GYM_INFO: "admin/gimnasio/",
   CHAT: "/chat",
+  ADMIN_FEEDBACK: "/admin/feedback/",
 };
 export default pathroutes;

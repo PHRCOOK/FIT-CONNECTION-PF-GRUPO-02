@@ -36,8 +36,14 @@ function AdminInstructorForm() {
       const instructorFiltered = allInstructors.find(
         (instructor) => params.id === instructor.id.toString()
       );
-      if (instructorFiltered) {
+      if (instructorFiltered.id) {
         setInstructorForm({
+          fullname: instructorFiltered.fullname,
+          photo: instructorFiltered.photo,
+          description: instructorFiltered.description,
+          status: instructorFiltered.status,
+        });
+        setInitialInfo({
           fullname: instructorFiltered.fullname,
           photo: instructorFiltered.photo,
           description: instructorFiltered.description,
@@ -54,11 +60,18 @@ function AdminInstructorForm() {
     status: "",
   });
 
+  const [initialInfo, setInitialInfo] = useState({
+    fullname: "",
+    photo: "",
+    description: "",
+    status: "",
+  });
+
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(validate(instructorForm));
+    setErrors(validate(instructorForm, initialInfo));
     if (Object.keys(errors).length === 0) {
       try {
         if (params.id) {
@@ -88,7 +101,7 @@ function AdminInstructorForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInstructorForm({ ...instructorForm, [name]: value });
-    setErrors(validate({ ...instructorForm, [name]: value }));
+    setErrors(validate({ ...instructorForm, [name]: value }, initialInfo));
   };
 
   return (
@@ -120,6 +133,7 @@ function AdminInstructorForm() {
                 value={String(instructorForm.status)}
                 onChange={handleChange}
               >
+                <option value="">---</option>
                 <option value="true">Sí</option>
                 <option value="false">No</option>
               </select>

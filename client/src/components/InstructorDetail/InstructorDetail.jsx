@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
-import StarRating from "./StarRating";
+import Feedback from "./Feedback";
+import Comments from "./Comments";
+import promedio from "./promedio";
+import Swal from "sweetalert2";
 
 const InstructorDetail = () => {
   const { id } = useParams();
@@ -13,7 +16,10 @@ const InstructorDetail = () => {
     photo: "",
     status: false,
   });
-  const [rating, setRating] = useState(0);
+
+  const [raiting, setRaiting] = useState("");
+
+  const [comments, setComments] = useState([]);
 
   const fetchInstructor = async (id) => {
     try {
@@ -21,28 +27,31 @@ const InstructorDetail = () => {
       setInstructorInfo(data);
     } catch (error) {
       console.log(error);
+      Swal.fire("Error", "Entrenador no encontrado", "error");
     }
   };
 
-  const handleRatingChange = (newRating) => {
-    setRating(newRating);
-    console.log(newRating);
+  const fetchComments = async () => {
+    try {
+      const { data } = await axios("/api/feedbacks");
+      const raiting = promedio(
+        data.Items.filter(
+          (c) => c.Instructor.id === Number(id) && c.status === true
+        ).map((c) => c.raiting)
+      );
+      setComments(data.Items);
+      setRaiting(raiting);
+    } catch (error) {
+      console.log(error);
+      // const message = error.response.data.error;
+      Swal.fire("Error", "Error al cargar los comentarios", "error");
+    }
   };
-
-  // const submitRating = async (instructorId, rating) => {
-  //   try {
-  //     // Envia la calificación al servidor (ajustar la URL y los datos según tu API)
-  //     await axios.post(`/api/instructors/${instructorId}/ratings`, { rating });
-  //     console.log("Calificación enviada exitosamente");
-  //     // Puedes realizar alguna acción adicional después de enviar la calificación
-  //   } catch (error) {
-  //     console.error("Error al enviar la calificación", error);
-  //   }
-  // };
 
   useEffect(() => {
     if (id) {
       fetchInstructor(id);
+      fetchComments();
     }
   }, [id]);
 
@@ -77,21 +86,25 @@ const InstructorDetail = () => {
                   <span className="fw-bold">Descripcion: </span>{" "}
                   {instructorInfo.description}
                 </Col>
+                <Col xs="12">
+                  <span className="fw-bold">Calificacion promedio: </span>{" "}
+                  {raiting}
+                </Col>
               </Row>
             </Card.Body>
           </Col>
         </Row>
       </Card>
-      <div className="my-3 text-center">
-        <span className="fw-bold">Calificación: </span>
-        <StarRating rating={rating} onRatingChange={handleRatingChange} />
-        <Button
-          variant="primary"
-          onClick={() => submitRating(instructorInfo.id, rating)}
-        >
-          Enviar Calificación
-        </Button>
-      </div>
+      <Row>
+        <div className="my-3 text-center">
+          <Comments id_instructor={id} comments={comments} />
+        </div>
+      </Row>
+      <Row>
+        <div className="my-3 text-center">
+          <Feedback fetchComments={fetchComments} />
+        </div>
+      </Row>
     </Container>
   );
 };

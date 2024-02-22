@@ -33,6 +33,7 @@ import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 import Instructors from "./views/instructors/instructors";
 import Chat from "./components/chat/chatComponent";
 import InstructorDetail from "./components/InstructorDetail/InstructorDetail";
+import AdminFeedbacks from "./administrator/components/AdminFeedbacks/AdminFeedbacks";
 
 import "./App.scss";
 
@@ -167,7 +168,10 @@ function App() {
                 path={pathroutes.MODIFYSERVICE}
                 element={<AdminServicesForm />}
               />
-              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
+              <Route
+                path={pathroutes.ADMIN_FEEDBACK}
+                element={<AdminFeedbacks />}
+              />
             </>
           )}
           <Route path="*" element={<Error404 />} />
