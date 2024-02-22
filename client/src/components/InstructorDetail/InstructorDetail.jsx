@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
+import StarRating from "./StarRating";
 
 const InstructorDetail = () => {
   const { id } = useParams();
@@ -25,18 +26,19 @@ const InstructorDetail = () => {
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
+    console.log(newRating);
   };
 
-  const submitRating = async (instructorId, rating) => {
-    try {
-      // Envia la calificación al servidor (ajustar la URL y los datos según tu API)
-      await axios.post(`/api/instructors/${instructorId}/ratings`, { rating });
-      console.log("Calificación enviada exitosamente");
-      // Puedes realizar alguna acción adicional después de enviar la calificación
-    } catch (error) {
-      console.error("Error al enviar la calificación", error);
-    }
-  };
+  // const submitRating = async (instructorId, rating) => {
+  //   try {
+  //     // Envia la calificación al servidor (ajustar la URL y los datos según tu API)
+  //     await axios.post(`/api/instructors/${instructorId}/ratings`, { rating });
+  //     console.log("Calificación enviada exitosamente");
+  //     // Puedes realizar alguna acción adicional después de enviar la calificación
+  //   } catch (error) {
+  //     console.error("Error al enviar la calificación", error);
+  //   }
+  // };
 
   useEffect(() => {
     if (id) {
@@ -91,28 +93,6 @@ const InstructorDetail = () => {
         </Button>
       </div>
     </Container>
-  );
-};
-
-const StarRating = ({ rating, onRatingChange }) => {
-  const stars = Array.from({ length: 5 }, (_, index) => index + 1);
-
-  return (
-    <div>
-      {stars.map((star) => (
-        <span
-          key={star}
-          onClick={() => onRatingChange(star)}
-          style={{
-            cursor: "pointer",
-            fontSize: "20px",
-            color: star <= rating ? "gold" : "gray",
-          }}
-        >
-          ★
-        </span>
-      ))}
-    </div>
   );
 };
 
