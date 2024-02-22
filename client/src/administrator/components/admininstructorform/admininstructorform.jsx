@@ -74,14 +74,19 @@ function AdminInstructorForm() {
     setErrors(validate(instructorForm, initialInfo));
     if (Object.keys(errors).length === 0) {
       try {
+        const formData = new FormData();
+        Object.keys(instructorForm).forEach((key) => {
+          formData.append(key, instructorForm[key]);
+        });
         if (params.id) {
-          await dispatch(putInstructor(params.id, instructorForm));
-          Swal.fire("¡Éxito!", "Instructor modificado exitosamente", "success");
+          await dispatch(putInstructor(params.id, formData));
+          Swal.fire( "Instructor actualizado", "El instructor ha sido actualizado correctamente", "success");
+          navigate("/admin/instructor");
         } else {
-          await dispatch(postInstructor(instructorForm));
-          Swal.fire("¡Éxito!", "Instructor creado exitosamente", "success");
-        }
-        navigate("/admin/instructor");
+          await dispatch(postInstructor(formData));
+          Swal.fire( "Instructor creado", "El instructor ha sido creado correctamente", "success");
+          navigate("/admin/instructor");
+      }
       } catch (error) {
         let errorMessage = "Algo salió mal!";
         if (
@@ -95,6 +100,35 @@ function AdminInstructorForm() {
         }
         Swal.fire("Error", errorMessage, "error");
       }
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (!e.target.files.length) {
+      Swal.fire("Error", "Selecciona un archivo", "error");
+      return;
+    }
+    let selected = e.target.files[0];
+    const types = [
+      "image/png",
+      "image/jpeg",
+      "image/gif",
+      "image/jpg",
+      "image/svg",
+      "image/svg+xml",
+      "image/webp",
+    ];
+
+    if (selected && types.includes(selected.type)) {
+      setInstructorForm({ ...instructorForm, photo: selected });
+
+      setErrors(validate({ ...instructorForm, photo: selected }, initialInfo));
+
+      return;
+    } else {
+      Swal.fire("Error", "Selecciona un archivo de tipo imagen", "error");
+
+      setInstructorForm({ ...instructorForm, photo: "" });
     }
   };
 
@@ -144,11 +178,10 @@ function AdminInstructorForm() {
             <Col xs="12" className="pb-3">
               <FormLabel className="form-label">Foto</FormLabel>
               <FormControl
-                type="text"
+                type="file"
                 name="photo"
                 className="form-control"
-                value={instructorForm.photo}
-                onChange={handleChange}
+                onChange={handleFileChange}
               />
               {errors.photo && (
                 <FormText className="text-danger">{errors.photo}</FormText>
