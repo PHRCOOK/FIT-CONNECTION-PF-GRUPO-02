@@ -4,6 +4,7 @@ const { transporter } = require("../../utils/transporter");
 const { generateWelcomeEmail } = require("../../utils/emailTemplates");
 const { deactivatedUserEmail } = require("../../utils/deactivatedUserEmail");
 const { modifyUserData } = require("../../utils/modifyUserData");
+const { activateUserEmail }= require("../../utils/activateUserEmail")
 const { MAIL_USERNAME } = process.env;
 
 // Controler encargado de crear los usuarios.
@@ -72,6 +73,19 @@ const updateUserController = async (id, newData) => {
       return { message: "Cuenta desactivada correctamente." };
     }
 
+    if (updateUser.status === true && estadoActual !== true) {
+      const affair = "¡Activación de cuenta!";
+      const htmlBody = activateUserEmail(updateUser.name);
+
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+
+      return { message: "Cuenta activada correctamente." };
+    }
     // Comprobamos si newData contiene otras propiedades además de 'status'.
     const hasOtherData = Object.keys(newData).some(key => key !== 'status');
 
