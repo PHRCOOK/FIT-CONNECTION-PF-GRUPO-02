@@ -16,9 +16,9 @@ const createFeedBackController = async (
     const instructor = await Instructor.findByPk(instructor_id);
 
     if (!user) {
-      throw new Error("User not found.");
+      throw new Error("Usuario no encontrado");
     } else if (!instructor) {
-      throw new Error("Instructor not found.");
+      throw new Error("Instructor no encontrado");
     }
 
     // Creamos el nuevo comentario.
@@ -32,9 +32,9 @@ const createFeedBackController = async (
     await newFeedBack.setUser(user);
     await newFeedBack.setInstructor(instructor);
 
-    return { message: "Comment created successfully.", newFeedBack: newFeedBack};
+    return { message: "Comentario creado exitosamente", newFeedBack: newFeedBack};
   } catch (error) {
-    throw new Error(`Error creating comment: ${error.message}`);
+    throw new Error(`Error creando el comentario: ${error.message}`);
   }
 };
 
@@ -48,7 +48,7 @@ const getFeedBacksController = async () => {
       ],
     });
     if (!feedBacks) {
-      throw new Error('No comment found.')
+      throw new Error('Comentario no encontrado')
     }
     return {Items: feedBacks};
   } catch (error) {

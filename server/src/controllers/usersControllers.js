@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const { User } = require("../db");
 const { transporter } = require("../../utils/transporter");
 const { generateWelcomeEmail } = require("../../utils/emailTemplates");
+const { deactivatedUserEmail } = require("../../utils/deactivatedUserEmail");
 const { MAIL_USERNAME } = process.env;
 
 // Controler encargado de crear los usuarios.
@@ -51,10 +52,28 @@ const updateUserController = async (id, newData) => {
       throw new Error("Usuario no encontrado.");
     }
 
-    // Actualizamos la información del usuario.
-    await user.update(newData);
+    // Almacenamos el estado actual del usuario antes de la actualización.
+    const estadoActual = user.status;
 
-    return { message: "Usuario actualizado exitosamente." };
+    // Actualizamos la información del usuario.
+    const updateUser = await user.update(newData);
+
+    // Verificamos si el estado a cambiado a false (desactivado) para notificarlo via email.
+    if (newData.status === false && estadoActual !== false) {
+      const affair = "¡Desactivación de cuenta!";
+      const htmlBody = deactivatedUserEmail(updateUser.name);
+
+      console.log(`Enviando correo electrónico de desactivación a: ${updateUser.email}`);
+
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+    }
+
+    return { message: "Usuario actualizado exitosamente.", usuario: updateUser };
   } catch (error) {
     throw new Error(`Error al actualizar el usuario: ${error.message}`);
   }

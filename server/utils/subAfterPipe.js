@@ -10,7 +10,7 @@ const extractSubAfterPipe = (sub) => {
     if (sub && sub.includes('|')) {
         const subParts = sub.split('|');
         if (subParts.length !== 2 || subParts[1].trim() === '') {
-            throw new Error('Invalid sub format');
+            throw new Error('Subformato no válido');
         }
         return subParts[1].trim();
     }
