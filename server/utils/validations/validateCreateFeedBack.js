@@ -3,8 +3,8 @@ const validateCreateFeedBack = ({ comment, raiting, post_at }) => {
     throw new Error("Por favor ingrese un comentario.");
   }
 
-  if (!raiting) {
-    throw new Error("Por favor seleccione una calificación.");
+  if (!raiting || raiting > 5) {
+    throw new Error("Por favor seleccione una calificación valida.");
   }
 
   if (!post_at) {
