@@ -63,8 +63,6 @@ const updateUserController = async (id, newData) => {
       const affair = "¡Desactivación de cuenta!";
       const htmlBody = deactivatedUserEmail(updateUser.name);
 
-      console.log(`Enviando correo electrónico de desactivación a: ${updateUser.email}`);
-
       await transporter.sendMail({
         from: MAIL_USERNAME,
         to: updateUser.email,

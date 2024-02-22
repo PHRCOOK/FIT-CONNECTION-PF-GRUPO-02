@@ -5,11 +5,16 @@ const generateWelcomeEmail = (fullname) => {
       <style>
         body {
           font-family: 'Montserrat', sans-serif;
-          background-color: #f5f5f5;
+          background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
           color: #333;
           padding: 20px;
+          transition: background 0.3s ease; /* Agregamos la transición al fondo */
         }
         
+        body:hover {
+          background: linear-gradient(180deg, #e0e0e0 0%, #ffffff 100%); /* Cambiamos el fondo al pasar el mouse */
+        }
+                
         .container {
           max-width: 600px;
           margin: 0 auto;
@@ -26,7 +31,7 @@ const generateWelcomeEmail = (fullname) => {
         }
 
         h1 {
-          color: #e74c3c;
+          color: #000;
           font-weight: bold;
         }
 
@@ -41,7 +46,7 @@ const generateWelcomeEmail = (fullname) => {
           margin-bottom: 10px;
           line-height: 1.5;
           color: #fff; 
-          background: linear-gradient(90deg, #e74c3c, #333); 
+          background: linear-gradient(90deg, #e74c3c, #666); 
           padding: 10px;
           border-radius: 8px;
         }

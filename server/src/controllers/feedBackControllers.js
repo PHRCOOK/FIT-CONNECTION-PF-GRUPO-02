@@ -99,8 +99,21 @@ const getFeedBackByNameController = async (fullname) => {
   }
 };
 
+// Controller para modificar los feedbacks.
+const putFeedBackController = async (id, status) => {
+  try {
+    const feedBack = await FeedBack.findByPk(id)
+    const feedBackUpdated = await feedBack.update({ status })
+    return { message: "Comentario actualizado con exito", FeedBack: feedBackUpdated } 
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   createFeedBackController,
   getFeedBacksController,
   getFeedBackByNameController,
+  putFeedBackController,
+
 };

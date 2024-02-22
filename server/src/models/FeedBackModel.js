@@ -18,8 +18,8 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       post_at: {
-        // DATE registra fecha completa con la hora.
-        type: DataTypes.DATE,
+        // DATEONLY registra solo la fecha de creación sin la hora.
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       status: {
