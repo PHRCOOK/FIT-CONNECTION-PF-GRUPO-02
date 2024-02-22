@@ -7,7 +7,8 @@ import "sweetalert2/dist/sweetalert2.min.css";
 
 const ChatComponent = () => {
   const [socket, setSocket] = useState(null);
-  const { is_admin, id } = useSelector((state) => state.userShopping);
+  const userShopping = useSelector((state) => state.userShopping) ?? {};
+  const { is_admin, id } = userShopping;
   const [selectedUser, setSelectedUser] = useState(null);
   const [userList, setUsersList] = useState([]);
   const [messageInput, setMessageInput] = useState({
