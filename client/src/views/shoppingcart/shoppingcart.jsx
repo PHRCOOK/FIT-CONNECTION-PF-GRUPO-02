@@ -21,7 +21,7 @@ export default function shoppingcart() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 500) {
-          setCarritos([]);
+          setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
         } else {
           Swal.fire({
             icon: "error",
@@ -32,15 +32,16 @@ export default function shoppingcart() {
         }
       });
   };
-
   useEffect(() => {
+    // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
     if (user) {
       getCarritos(user);
     }
 
-    // No es necesario establecer carritos como un array vacío aquí
-    // return setCarritos([]);
-  }, [user]);
+    return setCarritos([]);
+  }, [user]); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
+
+  //* funcion para eliminar el registro de carrito
 
   const handleClick = async (e) => {
     let id = e.target.value;
@@ -50,7 +51,7 @@ export default function shoppingcart() {
         Swal.fire({
           icon: "success",
           title: "Proceso Exitoso",
-          text: "El registro de carrito se eliminó",
+          text: "El registro de carrito se elimino",
         });
         getCarritos();
       })
@@ -65,22 +66,13 @@ export default function shoppingcart() {
 
   const handlePayment = async () => {
     try {
-      const items = JSON.stringify(carritos);
-      const paymentResponse = await axios.post("/api/createorder", items);
-
-      if (paymentResponse.data.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Pago Exitoso",
-          text: "¡Gracias por su compra!",
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error en el Pago",
-          text: "El pago no pudo ser procesado. Por favor, inténtelo de nuevo.",
-        });
-      }
+      //const items = JSON.stringify(carritos);
+      const payload = {
+        userId: user.id, // Agregar el ID al payload
+      };
+      const paymentResponse = await axios.post(`/api/createorder/`, payload); // Envía una solicitud POST al backend con los datos del carrito
+      // Maneja la respuesta del pago según tus necesidades
+      window.location.href = paymentResponse.data.sandbox_init_point;
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -105,7 +97,7 @@ export default function shoppingcart() {
                     price={carrito.price}
                     description={carrito.description}
                     status={carrito.status}
-                    code={carrito.code}
+                    brand={carrito.brand}
                     image_url={carrito.image_url}
                     stock={carrito.stock}
                     category={carrito.category_id}
@@ -114,6 +106,7 @@ export default function shoppingcart() {
                     <div className="fw-bold fs-2">
                       Cantidad : {carrito.quantity}
                     </div>
+                    {/* <h2>categoria : {carrito.category_id}</h2> */}
                     <Button
                       className="my-3 btn btn-primary"
                       value={carrito.id}
@@ -134,7 +127,8 @@ export default function shoppingcart() {
               onClick={handlePayment}
             >
               Pagar
-            </Button>
+            </Button>{" "}
+            {/* Botón para iniciar el proceso de pago */}
           </Col>
         </Row>
       </Card>

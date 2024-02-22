@@ -2,13 +2,15 @@ const { Purchases, PurchaseDetail } = require('../db');
 const { sequelize } = require('../db');
 const { getShoppingCarts, deleteAllCarts } = require('../controllers/shoppingCartControllers')
 const { updateStock, checkStockAvailability } = require('../../utils/stockVerific');
+
 const postPurchasesFunction = async (payment_method, payment_date, status, user_id) => {
-    const detailss = await getShoppingCarts(user_id)
-    const stockk = detailss.map(detail => ({
-        product_id: detail.id,
-        quantity: detail.quantity
-      }));
     try {
+        const detailss = await getShoppingCarts(user_id)
+        const stockk = detailss.map(detail => ({
+            product_id: detail.id,
+            quantity: detail.quantity
+          }));
+          console.log(stockk)
         if (!payment_method || !payment_date || !status || !user_id || !stockk) {
             return "Faltan datos"
         }
@@ -18,7 +20,9 @@ const postPurchasesFunction = async (payment_method, payment_date, status, user_
                 { payment_method, payment_date, status, user_id },
                 { transaction: t }
             );
+            console.log("purchase", purchase)
             const purchase_id = purchase.id;
+            console.log("purchase_id", purchase_id)
             await Promise.all(
                 stockk.map(async (detail) => {
                     await PurchaseDetail.create(
