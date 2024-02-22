@@ -34,7 +34,8 @@ const getInstructorByIDHandler = async (req, res) => {
 };
 // Handler que permite manejar la creación de un instructor en la base de datos.
 const createInstructorHandler = async (req, res) => {
-  const { fullname, photo, description, status } = req.body;
+  const { fullname, description, status } = req.body;
+  const photo = req.file;
 
   try {
     validateCreateInstructor({ fullname, photo, description });
