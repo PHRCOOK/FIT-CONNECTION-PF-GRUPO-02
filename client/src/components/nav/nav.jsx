@@ -90,6 +90,8 @@ export default function AppBar() {
             await axios.post("/api/users", userData);
           }
 
+          localStorage.setItem("isAdmin", String(userWithSameEmail.is_admin));
+
           fetchUserDataAndPerformChecks();
         }
       } catch (error) {
