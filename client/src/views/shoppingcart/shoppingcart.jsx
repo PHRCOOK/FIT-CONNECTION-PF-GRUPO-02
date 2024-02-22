@@ -66,10 +66,13 @@ export default function shoppingcart() {
 
   const handlePayment = async () => {
     try {
-      const items = JSON.stringify(carritos);
-      const paymentResponse = await axios.post("/api/createorder", items); // Envía una solicitud POST al backend con los datos del carrito
+      //const items = JSON.stringify(carritos);
+      const payload = {
+        userId: user.id, // Agregar el ID al payload
+      };
+      const paymentResponse = await axios.post(`/api/createorder/`, payload); // Envía una solicitud POST al backend con los datos del carrito
       // Maneja la respuesta del pago según tus necesidades
-      window.location.href = paymentResponse.data.init_point;
+      window.location.href = paymentResponse.data.sandbox_init_point;
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -94,7 +97,7 @@ export default function shoppingcart() {
                     price={carrito.price}
                     description={carrito.description}
                     status={carrito.status}
-                    code={carrito.code}
+                    brand={carrito.brand}
                     image_url={carrito.image_url}
                     stock={carrito.stock}
                     category={carrito.category_id}

@@ -31,6 +31,7 @@ const pathroutes = {
   ADMINCLIENTPROFILE: "/admin/client/modifyinfo/:id",
   ADMINSERVICES: "/admin/membership/",
   FORMSERVICE: "/admin/services/create",
+  MODIFYSERVICE: "/admin/membership/modify/:id",
   GYM_INFO: "admin/gimnasio/",
   CHAT: "/chat",
 };

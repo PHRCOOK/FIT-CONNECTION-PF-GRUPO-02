@@ -25,7 +25,18 @@ messagesRouter.get("/:userId", async (req, res) => {
       res.status(400).json({ message: "no hay mensajes del usuario" });
       return;
     }
-    res.status(200).json(messages);
+
+    const uniqueMessages = messages.filter(
+      (message, index, self) =>
+        index ===
+        self.findIndex(
+          (m) =>
+            m.message === message.message &&
+            m.from_user_id === message.from_user_id
+        )
+    );
+
+    res.status(200).json(uniqueMessages);
   } catch (error) {
     res.status(500).json(error);
     console.log("error obteniendo usuarios", error);

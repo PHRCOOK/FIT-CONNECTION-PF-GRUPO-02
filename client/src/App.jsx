@@ -78,7 +78,6 @@ function App() {
           const userWithSameEmail = response.data.Items.find(
             (item) => item.email === user.email
           );
-
           if (userWithSameEmail) {
             // console.log(
             //   `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
@@ -92,7 +91,6 @@ function App() {
         .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user, dispatch]);
-
   const isAdmin = currentUser && currentUser.is_admin;
 
   return (
@@ -157,15 +155,18 @@ function App() {
                 path={pathroutes.ADMINCLIENTPROFILE}
                 element={<UserProfile />}
               />
-              <Route path={pathroutes.ADMINSERVICES} element={<AdminServices />} />
+              <Route
+                path={pathroutes.ADMINSERVICES}
+                element={<AdminServices />}
+              />
               <Route
                 path={pathroutes.FORMSERVICE}
                 element={<AdminServicesForm />}
-                />
-                <Route
-                path={pathroutes.ADMINSERVICESMODIFY}
+              />
+              <Route
+                path={pathroutes.MODIFYSERVICE}
                 element={<AdminServicesForm />}
-                />
+              />
               <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
