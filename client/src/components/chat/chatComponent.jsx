@@ -34,7 +34,7 @@ const ChatComponent = () => {
     return () => {
       newSocket.disconnect();
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (!is_admin) {
@@ -78,7 +78,7 @@ const ChatComponent = () => {
       });
       getUsers();
     }
-  }, []);
+  }, [id]);
 
   const loadMessages = async (user_id) => {
     try {
