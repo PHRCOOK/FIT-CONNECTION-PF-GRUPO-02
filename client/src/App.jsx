@@ -33,6 +33,7 @@ import AdminGymInfo from "./administrator/components/adminGymInfo/AdminGymInfo";
 import Instructors from "./views/instructors/instructors";
 import Chat from "./components/chat/chatComponent";
 import InstructorDetail from "./components/InstructorDetail/InstructorDetail";
+import AdminFeedbacks from "./administrator/components/AdminFeedbacks/AdminFeedbacks";
 
 import "./App.scss";
 
@@ -57,7 +58,7 @@ function App() {
 
       axios
         .post("/api/users", userData)
-        // .then((response) => console.log(response))
+        .then((response) => console.log(response))
         .catch((error) => console.error(error));
     }
   }, [isAuthenticated, user, dispatch]);
@@ -79,9 +80,9 @@ function App() {
             (item) => item.email === user.email
           );
           if (userWithSameEmail) {
-            // console.log(
-            //   `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
-            // );
+            console.log(
+              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
+            );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
@@ -167,7 +168,10 @@ function App() {
                 path={pathroutes.MODIFYSERVICE}
                 element={<AdminServicesForm />}
               />
-              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
+              <Route
+                path={pathroutes.ADMIN_FEEDBACK}
+                element={<AdminFeedbacks />}
+              />
             </>
           )}
           <Route path="*" element={<Error404 />} />

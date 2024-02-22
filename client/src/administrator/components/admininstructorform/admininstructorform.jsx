@@ -29,19 +29,27 @@ function AdminInstructorForm() {
 
   useEffect(() => {
     dispatch(getAllInstructors());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (params.id && allInstructors.length) {
-      const instructorFiltered = allInstructors.filter(
+      const instructorFiltered = allInstructors.find(
         (instructor) => params.id === instructor.id.toString()
       );
-      setInstructorForm({
-        fullname: instructorFiltered[0].fullname,
-        photo: instructorFiltered[0].photo,
-        description: instructorFiltered[0].description,
-        status: instructorFiltered[0].status,
-      });
+      if (instructorFiltered.id) {
+        setInstructorForm({
+          fullname: instructorFiltered.fullname,
+          photo: instructorFiltered.photo,
+          description: instructorFiltered.description,
+          status: instructorFiltered.status,
+        });
+        setInitialInfo({
+          fullname: instructorFiltered.fullname,
+          photo: instructorFiltered.photo,
+          description: instructorFiltered.description,
+          status: instructorFiltered.status,
+        });
+      }
     }
   }, [params, allInstructors]);
 
@@ -52,55 +60,55 @@ function AdminInstructorForm() {
     status: "",
   });
 
+  const [initialInfo, setInitialInfo] = useState({
+    fullname: "",
+    photo: "",
+    description: "",
+    status: "",
+  });
+
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
-    console.log(instructorForm);
     e.preventDefault();
-    try {
-      if (params.id) {
-        await dispatch(putInstructor(params.id, instructorForm));
-        Swal.fire({
-          icon: "success",
-          title: "Proceso Exitoso",
-          text: "Instructor modificado exitosamente",
-        });
-      } else {
-        await dispatch(postInstructor(instructorForm));
-        Swal.fire({
-          icon: "success",
-          title: "Proceso Exitoso",
-          text: "Instructor creado exitosamente",
-        });
+    setErrors(validate(instructorForm, initialInfo));
+    if (Object.keys(errors).length === 0) {
+      try {
+        if (params.id) {
+          await dispatch(putInstructor(params.id, instructorForm));
+          Swal.fire("¡Éxito!", "Instructor modificado exitosamente", "success");
+        } else {
+          await dispatch(postInstructor(instructorForm));
+          Swal.fire("¡Éxito!", "Instructor creado exitosamente", "success");
+        }
+        navigate("/admin/instructor");
+      } catch (error) {
+        let errorMessage = "Algo salió mal!";
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          errorMessage = error.response.data.error;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        Swal.fire("Error", errorMessage, "error");
       }
-
-      setInstructorForm({
-        fullname: "",
-        photo: "",
-        description: "",
-        status: "",
-      });
-      navigate("/admin/instructor");
-    } catch (error) {
-      window.alert(error);
     }
   };
 
   const handleChange = (e) => {
-    let key = e.target.name;
-    let value = e.target.value;
-    if (key === "status") {
-      value = value === "true";
-    }
-    setInstructorForm({ ...instructorForm, [key]: value });
-    setErrors(validate({ ...instructorForm, [key]: value }));
+    const { name, value } = e.target;
+    setInstructorForm({ ...instructorForm, [name]: value });
+    setErrors(validate({ ...instructorForm, [name]: value }, initialInfo));
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div className="fs-4 mb-3 fw-bold text-center">
-          {params.id ? "Modificacion de instructor" : "Creación de instructor"}
+          {params.id ? "Modificación de Instructor" : "Creación de Instructor"}
         </div>
         <Container>
           <Row>
@@ -114,28 +122,25 @@ function AdminInstructorForm() {
                 onChange={handleChange}
               />
               {errors.fullname && (
-                <FormText className="form-text">{errors.fullname}</FormText>
+                <FormText className="text-danger">{errors.fullname}</FormText>
               )}
             </Col>
             <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-              <FormLabel className="form-label">Está dispopnible?</FormLabel>
+              <FormLabel className="form-label">¿Está disponible?</FormLabel>
               <select
                 name="status"
                 className="form-control"
+                value={String(instructorForm.status)}
                 onChange={handleChange}
-                value={String(instructorForm.status) || ""}
               >
-                <option value="" disabled hidden>
-                  --
-                </option>
-                <option value="true">Si</option>
+                <option value="">---</option>
+                <option value="true">Sí</option>
                 <option value="false">No</option>
               </select>
               {errors.status && (
-                <FormText className="form-text">{errors.status}</FormText>
+                <FormText className="text-danger">{errors.status}</FormText>
               )}
             </Col>
-
             <Col xs="12" className="pb-3">
               <FormLabel className="form-label">Foto</FormLabel>
               <FormControl
@@ -146,10 +151,9 @@ function AdminInstructorForm() {
                 onChange={handleChange}
               />
               {errors.photo && (
-                <FormText className="form-text">{errors.photo}</FormText>
+                <FormText className="text-danger">{errors.photo}</FormText>
               )}
             </Col>
-
             <Col xs="12" className="pb-3">
               <FormLabel className="form-label">Descripción</FormLabel>
               <FormControl
@@ -160,10 +164,11 @@ function AdminInstructorForm() {
                 onChange={handleChange}
               />
               {errors.description && (
-                <FormText className="form-text">{errors.description}</FormText>
+                <FormText className="text-danger">
+                  {errors.description}
+                </FormText>
               )}
             </Col>
-
             <Col xs="12" className="pb-3">
               <button
                 className="btn btn-primary"
@@ -172,7 +177,7 @@ function AdminInstructorForm() {
                   (value) => value === ""
                 )}
               >
-                {params.id ? "Update instructor" : "Create instructor"}
+                {params.id ? "Actualizar Instructor" : "Crear Instructor"}
               </button>
             </Col>
           </Row>

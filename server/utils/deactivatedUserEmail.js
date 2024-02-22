@@ -1,4 +1,4 @@
-const generateWelcomeEmail = (fullname) => {
+const deactivatedUserEmail = (name) => {
   const styledHtmlBody = `
   <html>
     <head>
@@ -31,19 +31,26 @@ const generateWelcomeEmail = (fullname) => {
         }
 
         h1 span {
-          background: linear-gradient(90deg, #000, #333);
-          color: #fff;
-          padding: 5px;
-          border-radius: 5px;
+          color: #000;
         }
 
         p {
           margin-bottom: 10px;
           line-height: 1.5;
-          color: #fff; 
-          background: linear-gradient(90deg, #e74c3c, #333); 
+          color: #555;
+        }
+
+        /* Nuevos estilos */
+        .warning-message {
+          background-color: #e74c3c;
+          color: #fff;
           padding: 10px;
-          border-radius: 8px;
+          border-radius: 5px;
+        }
+
+        h1 span, .warning-message {
+          background-color: #e74c3c;
+          color: #fff;
         }
 
         .gym-logo {
@@ -55,23 +62,16 @@ const generateWelcomeEmail = (fullname) => {
           margin-right: auto;
         }
 
-        h1 span, .gym-logo {
-          background-color: #e74c3c;
-          color: #fff;
-        }
-
-        p {
-          color: #333;
-        }
       </style>
     </head>
     <body>
       <div class="container">
         <img class="gym-logo" src="https://res.cloudinary.com/dsx7vnkzm/image/upload/v1707071610/l8x5r0mdoi0pfsmd2olv.png" alt="Logo del Gimnasio">
-        <h1>Bienvenido a nuestro gimnasio, <span>${fullname} 🏋🏽‍♂️ !</span></h1>
-        <p>¡Estamos emocionados de tenerte como parte de nuestra comunidad!</p>
-        <p>Disfruta de todos nuestros servicios y no dudes en ponerte en contacto si necesitas ayuda.</p>
-        <p>¡Que tengas un excelente día 😎 !</p>
+        <h1>¡Hola, <span>${name} !</span></h1>
+        <div class="warning-message">
+          <p>Queremos informarte que tu cuenta ha sido desactivada por uno de nuestros administradores.</p>
+          <p>Por favor, comunícate con el área administrativa para resolver esta situación.</p>
+        </div>
       </div>
     </body>
   </html>
@@ -80,4 +80,4 @@ const generateWelcomeEmail = (fullname) => {
   return styledHtmlBody;
 };
 
-module.exports = { generateWelcomeEmail };
+module.exports = { deactivatedUserEmail };
