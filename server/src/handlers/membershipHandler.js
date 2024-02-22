@@ -20,10 +20,10 @@ const getMembershipByIdHandler = async (req, res) => {
 }
 
 const createMembershipHandler = async (req, res) => {
-  const {name, price, start_date, expiration_date, duration, description, status} = req.body;
+  const {name, price, duration, description, status} = req.body;
   const image_url = req.file;
   try {
-    const response = await createMembership(name, price, start_date, expiration_date, duration, description, status, image_url);
+    const response = await createMembership(name, price, duration, description, status, image_url);
     res.status(201).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -32,9 +32,10 @@ const createMembershipHandler = async (req, res) => {
 
 const updateMembershipHandler = async (req, res) => {
     const {id} = req.params;
-    const {name, price, start_date, expiration_date, duration, image_url, description, status} = req.body;
+    const {name, price, duration, description, status} = req.body;
+    const image_url = req.file;
     try {
-        const response = await updateMembership(id, {name, price, start_date, expiration_date, duration, image_url, description, status});
+        const response = await updateMembership(id, {name, price, duration, image_url, description, status});
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ error: error.message });
