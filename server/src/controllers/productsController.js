@@ -6,7 +6,6 @@ const {
 } = require("../../utils/filterProducts");
 const { Op } = require("sequelize");
 
-
 const getProductServicesById = async (id) => {
   try {
     const product = await ProductServices.findByPk(id);
@@ -16,26 +15,25 @@ const getProductServicesById = async (id) => {
   }
 };
 
-
 const createProductServices = async (
   name,
   price,
   description,
   status,
-  code,
+  brand,
   image_url,
   stock,
   category_id
 ) => {
   try {
-    const productCode = await ProductServices.findOne({
-      where: {
-        code: code,
-      },
-    });
-    if (productCode) {
-      throw new Error("There is already a product with that code");
-    }
+    //   const productCode = await ProductServices.findOne({
+    //     where: {
+    //       code: code,
+    //     },
+    //   });
+    //   if (productCode) {
+    //     throw new Error("There is already a product with that code");
+    //   }
     // Buscamos la categoria correspondiente con el id proporcionado.
     const category = await Categories.findByPk(category_id);
 
@@ -48,8 +46,8 @@ const createProductServices = async (
       price,
       description,
       status,
-      code,
-      image_url,
+      brand,
+      image_url: image_url.path,
       stock,
     });
 
@@ -79,16 +77,6 @@ const updateProductServices = async (id, newData) => {
   }
 };
 
-const deleteProductServices = async (id) => {
-  try {
-    const product = await ProductServices.findByPk(id);
-    await product.destroy();
-    return { message: "Product deleted successfully" };
-  } catch (error) {
-    throw new Error({ error: error.message });
-  }
-};
-
 // ESTE ES EL CONROLLER DE  FILTROS Y ORDENAMIENTOS COMBINADOS
 
 const filterAndOrder = async (
@@ -97,7 +85,7 @@ const filterAndOrder = async (
   maxPrice,
   category_id,
   name,
-  code,
+  brand,
   page,
   size
 ) => {
@@ -153,10 +141,10 @@ const filterAndOrder = async (
     }
     // aqui combina por nombre , id y marca
 
-    if (category_id || name || code) {
+    if (category_id || name || brand) {
       filterConditions = {
         ...filterConditions,
-        ...filterProducts(category_id, name, code),
+        ...filterProducts(category_id, name, brand),
       };
     }
 
@@ -182,6 +170,5 @@ module.exports = {
   getProductServicesById,
   createProductServices,
   updateProductServices,
-  deleteProductServices,
   filterAndOrder,
 };

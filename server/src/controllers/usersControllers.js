@@ -2,11 +2,13 @@ const { Op } = require("sequelize");
 const { User } = require("../db");
 const { transporter } = require("../../utils/transporter");
 const { generateWelcomeEmail } = require("../../utils/emailTemplates");
+const { deactivatedUserEmail } = require("../../utils/deactivatedUserEmail");
+const { modifyUserData } = require("../../utils/modifyUserData");
+const { activateUserEmail }= require("../../utils/activateUserEmail")
 const { MAIL_USERNAME } = process.env;
 
-
 // Controler encargado de crear los usuarios.
-const createUserController = async (fullname, email, password) => {
+const createUserController = async (name, email, subAfterPipe) => {
   try {
     // Creamos una validación para que verifique si el usario ya existe por su propiedad email.
     const userExists = await User.findOne({
@@ -16,13 +18,18 @@ const createUserController = async (fullname, email, password) => {
     });
 
     if (userExists) {
-      throw new Error("Ya existe un usuario con este email.");
+      // Si el usuario ya existe, simplemente retornamos el usuario existente.
+      return {
+        message: "Usuario ya existe, continuando con el inicio de sesión.",
+        userExists,
+      };
     }
 
-    const allUsers = await User.create({ fullname, email, password });
+    const sub = subAfterPipe;
+    const allUsers = await User.create({ name, email, sub });
 
     const affair = "¡ Bienvenido a nuestro gimnasio !";
-    const htmlBody = generateWelcomeEmail(fullname);
+    const htmlBody = generateWelcomeEmail(name);
 
     await transporter.sendMail({
       from: MAIL_USERNAME,
@@ -39,6 +46,7 @@ const createUserController = async (fullname, email, password) => {
 };
 
 // En este controller podemos actualizar la información de un usuario.
+
 const updateUserController = async (id, newData) => {
   try {
     const user = await User.findByPk(id);
@@ -47,14 +55,63 @@ const updateUserController = async (id, newData) => {
       throw new Error("Usuario no encontrado.");
     }
 
-    // Actualizamos la información del usuario.
-    await user.update(newData);
+    // Almacenamos el estado actual del usuario antes de la actualización.
+    const estadoActual = user.status;
+    const updateUser = await user.update(newData);
+    // Si el estado cambió a false, enviamos correo de desactivación de cuenta y retornamos.
+    if (updateUser.status === false && estadoActual !== false) {
+      const affair = "¡Desactivación de cuenta!";
+      const htmlBody = deactivatedUserEmail(updateUser.name);
 
-    return { message: "Usuario actualizado exitosamente." };
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+
+      return { message: "Cuenta desactivada correctamente." };
+    }
+
+    if (updateUser.status === true && estadoActual !== true) {
+      const affair = "¡Activación de cuenta!";
+      const htmlBody = activateUserEmail(updateUser.name);
+
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+
+      return { message: "Cuenta activada correctamente." };
+    }
+    // Comprobamos si newData contiene otras propiedades además de 'status'.
+    const hasOtherData = Object.keys(newData).some(key => key !== 'status');
+
+    if (hasOtherData) {
+
+      // Enviamos un correo electrónico para notificar que los datos han sido modificados.
+      const affair = "¡Modificación de datos de usuario!";
+      const htmlBody = modifyUserData(updateUser.name);
+
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+
+      return { message: "Usuario actualizado exitosamente.", usuario: updateUser };
+    } else {
+      return { message: "No se modificaron datos adicionales del usuario." };
+    }
   } catch (error) {
     throw new Error(`Error al actualizar el usuario: ${error.message}`);
   }
 };
+
+
 
 // Controller que busca todos los usarios que esten activos.
 const getActiveUsersController = async () => {
@@ -66,7 +123,7 @@ const getActiveUsersController = async () => {
       },
       order: [
         // Le decimos que los resultados deben venir ordenados alfabéticamente por el nombre.
-        ["fullname", "ASC"],
+        ["name", "ASC"],
       ],
     });
 
@@ -88,7 +145,7 @@ const getInactiveUsersController = async () => {
       where: {
         status: false,
       },
-      order: [["fullname", "ASC"]],
+      order: [["name", "ASC"]],
     });
 
     if (inactiveUsers.length === 0) {
@@ -102,12 +159,12 @@ const getInactiveUsersController = async () => {
 };
 
 // Controller que nos trae solo un usuario por su nombre.
-const getUserByNameController = async (fullname) => {
+const getUserByNameController = async (name) => {
   try {
     const userByName = await User.findAll({
       where: {
-        fullname: {
-          [Op.iLike]: fullname, // Lo usamos para realizar comparaciones de cadenas sin distinción entre mayúsculas y minúsculas.
+        name: {
+          [Op.iLike]: `%${name}%`, // Lo usamos para realizar comparaciones de cadenas sin distinción entre mayúsculas y minúsculas.
         },
       },
     });
@@ -126,9 +183,29 @@ const getUserByNameController = async (fullname) => {
 const getUserByIdController = async (id) => {
   try {
     const userById = User.findByPk(id, {
-      attributes: ["fullname", "email", "is_admin", "status", "password"],
+      attributes: ["name", "email", "is_admin", "status", "sub"],
     });
     return userById;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// Este controller nos permite realizar la busqueda de un usuario por su email.
+const getUserByEmailController = async (email) => {
+  try {
+    const userByEmail = await User.findOne({
+      where: {
+        email: { [Op.iLike]: email },
+      },
+      attributes: ['id', 'name', 'email', 'is_admin'],
+    });
+
+    if (!userByEmail) {
+      throw new Error("No existe un usuario con ese email.");
+    }
+
+    return userByEmail;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -141,4 +218,6 @@ module.exports = {
   updateUserController,
   getInactiveUsersController,
   getUserByIdController,
+  getUserByEmailController,
+
 };

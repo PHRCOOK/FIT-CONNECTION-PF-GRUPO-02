@@ -1,60 +1,131 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getAllCategories, deleteCategory } from "../../../redux/action";
+import Swal from "sweetalert2";
 
-import { deleteCategory } from "../../../redux/action";
+import { Button, Table, Container, FormSelect } from "react-bootstrap";
 
-function admincategories() {
+function Admincategories() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allCategories = useSelector((state) => state.allCategories);
 
-  const handleDelete = async (id) => {
+  const [statusSelection, setStatusSelection] = useState(true);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
+  const handleDelete = (id, status) => {
+    const newStatus = !status;
     try {
-      await dispatch(deleteCategory(id));
-      window.alert("Categoria borrada correctamente");
+      dispatch(deleteCategory(id, { status: newStatus }));
+
+      Swal.fire({
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: statusSelection
+          ? "Categoria desactivada correctamente"
+          : "Categoria activada correctamente",
+      });
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error al borrar categoria",
+      });
     }
   };
 
   const handleModify = (id) => {
-    navigate(`/admin/modifycategory/${id}`);
+    navigate(`/admin/category/modify/${id}`);
   };
 
   const handleCreateCategory = () => {
-    navigate("/admin/createcategory");
+    navigate("/admin/category/create");
+  };
+
+  const handleStatusSelect = (event) => {
+    const status = event.target.value === "true";
+    setStatusSelection(status);
   };
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allCategories.map((category) => (
-            <tr key={category.name}>
-              <td>{category.name}</td>
-              <td>
-                <button onClick={() => handleDelete(category.id)}>
-                  Borrar
-                </button>
-                <button onClick={() => handleModify(category.id)}>
-                  Modificar
-                </button>
-              </td>
+      <Container>
+        <div className="mb-3">
+          <label htmlFor="statusSelect" className="form-label">
+            Seleccionar estatus
+          </label>
+          <FormSelect
+            id="statusSelect"
+            name="statusSelect"
+            onChange={handleStatusSelect}
+            aria-label="Default select example"
+            value={statusSelection}
+            className="form-select"
+          >
+            <option id="statusTrue" name="statusTrue" value={true}>
+              Activos
+            </option>
+            <option id="statusFalse" name="statusFalse" value={false}>
+              Inactivos
+            </option>
+          </FormSelect>
+        </div>
+        <Table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Categoría</th>
+              <th>Estatus</th>
+              <th>Es servicio?</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <button onClick={handleCreateCategory}>Crear categoria</button>
+          </thead>
+          {!allCategories ? (
+            ""
+          ) : (
+            <tbody>
+              {allCategories
+                .filter((category) => category.status === statusSelection)
+                .map((category) => {
+                  return (
+                    <tr key={category.name}>
+                      <td>{category.id}</td>
+                      <td>{category.name}</td>
+                      <td>{category.status ? "Activo" : "Inactivo"}</td>
+                      <td>{category.is_service ? "Si" : "No"}</td>
+                      <td>
+                        <Button
+                          className={`mx-2 my-1 ${
+                            statusSelection ? "btn-danger" : "btn-primary"
+                          }`}
+                          onClick={() =>
+                            handleDelete(category.id, category.status)
+                          }
+                        >
+                          {statusSelection ? "Desactivar" : "Activar"}
+                        </Button>
+                        <Button
+                          className="mx-2 my-1"
+                          onClick={() => handleModify(category.id)}
+                        >
+                          Modificar
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          )}
+        </Table>
+        <Button onClick={handleCreateCategory}>Crear categoria</Button>
+      </Container>
     </div>
   );
 }
 
-export default admincategories;
+export default Admincategories;

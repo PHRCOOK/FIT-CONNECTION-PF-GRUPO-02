@@ -2,9 +2,16 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-import { postProduct, putProduct, getAllCategories } from "../../redux/action";
+import {
+  postProduct,
+  putProduct,
+  getAllCategories,
+  getAllProducts,
+} from "../../redux/action";
 import validate from "./validate";
 import {
   Container,
@@ -20,42 +27,72 @@ export default function formproduct() {
   const navigate = useNavigate();
   const params = useParams();
 
+  const [disableButton, setDisableButton] = useState(false);
   const allCategories = useSelector((state) => state.allCategories);
-  const allProducts = useSelector((state) => state.allProducts);
 
-  useEffect(() => {
-    dispatch(getAllCategories());
-  });
+  const [currentProduct, setCurrentProduct] = useState({});
 
   const [productForm, setProductForm] = useState({
     name: "",
     price: "",
     description: "",
     status: "",
-    code: "",
+    brand: "",
     image_url: "",
     stock: "",
     category_id: "",
   });
 
-  useEffect(() => {
-    if (params.id) {
-      const productFiltered = allProducts.filter(
-        (product) => params.id === product.id.toString()
-      );
-      setProductForm({
-        ...productForm,
-        name: productFiltered[0].name,
-        price: productFiltered[0].price,
-        description: productFiltered[0].description,
-        status: productFiltered[0].status,
-        code: productFiltered[0].code,
-        image_url: productFiltered[0].image_url,
-        stock: productFiltered[0].stock,
-        category_id: productFiltered[0].category_id,
+  const allProducts = useSelector((state) => state.allProducts);
+
+  const fetchProduct = async () => {
+    const { id } = params;
+    try {
+      if (id) {
+        const response = await axios(`api/products/${id}`);
+        setProductForm(response.data);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No existe producto con ese id",
       });
     }
+  };
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
+
+  useEffect(() => {
+    fetchProduct();
   }, [params]);
+
+  useEffect(() => {
+    console.log(currentProduct);
+  }, [currentProduct]);
+
+  // useEffect(() => {
+  //   console.log(allProducts);
+  //   if (params.id && allProducts.length) {
+  //     const productFiltered = allProducts.filter(
+  //       (product) => params.id === product.id.toString()
+  //     );
+  //     console.log(productFiltered);
+  //     setProductForm({
+  //       ...productForm,
+  //       name: productFiltered[0].name,
+  //       price: productFiltered[0].price,
+  //       description: productFiltered[0].description,
+  //       status: productFiltered[0].status,
+  //       brand: productFiltered[0].brand,
+  //       image_url: productFiltered[0].image_url,
+  //       stock: productFiltered[0].stock,
+  //       category_id: productFiltered[0].category_id,
+  //     });
+  //   }
+  // }, [params, allProducts]);
 
   const [errors, setErrors] = useState({});
 
@@ -76,31 +113,62 @@ export default function formproduct() {
     setErrors(validate({ ...productForm, [key]: parsedValue }));
   };
 
+  const handleFileChange = (e) => {
+    setProductForm({ ...productForm, image_url: e.target.files[0] });
+  };
+
+  const createFormData = (data) => {
+    const formData = new FormData();
+    console.log(data);
+    console.log(formData);
+    Object.keys(data).forEach((key) => {
+      console.log(key, data[key]);
+      formData.append(key, data[key]);
+    });
+    formData.append("prueba", "OK");
+    console.log(formData);
+    return formData;
+  };
+
   const handleSubmit = async (e) => {
+    setDisableButton(true);
     e.preventDefault();
     const validationErrors = validate(productForm);
     if (Object.keys(validationErrors).length === 0) {
       try {
+        const formData = await createFormData(productForm);
         if (params.id) {
           await dispatch(putProduct(params.id, productForm));
-          window.alert("Producto modificado exitosamente");
+          Swal.fire({
+            icon: "success",
+            title: "Proceso Exitoso",
+            text: "Producto modificado exitosamente",
+          });
         } else {
-          await dispatch(postProduct(productForm));
-          window.alert("Producto creado exitosamente");
+          await dispatch(postProduct(formData));
+          Swal.fire({
+            icon: "success",
+            title: "Proceso Exitoso",
+            text: "Producto creado exitosamente",
+          });
         }
         setProductForm({
           name: "",
           price: "",
           description: "",
           status: "",
-          code: "",
+          brand: "",
           image_url: "",
           stock: "",
           category_id: "",
         });
-        navigate("/product");
+        navigate("/admin/product/");
       } catch (error) {
-        window.alert(error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo crear el producto",
+        });
       }
     } else {
       setErrors(validationErrors);
@@ -117,7 +185,7 @@ export default function formproduct() {
         </div>
         <Row>
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Name</FormLabel>
+            <FormLabel className="form-label">Nombre</FormLabel>
             <FormControl
               type="text"
               name="name"
@@ -130,24 +198,24 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Code</FormLabel>
+            <FormLabel className="form-label">Marca</FormLabel>
             <FormControl
               type="text"
-              name="code"
+              name="brand"
               className="form-control"
-              value={productForm.code}
+              value={productForm.brand}
               onChange={handleChange}
             />
-            {errors.code && (
-              <FormText className="form-text">{errors.code}</FormText>
+            {errors.brand && (
+              <FormText className="form-text">{errors.brand}</FormText>
             )}
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Category</FormLabel>
+            <FormLabel className="form-label">Categoría</FormLabel>
             <select
               name="category_id"
               className="form-control"
-              defaultValue={"DEFAULT"}
+              value={productForm.category_id || "DEFAULT"}
               onChange={handleChange}
             >
               <option value="DEFAULT" disabled hidden>
@@ -162,9 +230,13 @@ export default function formproduct() {
             {errors.category_id && (
               <FormText className="form-text">{errors.category_id}</FormText>
             )}
+
+            <Link to="/admin/category/create">
+              <button className="btn btn-primary mt-3">Crear Categoría</button>
+            </Link>
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Price</FormLabel>
+            <FormLabel className="form-label">Precio</FormLabel>
             <FormControl
               type="text"
               name="price"
@@ -190,21 +262,21 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" md="8" lg="6" className="pb-3">
-            <FormLabel className="form-label">Image</FormLabel>
+            <FormLabel className="form-label">Imagen</FormLabel>
             <FormControl
-              type="text"
+              type="file"
               name="image_url"
               className="form-control"
-              value={productForm.image_url}
-              onChange={handleChange}
+              // value={productForm.image_url}
+              onChange={handleFileChange}
             />
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Status</FormLabel>
+            <FormLabel className="form-label">Estatus</FormLabel>
             <select
               name="status"
               className="form-control"
-              defaultValue={"DEFAULT"}
+              value={productForm.status || "DEFAULT"}
               onChange={handleChange}
             >
               <option value="DEFAULT" disabled hidden>
@@ -218,7 +290,7 @@ export default function formproduct() {
             )}
           </Col>
           <Col xs="12" className="pb-3">
-            <FormLabel className="form-label">Description</FormLabel>
+            <FormLabel className="form-label">Descripción</FormLabel>
             <FormControl
               rows="5"
               name="description"
@@ -237,11 +309,13 @@ export default function formproduct() {
               type="submit"
               disabled={
                 Object.values(errors).some((error) => error !== "") ||
-                Object.values(productForm).some((value) => value === "")
+                Object.values(productForm).some(
+                  (value) => value === "" || disableButton
+                )
               }
               maxLength={201}
             >
-              {params.id ? "Update product" : "Create product"}
+              {params.id ? "Actualizar producto" : "Crear producto"}
             </button>
           </Col>
         </Row>

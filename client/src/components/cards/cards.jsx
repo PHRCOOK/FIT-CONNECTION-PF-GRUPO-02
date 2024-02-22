@@ -1,34 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppCard from "../card/card";
+import AdminProductCard from "../../administrator/components/AdminProductCard/AdminProductCard";
 import { useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function Cards() {
-  let productsToShow = useSelector((state) => state.productsToShow);
-  productsToShow = productsToShow.filter((item) => item.status);
+function Cards({ statusSelection }) {
+  const location = useLocation();
+
+  const Card = location.pathname.includes("admin") ? AdminProductCard : AppCard;
+
+  const allCategories = useSelector((state) => state.allCategories);
+  const productsToShow = useSelector((state) => state.productsToShow);
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    setProducts(
+      productsToShow
+        .filter((product) => product.status === statusSelection)
+        .filter((product) =>
+          allCategories
+            .filter((category) => category.status === true)
+            .some((category) => category.id === product.category_id)
+        )
+    );
+  }, [allCategories, productsToShow, statusSelection]);
+
+  // if (!location.pathname.includes("admin")) {
+  //   productsToShow = productsToShow.filter((item) => item.status);
+  // }
 
   return (
     <Row>
-      {productsToShow.map((item) => {
-        return (
-          <Col xs="12" md="6" lg="4" className="p-3" key={item.id}>
-            <Link to={`/detail/${item.id}`}>
-              <AppCard
+      {products
+        // .filter((item) => item.satus)
+        .map((item) => {
+          return (
+            <Col xs="12" md="6" lg="4" className="p-3" key={item.id}>
+              <Card
+                statusSelection={statusSelection}
                 id={item.id}
                 name={item.name}
                 price={item.price}
                 description={item.description}
                 status={item.status}
-                code={item.code}
+                brand={item.brand}
                 image_url={item.image_url}
                 stock={item.stock}
-                category={item.category}
+                category_id={item.category_id}
               />
-            </Link>
-          </Col>
-        );
-      })}
+            </Col>
+          );
+        })}
     </Row>
   );
 }

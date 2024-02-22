@@ -1,22 +1,28 @@
 const { Purchases, PurchaseDetail } = require('../db');
 const { sequelize } = require('../db');
-const { updateStock, checkStockAvailability } = require('../../utils/stockVerific')
+const { getShoppingCarts, deleteAllCarts } = require('../controllers/shoppingCartControllers')
+const { updateStock, checkStockAvailability } = require('../../utils/stockVerific');
 
-const postPurchasesController = async (req, res) => {
-    const { payment_method, payment_date, status, user_id, details } = req.body;
+const postPurchasesFunction = async (payment_method, payment_date, status, user_id) => {
     try {
-        if (!payment_method || !payment_date || !status || !user_id || !details) {
-            return res.status(400).json({ error: "Faltan datos" });
+        const detailss = await getShoppingCarts(user_id)
+        const stockk = detailss.map(detail => ({
+            product_id: detail.id,
+            quantity: detail.quantity
+          }));
+          console.log(stockk)
+        if (!payment_method || !payment_date || !status || !user_id || !stockk) {
+            return "Faltan datos"
         }
         await sequelize.transaction(async (t) => {
-            await checkStockAvailability(details, t);
+            await checkStockAvailability(stockk, t);
             const purchase = await Purchases.create(
                 { payment_method, payment_date, status, user_id },
                 { transaction: t }
             );
             const purchase_id = purchase.id;
             await Promise.all(
-                details.map(async (detail) => {
+                stockk.map(async (detail) => {
                     await PurchaseDetail.create(
                         {
                             product_id: detail.product_id,
@@ -27,14 +33,53 @@ const postPurchasesController = async (req, res) => {
                     );
                 })
             );
-            if (status !== "cancelled") await updateStock(status, details, t);
+            if (status !== "cancelled") await updateStock(status, stockk, t);
+        });
+        await deleteAllCarts(user_id)
+        return "Success"
+    } catch (error) {
+        return (`Viendo  ${error.message}`);
+    }
+};
+/*      Ruta modificada
+const postPurchasesController = async (req, res) => {
+    const { payment_method, payment_date, status, user_id } = req.body;
+    const detailss = await getShoppingCarts(user_id)
+    const stockk = detailss.map(detail => ({
+        product_id: detail.id,
+        quantity: detail.quantity
+      }));
+    try {
+        if (!payment_method || !payment_date || !status || !user_id || !stockk) {
+            return res.status(400).json({ error: "Faltan datos" });
+        }
+        await sequelize.transaction(async (t) => {
+            await checkStockAvailability(stockk, t);
+            const purchase = await Purchases.create(
+                { payment_method, payment_date, status, user_id },
+                { transaction: t }
+            );
+            const purchase_id = purchase.id;
+            await Promise.all(
+                stockk.map(async (detail) => {
+                    await PurchaseDetail.create(
+                        {
+                            product_id: detail.product_id,
+                            quantity: detail.quantity,
+                            purchase_id: purchase_id,
+                        },
+                        { transaction: t }
+                    );
+                })
+            );
+            if (status !== "cancelled") await updateStock(status, stockk, t);
         });
         return res.status(200).json({ success: true });
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 };
-
+*/
 const getPurchasesController = async () => {
     try {
         const purchases = await Purchases.findAll({
@@ -77,12 +122,14 @@ const putPurchasesController = async (req, res) => {
         });
 
         if (!existingPurchase) {
-            return res.status(404).json({ error: "Purchase not found" });
+            return res.status(404).json({ error: "Compra no encontrada" });
         }
 
         // Verificar si el estado actual es "cancelled" y el nuevo estado es el mismo
         if (existingPurchase.status === "cancelled" && status === "cancelled") {
             return res.status(400).json({ error: "No se puede actualizar al mismo estado 'cancelado'." });
+        } else if(existingPurchase.status === "completed" && status === "completed") {
+            return res.status(400).json({ error: "No se puede actualizar al mismo estado 'completed'." });
         }
         const details = await PurchaseDetail.findAll({
             where: { purchase_id: `${id}` },
@@ -95,7 +142,7 @@ const putPurchasesController = async (req, res) => {
             });
         if (putRowCount === 0) {
             await transaction.rollback();
-            return res.status(404).json({ error: "Purchase not found" });
+            return res.status(404).json({ error: "Compra no encontrada" });
         }
         // Actualiza el stock solo si la compra se completó
         if (status === "completed" || status === "cancelled") {
@@ -110,11 +157,12 @@ const putPurchasesController = async (req, res) => {
         // Rollback de la transacción en caso de error
         await transaction.rollback();
 
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({ error: "Error Interno del Servidor" });
     }
 };
 module.exports = {
-    postPurchasesController,
+    //postPurchasesController,
     getPurchasesController,
-    putPurchasesController
+    putPurchasesController,
+    postPurchasesFunction
 };

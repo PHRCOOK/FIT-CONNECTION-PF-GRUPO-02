@@ -4,7 +4,16 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import validate from "./validate";
-import { FormControl, FormLabel, FormText, Row, Col, Button, Card } from "react-bootstrap";
+import Swal from "sweetalert2";
+import {
+  FormControl,
+  FormLabel,
+  FormText,
+  Row,
+  Col,
+  Button,
+  Card,
+} from "react-bootstrap";
 
 import { postUser } from "../../redux/action";
 
@@ -24,7 +33,11 @@ export default function userform() {
     e.preventDefault();
     try {
       await dispatch(postUser(form));
-      window.alert("Usuario registrado correctamente.");
+      Swal.fire({
+        icon:"success",
+        title:"Proceso Exitoso",
+        text: "Usuario registrado correctamente",
+      })
       setForm({
         fullname: "",
         email: "",
@@ -32,7 +45,11 @@ export default function userform() {
       });
       navigate("/product");
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon:"error",
+        title:"Error",
+        text: "Error en el registro de usuario",
+      })
     }
   };
 
@@ -45,10 +62,12 @@ export default function userform() {
 
   return (
     <Row className="justify-content-center">
-      <Col xs="12" md="6" lg="4" >
+      <Col xs="12" md="6" lg="4">
         <Card>
           <Card.Body className="m-3">
-            <Card.Title className="fs-4 mb-3 fw-bold text-center">Formulario de Registro</Card.Title>
+            <Card.Title className="fs-4 mb-3 fw-bold text-center">
+              Formulario de Registro
+            </Card.Title>
             <form onSubmit={handleSubmit}>
               <Row>
                 <Col xs="12" className="my-3">
@@ -85,10 +104,14 @@ export default function userform() {
                   {errors.password && <FormText>{errors.password}</FormText>}
                 </Col>
               </Row>
+              <Button
+                className="my-3"
+                type="submit"
+                disabled={Object.values(form).some((value) => value === "")}
+              >
+                Registrarse
+              </Button>
             </form>
-            <Button className="my-3" disabled={Object.values(form).some((value) => value === "")}>
-              Registrarse
-            </Button>
           </Card.Body>
         </Card>
       </Col>

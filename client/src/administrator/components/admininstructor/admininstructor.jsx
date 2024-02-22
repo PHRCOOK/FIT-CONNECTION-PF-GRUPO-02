@@ -1,60 +1,129 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Button, Table, Container, FormSelect } from "react-bootstrap";
+import Swal from "sweetalert2";
 
-import { deleteInstructor } from "../../../redux/action";
+import { deleteInstructor, getAllInstructors } from "../../../redux/action";
 
-function admininstructor() {
+function AdminInstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allInstructors = useSelector((state) => state.allInstructors);
 
-  const handleDelete = async (id) => {
+  const [statusSelection, setStatusSelection] = useState(true);
+
+  useEffect(() => {
+    dispatch(getAllInstructors());
+  }, []);
+
+  const handleDelete = (id, status) => {
+    const newStatus = !status;
+    console.log(newStatus);
+
     try {
-      await dispatch(deleteInstructor(id));
-      window.alert("Instructor borrado correctamente");
+      dispatch(deleteInstructor(id, { status: newStatus }));
+      Swal.fire({
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: statusSelection
+          ? "Instructor desactivado correctamente"
+          : "Instructor activado correctamente",
+      });
     } catch (error) {
-      window.alert(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error al borrar instructor",
+      });
     }
   };
 
   const handleModify = (id) => {
-    navigate(`/admin/modifyinstructor/${id}`);
+    navigate(`/admin/instructor/modify/${id}`);
   };
 
   const handleCreateInstructor = () => {
-    navigate("/admin/createinstructor");
+    navigate("/admin/instructor/create");
+  };
+
+  const handleStatusSelect = (event) => {
+    const status = event.target.value === "true";
+    setStatusSelection(status);
   };
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Instructor</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allInstructors.map((instructor) => (
-            <tr key={instructor.id}>
-              <td>{instructor.fullname}</td>
-              <td>
-                <button onClick={() => handleDelete(instructor.id)}>
-                  Borrar
-                </button>
-                <button onClick={() => handleModify(instructor.id)}>
-                  Modificar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button onClick={handleCreateInstructor}>Crear instructor</button>
+      <Container>
+        <div className="mb-3">
+          <label htmlFor="statusSelect" className="form-label">
+            Seleccionar estatus
+          </label>
+          <FormSelect
+            id="statusSelect"
+            name="statusSelect"
+            onChange={handleStatusSelect}
+            aria-label="Default select example"
+            value={statusSelection}
+            className="form-select"
+          >
+            <option id="statusTrue" name="statusTrue" value={true}>
+              Activos
+            </option>
+            <option id="statusFalse" name="statusFalse" value={false}>
+              Inactivos
+            </option>
+          </FormSelect>
+        </div>
+        {!allInstructors.length ? (
+          ""
+        ) : (
+          <Table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Instructor</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allInstructors
+                .filter((instructor) => instructor.status === statusSelection)
+                .map((instructor) => {
+                  return (
+                    <tr key={instructor.id}>
+                      <td>{instructor.id}</td>
+                      <td>{instructor.fullname}</td>
+                      <td>{instructor.status ? "Activo" : "Inactivo"}</td>
+                      <td>
+                        <Button
+                          className="mx-2 my-1"
+                          variant={statusSelection ? "danger" : "primary"}
+                          onClick={() =>
+                            handleDelete(instructor.id, instructor.status)
+                          }
+                        >
+                          {statusSelection ? "Desactivar" : "Activar"}
+                        </Button>
+                        <Button
+                          className="mx-2 my-1"
+                          onClick={() => handleModify(instructor.id)}
+                        >
+                          Modificar
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
+        )}
+        <Button onClick={handleCreateInstructor}>Crear instructor</Button>
+      </Container>
     </div>
   );
 }
 
-export default admininstructor;
+export default AdminInstructor;

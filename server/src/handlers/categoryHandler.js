@@ -1,7 +1,6 @@
 const {
   getAllCategoriesController,
   postCategoriesController,
-  deleteCategoriesController,
   putCategoriesController,
 } = require("../controllers/CategoriesController");
 
@@ -14,7 +13,7 @@ const getAllCategoriesHandler = async (req, res) => {
   } catch (error) {
     return res
       .status(404)
-      .json({ error: "Not Found.", message: error.message });
+      .json({ error: "No encontrada.", message: error.message });
   }
 };
 const postCategoriesHandler = async (req, res) => {
@@ -22,12 +21,12 @@ const postCategoriesHandler = async (req, res) => {
   try {
     if (!name || typeof name !== "string" || name.trim() === "") {
       return res.status(400).json({
-        error: "Bad Request",
+        error: "Solicitud incorrecta",
         message: "El nombre es obligatorio y debe ser una cadena no vacía.",
       });
     }
     const response = await postCategoriesController(name, status, is_service);
-    return res.status(201).json({ response, message: "Created" });
+    return res.status(201).json({ response, message: "Creado" });
   } catch (error) {
     return res.status(409).json({ message: error.message });
   }
@@ -46,24 +45,9 @@ const putCategoriesHandler = async (req, res) => {
     return res.status(404).json({ message: error.message });
   }
 };
-const deleteCategoriesHandler = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const delCategory = await deleteCategoriesController(id);
-    if (delCategory === 0) {
-      return res.status(404).json({ error: "Not Found" });
-    }
-    return res.status(201).json({
-      message: "La categoría fue eliminada exitosamente.",
-      categories: delCategory,
-    });
-  } catch (error) {
-    return res.status(404).json({ error: error.message });
-  }
-};
+
 module.exports = {
   getAllCategoriesHandler,
   postCategoriesHandler,
-  deleteCategoriesHandler,
   putCategoriesHandler,
 };

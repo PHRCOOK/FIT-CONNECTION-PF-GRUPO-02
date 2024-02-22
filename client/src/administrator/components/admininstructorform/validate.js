@@ -1,18 +1,21 @@
-export const validate = (input) => {
+export const validate = (input, initial) => {
   const errors = {};
-  if (input.fullname.length < 3 || input.fullname.length > 50) {
+  if (
+    initial.fullname !== input.fullname &&
+    (input.fullname.length < 3 || input.fullname.length > 50)
+  ) {
     errors.fullname = "El nombre debe tener entre 3 y 50 caracteres.";
   }
-  if (!input.fullname) {
+  if (initial.fullname !== input.fullname && !input.fullname) {
     errors.fullname = "Debe haber un nombre";
   }
-  if (!input.photo) {
+  if (initial.photo !== input.photo && !input.photo) {
     errors.photo = "Debe subir una foto";
   }
-  if (!input.description) {
+  if (initial.description !== input.description && !input.description) {
     errors.description = "Debe tener una descripcion";
   }
-  if (!input.status) {
+  if (initial.status !== input.status && input.status === "") {
     errors.status = "Debe elegir un estado";
   }
   return errors;

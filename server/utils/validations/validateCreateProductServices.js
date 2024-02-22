@@ -1,52 +1,52 @@
-const validateCreateProductServices = ({ name, price, description, code, image_url, stock, category_id }) => {
+const validateCreateProductServices = ({ name, price, description, brand, image_url, stock, category_id }) => {
 
     if (!name) {
-        throw new Error('Please enter a name.');
+        throw new Error('Por favor ingrese un nombre.');
     }
 
     if (!price) {
-        throw new Error('Please enter a price.');
+        throw new Error('Por favor ingrese un precio.');
     }
 
     if (!description) {
-        throw new Error('Please enter a description.');
+        throw new Error('Por favor ingrese una descripción.');
     }
 
-    if (!code) {
-        throw new Error('Please enter a code.');
+    if (!brand) {
+        throw new Error('Ppr favor ingrese una marca.');
     }
 
-    if (!image_url) {
-        throw new Error('Please enter a image.');
-    }
+    // if (!image_url) {
+    //     throw new Error('Please enter a image.');
+    // }
 
     if (!stock) {
-        throw new Error('Please enter a stock number.');
+        throw new Error('Por favor ingrese un número de existencia.');
     }
 
     if (!category_id) {
-        throw new Error('Must belong to a category.');
+        throw new Error('Debe pertenecer a una categoría..');
     }
 
     if (!isNaN(name)) {
-        throw new Error('The name cannot be a number.')
+        throw new Error('El nombre no puede ser un número..')
     }
+    // Comentado para el nuevo form
+    // if (typeof price === "string") {
+    //     throw new Error('The price must be a number.')
+    // }
 
-    if (typeof price === "string") {
-        throw new Error('The price must be a number.')
-    }
-
-    if (typeof stock === "string") {
-        throw new Error('The stock must be a number.')
-    }
+    // if (typeof stock === "string") {
+    //     throw new Error('The stock must be a number.')
+    // }
 
 
     if (!isNaN(description)) {
-        throw new Error('The description cannot be a number.')
+        throw new Error('La descripción no puede ser un número.')
     }
 
     if (!isNaN(image_url)) {
-        throw new Error('The image cannot be a number.')
+        throw new Error('La imagen no puede ser un número.')
     }
 
 };

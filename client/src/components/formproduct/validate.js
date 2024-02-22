@@ -16,12 +16,12 @@ export const validate = (input) => {
   if (!input.description) {
     errors.description = "It cannot be empty.";
   }
-  if (!input.code) {
-    errors.code = "It cannot be empty.";
+  if (!input.brand) {
+    errors.brand = "It cannot be empty.";
   }
-  if (!input.image_url) {
-    errors.image_url = "Upload an image.";
-  }
+  // if (!input.image_url) {
+  //   errors.image_url = "Upload an image.";
+  // }
   if (input.stock < 0) {
     errors.stock = "The stock cannot be a negative number.";
   }

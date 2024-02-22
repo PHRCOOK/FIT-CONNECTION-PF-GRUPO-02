@@ -1,37 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
 import { applySettings } from "../../redux/action";
 import deleteUndefined from "../filters/deleteUndefined";
-import { Pagination, Row, Col, Button } from "react-bootstrap"
+import { Pagination, Row, Col, Button } from "react-bootstrap";
 
 function Page() {
   const totalPages = useSelector((state) => state.totalPages);
   const filterSettings = useSelector((state) => state.filterSettings);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log(totalPages);
+  }, []);
+
   const arrayTotalPages = createList(totalPages);
 
   const handleClick = (event) => {
     const page = Number(event.target.value);
-    // console.log(event.target.value);
-    // event.preventDefault();
-    console.log(filterSettings);
+
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
-    console.log(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
 
   const handlePrev = (event) => {
-    console.log(totalPages);
     const page = Number(filterSettings.page) - 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
   const handleNext = (event) => {
-    console.log(totalPages);
     const page = Number(filterSettings.page) + 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
@@ -42,7 +41,7 @@ function Page() {
     <Row>
       <Col>
         <Pagination className="justify-content-center">
-          <Button disabled={filterSettings.page === 1} onClick={handlePrev} >
+          <Button disabled={filterSettings.page === 1} onClick={handlePrev}>
             Atrás
           </Button>
           {arrayTotalPages.map((page) => {
@@ -58,42 +57,15 @@ function Page() {
               </Pagination.Item>
             );
           })}
-          <Button disabled={filterSettings.page === totalPages}
-            onClick={handleNext}>
-              Siguiente
+          <Button
+            disabled={filterSettings.page === totalPages}
+            onClick={handleNext}
+          >
+            Siguiente
           </Button>
         </Pagination>
       </Col>
     </Row>
-
-    // <ul>
-    //   <li>
-    //     <button disabled={filterSettings.page === 1} onClick={handlePrev}>
-    //       Atras
-    //     </button>
-    //   </li>
-    //   {arrayTotalPages.map((page) => {
-    //     return (
-    //       <li key={`page${page}`}>
-    //         <button
-    //           disabled={filterSettings.page === page}
-    //           value={page}
-    //           onClick={handleClick}
-    //         >
-    //           {page}
-    //         </button>
-    //       </li>
-    //     );
-    //   })}
-    //   <li>
-    //     <button
-    //       disabled={filterSettings.page === totalPages}
-    //       onClick={handleNext}
-    //     >
-    //       Adelante
-    //     </button>
-    //   </li>
-    // </ul>
   );
 }
 

@@ -52,28 +52,8 @@ const putCategoriesController = async (id, updateData) => {
   }
 };
 
-const deleteCategoriesController = async (id) => {
-  try {
-    const delCategory = await Categories.destroy({
-      where: {
-        id: `${id}`,
-      },
-    });
-    if (!delCategory)
-      throw new Error(
-        "Esta categoria no existe, Por ende no puede ser eliminada."
-      );
-    const categories = await Categories.findAll();
-
-    return categories;
-  } catch (error) {
-    throw new Error(`Error al eliminar la categoria: ${error.message}`);
-  }
-};
-
 module.exports = {
   getAllCategoriesController,
   putCategoriesController,
   postCategoriesController,
-  deleteCategoriesController,
 };

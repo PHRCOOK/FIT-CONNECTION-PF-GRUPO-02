@@ -15,9 +15,21 @@ import {
   POST_INSTRCUTOR,
   PUT_INSTRUCTOR,
   POST_USER,
+  FETCH_USER_INFO,
+  GET_ALL_USER,
+  EMPTY_ALL_USER,
+  FETCH_CURRENT_USER,
+  SET_IS_ADMIN,
+  GET_ALL_MEMBERSHIPS,
+  POST_MEMBERSHIP,
+  DELETE_MEMBERSHIP,
+  PUT_MEMBERSHIP,
+  SET_USER_SHOPPING,
 } from "./actionsTypes";
 
 const initialState = {
+  allMemberships: [],
+  userShopping: null,
   allCategories: [],
   allProducts: [],
   allInstructors: [],
@@ -29,6 +41,14 @@ const initialState = {
     size: 10,
   },
   totalPages: 0,
+  userInfo: {
+    address: null,
+    phone: null,
+    dni: null,
+    birth_date: null,
+  },
+  currentUser: {},
+  isAdmin: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -38,6 +58,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         allCategories: action.payload,
       };
+
     case POST_PRODUCT:
       return {
         ...state,
@@ -82,6 +103,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         allProducts: action.payload,
+        productsToShow: action.payload,
       };
 
     case GET_ALL_PRODUCTS:
@@ -144,6 +166,61 @@ export const reducer = (state = initialState, action) => {
         allUsers: [...state.allUsers, action.payload],
       };
 
+    case GET_ALL_USER:
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+
+    case EMPTY_ALL_USER:
+      return {
+        ...state,
+        allUsers: [],
+      };
+
+    case FETCH_USER_INFO:
+      return {
+        ...state,
+        userInfo: action.payload,
+      };
+
+    case FETCH_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case SET_IS_ADMIN:
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
+
+    case GET_ALL_MEMBERSHIPS:
+      return {
+        ...state,
+        allMemberships: action.payload,
+      };
+
+    case POST_MEMBERSHIP:
+      return {
+        ...state,
+        allMemberships: [...state.allMemberships, action.payload],
+      };
+
+    case DELETE_MEMBERSHIP:
+      return {
+        ...state,
+        allMemberships: action.payload,
+      };
+
+    case PUT_MEMBERSHIP:
+      return {
+        ...state,
+        allMemberships: action.payload,
+      };
+
+    case SET_USER_SHOPPING:
+      return { ...state, userShopping: action.payload };
     default:
       return { ...state };
   }

@@ -1,7 +1,9 @@
-const {DataTypes} = require("sequelize")
+const { DataTypes } = require("sequelize");
 
-module.exports = (sequelize) => { 
-  sequelize.define("FeedBack",{
+module.exports = (sequelize) => {
+  sequelize.define(
+    "FeedBack",
+    {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -15,11 +17,17 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      post_at: { // DATE registra fecha completa con la hora.
+      post_at: {
+        // DATEONLY registra solo la fecha de creación sin la hora.
         type: DataTypes.DATE,
         allowNull: false,
       },
-    },        
-    {timestamps: false},
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+    },
+    { timestamps: false }
   );
 };

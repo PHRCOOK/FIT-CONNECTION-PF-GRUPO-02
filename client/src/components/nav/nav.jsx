@@ -1,62 +1,175 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo-nav.png";
 import pathroutes from "../helpers/pathroutes";
 import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
+import Swal from "sweetalert2";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ChatIcon from "@mui/icons-material/Chat";
 
 export default function AppBar() {
   const location = useLocation();
-  const { loginWithRedirect, logout, isAuthenticated, user, getIdTokenClaims } =
-    useAuth0();
-  const [isAdmin, setIsAdmin] = React.useState(false);
+  const { isAuthenticated, user, logout } = useAuth0();
+  const dispatch = useDispatch();
+  const [showAlert, setShowAlert] = useState(false);
+  const currentUser = useSelector((state) => state.currentUser);
+
+  const fetchUserDataAndPerformChecks = async () => {
+    try {
+      let userData;
+      const response = await axios.get("/api/users", {
+        params: { email: user.email },
+      });
+      const userWithSameEmail = response.data.Items.find(
+        (item) => item.email === user.email
+      );
+
+      if (userWithSameEmail) {
+        dispatch(setUserShopping(userWithSameEmail));
+        dispatch(setIsAdmin(userWithSameEmail.is_admin));
+
+        if (userWithSameEmail.status === true) {
+          setShowAlert(false);
+        }
+      } else {
+        console.log("Estado Inactivo");
+        setShowAlert(true);
+
+        userData = {
+          name: user.name,
+          sub: user.sub,
+          email: user.email,
+          status: true,
+        };
+
+        await axios.post("/api/users", userData);
+
+        const result = await Swal.fire({
+          icon: "error",
+          title: "Usuario Bloqueado",
+          text: "Este usuario ha sido bloqueado",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showCancelButton: false,
+          confirmButtonText: "Si, cierra la sesion",
+        });
+        if (result.isConfirmed) {
+          logout();
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   useEffect(() => {
-    const getUserMetadata = async () => {
-      const claims = await getIdTokenClaims();
-      const roles = claims["https://pabloelleproso.us.auth0.com/roles"] || [];
-      const userIsAdmin = roles.includes("admin");
-      setIsAdmin(userIsAdmin);
-      console.log(`Is user admin? ${userIsAdmin}`);
+    const createOrUpdateUser = async () => {
+      try {
+        if (isAuthenticated) {
+          const response = await axios.get("/api/users", {
+            params: { email: user.email },
+          });
+
+          const userWithSameEmail = response.data.Items.find(
+            (item) => item.email === user.email
+          );
+
+          if (!userWithSameEmail) {
+            let userData = {
+              name: user.name,
+              sub: user.sub,
+              email: user.email,
+              status: true,
+            };
+
+            await axios.post("/api/users", userData);
+          }
+
+          fetchUserDataAndPerformChecks();
+          localStorage.setItem("isAdmin", String(userWithSameEmail.is_admin));
+        }
+      } catch (error) {
+        console.error("Error creating or updating user:", error);
+      }
     };
-    if (user) {
-      getUserMetadata();
-    }
-  }, [user, getIdTokenClaims]);
+
+    createOrUpdateUser();
+  }, [isAuthenticated, user, dispatch]);
+
+  const isAdmin = currentUser && currentUser.is_admin;
+  const shouldShowLogoOnly = location.pathname === pathroutes.LOGIN;
 
   const linksData = [
     {
       path: pathroutes.PRODUCT,
       title: "Productos",
-      show: location.pathname !== pathroutes.PRODUCT,
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.PRODUCT &&
+        !isAdmin,
     },
-    { path: pathroutes.SERVICE, title: "Servicios", show: true },
     {
-      path: pathroutes.FORMPRODUCT,
-      title: "Crear productos",
-      show: location.pathname === pathroutes.PRODUCT,
+      path: pathroutes.SERVICE,
+      title: "Membresias",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
-    { path: pathroutes.SHOPPINGCART, title: "Carrito de compras", show: true },
-    { path: pathroutes.STAFF, title: "Conocer staff", show: true },
     {
-      title: isAuthenticated ? "Logout" : "Login",
-      show: true,
-      onClick: isAuthenticated
-        ? () => logout({ returnTo: window.location.origin })
-        : () => loginWithRedirect(),
-      isButton: true,
+      path: pathroutes.INSTRUCTOR,
+      title: "Instructores",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
     },
-    { path: pathroutes.REGISTER, title: "Registrate", show: !isAuthenticated },
-  ];
+    {
+      path: pathroutes.SHOPPINGCART,
+      title: "Carrito de compras",
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.SHOPPINGCART &&
+        !isAdmin,
+    },
 
-  if (isAdmin) {
-    linksData.push({
+    {
+      path: pathroutes.STAFF,
+      title: "Conocer staff",
+      show: !shouldShowLogoOnly && location.pathname !== pathroutes.STAFF,
+    },
+    {
       path: pathroutes.ADMIN,
-      title: "Admin",
-      show: true,
-    });
-  }
+      title: "Herramientas Admin",
+      show:
+        isAuthenticated &&
+        isAdmin &&
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.ADMIN,
+    },
+    {
+      path: pathroutes.CHAT,
+      title: "Chat",
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.CHAT &&
+        isAuthenticated,
+    },
+    {
+      path: pathroutes.LOGIN,
+      title: "Login",
+      show: !isAuthenticated && location.pathname !== pathroutes.LOGIN,
+    },
+    {
+      title: "Logout",
+      show: isAuthenticated,
+      isButton: true,
+      onClick: () => {
+        if (isAuthenticated) {
+          logout({ returnTo: window.location.origin });
+        }
+      },
+    },
+  ];
 
   const navLinks = linksData
     .filter((linkData) => linkData.show && linkData.path)
@@ -68,58 +181,74 @@ export default function AppBar() {
             location.pathname === linkData.path ? "bg-primary" : ""
           }`}
         >
-          {linkData.title}
+          {linkData.title === "Carrito de compras" ? (
+            <ShoppingCartIcon fontSize="large" />
+          ) : linkData.title === "Chat" ? (
+            <ChatIcon fontSize="large" />
+          ) : (
+            linkData.title
+          )}
         </Nav.Link>
       </LinkContainer>
-    ));
-
-  const buttons = linksData
-    .filter((linkData) => linkData.isButton)
-    .map((linkData) => (
-      <Button
-        key={linkData.title}
-        onClick={linkData.onClick}
-        className={`rounded fw-bold px-2 mx-1 my-1 ${
-          location.pathname === linkData.path ? "bg-primary" : ""
-        }`}
-      >
-        {linkData.title}
-      </Button>
     ));
 
   return (
     <Navbar collapseOnSelect bg="secondary" expand="lg">
       <Container>
-        <LinkContainer to={pathroutes.HOME}>
-          <Navbar.Brand>
-            <Image
-              src={logo}
-              alt="Home"
-              className="border border-2 border-light"
-              roundedCircle
-            />
-          </Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="navbar-options" />
-        <Navbar.Collapse id="navbar-options">
-          <Nav className="ms-auto">
-            {navLinks}
-            {buttons}
-          </Nav>
-          {isAuthenticated && (
-            <div className="my-1">
-              <Navbar.Text className="mx-3">
-                Signed in as: <a href="#login">{user.name}</a>
-              </Navbar.Text>
+        {shouldShowLogoOnly ? (
+          <LinkContainer to={pathroutes.HOME}>
+            <Navbar.Brand>
               <Image
-                src={user.picture}
-                alt="Profile"
-                className="avatar border border-2 border-light"
+                src={logo}
+                alt="Home"
+                className="border border-2 border-light"
                 roundedCircle
+                style={{ width: "85px", height: "85px" }}
               />
-            </div>
-          )}
-        </Navbar.Collapse>
+            </Navbar.Brand>
+          </LinkContainer>
+        ) : (
+          <>
+            <LinkContainer to={pathroutes.HOME}>
+              <Navbar.Brand>
+                <Image
+                  src={logo}
+                  alt="Home"
+                  className="border border-2 border-light"
+                  roundedCircle
+                  style={{ width: "85px", height: "85px" }}
+                />
+              </Navbar.Brand>
+            </LinkContainer>
+            <Navbar.Toggle aria-controls="navbar-options" />
+            <Navbar.Collapse id="navbar-options">
+              <Nav className="ms-auto">
+                {navLinks}
+                {isAuthenticated && (
+                  <Button
+                    onClick={() => logout({ returnTo: window.location.origin })}
+                    className="rounded fw-bold px-2 mx-1 my-1"
+                  >
+                    Logout
+                  </Button>
+                )}
+              </Nav>
+              {isAuthenticated && (
+                <Navbar.Text>
+                  <a href="#/userprofile">{user.name}</a>
+                </Navbar.Text>
+              )}
+              {isAuthenticated && (
+                <Image
+                  src={user.picture}
+                  alt="Profile"
+                  className="border border-2 border-light m-3"
+                  style={{ width: "80px", height: "80px" }}
+                />
+              )}
+            </Navbar.Collapse>
+          </>
+        )}
       </Container>
     </Navbar>
   );

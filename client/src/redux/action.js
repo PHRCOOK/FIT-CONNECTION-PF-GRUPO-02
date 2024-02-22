@@ -15,9 +15,24 @@ import {
   POST_INSTRCUTOR,
   PUT_INSTRUCTOR,
   POST_USER,
+  FETCH_USER_INFO,
+  GET_ALL_USER,
+  EMPTY_ALL_USER,
+  FETCH_CURRENT_USER,
+  SET_IS_ADMIN,
+  GET_ALL_MEMBERSHIPS,
+  POST_MEMBERSHIP,
+  DELETE_MEMBERSHIP,
+  PUT_MEMBERSHIP,
+  SET_USER_SHOPPING,
 } from "./actionsTypes";
 
 import axios from "axios";
+
+export const setIsAdmin = (is_Admin) => ({
+  type: SET_IS_ADMIN,
+  payload: is_Admin,
+});
 
 export const getAllCategories = () => {
   return async (dispatch) => {
@@ -37,6 +52,7 @@ export const getAllCategories = () => {
 };
 
 export const postProduct = (product) => {
+  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.post("/api/products", product);
@@ -46,6 +62,7 @@ export const postProduct = (product) => {
       });
     } catch (error) {
       const message = error.response.data.error;
+      console.log(error);
       throw new Error(message);
     }
   };
@@ -94,10 +111,12 @@ export const resetSettings = () => {
   };
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/products/delete/${id}`);
+      const { data } = await axios.put(`/api/products/update/${id}`, settings);
+      console.log(data);
+      console.log(data.products);
 
       return dispatch({
         type: DELETE_PRODUCT,
@@ -124,6 +143,8 @@ export const getAllProducts = () => {
 };
 
 export const putProduct = (id, product) => {
+  console.log(id);
+  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/update/${id}`, product);
@@ -138,13 +159,14 @@ export const putProduct = (id, product) => {
   };
 };
 
-export const deleteCategory = (id) => {
+export const deleteCategory = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/categories/${id}`);
+      const { data } = await axios.put(`/api/categories/${id}`, settings);
+      const newCategories = data.response.categories;
       return dispatch({
         type: DELETE_CATEGORY,
-        payload: data.categories,
+        payload: newCategories,
       });
     } catch (error) {
       const message = error.response.data.error;
@@ -152,7 +174,6 @@ export const deleteCategory = (id) => {
     }
   };
 };
-
 export const postCategory = (categoryForm) => {
   return async (dispatch) => {
     try {
@@ -188,10 +209,11 @@ export const getAllInstructors = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/instructors");
-
+      // console.log(data);
+      const items = data.Items;
       dispatch({
         type: GET_ALL_INSTRUCTORS,
-        payload: data,
+        payload: items,
       });
     } catch (error) {
       throw new Error(error);
@@ -199,10 +221,11 @@ export const getAllInstructors = () => {
   };
 };
 
-export const deleteInstructor = (id) => {
+export const deleteInstructor = (id, settings) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.delete(`/api/instructors/delete/${id}`);
+      const { data } = await axios.put(`/api/instructors/${id}`, settings);
+      console.log(data.instructors);
       dispatch({
         type: DELETE_INSTRUCTOR,
         payload: data.instructors,
@@ -256,5 +279,196 @@ export const postUser = (form) => {
       const message = error.response.data.error;
       throw new Error(message);
     }
+  };
+};
+
+export const fetchUserInfo = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios(`/api/clientInfo/${id}`);
+      const { clientInfo } = data;
+      const { user } = data;
+
+      return dispatch({
+        type: FETCH_USER_INFO,
+        payload: { ...clientInfo, user, exists: true },
+      });
+    } catch (error) {
+      // console.log(error);
+      // const message = error.message;
+      return dispatch({
+        type: FETCH_USER_INFO,
+        payload: {
+          exists: false,
+          address: null,
+          phone: null,
+          dni: null,
+          birth_date: null,
+        },
+      });
+    }
+  };
+};
+
+export const postUserInfo = (info) => {
+  const { id } = info;
+  return async (dispatch) => {
+    try {
+      const parsedInfo = {
+        address: info.address,
+        phone: Number(info.phone),
+        dni: Number(info.dni),
+        birth_date: info.birth_date,
+      };
+      const { data } = await axios.post(`/api/clientInfo/${id}`, parsedInfo);
+      const { clientInfo } = data;
+      const { user } = data;
+
+      return dispatch({
+        type: FETCH_USER_INFO,
+        payload: { ...clientInfo, user, exists: true },
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const putUserInfo = (info) => {
+  const { id } = info;
+  return async (dispatch) => {
+    try {
+      const parsedInfo = {
+        address: info.address,
+        phone: Number(info.phone),
+        dni: Number(info.dni),
+        birth_date: info.birth_date,
+      };
+      const { data } = await axios.put(`/api/clientInfo/${id}`, parsedInfo);
+      const { clientInfo } = data;
+      const { user } = data;
+
+      return dispatch({
+        type: FETCH_USER_INFO,
+        payload: { ...clientInfo, user, exists: true },
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const getAllUsers = (status) => {
+  const path = status ? "/api/users" : "/api/users/inactive";
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(path);
+      const items = data.Items;
+
+      return dispatch({
+        type: GET_ALL_USER,
+        payload: items,
+      });
+    } catch (error) {
+      return dispatch({
+        type: EMPTY_ALL_USER,
+      });
+    }
+  };
+};
+
+export const putUser = (status, id, info) => {
+  const path = status ? "/api/users" : "/api/users/inactive";
+
+  return async (dispatch) => {
+    try {
+      await axios.put(`/api/users/${id}`, info);
+
+      const { data } = await axios.get(path);
+      const items = data.Items;
+
+      return dispatch({
+        type: GET_ALL_USER,
+        payload: items,
+      });
+    } catch (error) {
+      return dispatch({
+        type: EMPTY_ALL_USER,
+      });
+    }
+  };
+};
+
+export const fetchUser = (user) => {
+  return {
+    type: FETCH_CURRENT_USER,
+    payload: user,
+  };
+};
+
+export const getAllMemberships = () => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("/api/memberships");
+      dispatch({
+        type: GET_ALL_MEMBERSHIPS,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const postMembership = (membership) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.post("/api/memberships", membership);
+      return dispatch({
+        type: POST_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
+  };
+};
+
+export const deleteMembership = (id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(`/api/memberships/delete/${id}`);
+      return dispatch({
+        type: DELETE_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const putMembership = (id, membership) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        `/api/memberships/update/${id}`,
+        membership
+      );
+      return dispatch({
+        type: PUT_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
+  };
+};
+export const setUserShopping = (user) => {
+  return {
+    type: SET_USER_SHOPPING,
+    payload: user,
   };
 };
