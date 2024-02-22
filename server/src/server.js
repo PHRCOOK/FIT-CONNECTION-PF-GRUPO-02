@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
   console.log("clientConnected");
   socket.on("sendMessage", async (message) => {
     console.log(message);
-    if (message.to === "admin") {
+    if (message.to_user_id === "admin") {
       try {
         const admin = await sequelize.models.User.findAll({
           where: { is_admin: true },
@@ -28,9 +28,10 @@ io.on("connection", (socket) => {
         // Aquí puedes usar la conexión de sequelize para guardar el mensaje en la base de datos
         admin.forEach(async (admin) => {
           await sequelize.models.Message.create({
-            from_user_id: Number(message.from),
+            from_user_id: Number(message.from_user_id),
             to_user_id: Number(admin.id),
             message: message.message,
+            sender_type: message.sender_type,
           });
         });
       } catch (error) {
@@ -38,9 +39,10 @@ io.on("connection", (socket) => {
       }
     } else {
       await sequelize.models.Message.create({
-        from_user_id: Number(message.from),
-        to_user_id: Number(message.to),
+        from_user_id: Number(message.from_user_id),
+        to_user_id: Number(message.to_user_id),
         message: message.message,
+        sender_type: message.sender_type,
       });
     }
 
