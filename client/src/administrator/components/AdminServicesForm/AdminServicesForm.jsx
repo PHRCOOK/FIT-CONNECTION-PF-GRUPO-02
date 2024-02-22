@@ -82,7 +82,7 @@ const AdminServicesForm = () => {
         if (params.id) {
           dispatch(putMembership(params.id, formData));
           Swal.fire({
-            title: "Membership updated successfully",
+            title: "Membresia actualizada con exito",
             icon: "success",
           }).then(() => {
             navigate("/admin/membership");
@@ -90,7 +90,7 @@ const AdminServicesForm = () => {
         } else {
           dispatch(postMembership(formData));
           Swal.fire({
-            title: "Membership created successfully",
+            title: "Membresia Creada con exito",
             icon: "success",
           }).then(() => {
             navigate("/admin/membership");
