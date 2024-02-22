@@ -37,26 +37,28 @@ const Feedback = ({ fetchComments }) => {
 
   const submitComment = async (event) => {
     const post_at = new Date();
-    if (currentUser.id) {
-      setFeedback({ ...feedback, user_id: currentUser.id });
-    } else {
-      Swal.fire("Error", "Inicia sesión para poder comentar", "error");
-    }
-    const feedbackInfo = {
-      comment: feedback.comment.trim(),
-      raiting: feedback.raiting,
-      post_at,
-      user_id: feedback.user_id,
-      instructor_id,
-    };
-    //     instructor_id,
+    console.log(currentUser);
     try {
+      if (currentUser && currentUser.id) {
+        setFeedback({ ...feedback, user_id: currentUser.id });
+      } else {
+        throw new Error("Inicia sesión para poder comentar");
+      }
+      const feedbackInfo = {
+        comment: feedback.comment.trim(),
+        raiting: feedback.raiting,
+        post_at,
+        user_id: feedback.user_id,
+        instructor_id,
+      };
+      //     instructor_id,
       await axios.post("/api/feedbacks", feedbackInfo);
       setFeedback({ user_id: currentUser.id, raiting: 0, comment: "" });
       fetchComments();
     } catch (error) {
-      const message = error.response.data.error;
-      Swal.fire("Error", message, "error");
+      // console.log(error);
+      // const message = error.response.data.error;
+      Swal.fire("Error", error.message, "error");
     }
   };
 

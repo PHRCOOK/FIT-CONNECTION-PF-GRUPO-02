@@ -12,6 +12,7 @@ const CategoriesModel = require("./models/CategoriesModel");
 const ProductServicesModel = require("./models/ProductServicesModel");
 const MembershipModel = require("./models/MembershipModel");
 const MessageModel = require("./models/MessagesModel");
+const MembershipPurchasesModel = require("./models/MembershipPurchasesModel");
 
 //! IMPORTANTE IMPORTANTE IMPORTANTE
 
@@ -43,6 +44,7 @@ CategoriesModel(sequelize);
 ProductServicesModel(sequelize);
 MembershipModel(sequelize);
 MessageModel(sequelize);
+MembershipPurchasesModel(sequelize);
 
 //relaciones de la BDD
 const {
@@ -57,6 +59,7 @@ const {
   Instructor,
   Membership,
   Message,
+  MembershipPurchase
 } = sequelize.models;
 
 //* Relaciones del modelo User
@@ -65,7 +68,7 @@ User.hasOne(ClientInfo, { as: "ClientInfo", foreignKey: "user_id" });
 User.hasMany(ShoppingCart, { as: "ShoppingCart", foreignKey: "user_id" });
 User.hasMany(Purchases, { as: "Purchases", foreignKey: "user_id" });
 User.hasMany(FeedBack, { as: "FeedBack", foreignKey: "user_id" });
-User.hasMany(Membership, { as: "Membership", foreignKey: "user_id" });
+User.hasMany(MembershipPurchase, { as: "MembershipPurchase", foreignKey: "user_id" });
 
 
 //* Relaciones del modelo Products_services
@@ -117,8 +120,18 @@ ClientInfo.belongsTo(User, { as: "User", foreignKey: "user_id" });
 Message.belongsTo(User, { foreignKey: "from_user_id", as: "fromUser" });
 Message.belongsTo(User, { foreignKey: "to_user_id", as: "toUser" });
 
-// Relaciones del modelo Membership
-Membership.belongsTo(User, { as: "User", foreignKey: "user_id" });
+//* Relaciones del modelo MembershipPurchase
+MembershipPurchase.belongsTo(User, { as: "User", foreignKey: "user_id" });
+MembershipPurchase.belongsTo(Membership, {
+  as: "Membership",
+  foreignKey: "membership_id",
+});
+
+//* Relaciones del modelo Membership
+Membership.hasMany(MembershipPurchase, {
+  as: "MembershipPurchase",
+  foreignKey: "membership_id",
+});
 
 // Relaciones del modelo ShoppingCart
 ShoppingCart.belongsTo(ProductServices, { 

@@ -12,6 +12,7 @@ const clientInfoRouter = require("./clientInfoRouter");
 const membershipsRouter = require("./membershipsRouter");
 const router = express.Router();
 const messagesRouter = require("./messagesRouter");
+const membershipPurchaseRouter = require("./membershipPurchaseRouter");
 
 // Definir rutas aquí:
 
@@ -38,5 +39,7 @@ router.use("/api/clientInfo", clientInfoRouter);
 router.use("/api/memberships", membershipsRouter);
 
 router.use("/api/messages", messagesRouter);
+
+router.use("/api/membershipPurchases", membershipPurchaseRouter);
 
 module.exports = router;

@@ -31,7 +31,7 @@ const createInstructorController = async (
 
     const newInstructor = await Instructor.create({
       fullname,
-      photo,
+      photo: photo.path,
       description,
       status,
     });

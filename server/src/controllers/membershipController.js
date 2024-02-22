@@ -21,8 +21,6 @@ const getMembershipById = async (id) => {
 const createMembership = async (
   name,
   price,
-  start_date,
-  expiration_date,
   duration,
   description,
   status,
@@ -32,8 +30,6 @@ const createMembership = async (
     const membership = await Membership.create({
       name,
       price,
-      start_date,
-      expiration_date,
       duration,
       description,
       status,

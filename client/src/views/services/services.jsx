@@ -9,7 +9,7 @@ function services() {
   return (
     <div>
       <h1>MEMBRESIAS</h1>
-      <MembershipsCards />
+      <MembershipsCards statusSelection={true} />
     </div>
   );
 }
