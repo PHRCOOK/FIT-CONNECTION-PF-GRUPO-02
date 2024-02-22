@@ -1,15 +1,30 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from 'axios'
 
-const MembershipCard = ({ id, name, price, description, image_url }) => {
+const MembershipCard = ({ id, name, price, description, image_url,  }) => {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0(); // Access loginWithRedirect from useAuth0
 
-  const handleSubscribeClick = () => {
-    navigate("/checkout");
+  const handlePayment = async () => {
+    try {
+      const payload = {
+        id,name, price,
+        description, image_url
+      };
+      const paymentResponse = await axios.post(`/api/memberships/checkout`, payload); // Envía una solicitud POST al backend con los datos del carrito
+      // Maneja la respuesta del pago según tus necesidades
+      //window.location.href = paymentResponse.data.sandbox_init_point;
+      console.log(paymentResponse)
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: `Error al procesar el pago: ${error.message}`,
+      });
+    }
   };
-
   return (
     <Card className="p-3">
       <Card.Img
@@ -28,7 +43,7 @@ const MembershipCard = ({ id, name, price, description, image_url }) => {
         </Row>
         <div className="d-flex justify-content-center">
           {isAuthenticated ? (
-            <Button variant="primary" onClick={handleSubscribeClick}>
+            <Button variant="primary" onClick={handlePayment}>
               Suscribirse
             </Button>
           ) : (
