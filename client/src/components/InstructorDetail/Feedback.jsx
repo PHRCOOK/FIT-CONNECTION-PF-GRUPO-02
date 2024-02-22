@@ -37,7 +37,7 @@ const Feedback = ({ fetchComments }) => {
 
   const submitComment = async (event) => {
     const post_at = new Date();
-    console.log(currentUser);
+    console.log(post_at);
     try {
       if (currentUser && currentUser.id) {
         setFeedback({ ...feedback, user_id: currentUser.id });
@@ -56,8 +56,6 @@ const Feedback = ({ fetchComments }) => {
       setFeedback({ user_id: currentUser.id, raiting: 0, comment: "" });
       fetchComments();
     } catch (error) {
-      // console.log(error);
-      // const message = error.response.data.error;
       Swal.fire("Error", error.message, "error");
     }
   };

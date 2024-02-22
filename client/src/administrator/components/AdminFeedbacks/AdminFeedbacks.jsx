@@ -32,11 +32,23 @@ function AdminFeedbacks() {
     fetchComments();
   }, []);
 
-  useEffect(() => {
-    // console.log(comments);
-  }, [comments]);
+  // useEffect(() => {
+  //   // console.log(comments);
+  // }, [comments]);
 
-  const handleStatus = (statusSelection, feedbackId, currentStatus) => {};
+  const handleStatus = async (statusSelection, feedbackId, currentStatus) => {
+    console.log(statusSelection, feedbackId, currentStatus);
+    const newStatus = !currentStatus;
+
+    try {
+      const { data } = await axios.put(`/api/feedbacks/${feedbackId}`, {
+        status: newStatus,
+      });
+      fetchComments();
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
+  };
 
   return (
     <Container className="mt-3">

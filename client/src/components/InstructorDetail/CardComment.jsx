@@ -32,7 +32,7 @@ function CardComment({
       <Row>
         <Col xs="12">
           <span className="fw-bold">Fecha de publicación: </span>
-          {format(new Date(post_at), "dd/MM/yyyy HH:mm:ss")}
+          {format(new Date(post_at), "dd/MM/yyyy", { timeZone: "UTC" })}
         </Col>
       </Row>
     </div>
