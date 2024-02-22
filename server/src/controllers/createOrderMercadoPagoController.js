@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 const { TokenMP } = process.env;
