@@ -1,41 +1,41 @@
 export const validate = (input) => {
   const errors = {};
   if (!input.name) {
-    errors.name = "It cannot be empty.";
+    errors.name = "No puede estar vacio.";
   }
 
   if (input.price < 0) {
-    errors.price = "The price cannot be a negative number.";
+    errors.price = "El precio no puede ser un numero negativo.";
   }
   if (!input.price) {
-    errors.price = "It cannot be empty.";
+    errors.price = "No puede estar vacio.";
   }
   if (input.description.length > 200) {
-    errors.description = "The description cannot exceed 200 characters.";
+    errors.description = "La descripcion no puede exceder los 200 caracteres.";
   }
   if (!input.description) {
-    errors.description = "It cannot be empty.";
+    errors.description = "No puede estar vacio.";
   }
   if (!input.brand) {
-    errors.brand = "It cannot be empty.";
+    errors.brand = "No puede estar vacio.";
   }
   // if (!input.image_url) {
   //   errors.image_url = "Upload an image.";
   // }
   if (input.stock < 0) {
-    errors.stock = "The stock cannot be a negative number.";
+    errors.stock = "El stock no puede ser un numero negativo.";
   }
   if (isNaN(input.stock)) {
-    errors.stock = "Stock must be a valid number.";
+    errors.stock = "El stock debe ser un numero valido.";
   }
   if (!input.stock) {
-    errors.stock = "It cannot be empty.";
+    errors.stock = "No puede estar vacio.";
   }
   if (!input.category_id) {
-    errors.category_id = "Select a category.";
+    errors.category_id = "Selecciona una categoria.";
   }
   if (!input.status) {
-    errors.status = "Select one status.";
+    errors.status = "Selecciona un estatus.";
   }
   return errors;
 };

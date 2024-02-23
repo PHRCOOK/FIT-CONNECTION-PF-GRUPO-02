@@ -103,7 +103,7 @@ export default function formproduct() {
 
     if (key === "stock" || key === "price") {
       if (isNaN(e.nativeEvent.data)) {
-        setErrors({ ...errors, [key]: "Only numbers admited" });
+        setErrors({ ...errors, [key]: "Solo se admiten numeros" });
         return;
       }
       parsedValue = Number(value);
@@ -284,8 +284,8 @@ export default function formproduct() {
               <option value="DEFAULT" disabled hidden>
                 --
               </option>
-              <option>TRUE</option>
-              <option>FALSE</option>
+              <option value="TRUE">Activo</option>
+              <option value="FALSE">Inactivo</option>
             </select>
             {errors.status && (
               <FormText className="form-text">{errors.status}</FormText>
