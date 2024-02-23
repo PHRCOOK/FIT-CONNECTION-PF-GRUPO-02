@@ -28,12 +28,9 @@ function UserDetails({ user_id, name, setName }) {
 
   useEffect(() => {
     setNewUserInfo({ ...userInfo, id: user_id });
-    userInfo;
   }, [userInfo]);
 
   useEffect(() => {
-    currentUser;
-    newUserInfo;
     const checkInfo = !(
       newUserInfo.address &&
       newUserInfo.phone &&
@@ -49,16 +46,12 @@ function UserDetails({ user_id, name, setName }) {
 
     if (key === "name") {
       setName(value);
-      name;
     }
 
-    // ({ ...newUserInfo, [key]: value, id: user_id });
     setNewUserInfo({ ...newUserInfo, [key]: value, id: user_id });
   };
 
   const handleSaveChanges = async (event) => {
-    userInfo;
-
     try {
       if (userInfo.exists) {
         await dispatch(putUserInfo(newUserInfo));
@@ -182,4 +175,3 @@ function UserDetails({ user_id, name, setName }) {
 }
 
 export default UserDetails;
-
