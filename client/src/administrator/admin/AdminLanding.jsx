@@ -46,9 +46,9 @@ function AdminLanding() {
         size="lg"
         className="mb-5 w-50"
         onClick={() => navigate(`/admin/membership/`)}
-        >
+      >
         Membresías
-        </Button>
+      </Button>
       <Button
         variant="primary"
         size="lg"
@@ -56,6 +56,14 @@ function AdminLanding() {
         onClick={() => navigate(`/admin/gimnasio/`)}
       >
         Informacion del Gimnasio
+      </Button>
+      <Button
+        variant="primary"
+        size="lg"
+        className="mb-5 w-50"
+        onClick={() => navigate(`/admin/feedback/`)}
+      >
+        Comentarios
       </Button>
     </div>
   );

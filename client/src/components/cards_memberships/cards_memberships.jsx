@@ -1,28 +1,32 @@
 import MembershipCard from "../card_membership/card_membership";
 import AdminMembershipCard from "../../administrator/components/AdminMembershipCard/AdminMembershipCard";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllMemberships } from "../../redux/action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const MembershipsCards = () => {
+const MembershipsCards = ({statusSelection}) => {
   const location = useLocation();
   const Card = location.pathname.includes("admin")
     ? AdminMembershipCard
     : MembershipCard;
 
-  const dispatch = useDispatch();
+
   const allMemberships = useSelector((state) => state.allMemberships);
 
+  const [memberships, setMemberships] = useState([]);
+
   useEffect(() => {
-    dispatch(getAllMemberships());
-  }, [dispatch]);
+    setMemberships(
+      allMemberships
+        .filter((memb) => memb.status === statusSelection)
+    );
+  }, [allMemberships, statusSelection]);
+
 
   return (
     <Row>
-      {Array.isArray(allMemberships) &&
-        allMemberships.map((item) => (
+      {memberships.map((item) => (
           <Col xs="12" md="6" lg="4" className="p-3" key={item.id}>
             <Card
               id={item.id}
@@ -39,3 +43,5 @@ const MembershipsCards = () => {
 };
 
 export default MembershipsCards;
+
+

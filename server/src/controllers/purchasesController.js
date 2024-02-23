@@ -10,7 +10,6 @@ const postPurchasesFunction = async (payment_method, payment_date, status, user_
             product_id: detail.id,
             quantity: detail.quantity
           }));
-          console.log(stockk)
         if (!payment_method || !payment_date || !status || !user_id || !stockk) {
             return "Faltan datos"
         }
@@ -20,9 +19,7 @@ const postPurchasesFunction = async (payment_method, payment_date, status, user_
                 { payment_method, payment_date, status, user_id },
                 { transaction: t }
             );
-            console.log("purchase", purchase)
             const purchase_id = purchase.id;
-            console.log("purchase_id", purchase_id)
             await Promise.all(
                 stockk.map(async (detail) => {
                     await PurchaseDetail.create(
@@ -124,7 +121,7 @@ const putPurchasesController = async (req, res) => {
         });
 
         if (!existingPurchase) {
-            return res.status(404).json({ error: "Purchase not found" });
+            return res.status(404).json({ error: "Compra no encontrada" });
         }
 
         // Verificar si el estado actual es "cancelled" y el nuevo estado es el mismo
@@ -144,7 +141,7 @@ const putPurchasesController = async (req, res) => {
             });
         if (putRowCount === 0) {
             await transaction.rollback();
-            return res.status(404).json({ error: "Purchase not found" });
+            return res.status(404).json({ error: "Compra no encontrada" });
         }
         // Actualiza el stock solo si la compra se completó
         if (status === "completed" || status === "cancelled") {
@@ -159,7 +156,7 @@ const putPurchasesController = async (req, res) => {
         // Rollback de la transacción en caso de error
         await transaction.rollback();
 
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({ error: "Error Interno del Servidor" });
     }
 };
 module.exports = {

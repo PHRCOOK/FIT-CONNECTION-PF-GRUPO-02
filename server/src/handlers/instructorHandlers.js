@@ -15,7 +15,7 @@ const getInstructorHandler = async (req, res) => {
   } catch (error) {
     return res
       .status(404)
-      .json({ error: "Not Found.", message: error.message });
+      .json({ error: "No encontrado", message: error.message });
   }
 };
 
@@ -29,12 +29,13 @@ const getInstructorByIDHandler = async (req, res) => {
   } catch (error) {
     return res
       .status(404)
-      .json({ error: "Not Found.", message: error.message });
+      .json({ error: "No encontrado", message: error.message });
   }
 };
 // Handler que permite manejar la creación de un instructor en la base de datos.
 const createInstructorHandler = async (req, res) => {
-  const { fullname, photo, description, status } = req.body;
+  const { fullname, description, status } = req.body;
+  const photo = req.file;
 
   try {
     validateCreateInstructor({ fullname, photo, description });
