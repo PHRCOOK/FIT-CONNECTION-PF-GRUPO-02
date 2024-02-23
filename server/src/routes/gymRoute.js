@@ -4,9 +4,9 @@ const { getGymHandler,
     putGymHandler,
  } = require('../handlers/gymHandler');
 const gymRouter = Router();
-
+const { authorization } = require("../../utils/auth");
 gymRouter.get('/', getGymHandler);
-gymRouter.post('/', postGymHandler);
-gymRouter.put('/:id', putGymHandler);
+gymRouter.post('/', authorization, postGymHandler);
+gymRouter.put('/:id', authorization, putGymHandler);
 
 module.exports = gymRouter;
