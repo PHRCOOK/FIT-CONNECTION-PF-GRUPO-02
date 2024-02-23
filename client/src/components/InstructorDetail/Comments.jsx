@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import CardComment from "./CardComment";
+import { Row } from "react-bootstrap";
 
 function Comments({ comments, id_instructor }) {
   // const [comments, setComments] = useState([]);
@@ -22,7 +23,7 @@ function Comments({ comments, id_instructor }) {
   // }, []);
 
   return (
-    <div>
+    <Row style={{ display: "flex", justifyContent: "space-around" }}>
       {comments
         .filter(
           (c) => c.Instructor.id === Number(id_instructor) && c.status === true
@@ -40,7 +41,7 @@ function Comments({ comments, id_instructor }) {
             User={c.User}
           />
         ))}
-    </div>
+    </Row>
   );
 }
 

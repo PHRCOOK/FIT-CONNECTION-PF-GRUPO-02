@@ -19,14 +19,14 @@ const MembershipsCards = ({statusSelection}) => {
   useEffect(() => {
     setMemberships(
       allMemberships
-        .filter((membership) => membership.status === statusSelection)
+        .filter((memb) => memb.status === statusSelection)
     );
   }, [allMemberships, statusSelection]);
 
 
   return (
     <Row>
-      {allMemberships.map((item) => (
+      {memberships.map((item) => (
           <Col xs="12" md="6" lg="4" className="p-3" key={item.id}>
             <Card
               id={item.id}
@@ -43,3 +43,5 @@ const MembershipsCards = ({statusSelection}) => {
 };
 
 export default MembershipsCards;
+
+

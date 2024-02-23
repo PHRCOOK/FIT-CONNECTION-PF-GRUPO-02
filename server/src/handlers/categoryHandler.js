@@ -1,3 +1,4 @@
+const { validateCategory } = require("../../utils/validations/validateCategory");
 const {
   getAllCategoriesController,
   postCategoriesController,
@@ -19,6 +20,7 @@ const getAllCategoriesHandler = async (req, res) => {
 const postCategoriesHandler = async (req, res) => {
   const { name, status, is_service } = req.body;
   try {
+    validateCategory(name)
     if (!name || typeof name !== "string" || name.trim() === "") {
       return res.status(400).json({
         error: "Solicitud incorrecta",
@@ -42,6 +44,7 @@ const putCategoriesHandler = async (req, res) => {
     });
     return res.status(200).json({ response });
   } catch (error) {
+    console.error(error.message)
     return res.status(404).json({ message: error.message });
   }
 };

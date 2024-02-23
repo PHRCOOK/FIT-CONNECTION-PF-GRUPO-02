@@ -167,7 +167,9 @@ export default function formproduct() {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "No se pudo crear el producto",
+          text: error.message || "No se pudo crear el producto",
+        }).then(() => {
+          setDisableButton(false); // Restablecemos el estado disableButton.
         });
       }
     } else {

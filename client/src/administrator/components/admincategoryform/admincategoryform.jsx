@@ -80,7 +80,7 @@ function Admincategoryform() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Error en categoria",
+        text: error.message || "Error en categoria",
       });
     }
   };

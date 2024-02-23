@@ -10,38 +10,38 @@ export default function shoppingcart() {
   const user = useSelector((state) => state.userShopping);
 
   const getCarritos = (user) => {
-    axios
-      .get(`/api/shoppingCart/${user.id}`)
-      .then(({ data }) => {
-        if (data) {
-          setCarritos(data);
-        } else {
-          setCarritos([]);
-        }
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 500) {
-          setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Error al obtener los datos del carrito de compras",
-            error,
-          });
-        }
-      });
+    if (user) { // Verifica que user no sea undefined
+      axios
+        .get(`/api/shoppingCart/${user.id}`)
+        .then(({ data }) => {
+          if (data) {
+            setCarritos(data);
+          } else {
+            setCarritos([]);
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error al obtener los datos del carrito de compras",
+              error,
+            });
+          }
+        });
+    }
   };
+
   useEffect(() => {
-    // Realizar la solicitud axios en useEffect para asegurar que se ejecute después del montaje
     if (user) {
       getCarritos(user);
     }
 
     return setCarritos([]);
-  }, [user]); // El segundo argumento [] asegura que useEffect se ejecute solo una vez (en el montaje inicial)
-
-  //* funcion para eliminar el registro de carrito
+  }, [user]);
 
   const handleClick = async (e) => {
     let id = e.target.value;
@@ -51,9 +51,9 @@ export default function shoppingcart() {
         Swal.fire({
           icon: "success",
           title: "Proceso Exitoso",
-          text: "El registro de carrito se elimino",
+          text: "El registro de carrito se eliminó",
         });
-        getCarritos();
+        getCarritos(user);
       })
       .catch((error) => {
         Swal.fire({
@@ -66,18 +66,16 @@ export default function shoppingcart() {
 
   const handlePayment = async () => {
     try {
-      //const items = JSON.stringify(carritos);
       const payload = {
-        userId: user.id, // Agregar el ID al payload
+        userId: user.id,
       };
-      const paymentResponse = await axios.post(`/api/createorder/`, payload); // Envía una solicitud POST al backend con los datos del carrito
-      // Maneja la respuesta del pago según tus necesidades
+      const paymentResponse = await axios.post(`/api/createorder/`, payload);
       window.location.href = paymentResponse.data.sandbox_init_point;
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: `Error al procesar el pago: ${error.message}`,
+        text: "El carrito de compras está vacío",
       });
     }
   };
@@ -106,13 +104,12 @@ export default function shoppingcart() {
                     <div className="fw-bold fs-2">
                       Cantidad : {carrito.quantity}
                     </div>
-                    {/* <h2>categoria : {carrito.category_id}</h2> */}
                     <Button
-                      className="my-3 btn btn-primary"
+                      className="my-3 btn btn-danger"
                       value={carrito.id}
                       onClick={handleClick}
                     >
-                      eliminar
+                      Eliminar
                     </Button>
                   </Col>
                 </div>
@@ -127,8 +124,7 @@ export default function shoppingcart() {
               onClick={handlePayment}
             >
               Pagar
-            </Button>{" "}
-            {/* Botón para iniciar el proceso de pago */}
+            </Button>
           </Col>
         </Row>
       </Card>
