@@ -26,6 +26,11 @@ const ChatComponent = () => {
 
     newSocket.on(`message to ${id}`, (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
+      Swal.fire({
+        icon: "Message",
+        title: "Nuevo Mensaje",
+        text: "Te ha llegado un mensaje",
+      });
     });
 
     newSocket.on(`message to ${messageInput.to}`, (message) => {
@@ -157,7 +162,9 @@ const ChatComponent = () => {
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>
+            Send
+          </Button>
         </div>
       )}
 
@@ -180,7 +187,9 @@ const ChatComponent = () => {
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>
+            Send
+          </Button>
         </div>
       )}
     </Container>
