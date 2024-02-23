@@ -22,7 +22,8 @@ const ChatComponent = () => {
 
   useEffect(() => {
     const newSocket = io(
-      "fit-connection-pf-grupo-02-production.up.railway.app"
+      // "fit-connection-pf-grupo-02-production.up.railway.app"
+      "http://localhost:3001"
     );
     setSocket(newSocket);
 
@@ -33,10 +34,6 @@ const ChatComponent = () => {
         title: "Nuevo mensaje!",
         text: "Te ha llegado un nuevo mensaje.",
       });
-    });
-
-    newSocket.on(`message to ${messageInput.to}`, (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => {

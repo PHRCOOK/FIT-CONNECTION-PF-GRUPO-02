@@ -24,7 +24,6 @@ io.on("connection", (socket) => {
         const admin = await sequelize.models.User.findAll({
           where: { is_admin: true },
         });
-
         // Aquí puedes usar la conexión de sequelize para guardar el mensaje en la base de datos
         admin.forEach(async (admin) => {
           await sequelize.models.Message.create({
@@ -46,7 +45,7 @@ io.on("connection", (socket) => {
       });
     }
 
-    io.emit(`message to ${message.to}`, message);
+    io.emit(`message to ${message.to_user_id}`, message);
   });
 
   socket.on("disconnect", () => {
