@@ -450,41 +450,41 @@ export const deleteMembership = (id) => {
   };
 };
 
-// export const putMembership = (id, membership) => {
-//   return async (dispatch) => {
-//     try {
-//       const { data } = await axios.put(
-//         `/api/memberships/update/${id}`,
-//         membership
-//       );
-//       return dispatch({
-//         type: PUT_MEMBERSHIP,
-//         payload: data,
-//       });
-//     } catch (error) {
-//       const message = error.response.data.error;
-//       throw new Error(message);
-//     }
-//   };
-// };
 export const putMembership = (id, membership) => {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      axios.put(`/api/memberships/update/${id}`, membership)
-        .then(response => {
-          dispatch({
-            type: PUT_MEMBERSHIP,
-            payload: response.data,
-          });
-          resolve(response.data);
-        })
-        .catch(error => {
-          const message = error.response.data.error;
-          reject(new Error(message));
-        });
-    });
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.put(
+        `/api/memberships/update/${id}`,
+        membership
+      );
+      return dispatch({
+        type: PUT_MEMBERSHIP,
+        payload: data,
+      });
+    } catch (error) {
+      const message = error.response.data.error;
+      throw new Error(message);
+    }
   };
 };
+// export const putMembership = (id, membership) => {
+//   return (dispatch) => {
+//     return new Promise((resolve, reject) => {
+//       axios.put(`/api/memberships/update/${id}`, membership)
+//         .then(response => {
+//           dispatch({
+//             type: PUT_MEMBERSHIP,
+//             payload: response.data,
+//           });
+//           resolve(response.data);
+//         })
+//         .catch(error => {
+//           const message = error.response.data.error;
+//           reject(new Error(message));
+//         });
+//     });
+//   };
+// };
 
 export const setUserShopping = (user) => {
   return {

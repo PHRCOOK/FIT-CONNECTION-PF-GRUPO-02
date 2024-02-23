@@ -169,11 +169,11 @@ const AdminMembershipCard = ({
           </Col>
         </Row>
         <Row>
-          <Col>
+          {/* <Col>
             <Button variant="primary" onClick={() => handleModify(id)}>
               Modificar
             </Button>
-          </Col>
+          </Col> */}
           <Col>
             {/* Mostrar indicador de carga si loading es true */}
             <Button
