@@ -38,7 +38,15 @@ const isAdminMiddleware = (store) => (next) => (action) => {
 
   const actionsToCheck = [
     POST_CATEGORY,
-    PUT_CATEGORY /* otras acciones aquí */,
+    PUT_CATEGORY, 
+    POST_PRODUCT, 
+    PUT_PRODUCT,
+    DELETE_PRODUCT,
+    DELETE_INSTRUCTOR,
+    POST_INSTRCUTOR,
+    PUT_INSTRUCTOR,
+    POST_MEMBERSHIP, 
+    PUT_MEMBERSHIP  /* otras acciones aquí */,
   ]; //Añadir las actions a proteger y verificar que esten protegidas en el back!!
   if (
     (actionsToCheck.includes(action.type) && !isAdmin) ||
