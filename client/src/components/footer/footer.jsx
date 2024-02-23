@@ -18,7 +18,7 @@ export default function Footer() {
                 809032
               </div>
               <div>
-                <span className="fw-bold">Dirección:</span>Valle del sol 2541 -
+                <span className="fw-bold">Dirección:</span> Valle del sol 2541 -
                 BUENOS AIRES - ARGENTINA
               </div>
               <div className="fw-bold my-3">

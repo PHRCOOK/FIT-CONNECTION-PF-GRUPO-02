@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col, Container} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -55,15 +55,20 @@ const Feedback = ({ fetchComments }) => {
       await axios.post("/api/feedbacks", feedbackInfo);
       setFeedback({ user_id: currentUser.id, raiting: 0, comment: "" });
       fetchComments();
+      Swal.fire({
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: "Comentario agregado",
+      });
     } catch (error) {
       Swal.fire("Error", error.message, "error");
     }
   };
 
   return (
-    <div>
+    <Container>
       <Row>
-        <span className="fw-bold">Comparte tu experiencia</span>
+        <span className="fw-bold my-3">Comparte tu experiencia</span>
       </Row>
       <Row>
         <Form.Control
@@ -72,8 +77,10 @@ const Feedback = ({ fetchComments }) => {
           style={{ maxHeight: "200px" }}
           as="textarea"
           rows={3}
+          className="my-3"
         />
         <span
+          className="my-2"
           style={{
             color: feedback.comment.length > 200 ? "red" : "gray",
           }}
@@ -98,6 +105,7 @@ const Feedback = ({ fetchComments }) => {
       </Row>
       <Row>
         <Button
+          className="my-3"
           disabled={
             Boolean(feedback.raiting < 1) ||
             Boolean(feedback.raiting > 5) ||
@@ -110,7 +118,7 @@ const Feedback = ({ fetchComments }) => {
           Enviar Calificación
         </Button>
       </Row>
-    </div>
+    </Container>
   );
 };
 

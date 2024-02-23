@@ -10,18 +10,21 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
+import Swal from "sweetalert2";
+import { setUserShopping } from "../../redux/action";
+import axios from "axios";
 
-// const user_id = 1;
-
-function UserDetails({ user_id }) {
+function UserDetails({ user_id, name, setName }) {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo);
-  const [newUserInfo, setNewUserInfo] = useState({ ...userInfo });
+  const [newUserInfo, setNewUserInfo] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  const currentUser = useSelector((state) => state.userShopping);
 
   useEffect(() => {
     dispatch(fetchUserInfo(user_id));
-  }, []);
+  }, [user_id]);
 
   useEffect(() => {
     setNewUserInfo({ ...userInfo, id: user_id });
@@ -41,16 +44,30 @@ function UserDetails({ user_id }) {
     const key = event.target.name;
     const value = event.target.value;
 
-    // const newUserInfo = { ...userInfo };
+    if (key === "name") {
+      setName(value);
+    }
 
     setNewUserInfo({ ...newUserInfo, [key]: value, id: user_id });
   };
 
-  const handleSaveChanges = (event) => {
-    if (userInfo.exists) {
-      dispatch(putUserInfo(newUserInfo));
-    } else {
-      dispatch(postUserInfo(newUserInfo));
+  const handleSaveChanges = async (event) => {
+    try {
+      if (userInfo.exists) {
+        await dispatch(putUserInfo(newUserInfo));
+      } else {
+        await dispatch(postUserInfo(newUserInfo));
+      }
+
+      await axios.put(`/api/users/${user_id}`, { name });
+
+      await Swal.fire({
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: "Información modificada exitosamente",
+      });
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
     }
   };
 
@@ -69,7 +86,7 @@ function UserDetails({ user_id }) {
               type="text"
               autoComplete="off"
               onChange={handleUserInfo}
-              value={newUserInfo.user || ""}
+              value={name || ""}
 
               // value={filterSettings.name || ""}
             />
