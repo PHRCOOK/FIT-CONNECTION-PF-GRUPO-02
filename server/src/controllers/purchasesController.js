@@ -10,7 +10,6 @@ const postPurchasesFunction = async (payment_method, payment_date, status, user_
             product_id: detail.id,
             quantity: detail.quantity
           }));
-          console.log(stockk)
         if (!payment_method || !payment_date || !status || !user_id || !stockk) {
             return "Faltan datos"
         }

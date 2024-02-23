@@ -2,7 +2,6 @@ const { Router } = require('express');
 const upload = require('../services/multer');
 
 const {getAllMembershipsHandler ,getMembershipByIdHandler, createMembershipHandler, updateMembershipHandler, deleteMembershipHandler} = require('../handlers/membershipHandler');
-
 const membershipsRouter = Router();
 
 membershipsRouter.get('/', getAllMembershipsHandler);
