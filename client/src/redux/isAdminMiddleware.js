@@ -21,10 +21,16 @@ import {
   EMPTY_ALL_USER,
   FETCH_CURRENT_USER,
   SET_IS_ADMIN,
+  GET_ALL_MEMBERSHIPS,
+  POST_MEMBERSHIP,
+  DELETE_MEMBERSHIP,
+  PUT_MEMBERSHIP,
+  SET_USER_SHOPPING,
 } from "./actionsTypes";
 
 const isAdminMiddleware = (store) => (next) => (action) => {
   //const { isAdmin } = store.getState();
+  console.log(store.getState())
   const isAdminString = localStorage.getItem("isAdmin"); // Obtener el valor de isAdmin del localStorage como string
   const isAdmin = isAdminString === "true";
   console.log("Es Admin", isAdmin);
