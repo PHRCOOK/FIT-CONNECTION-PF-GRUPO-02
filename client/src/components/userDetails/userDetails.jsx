@@ -158,3 +158,4 @@ function UserDetails({ user_id }) {
 }
 
 export default UserDetails;
+
