@@ -1,3 +1,4 @@
+const { validateMembership } = require('../../utils/validations/validateMembership');
 const {getAllMemberships ,getMembershipById, createMembership, updateMembership, deleteMembership} = require('../controllers/membershipController');
 
 const getAllMembershipsHandler = async (req, res) => {
@@ -23,6 +24,7 @@ const createMembershipHandler = async (req, res) => {
   const {name, price, duration, description, status} = req.body;
   const image_url = req.file;
   try {
+    validateMembership({name, price, duration, description})
     const response = await createMembership(name, price, duration, description, status, image_url);
     res.status(201).json(response);
   } catch (error) {
@@ -35,6 +37,7 @@ const updateMembershipHandler = async (req, res) => {
     const {name, price, duration, description, status} = req.body;
     const image_url = req.file;
     try {
+        validateMembership({name, price, duration, description})
         const response = await updateMembership(id, {name, price, duration, image_url, description, status});
         res.status(200).json(response);
     } catch (error) {
