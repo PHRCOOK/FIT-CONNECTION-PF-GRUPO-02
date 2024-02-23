@@ -37,7 +37,6 @@ const putCategoriesHandler = async (req, res) => {
   const { id } = req.params;
   const { name, status, is_service } = req.body;
   try {
-    validateCategory(name)
     const response = await putCategoriesController(id, {
       name,
       status,

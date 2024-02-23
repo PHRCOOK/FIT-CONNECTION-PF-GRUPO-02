@@ -37,7 +37,6 @@ const updateMembershipHandler = async (req, res) => {
     const {name, price, duration, description, status} = req.body;
     const image_url = req.file;
     try {
-        validateMembership({name, price, duration, description})
         const response = await updateMembership(id, {name, price, duration, image_url, description, status});
         res.status(200).json(response);
     } catch (error) {
