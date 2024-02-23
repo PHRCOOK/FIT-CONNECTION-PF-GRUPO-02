@@ -8,12 +8,12 @@ const paymentRoute = Router();
 
 paymentRoute.post("/", mercadoPaymentPreferencesHandler);
 paymentRoute.get("/success", (req, res) => {
-    const urlDestino = 'http://localhost:5173/#/product'
+    const urlDestino = 'https://fit-connection-pf.vercel.app/#/product'
     res.redirect(302, urlDestino);
 });
 paymentRoute.get("/pending", (req, res) => res.json("pending"));
 paymentRoute.get("/failure", (req, res) => {
-    const urlDestino = 'http://localhost:5173/#/shopping'
+    const urlDestino = 'https://fit-connection-pf.vercel.app/#/shopping'
     res.redirect(302, urlDestino);
 });
 paymentRoute.post("/webhook", receiveWebhook)
