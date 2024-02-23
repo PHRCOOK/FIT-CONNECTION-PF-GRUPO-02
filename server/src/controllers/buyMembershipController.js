@@ -46,9 +46,10 @@ const receiveWebhookM = async (req, res) => {
     try {
         if(type === "payment"){
             const payment = await new Payment(cliente).get({id:data.id})
-            const {payment_method, metadata } = payment;
+            const {status, payment_method, metadata } = payment;
             const {client_id, member_id} = metadata;
-            const response = createMembershipPurchase(client_id, member_id, payment_method.type);
+            console.log(status)
+            const response = createMembershipPurchase(client_id, member_id, payment_method.type, status);
             return res.status(200).json(response);
         }
     } catch (error) {

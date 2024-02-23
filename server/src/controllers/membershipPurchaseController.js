@@ -1,6 +1,6 @@
 const { Membership, MembershipPurchase } = require("../db");
 
-const createMembershipPurchase = async (user_id, membership_id, payment_method) => {
+const createMembershipPurchase = async (user_id, membership_id, payment_method, status) => {
   try {
     // Obtén la membresía de la base de datos
     const membership = await Membership.findByPk(membership_id);
@@ -24,7 +24,8 @@ const createMembershipPurchase = async (user_id, membership_id, payment_method) 
       start_date,
       expiration_date,
       payment_method,
-      payment_date
+      payment_date,
+      status
     });
 
     return purchase;
