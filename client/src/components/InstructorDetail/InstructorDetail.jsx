@@ -75,20 +75,24 @@ const InstructorDetail = () => {
               <Card.Title>{instructorInfo.fullname}</Card.Title>
               <Row>
                 <Col xs="12" md="6">
-                  <span className="fw-bold">Nombre:</span>{" "}
+                  <span className="fw-bold">Nombre</span>{" "}
                   {instructorInfo.fullname}
                 </Col>
                 <Col xs="12" md="6">
-                  <span className="fw-bold">Identificación:</span>{" "}
+                  <span className="fw-bold">Identificación</span>{" "}
                   {instructorInfo.id}
                 </Col>
                 <Col xs="12">
-                  <span className="fw-bold">Descripcion: </span>{" "}
-                  {instructorInfo.description}
+                  <span className="fw-bold">Calificacion promedio </span>{" "}
+                  {raiting}
                 </Col>
                 <Col xs="12">
-                  <span className="fw-bold">Calificacion promedio: </span>{" "}
-                  {raiting}
+                  <Row>
+                    <span className="fw-bold">Descripcion </span>
+                  </Row>
+                  <Row>
+                    <span className="fw">{instructorInfo.description}</span>
+                  </Row>
                 </Col>
               </Row>
             </Card.Body>
