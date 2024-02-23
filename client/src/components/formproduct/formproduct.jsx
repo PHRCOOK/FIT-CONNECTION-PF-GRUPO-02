@@ -284,8 +284,8 @@ export default function formproduct() {
               <option value="DEFAULT" disabled hidden>
                 --
               </option>
-              <option>TRUE</option>
-              <option>FALSE</option>
+              <option value={true}>TRUE</option>
+              <option value={false}>FALSE</option>
             </select>
             {errors.status && (
               <FormText className="form-text">{errors.status}</FormText>
