@@ -55,6 +55,11 @@ const Feedback = ({ fetchComments }) => {
       await axios.post("/api/feedbacks", feedbackInfo);
       setFeedback({ user_id: currentUser.id, raiting: 0, comment: "" });
       fetchComments();
+      Swal.fire({
+        icon: "success",
+        title: "Proceso Exitoso",
+        text: "Comentario agregado",
+      });
     } catch (error) {
       Swal.fire("Error", error.message, "error");
     }
