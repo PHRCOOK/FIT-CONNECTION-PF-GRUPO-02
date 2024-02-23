@@ -45,6 +45,7 @@ const isAdminMiddleware = (store) => (next) => (action) => {
     DELETE_INSTRUCTOR,
     POST_INSTRCUTOR,
     PUT_INSTRUCTOR,
+    POST_MEMBERSHIP,
     PUT_MEMBERSHIP  /* otras acciones aquí */,
   ]; //Añadir las actions a proteger y verificar que esten protegidas en el back!!
   if (
