@@ -32,7 +32,7 @@ const mercadoPaymentPreferences = async (shoppingCard, userId) => {
                 //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
                 //USAR LOS USERS DE PRUEBA 
                 //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!! 
-                notification_url: "https://fd1c-2803-9800-98c6-79f9-c299-729-7eb5-1cf0.ngrok-free.app/api/createorder/webhook"
+                notification_url: "https://71c3-201-188-190-38.ngrok-free.app/api/createorder/webhook"
             },
             requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
             // Elimina la línea user_id y pasa userId directamente como parte de las opciones del cuerpo
@@ -48,11 +48,10 @@ const receiveWebhook = async (req, res) => {
     try {
         if(type === "payment"){
             const payment = await new Payment(client).get({id:data.id})
-            const { status, payment_type_id, date_approved, metadata } = payment
-            const {client_id} = metadata
-            console.log("Status",status);
-            const response = postPurchasesFunction(payment_type_id, date_approved, status, client_id)
-            return res.status(200).json(response)
+            const { status, payment_type_id, date_approved, metadata } = payment;
+            const {client_id} = metadata;
+            const response = postPurchasesFunction(payment_type_id, date_approved, status, client_id);
+            return res.status(200).json(response);
         }
     } catch (error) {
         return res.status(404).json({error:error.message})

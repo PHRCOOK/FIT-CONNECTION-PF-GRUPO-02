@@ -182,3 +182,4 @@ function UserDetails({ user_id, name, setName }) {
 }
 
 export default UserDetails;
+
