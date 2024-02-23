@@ -2,18 +2,27 @@ require("dotenv").config();
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
 const { TokenMP } = process.env;
 const cliente = new MercadoPagoConfig({ accessToken: TokenMP });
-const preferences = new Preference(cliente);
+const preference = new Preference(cliente);
 const { createMembershipPurchase } = require('./membershipPurchaseController')
 const buyMembershipControllerPreference = async (membership, userId) =>{
+    const membershipData = {
+        id: membership.id,
+        title: membership.name,
+        quantity: 1,
+        description: membership.description,
+        picture_url: membership.image_url,
+        unit_price: Math.round(membership.price)
+    }
+    const membershipArray = [membershipData];
     try {
         const createPayment = await preference.create({
             body: {
                 auto_return: "approved",
-                items: membership,
+                items: membershipArray,
                 back_urls: {
-                    failure: "http://localhost:3001/api/createorder/failure", //hay que modificar dicha ruta
-                    pending: "http://localhost:3001/api/createorder/pending",
-                    success: "http://localhost:3001/api/createorder/success",
+                    failure: "http://localhost:3001/api/membershipPurchases/failure", //hay que modificar dicha ruta
+                    pending: "http://localhost:3001/api/membershipPurchases/pending",
+                    success: "http://localhost:3001/api/membershipPurchases/success",
                 },
                 metadata: {
                     clientId:userId
@@ -21,7 +30,7 @@ const buyMembershipControllerPreference = async (membership, userId) =>{
                 //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
                 //USAR LOS USERS DE PRUEBA 
                 //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!! 
-                notification_url: "https://71c3-201-188-190-38.ngrok-free.app/api/createorder/webhook"
+                notification_url: "https://71c3-201-188-190-38.ngrok-free.app/api/membershipPurchases/webhook"
             },
             requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
             // Elimina la línea user_id y pasa userId directamente como parte de las opciones del cuerpo
@@ -38,7 +47,8 @@ const receiveWebhookM = async (req, res) => {
             const payment = await new Payment(cliente).get({id:data.id})
             const {membership_id, payment_method, metadata } = payment;
             const {client_id} = metadata;
-            const response = createMembershipPurchase(membership_id, payment_method, client_id);
+            const response = await createMembershipPurchase(client_id, membership_id, payment_method);
+            console.log(response)
             return res.status(200).json(response);
         }
     } catch (error) {

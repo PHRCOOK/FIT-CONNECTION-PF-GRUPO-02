@@ -1,5 +1,5 @@
 const { mercadoPaymentPreferences } = require('../controllers/createOrderMercadoPagoController');
-const { getMembershipPurchaseById } = require('../controllers/membershipPurchaseController');
+const { getMembershipById } = require('../controllers/membershipController');
 const { getShoppingCarts } = require('../controllers/shoppingCartControllers');
 const { buyMembershipControllerPreference } = require('../controllers/buyMembershipController');
 
@@ -16,9 +16,9 @@ const mercadoPaymentPreferencesHandler = async (req, res) => {
 const membershipMercadopaymentPreferenceHandler = async (req, res) =>{
     const { id, userId } = req.body
     try {
-        console.log(req.body)
-        const membership = await getMembershipPurchaseById(id);
+        const membership = await getMembershipById(id);
         const response = await buyMembershipControllerPreference(membership, userId)
+        console.log(response)
         res.status(200).json(response)
     } catch (error) {
         res.status(500).json({ error: error.message })
