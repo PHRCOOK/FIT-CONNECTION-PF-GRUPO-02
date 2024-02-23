@@ -28,6 +28,11 @@ const ChatComponent = () => {
 
     newSocket.on(`message to ${id}`, (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
+      Swal.fire({
+        icon: "warning",
+        title: "Nuevo mensaje!",
+        text: "Te ha llegado un nuevo mensaje.",
+      });
     });
 
     newSocket.on(`message to ${messageInput.to}`, (message) => {
