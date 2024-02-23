@@ -172,6 +172,7 @@ function App() {
                 path={pathroutes.ADMIN_FEEDBACK}
                 element={<AdminFeedbacks />}
               />
+              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
           <Route path="*" element={<Error404 />} />
