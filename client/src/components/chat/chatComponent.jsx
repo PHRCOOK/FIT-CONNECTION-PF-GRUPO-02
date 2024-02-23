@@ -22,8 +22,8 @@ const ChatComponent = () => {
 
   useEffect(() => {
     const newSocket = io(
-      // "fit-connection-pf-grupo-02-production.up.railway.app"
-      "http://localhost:3001"
+      "fit-connection-pf-grupo-02-production.up.railway.app"
+      // "http://localhost:3001"
     );
     setSocket(newSocket);
 
