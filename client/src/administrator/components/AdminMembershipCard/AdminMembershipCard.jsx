@@ -1,6 +1,6 @@
 import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { putMembership } from "../../../redux/action";
+import { putMembership, getAllMemberships } from "../../../redux/action";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,33 +10,40 @@ const AdminMembershipCard = ({
   name,
   price,
   description,
-  status,
   image_url,
-  statusSelection,
+  status,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  // Llama a la acción getAllMemberships cuando el componente se monta
+  useEffect(() => {
+    dispatch(getAllMemberships());
+  }, [dispatch]);
 
-  const [newStatus, setNewStatus] = useState(status);
+  // Obtener el estado de la membresía desde el estado global
+  const allMemberships = useSelector((state) => state.allMemberships);
+  const membership = allMemberships.find((m) => m.id === id);
+
+  // Estado local para el nuevo estado de la membresía
+  const [newStatus, setNewStatus] = useState(membership ? membership.status : status);
 
   const handleModify = (id) => {
     navigate(`/admin/membership/modify/${id}`);
   };
 
-  const handleDelete = (id, status) => {
-    const newStatus = !status;
+  const handleDelete = () => {
+    const updatedStatus = !newStatus; // Nuevo estado de la membresía
     try {
-      dispatch(putMembership(id, { status: newStatus }));
-      setNewStatus(newStatus);
+      dispatch(putMembership(id, { status: updatedStatus }));
+      setNewStatus(updatedStatus); // Actualizar el estado local
       Swal.fire({
         icon: "success",
         title: "Proceso Exitoso",
-        text: statusSelection
-          ? "Membresía activada correctamente"
-          : "Membresía desactivada correctamente",
+        text: updatedStatus ? "Membresía activada correctamente" : "Membresía desactivada correctamente",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -49,9 +56,9 @@ const AdminMembershipCard = ({
     <Card>
       <Card.Img variant="top" src={image_url} />
       <CardBody>
-        <CardTitle>{name}</CardTitle>
-        <p>{description}</p>
-        <p>${price}</p>
+        <CardTitle>{membership ? membership.name : name}</CardTitle>
+        <p>{membership ? membership.description : description}</p>
+        <p>${membership ? membership.price : price}</p>
         <Row>
           <Col>
             <Button variant="primary" onClick={() => handleModify(id)}>
@@ -61,7 +68,7 @@ const AdminMembershipCard = ({
           <Col>
             <Button
               variant={newStatus ? "danger" : "success"}
-              onClick={() => handleDelete(id, newStatus)}
+              onClick={handleDelete}
             >
               {newStatus ? "Desactivar" : "Activar"}
             </Button>
