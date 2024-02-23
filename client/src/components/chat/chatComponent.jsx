@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import axios from "axios";
+import { Button, FormControl, Container } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -115,7 +116,7 @@ const ChatComponent = () => {
   };
 
   return (
-    <div>
+    <Container>
       {is_admin && (
         <div>
           <h2>Lista de Usuarios</h2>
@@ -149,14 +150,14 @@ const ChatComponent = () => {
               </div>
             ))}
           </div>
-          <input
-            type="text"
+          <FormControl
+            as="textarea"
             value={messageInput.message}
             onChange={(e) =>
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <button onClick={handleMessageSend}>Send</button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
         </div>
       )}
 
@@ -172,17 +173,17 @@ const ChatComponent = () => {
               {message.message}
             </div>
           ))}
-          <input
-            type="text"
+          <FormControl
+            as="textarea"
             value={messageInput.message}
             onChange={(e) =>
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <button onClick={handleMessageSend}>Send</button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 
