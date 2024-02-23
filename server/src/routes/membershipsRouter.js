@@ -6,7 +6,7 @@ const membershipsRouter = Router();
 const { authorization } = require("../../utils/auth");
 membershipsRouter.get('/', getAllMembershipsHandler);
 membershipsRouter.get('/:id', getMembershipByIdHandler);
-membershipsRouter.post('/', upload.single('image_url'), createMembershipHandler);
+membershipsRouter.post('/', authorization, upload.single('image_url'), createMembershipHandler);
 membershipsRouter.put('/update/:id', authorization, updateMembershipHandler);
 membershipsRouter.delete('/delete/:id', authorization, deleteMembershipHandler);
 
