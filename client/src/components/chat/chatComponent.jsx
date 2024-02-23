@@ -27,7 +27,7 @@ const ChatComponent = () => {
     newSocket.on(`message to ${id}`, (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
       Swal.fire({
-        icon: "Message",
+        icon: "warning",
         title: "Nuevo Mensaje",
         text: "Te ha llegado un mensaje",
       });
