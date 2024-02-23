@@ -95,7 +95,7 @@ function AdminProductCard({
           <Col xs="12">{description}</Col>
         </Row>
       </CardBody>
-      {/* <Button
+      <Button
         className="mx-3 my-2"
         variant="primary"
         onClick={() => {
@@ -103,7 +103,7 @@ function AdminProductCard({
         }}
       >
         Modificar
-      </Button> */}
+      </Button>
       <Button
         className="mx-3 my-2"
         variant="secondary"
