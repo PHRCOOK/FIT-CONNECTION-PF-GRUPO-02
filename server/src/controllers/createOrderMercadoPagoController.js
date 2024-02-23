@@ -36,7 +36,7 @@ const mercadoPaymentPreferences = async (shoppingCard, userId) => {
         //USAR LOS USERS DE PRUEBA
         //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!!
         notification_url:
-          " https://fit-connection-pf-grupo-02-production.up.railway.app/api/membershipPurchases/webhook",
+          "https://fit-connection-pf-grupo-02-production.up.railway.app/api/membershipPurchases/webhook",
       },
       requestOptions: {
         idempotencyKey:
