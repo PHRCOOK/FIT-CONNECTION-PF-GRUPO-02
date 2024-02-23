@@ -104,7 +104,7 @@ function AdminProductCard({
       >
         Modificar
       </Button> */}
-      {/* <Button
+      <Button
         className="mx-3 my-2"
         variant="secondary"
         onClick={() => {
@@ -112,7 +112,7 @@ function AdminProductCard({
         }}
       >
         {statusSelection ? "Desactivar" : "Activar"}
-      </Button> */}
+      </Button>
     </Card>
   );
 }
