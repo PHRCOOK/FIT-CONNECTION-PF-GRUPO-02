@@ -31,7 +31,7 @@ const buyMembershipControllerPreference = async (membership, userId, memberId) =
                 //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
                 //USAR LOS USERS DE PRUEBA 
                 //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!! 
-                notification_url: "https://e086-201-188-190-38.ngrok-free.app/api/membershipPurchases/webhook"
+                notification_url: "https://fd1c-2803-9800-98c6-79f9-c299-729-7eb5-1cf0.ngrok-free.app/api/membershipPurchases/webhook"
             },
             requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
             // Elimina la línea user_id y pasa userId directamente como parte de las opciones del cuerpo
