@@ -23,11 +23,11 @@ const mercadoPaymentPreferences = async (shoppingCard, userId) => {
         items: itemsArray,
         back_urls: {
           failure:
-            "https://fit-connection-pf-grupo-02-production.up.railway.app/api/membershipPurchases/go/failure", //hay que modificar dicha ruta
+            "https://fit-connection-pf-grupo-02-production.up.railway.app/api/createorder/failure", //hay que modificar dicha ruta
           pending:
-            "https://fit-connection-pf-grupo-02-production.up.railway.app/api/membershipPurchases/go/pending",
+            "https://fit-connection-pf-grupo-02-production.up.railway.app/api/createorder/pending",
           success:
-            "https://fit-connection-pf-grupo-02-production.up.railway.app/api/membershipPurchases/go/success",
+            "https://fit-connection-pf-grupo-02-production.up.railway.app/api/createorder/success",
         },
         metadata: {
           clientId: userId,
