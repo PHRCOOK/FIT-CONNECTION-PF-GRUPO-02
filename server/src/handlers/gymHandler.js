@@ -11,7 +11,7 @@ const getGymHandler = async (req, res) => {
   } catch (error) {
     return res
       .status(404)
-      .json({ error: "Not Found.", message: error.message });
+      .json({ error: "No encontrado.", message: error.message });
   }
 };
 
@@ -27,7 +27,7 @@ const postGymHandler = async (req, res) => {
       nit,
       map
     );
-    return res.status(200).json({ response, message: "Created" });
+    return res.status(200).json({ response, message: "Creado" });
   } catch (error) {
     console.log(error);
     if (error.message === "Solo puede haber un solo gym registrado") {

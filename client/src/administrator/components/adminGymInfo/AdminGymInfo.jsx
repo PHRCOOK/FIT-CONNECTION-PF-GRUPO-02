@@ -47,9 +47,9 @@ function AdminGymInfo() {
     fetchInfo();
   }, []);
 
-  useEffect(() => {
-    console.log(gymInfo);
-  }, [gymInfo]);
+  // useEffect(() => {
+  //   console.log(gymInfo);
+  // }, [gymInfo]);
 
   const props = [
     {

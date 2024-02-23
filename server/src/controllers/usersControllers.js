@@ -3,6 +3,8 @@ const { User } = require("../db");
 const { transporter } = require("../../utils/transporter");
 const { generateWelcomeEmail } = require("../../utils/emailTemplates");
 const { deactivatedUserEmail } = require("../../utils/deactivatedUserEmail");
+const { modifyUserData } = require("../../utils/modifyUserData");
+const { activateUserEmail }= require("../../utils/activateUserEmail")
 const { MAIL_USERNAME } = process.env;
 
 // Controler encargado de crear los usuarios.
@@ -44,6 +46,7 @@ const createUserController = async (name, email, subAfterPipe) => {
 };
 
 // En este controller podemos actualizar la información de un usuario.
+
 const updateUserController = async (id, newData) => {
   try {
     const user = await User.findByPk(id);
@@ -54,70 +57,60 @@ const updateUserController = async (id, newData) => {
 
     // Almacenamos el estado actual del usuario antes de la actualización.
     const estadoActual = user.status;
-   
-    // Actualizamos la información del usuario.
     const updateUser = await user.update(newData);
-   
-    // Verificamos si el estado a cambiado a false (desactivado) para notificarlo via email.
+    // Si el estado cambió a false, enviamos correo de desactivación de cuenta y retornamos.
     if (updateUser.status === false && estadoActual !== false) {
       const affair = "¡Desactivación de cuenta!";
       const htmlBody = deactivatedUserEmail(updateUser.name);
 
-      console.log(`Enviando correo electrónico de desactivación a: ${updateUser.email}`);
       await transporter.sendMail({
         from: MAIL_USERNAME,
         to: updateUser.email,
         subject: affair,
         html: htmlBody,
       });
+
+      return { message: "Cuenta desactivada correctamente." };
     }
 
-    return { message: "Usuario actualizado exitosamente.", usuario: updateUser };
+    if (updateUser.status === true && estadoActual !== true) {
+      const affair = "¡Activación de cuenta!";
+      const htmlBody = activateUserEmail(updateUser.name);
+
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+
+      return { message: "Cuenta activada correctamente." };
+    }
+    // Comprobamos si newData contiene otras propiedades además de 'status'.
+    const hasOtherData = Object.keys(newData).some(key => key !== 'status');
+
+    if (hasOtherData) {
+
+      // Enviamos un correo electrónico para notificar que los datos han sido modificados.
+      const affair = "¡Modificación de datos de usuario!";
+      const htmlBody = modifyUserData(updateUser.name);
+
+      await transporter.sendMail({
+        from: MAIL_USERNAME,
+        to: updateUser.email,
+        subject: affair,
+        html: htmlBody,
+      });
+
+      return { message: "Usuario actualizado exitosamente.", usuario: updateUser };
+    } else {
+      return { message: "No se modificaron datos adicionales del usuario." };
+    }
   } catch (error) {
     throw new Error(`Error al actualizar el usuario: ${error.message}`);
   }
 };
 
-// const updateUserController = async (id, newData) => {
-//   try {
-//     const user = await User.findByPk(id);
-
-//     if (!user) {
-//       throw new Error("Usuario no encontrado.");
-//     }
-
-//     // Almacenamos el estado actual del usuario antes de la actualización.
-//     const estadoActual = user.status;
-
-//     // Extraemos solo el campo 'status' de newData, ignorando los demás campos.
-//     const { status } = newData;
-//     console.log("estos es newData",newData)
-//     // Si 'status' no está definido en newData, se asigna el valor actual del usuario.
-//     const nuevoEstado = typeof status !== 'undefined' ? status : estadoActual;
-
-//     // Actualizamos solo el campo 'status' del usuario.
-//     const updateUser = await user.update({ status: nuevoEstado });
-//     console.log("esto es updateUse", updateUser)
-//     // Verificamos si el estado a cambiado a false (desactivado) para notificarlo via email.
-//     if (nuevoEstado === false && estadoActual !== false) {
-//       const affair = "¡Desactivación de cuenta!";
-//       const htmlBody = deactivatedUserEmail(updateUser.name);
-
-//       console.log(`Enviando correo electrónico de desactivación a: ${updateUser.email}`);
-
-//       await transporter.sendMail({
-//         from: MAIL_USERNAME,
-//         to: updateUser.email,
-//         subject: affair,
-//         html: htmlBody,
-//       });
-//     }
-
-//     return { message: "Usuario actualizado exitosamente.", usuario: updateUser };
-//   } catch (error) {
-//     throw new Error(`Error al actualizar el usuario: ${error.message}`);
-//   }
-// };
 
 
 // Controller que busca todos los usarios que esten activos.

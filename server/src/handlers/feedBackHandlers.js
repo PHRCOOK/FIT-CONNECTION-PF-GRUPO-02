@@ -5,6 +5,7 @@ const {
   createFeedBackController,
   getFeedBacksController,
   getFeedBackByNameController,
+  putFeedBackController,
 } = require("../controllers/feedBackControllers");
 
 const createFeedBackHandler = async (req, res) => {
@@ -44,7 +45,21 @@ const getFeedBacksHandler = async (req, res) => {
   }
 };
 
+// Con este handler manejamos la modificación de un feedback.
+const putFeedBackHandler = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const response = await putFeedBackController(id, status)
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
+
 module.exports = {
   createFeedBackHandler,
   getFeedBacksHandler,
+  putFeedBackHandler,
+
 };

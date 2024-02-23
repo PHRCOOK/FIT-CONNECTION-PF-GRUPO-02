@@ -15,3 +15,4 @@ const mercadoPaymentPreferencesHandler = async (req, res) => {
 module.exports = {
     mercadoPaymentPreferencesHandler,
 }
+
