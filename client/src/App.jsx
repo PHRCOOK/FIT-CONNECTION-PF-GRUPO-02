@@ -37,9 +37,9 @@ import AdminFeedbacks from "./administrator/components/AdminFeedbacks/AdminFeedb
 
 import "./App.scss";
 
-axios.defaults.baseURL = "http://localhost:3001/";
-// axios.defaults.baseURL =
-//   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
+// axios.defaults.baseURL = "http://localhost:3001/";
+axios.defaults.baseURL =
+  "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
   const { isAuthenticated, user, logout } = useAuth0();
@@ -172,6 +172,7 @@ function App() {
                 path={pathroutes.ADMIN_FEEDBACK}
                 element={<AdminFeedbacks />}
               />
+              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
           <Route path="*" element={<Error404 />} />
