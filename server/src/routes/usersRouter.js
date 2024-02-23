@@ -22,5 +22,4 @@ usersRouter.get("/email/:email", getUserByEmailHandler);
 
 usersRouter.put("/:id", authorization, updateUserHandler);
 
-
 module.exports = usersRouter;
