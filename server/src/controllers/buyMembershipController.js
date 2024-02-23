@@ -4,7 +4,7 @@ const { TokenMP } = process.env;
 const cliente = new MercadoPagoConfig({ accessToken: TokenMP });
 const preference = new Preference(cliente);
 const { createMembershipPurchase } = require('./membershipPurchaseController')
-const buyMembershipControllerPreference = async (membership, userId) =>{
+const buyMembershipControllerPreference = async (membership, userId, memberId) =>{
     const membershipData = {
         id: membership.id,
         title: membership.name,
@@ -20,17 +20,18 @@ const buyMembershipControllerPreference = async (membership, userId) =>{
                 auto_return: "approved",
                 items: membershipArray,
                 back_urls: {
-                    failure: "http://localhost:3001/api/membershipPurchases/failure", //hay que modificar dicha ruta
-                    pending: "http://localhost:3001/api/membershipPurchases/pending",
-                    success: "http://localhost:3001/api/membershipPurchases/success",
+                    failure: "http://localhost:3001/api/membershipPurchases/go/failure", //hay que modificar dicha ruta
+                    pending: "http://localhost:3001/api/membershipPurchases/go/pending",
+                    success: "http://localhost:3001/api/membershipPurchases/go/success",
                 },
                 metadata: {
-                    clientId:userId
+                    clientId:userId,
+                    memberId:memberId
                 },
                 //CAMBIAR EL "https://28f4-201-188-190-30.ngrok-free.app" POR EL URL DE LA API 
                 //USAR LOS USERS DE PRUEBA 
                 //Para pruebas en mi pc Use NGROK para dar a la local https!! y generar dicho enlace de abajo!! 
-                notification_url: "https://71c3-201-188-190-38.ngrok-free.app/api/membershipPurchases/webhook"
+                notification_url: "https://e086-201-188-190-38.ngrok-free.app/api/membershipPurchases/webhook"
             },
             requestOptions: { idempotencyKey: '63bf67c0d3947fadd5fdebc0032a5327131052e3118001bea21179bff84ddbe2' }
             // Elimina la línea user_id y pasa userId directamente como parte de las opciones del cuerpo
@@ -45,10 +46,9 @@ const receiveWebhookM = async (req, res) => {
     try {
         if(type === "payment"){
             const payment = await new Payment(cliente).get({id:data.id})
-            const {membership_id, payment_method, metadata } = payment;
-            const {client_id} = metadata;
-            const response = await createMembershipPurchase(client_id, membership_id, payment_method);
-            console.log(response)
+            const {payment_method, metadata } = payment;
+            const {client_id, member_id} = metadata;
+            const response = createMembershipPurchase(client_id, member_id, payment_method.type);
             return res.status(200).json(response);
         }
     } catch (error) {

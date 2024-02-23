@@ -4,9 +4,9 @@ const {
     createMembershipPurchaseHandler, getMembershipPurchasesHandler, getMembershipPurchaseByIdHandler, getMembershipPurchasesByUserIdHandler, updateMembershipPurchaseHandler, deleteMembershipPurchaseHandler
 } = require('../handlers/membershipPurchaseHandler');
 
-const membershipPurchaseRouter = Router();
 const { membershipMercadopaymentPreferenceHandler } = require('../handlers/createOrderMercadoPagoHandler')
 const { receiveWebhookM } = require('../controllers/buyMembershipController')
+const membershipPurchaseRouter = Router();
 
 membershipPurchaseRouter.get('/', getMembershipPurchasesHandler);
 membershipPurchaseRouter.get('/:id', getMembershipPurchaseByIdHandler);
@@ -17,12 +17,12 @@ membershipPurchaseRouter.delete('/:id', deleteMembershipPurchaseHandler);
 
 //purchase
 membershipPurchaseRouter.post('/checkout', membershipMercadopaymentPreferenceHandler);
-membershipPurchaseRouter.get("/success", (req, res) => {
+membershipPurchaseRouter.get("/go/success", (req, res) => {
     const urlDestino = 'http://localhost:5173/#/services'
     res.redirect(302, urlDestino);
 });
-membershipPurchaseRouter.get("/pending", (req, res) => res.json("pending"));
-membershipPurchaseRouter.get("/failure", (req, res) => {
+membershipPurchaseRouter.get("/go/pending", (req, res) => res.json("pending"));
+membershipPurchaseRouter.get("/go/failure", (req, res) => {
     const urlDestino = 'http://localhost:5173/#/services'
     res.redirect(302, urlDestino);
 });

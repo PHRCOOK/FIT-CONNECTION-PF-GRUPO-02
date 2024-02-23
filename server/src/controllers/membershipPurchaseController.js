@@ -5,6 +5,9 @@ const createMembershipPurchase = async (user_id, membership_id, payment_method) 
     // Obtén la membresía de la base de datos
     const membership = await Membership.findByPk(membership_id);
 
+    if (!membership) {
+      throw new Error("No se encontró la membresía correspondiente");
+    }
     // La fecha de inicio es la fecha actual
     const start_date = new Date();
 

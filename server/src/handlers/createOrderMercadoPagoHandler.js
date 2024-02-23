@@ -16,9 +16,9 @@ const mercadoPaymentPreferencesHandler = async (req, res) => {
 const membershipMercadopaymentPreferenceHandler = async (req, res) =>{
     const { id, userId } = req.body
     try {
+        const memberId = id
         const membership = await getMembershipById(id);
-        const response = await buyMembershipControllerPreference(membership, userId)
-        console.log(response)
+        const response = await buyMembershipControllerPreference(membership, userId, memberId)
         res.status(200).json(response)
     } catch (error) {
         res.status(500).json({ error: error.message })
