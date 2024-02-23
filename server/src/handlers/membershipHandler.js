@@ -1,3 +1,4 @@
+const { validateMembership } = require('../../utils/validations/validateMembership');
 const {getAllMemberships ,getMembershipById, createMembership, updateMembership, deleteMembership} = require('../controllers/membershipController');
 
 const getAllMembershipsHandler = async (req, res) => {
@@ -24,6 +25,7 @@ const createMembershipHandler = async (req, res) => {
   const image_url = req.file;
   console.log("esto es name",name)
   try {
+    validateMembership({name, price, duration, description})
     const response = await createMembership(name, price, duration, description, status, image_url);
     res.status(201).json(response);
   } catch (error) {
