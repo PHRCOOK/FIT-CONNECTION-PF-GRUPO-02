@@ -21,7 +21,9 @@ const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io(
+      "fit-connection-pf-grupo-02-production.up.railway.app"
+    );
     setSocket(newSocket);
 
     newSocket.on(`message to ${id}`, (message) => {
@@ -41,9 +43,7 @@ const ChatComponent = () => {
     if (!is_admin) {
       const fetchMessages = async () => {
         try {
-          const response = await axios.get(
-            `http://localhost:3001/api/messages/${id}`
-          );
+          const response = await axios.get(`/api/messages/${id}`);
           setMessages(response.data);
         } catch (error) {
           console.error("Error al obtener los mensajes:", error);
@@ -62,7 +62,7 @@ const ChatComponent = () => {
 
   const getUsers = async () => {
     try {
-      const users = await axios.get("http://localhost:3001/api/users");
+      const users = await axios.get("/api/users");
       setUsersList(users.data.Items);
     } catch (error) {
       console.log("error al obtener usuarios");
@@ -83,9 +83,7 @@ const ChatComponent = () => {
 
   const loadMessages = async (user_id) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/api/messages/${user_id}`
-      );
+      const response = await axios.get(`/api/messages/${user_id}`);
       setMessages(response.data);
     } catch (error) {
       console.error("Error al obtener los mensajes:", error);
@@ -157,7 +155,9 @@ const ChatComponent = () => {
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>
+            Send
+          </Button>
         </div>
       )}
 
@@ -180,7 +180,9 @@ const ChatComponent = () => {
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>
+            Send
+          </Button>
         </div>
       )}
     </Container>
