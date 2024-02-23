@@ -22,9 +22,9 @@ const mercadoPaymentPreferences = async (shoppingCard, userId) => {
                 auto_return: "approved",
                 items: itemsArray,
                 back_urls: {
-                    failure: "http://localhost:3001/api/createorder/failure", //hay que modificar dicha ruta
-                    pending: "http://localhost:3001/api/createorder/pending",
-                    success: "http://localhost:3001/api/createorder/success",
+                    failure: "https://fit-connection-pf-grupo-02-production.up.railway.app/api/createorder/failure", //hay que modificar dicha ruta
+                    pending: "https://fit-connection-pf-grupo-02-production.up.railway.app/api/createorder/pending",
+                    success: "https://fit-connection-pf-grupo-02-production.up.railway.app/api/createorder/success",
                 },
                 metadata: {
                     clientId:userId
