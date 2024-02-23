@@ -60,7 +60,7 @@ const InstructorDetail = () => {
       <div className="fs-4 mb-3 fw-bold text-center">
         Detalle del Instructor
       </div>
-      <Card>
+      <Card className="p-3">
         <Row>
           <Col>
             <Card.Img
