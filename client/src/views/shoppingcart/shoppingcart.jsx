@@ -75,7 +75,7 @@ export default function shoppingcart() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: `Error al procesar el pago: ${error.message}`,
+        text: "El carrito de compras está vacío",
       });
     }
   };
@@ -105,11 +105,11 @@ export default function shoppingcart() {
                       Cantidad : {carrito.quantity}
                     </div>
                     <Button
-                      className="my-3 btn btn-primary"
+                      className="my-3 btn btn-danger"
                       value={carrito.id}
                       onClick={handleClick}
                     >
-                      eliminar
+                      Eliminar
                     </Button>
                   </Col>
                 </div>

@@ -23,6 +23,7 @@ const getMembershipByIdHandler = async (req, res) => {
 const createMembershipHandler = async (req, res) => {
   const {name, price, duration, description, status} = req.body;
   const image_url = req.file;
+  console.log("esto es name",name)
   try {
     validateMembership({name, price, duration, description})
     const response = await createMembership(name, price, duration, description, status, image_url);

@@ -1,4 +1,4 @@
-import MembershipsCards from "../../../components/cards_memberships/cards_memberships";
+
 import { Container, Row, Col, Offcanvas, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import pathroutes from "../../../components/helpers/pathroutes";
@@ -37,6 +37,7 @@ const AdminServices = () => {
           <Container>
             {/* Mapea todas las membresías y renderiza una tarjeta de membresía para cada una */}
             {allMemberships.map((membership) => (
+              <Col xs="12" md="6" lg="4" className="p-3" key={membership.id}>
               <AdminMembershipCard
                 key={membership.id}
                 id={membership.id}
@@ -46,6 +47,7 @@ const AdminServices = () => {
                 image_url={membership.image_url}
                 status={membership.status}
               />
+              </Col>
             ))}
           </Container>
         </Col>
