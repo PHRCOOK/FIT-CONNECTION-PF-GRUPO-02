@@ -35,7 +35,7 @@ function Services() {
 
   return (
     <div>
-      <div className="fs-4 mb-3 fw-bold text-center">Membresia</div>{" "}
+      <div className="fs-4 mb-3 fw-bold text-center">Membresías</div>{" "}
       <MembershipsCards statusSelection={true} />
     </div>
   );
