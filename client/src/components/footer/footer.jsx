@@ -8,11 +8,11 @@ import { Container, Row, Col } from "react-bootstrap";
 
 export default function Footer() {
   return (
-    <div className="bg-secondary">
+    <div className="bg-primary text-white">
       <Container>
         <footer className="py-5">
           <Row>
-            <Col xs="12" md="8">
+            <Col xs="12" md="8" className="text-white">
               <div>
                 <span className="fw-bold">Contacto:</span> +54 011 - 156 -
                 809032
@@ -31,6 +31,7 @@ export default function Footer() {
                 href="https://www.facebook.com/tuPagina"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{ color: "white" }}
               >
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
@@ -39,6 +40,7 @@ export default function Footer() {
                 href="https://wa.me/tuNumero"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{ color: "white" }}
               >
                 <FontAwesomeIcon icon={faWhatsapp} />
               </a>
@@ -47,6 +49,7 @@ export default function Footer() {
                 href="https://www.instagram.com/tuPagina"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{ color: "white" }}
               >
                 <FontAwesomeIcon icon={faInstagram} />
               </a>

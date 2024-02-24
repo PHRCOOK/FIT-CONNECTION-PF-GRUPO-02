@@ -131,7 +131,6 @@ export default function AppBar() {
         location.pathname !== pathroutes.SHOPPINGCART &&
         !isAdmin,
     },
-
     {
       path: pathroutes.STAFF,
       title: "Conocer staff",
@@ -180,6 +179,10 @@ export default function AppBar() {
           className={`rounded fw-bold px-2 mx-1 my-md-1 ${
             location.pathname === linkData.path ? "bg-primary" : ""
           }`}
+          style={{
+            transition: "all 0.3s ease-in-out",
+            color: "white", // Cambiar al color deseado
+          }}
         >
           {linkData.title === "Carrito de compras" ? (
             <ShoppingCartIcon fontSize="large" />
@@ -193,7 +196,7 @@ export default function AppBar() {
     ));
 
   return (
-    <Navbar collapseOnSelect bg="secondary" expand="lg">
+    <Navbar collapseOnSelect bg="primary" expand="lg" variant="dark">
       <Container>
         {shouldShowLogoOnly ? (
           <LinkContainer to={pathroutes.HOME}>
@@ -228,6 +231,11 @@ export default function AppBar() {
                   <Button
                     onClick={() => logout({ returnTo: window.location.origin })}
                     className="rounded fw-bold px-2 mx-1 my-1"
+                    style={{
+                      backgroundColor: "red", // Cambiar al color deseado
+                      color: "white", // Cambiar al color deseado
+                      transition: "all 0.3s ease-in-out",
+                    }}
                   >
                     Logout
                   </Button>
