@@ -162,7 +162,7 @@ function Filters() {
         </Col>
       </Row>
       <Button variant="primary" onClick={handleReset}>
-        Reset Filters
+        Limpiar filtros
       </Button>
     </Container>
   );

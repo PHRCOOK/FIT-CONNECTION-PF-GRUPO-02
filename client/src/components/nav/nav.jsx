@@ -155,11 +155,11 @@ export default function AppBar() {
     },
     {
       path: pathroutes.LOGIN,
-      title: "Log in",
+      title: "Iniciar Sesion",
       show: !isAuthenticated && location.pathname !== pathroutes.LOGIN,
     },
     {
-      title: "Log out",
+      title: "Cerrar Sesion",
       show: isAuthenticated,
       isButton: true,
       onClick: () => {
