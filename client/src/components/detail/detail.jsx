@@ -94,7 +94,7 @@ const Detail = ({ sub }) => {
               <Card.Title>{name}</Card.Title>
               <Row>
                 <Col xs="12" md="6">
-                  <span className="fw-bold">Brand:</span> {brand}
+                  <span className="fw-bold">Marca:</span> {brand}
                 </Col>
                 <Col xs="12" md="6">
                   <span className="fw-bold">Categoria:</span>{" "}
@@ -123,14 +123,14 @@ const Detail = ({ sub }) => {
             className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
             onClick={handleClick}
           >
-            agregar al carrito
+            Agregar al carrito
           </Button>
         ) : (
           <Button
             className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
             onClick={() => loginWithRedirect()}
           >
-            Login
+            Iniciar Sesion
           </Button>
         )}
       </Card>

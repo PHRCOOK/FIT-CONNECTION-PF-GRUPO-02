@@ -237,7 +237,7 @@ export default function AppBar() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    Logout
+                    Cerrar Sesion
                   </Button>
                 )}
               </Nav>

@@ -248,7 +248,7 @@ export default function FormProduct() {
             />
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Estatus</FormLabel>
+            <FormLabel className="form-label">Estado</FormLabel>
             <select
               name="status"
               className="form-control"

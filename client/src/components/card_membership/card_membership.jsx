@@ -64,7 +64,7 @@ const MembershipCard = ({ id, name, price, description, image_url }) => {
             </Button>
           ) : (
             <Button variant="primary" onClick={() => loginWithRedirect()}>
-              Log in
+              Iniciar Sesion
             </Button>
           )}
         </div>

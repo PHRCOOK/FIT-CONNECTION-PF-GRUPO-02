@@ -33,7 +33,7 @@ function AppCard({
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
           <Col xs="12" md="6">
-            <span className="fw-bold">Brand:</span> {brand}
+            <span className="fw-bold">Marca:</span> {brand}
           </Col>
           <Col xs="12">{description}</Col>
         </Row>
