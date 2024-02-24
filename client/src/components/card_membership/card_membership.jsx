@@ -2,21 +2,29 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from 'axios'
+import axios from "axios";
 
-const MembershipCard = ({ id, name, price, description, image_url,  }) => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0(); // Access loginWithRedirect from useAuth0
+const MembershipCard = ({ id, name, price, description, image_url }) => {
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [userD, setUser] = useState({});
   const user = useSelector((state) => state.userShopping);
+
   const handlePayment = async () => {
     try {
-      const userId = userD.id
+      const userId = userD.id;
       const payload = {
-        id,name, price,
-        description, image_url, userId
+        id,
+        name,
+        price,
+        description,
+        image_url,
+        userId,
       };
-      const paymentResponse = await axios.post(`/api/membershipPurchases/checkout`, payload); // Envía una solicitud POST al backend con los datos del carrito
-      // Maneja la respuesta del pago según tus necesidades
+
+      const paymentResponse = await axios.post(
+        `/api/membershipPurchases/checkout`,
+        payload
+      );
       window.location.href = paymentResponse.data.sandbox_init_point;
     } catch (error) {
       Swal.fire({
@@ -26,11 +34,13 @@ const MembershipCard = ({ id, name, price, description, image_url,  }) => {
       });
     }
   };
+
   useEffect(() => {
     if (user) {
       setUser(user);
     }
   }, [user]);
+
   return (
     <Card className="p-3">
       <Card.Img
@@ -54,7 +64,7 @@ const MembershipCard = ({ id, name, price, description, image_url,  }) => {
             </Button>
           ) : (
             <Button variant="primary" onClick={() => loginWithRedirect()}>
-              Login
+              Log in
             </Button>
           )}
         </div>

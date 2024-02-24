@@ -11,19 +11,13 @@ function UserProfile() {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    // console.log(currentUser);
     if ((params && params.id) || (currentUser && currentUser.id)) {
       setId((isAdmin && params.id) || currentUser.id);
     }
     if (currentUser && currentUser.name) {
       setName(currentUser.name);
     }
-  }, [currentUser]);
-
-  // useEffect(() => {
-  //   console.log(id);
-  //   console.log(name);
-  // }, [id, name]);
+  }, [currentUser, isAdmin, params]);
 
   return (
     <div>

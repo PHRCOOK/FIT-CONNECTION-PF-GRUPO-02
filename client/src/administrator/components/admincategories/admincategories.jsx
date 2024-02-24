@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories, deleteCategory } from "../../../redux/action";
 import Swal from "sweetalert2";
-
 import { Button, Table, Container, FormSelect } from "react-bootstrap";
+import pathroutes from "../../../components/helpers/pathroutes";
 
 function Admincategories() {
   const dispatch = useDispatch();
@@ -16,7 +15,7 @@ function Admincategories() {
 
   useEffect(() => {
     dispatch(getAllCategories());
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = (id, status) => {
     const newStatus = !status;
@@ -27,24 +26,24 @@ function Admincategories() {
         icon: "success",
         title: "Proceso Exitoso",
         text: statusSelection
-          ? "Categoria desactivada correctamente"
-          : "Categoria activada correctamente",
+          ? "Categoría desactivada correctamente"
+          : "Categoría activada correctamente",
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Error al borrar categoria",
+        text: "Error al borrar categoría",
       });
     }
   };
 
   const handleModify = (id) => {
-    navigate(`/admin/category/modify/${id}`);
+    navigate(`${pathroutes.ADMINCATEGORYMODIFY}/${id}`);
   };
 
   const handleCreateCategory = () => {
-    navigate("/admin/category/create");
+    navigate(pathroutes.ADMINCATEGORYCREATE);
   };
 
   const handleStatusSelect = (event) => {
@@ -85,44 +84,36 @@ function Admincategories() {
               <th>Acciones</th>
             </tr>
           </thead>
-          {!allCategories ? (
-            ""
-          ) : (
-            <tbody>
-              {allCategories
-                .filter((category) => category.status === statusSelection)
-                .map((category) => {
-                  return (
-                    <tr key={category.name}>
-                      <td>{category.id}</td>
-                      <td>{category.name}</td>
-                      <td>{category.status ? "Activo" : "Inactivo"}</td>
-                      <td>{category.is_service ? "Si" : "No"}</td>
-                      <td>
-                        <Button
-                          className={`mx-2 my-1 ${
-                            statusSelection ? "btn-danger" : "btn-primary"
-                          }`}
-                          onClick={() =>
-                            handleDelete(category.id, category.status)
-                          }
-                        >
-                          {statusSelection ? "Desactivar" : "Activar"}
-                        </Button>
-                        <Button
-                          className="mx-2 my-1"
-                          onClick={() => handleModify(category.id)}
-                        >
-                          Modificar
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          )}
+          <tbody>
+            {allCategories
+              ?.filter((category) => category.status === statusSelection)
+              .map((category) => (
+                <tr key={category.name}>
+                  <td>{category.id}</td>
+                  <td>{category.name}</td>
+                  <td>{category.status ? "Activo" : "Inactivo"}</td>
+                  <td>{category.is_service ? "Si" : "No"}</td>
+                  <td>
+                    <Button
+                      className={`mx-2 my-1 ${
+                        statusSelection ? "btn-danger" : "btn-primary"
+                      }`}
+                      onClick={() => handleDelete(category.id, category.status)}
+                    >
+                      {statusSelection ? "Desactivar" : "Activar"}
+                    </Button>
+                    <Button
+                      className="mx-2 my-1"
+                      onClick={() => handleModify(category.id)}
+                    >
+                      Modificar
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
         </Table>
-        <Button onClick={handleCreateCategory}>Crear categoria</Button>
+        <Button onClick={handleCreateCategory}>Crear categoría</Button>
       </Container>
     </div>
   );

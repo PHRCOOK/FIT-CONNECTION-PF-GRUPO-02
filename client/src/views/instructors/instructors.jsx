@@ -16,9 +16,6 @@ function Instructors() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  // useEffect(() => {
-  //   console.log(allInstructors);
-  // }, [allInstructors]);
 
   return (
     <Container>
@@ -28,7 +25,11 @@ function Instructors() {
           .map((instructor) => (
             <Col key={instructor.id}>
               <Link to={`/instructors/${instructor.id}/${instructor.fullname}`}>
-                <Card  className="p-3" border="danger" style={{ width: "25rem" }}>
+                <Card
+                  className="p-3"
+                  border="danger"
+                  style={{ width: "25rem" }}
+                >
                   <Card.Img
                     variant="top"
                     src={instructor.photo}

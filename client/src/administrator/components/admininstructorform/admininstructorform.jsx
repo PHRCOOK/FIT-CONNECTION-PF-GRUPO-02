@@ -41,13 +41,13 @@ function AdminInstructorForm() {
           fullname: instructorFiltered.fullname,
           photo: instructorFiltered.photo,
           description: instructorFiltered.description,
-          status: instructorFiltered.status,
+          status: String(instructorFiltered.status),
         });
         setInitialInfo({
           fullname: instructorFiltered.fullname,
           photo: instructorFiltered.photo,
           description: instructorFiltered.description,
-          status: instructorFiltered.status,
+          status: String(instructorFiltered.status),
         });
       }
     }
@@ -80,13 +80,21 @@ function AdminInstructorForm() {
         });
         if (params.id) {
           await dispatch(putInstructor(params.id, formData));
-          Swal.fire( "Instructor actualizado", "El instructor ha sido actualizado correctamente", "success");
+          Swal.fire(
+            "Instructor actualizado",
+            "El instructor ha sido actualizado correctamente",
+            "success"
+          );
           navigate("/admin/instructor");
         } else {
           await dispatch(postInstructor(formData));
-          Swal.fire( "Instructor creado", "El instructor ha sido creado correctamente", "success");
+          Swal.fire(
+            "Instructor creado",
+            "El instructor ha sido creado correctamente",
+            "success"
+          );
           navigate("/admin/instructor");
-      }
+        }
       } catch (error) {
         let errorMessage = "Algo salió mal!";
         if (
@@ -164,7 +172,7 @@ function AdminInstructorForm() {
               <select
                 name="status"
                 className="form-control"
-                value={String(instructorForm.status)}
+                value={instructorForm.status}
                 onChange={handleChange}
               >
                 <option value="">---</option>

@@ -1,10 +1,17 @@
-import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  Row,
+  Col,
+  CardBody,
+  CardTitle,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../../../redux/action";
-import { useEffect, useState } from "react";
+import { getAllCategories, deleteProduct } from "../../../redux/action";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { deleteProduct } from "../../../redux/action";
 
 function AdminProductCard({
   id,
@@ -19,7 +26,6 @@ function AdminProductCard({
   statusSelection,
 }) {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const allCategories = useSelector((state) => state.allCategories);
@@ -28,24 +34,24 @@ function AdminProductCard({
 
   useEffect(() => {
     dispatch(getAllCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    setCategoryName(allCategories.find((cat) => cat.id === category_id).name);
-  }, [allCategories]);
+    const foundCategory = allCategories.find((cat) => cat.id === category_id);
+    setCategoryName(foundCategory ? foundCategory.name : "");
+  }, [allCategories, category_id]);
+
+  const [loading, setLoading] = useState(false);
 
   const handleModify = (id) => {
-    console.log(id);
     navigate(`/admin/product/modify/${id}`);
   };
 
-  const handleDelete = (id, status) => {
-    console.log(id);
-    console.log(status);
+  const handleDelete = async (id, status) => {
     const newStatus = !status;
     try {
-      dispatch(deleteProduct(id, { status: newStatus }));
-
+      setLoading(true);
+      await dispatch(deleteProduct(id, { status: newStatus }));
       Swal.fire({
         icon: "success",
         title: "Proceso Exitoso",
@@ -53,17 +59,17 @@ function AdminProductCard({
           ? "Producto desactivado correctamente"
           : "Producto activado correctamente",
       });
+      setLoading(false);
+      window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "Error al borrar producto",
       });
+      setLoading(false);
     }
-    // dispatch(deleteProduct(id));
-    // window.alert("Producto borrado correctamente");
-    // navigate("/admin");
   };
 
   return (
@@ -110,8 +116,15 @@ function AdminProductCard({
         onClick={() => {
           handleDelete(id, status);
         }}
+        disabled={loading}
       >
-        {statusSelection ? "Desactivar" : "Activar"}
+        {loading ? (
+          <Spinner animation="border" size="sm" />
+        ) : statusSelection ? (
+          "Desactivar"
+        ) : (
+          "Activar"
+        )}
       </Button>
     </Card>
   );

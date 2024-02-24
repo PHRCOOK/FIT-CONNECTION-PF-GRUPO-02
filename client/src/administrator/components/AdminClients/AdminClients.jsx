@@ -15,14 +15,14 @@ function AdminClients() {
 
   useEffect(() => {
     dispatch(getAllUsers(statusSelection));
-  }, [statusSelection]);
+  }, [dispatch, statusSelection]);
 
   const handleFilter = (event) => {
     const status = event.target.value === "true";
     setStatusSelection(status);
   };
 
-  const handleActivate = (statusSelection, id, currentStatus) => {
+  const handleActivate = (id, currentStatus) => {
     const newStatus = !currentStatus;
     try {
       dispatch(putUser(statusSelection, id, { status: newStatus }));
@@ -39,7 +39,7 @@ function AdminClients() {
     navigate(`/admin/client/modifyinfo/${id}`);
   };
 
-  const handleChangeAdminAcces = (event) => {
+  const handleChangeAdminAccess = (event) => {
     const { name, value, id } = event.target;
 
     if (
@@ -95,52 +95,48 @@ function AdminClients() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => {
-              return (
-                <tr key={user.id + user.name}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <FormSelect
-                      id={user.id}
-                      name="is_admin"
-                      onChange={handleChangeAdminAcces}
-                      aria-label="Default select example"
-                      value={user.is_admin}
-                      className="form-select"
-                    >
-                      <option id="statusTrue" name="statusTrue" value={true}>
-                        Si
-                      </option>
-                      <option id="statusFalse" name="statusFalse" value={false}>
-                        No
-                      </option>
-                    </FormSelect>
-                  </td>
-                  <td>{user.status ? "Activo" : "Inactivo"}</td>
-                  <td>
-                    <Button
-                      variant={user.status ? "danger" : "primary"}
-                      onClick={() => {
-                        handleActivate(statusSelection, user.id, user.status);
-                      }}
-                      className="me-2"
-                      disabled={user.is_admin && user.status}
-                    >
-                      {user.status ? "Desactivar" : "Activar"}
-                    </Button>
+            {users.map((user) => (
+              <tr key={user.id + user.name}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>
+                  <FormSelect
+                    id={user.id}
+                    name="is_admin"
+                    onChange={handleChangeAdminAccess}
+                    aria-label="Default select example"
+                    value={user.is_admin}
+                    className="form-select"
+                  >
+                    <option id="statusTrue" name="statusTrue" value={true}>
+                      Si
+                    </option>
+                    <option id="statusFalse" name="statusFalse" value={false}>
+                      No
+                    </option>
+                  </FormSelect>
+                </td>
+                <td>{user.status ? "Activo" : "Inactivo"}</td>
+                <td>
+                  <Button
+                    variant={user.status ? "danger" : "primary"}
+                    onClick={() => handleActivate(user.id, user.status)}
+                    className="me-2"
+                    disabled={user.is_admin && user.status}
+                  >
+                    {user.status ? "Desactivar" : "Activar"}
+                  </Button>
 
-                    <Button
-                      variant="info"
-                      onClick={() => handleModifyUserInfo(user.id)}
-                    >
-                      Modificar datos personales
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
+                  <Button
+                    variant="info"
+                    onClick={() => handleModifyUserInfo(user.id)}
+                  >
+                    Modificar datos personales
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       ) : (

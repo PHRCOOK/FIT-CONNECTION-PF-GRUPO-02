@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchUserInfo, postUserInfo, putUserInfo } from "../../redux/action";
+import {
+  fetchUserInfo,
+  postUserInfo,
+  putUserInfo,
+  setUserShopping,
+} from "../../redux/action";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Container,
@@ -11,7 +16,6 @@ import {
   Card,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { setUserShopping } from "../../redux/action";
 import axios from "axios";
 
 function UserDetails({ user_id, name, setName }) {
@@ -20,23 +24,20 @@ function UserDetails({ user_id, name, setName }) {
   const [newUserInfo, setNewUserInfo] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const currentUser = useSelector((state) => state.userShopping);
-
   useEffect(() => {
     dispatch(fetchUserInfo(user_id));
   }, [user_id]);
 
   useEffect(() => {
     setNewUserInfo({ ...userInfo, id: user_id });
-  }, [userInfo]);
+  }, [userInfo, user_id]);
 
   useEffect(() => {
-    const checkInfo = !(
-      newUserInfo.address &&
-      newUserInfo.phone &&
-      newUserInfo.dni &&
-      newUserInfo.birth_date
-    );
+    const checkInfo =
+      !newUserInfo.address ||
+      !newUserInfo.phone ||
+      !newUserInfo.dni ||
+      !newUserInfo.birth_date;
     setIsButtonDisabled(checkInfo);
   }, [newUserInfo]);
 
@@ -51,7 +52,7 @@ function UserDetails({ user_id, name, setName }) {
     setNewUserInfo({ ...newUserInfo, [key]: value, id: user_id });
   };
 
-  const handleSaveChanges = async (event) => {
+  const handleSaveChanges = async () => {
     try {
       if (userInfo.exists) {
         await dispatch(putUserInfo(newUserInfo));
@@ -61,7 +62,7 @@ function UserDetails({ user_id, name, setName }) {
 
       await axios.put(`/api/users/${user_id}`, { name });
 
-      await Swal.fire({
+      Swal.fire({
         icon: "success",
         title: "Proceso Exitoso",
         text: "Información modificada exitosamente",
@@ -76,9 +77,6 @@ function UserDetails({ user_id, name, setName }) {
       <Card className="p-5">
         <Row>
           <Col>
-            {/* <label htmlFor="nombre-profile">Nombre</label>
-          <input id="nombre-profile" type="text" /> */}
-
             <FormLabel htmlFor="name">Nombre</FormLabel>
             <FormControl
               id="name"
@@ -87,16 +85,11 @@ function UserDetails({ user_id, name, setName }) {
               autoComplete="off"
               onChange={handleUserInfo}
               value={name || ""}
-
-              // value={filterSettings.name || ""}
             />
           </Col>
         </Row>
         <Row>
           <Col>
-            {/* <label htmlFor="direccion-profile">Direccion</label>
-          <input id="direccion-profile" type="text" /> */}
-
             <FormLabel htmlFor="address">Dirección</FormLabel>
             <FormControl
               id="address"
@@ -110,9 +103,6 @@ function UserDetails({ user_id, name, setName }) {
         </Row>
         <Row>
           <Col>
-            {/* <label htmlFor="telefono-profile">Telefono</label>
-          <input id="telefono-profile" type="tel" /> */}
-
             <FormLabel htmlFor="phone">Teléfono</FormLabel>
             <FormControl
               id="phone"
@@ -126,9 +116,6 @@ function UserDetails({ user_id, name, setName }) {
         </Row>
         <Row>
           <Col>
-            {/* <label htmlFor="dni-profile">DNI</label>
-          <input id="dni-profile" type="number" /> */}
-
             <FormLabel htmlFor="dni">DNI</FormLabel>
             <FormControl
               id="dni"
@@ -142,9 +129,6 @@ function UserDetails({ user_id, name, setName }) {
         </Row>
         <Row>
           <Col>
-            {/* <label htmlFor="fechaNacimineto-profile">Fecha de Nacimiento</label>
-          <input id="fechaNacimineto-profile" type="date" /> */}
-
             <FormLabel htmlFor="birth_date">Fecha de nacimiento</FormLabel>
             <FormControl
               id="birth_date"
@@ -161,7 +145,7 @@ function UserDetails({ user_id, name, setName }) {
           <Col>
             <Button
               disabled={isButtonDisabled}
-              className="bt-primary my-5"
+              className="btn-primary my-5"
               size="lg"
               onClick={handleSaveChanges}
             >

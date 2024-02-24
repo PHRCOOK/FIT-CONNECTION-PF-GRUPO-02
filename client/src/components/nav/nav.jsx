@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from "react-router-dom";
-import logo from "../../assets/img/logo-nav.png";
-import pathroutes from "../helpers/pathroutes";
-import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +8,9 @@ import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 import Swal from "sweetalert2";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ChatIcon from "@mui/icons-material/Chat";
+import { LinkContainer } from "react-router-bootstrap";
+import pathroutes from "../helpers/pathroutes"; // Asegúrate de tener esta importación correcta
+import logo from "../../assets/img/logo-nav.png";
 
 export default function AppBar() {
   const location = useLocation();
@@ -181,7 +181,7 @@ export default function AppBar() {
           }`}
           style={{
             transition: "all 0.3s ease-in-out",
-            color: "white", // Cambiar al color deseado
+            color: "white",
           }}
         >
           {linkData.title === "Carrito de compras" ? (
@@ -232,8 +232,8 @@ export default function AppBar() {
                     onClick={() => logout({ returnTo: window.location.origin })}
                     className="rounded fw-bold px-2 mx-1 my-1"
                     style={{
-                      backgroundColor: "red", // Cambiar al color deseado
-                      color: "white", // Cambiar al color deseado
+                      backgroundColor: "red",
+                      color: "white",
                       transition: "all 0.3s ease-in-out",
                     }}
                   >

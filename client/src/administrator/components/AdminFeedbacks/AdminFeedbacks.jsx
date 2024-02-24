@@ -7,9 +7,7 @@ import { format } from "date-fns";
 
 function AdminFeedbacks() {
   const [comments, setComments] = useState([]);
-
   const navigate = useNavigate();
-
   const [statusSelection, setStatusSelection] = useState(true);
 
   const handleFilter = (event) => {
@@ -23,28 +21,22 @@ function AdminFeedbacks() {
       setComments(data.Items);
     } catch (error) {
       console.log(error);
-      // const message = error.response.data.error;
       Swal.fire("Error", "Error al cargar los comentarios", "error");
     }
   };
 
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [statusSelection]); // Agregué statusSelection a las dependencias del useEffect
 
-  // useEffect(() => {
-  //   // console.log(comments);
-  // }, [comments]);
-
-  const handleStatus = async (statusSelection, feedbackId, currentStatus) => {
-    console.log(statusSelection, feedbackId, currentStatus);
+  const handleStatus = async (feedbackId, currentStatus) => {
     const newStatus = !currentStatus;
 
     try {
-      const { data } = await axios.put(`/api/feedbacks/${feedbackId}`, {
+      await axios.put(`/api/feedbacks/${feedbackId}`, {
         status: newStatus,
       });
-      fetchComments();
+      fetchComments(); // Refrescar comentarios después de la actualización
     } catch (error) {
       Swal.fire("Error", error.message, "error");
     }
@@ -105,11 +97,7 @@ function AdminFeedbacks() {
                       <Button
                         variant={comment.status ? "danger" : "primary"}
                         onClick={() => {
-                          handleStatus(
-                            statusSelection,
-                            comment.id,
-                            comment.status
-                          );
+                          handleStatus(comment.id, comment.status);
                         }}
                         className="me-2"
                       >

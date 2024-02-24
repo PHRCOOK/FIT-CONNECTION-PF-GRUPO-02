@@ -32,7 +32,7 @@ const pathroutes = {
   ADMINSERVICES: "/admin/membership/",
   FORMSERVICE: "/admin/services/create",
   MODIFYSERVICE: "/admin/membership/modify/:id",
-  GYM_INFO: "admin/gimnasio/",
+  GYM_INFO: "/gimnasio/",
   CHAT: "/chat",
   ADMIN_FEEDBACK: "/admin/feedback/",
 };

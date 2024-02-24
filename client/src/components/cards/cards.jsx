@@ -3,7 +3,7 @@ import AppCard from "../card/card";
 import AdminProductCard from "../../administrator/components/AdminProductCard/AdminProductCard";
 import { useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Cards({ statusSelection }) {
   const location = useLocation();
@@ -27,32 +27,24 @@ function Cards({ statusSelection }) {
     );
   }, [allCategories, productsToShow, statusSelection]);
 
-  // if (!location.pathname.includes("admin")) {
-  //   productsToShow = productsToShow.filter((item) => item.status);
-  // }
-
   return (
     <Row>
-      {products
-        // .filter((item) => item.satus)
-        .map((item) => {
-          return (
-            <Col xs="12" md="6" lg="4" className="p-3" key={item.id}>
-              <Card
-                statusSelection={statusSelection}
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                description={item.description}
-                status={item.status}
-                brand={item.brand}
-                image_url={item.image_url}
-                stock={item.stock}
-                category_id={item.category_id}
-              />
-            </Col>
-          );
-        })}
+      {products.map((item) => (
+        <Col xs="12" md="6" lg="4" className="p-3" key={item.id}>
+          <Card
+            statusSelection={statusSelection}
+            id={item.id}
+            name={item.name}
+            price={item.price}
+            description={item.description}
+            status={item.status}
+            brand={item.brand}
+            image_url={item.image_url}
+            stock={item.stock}
+            category_id={item.category_id}
+          />
+        </Col>
+      ))}
     </Row>
   );
 }

@@ -1,39 +1,44 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
-import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
+import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { deleteProduct } from "../../../redux/action";
 
-function product(props) {
-  const {
-    id,
-    name,
-    price,
-    description,
-    status,
-    code,
-    image_url,
-    stock,
-    category,
-  } = props;
+function Product(props) {
+  const { id, name, price, description, status, code, image_url, stock } =
+    props;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleModify = (id) => {
+  const handleModify = () => {
     navigate(`/admin/modifyproduct/${id}`);
   };
 
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
+  const handleDelete = () => {
     Swal.fire({
-      icon: "success",
-      title: "Proceso Exitoso",
-      text: "Producto borrado correctamente",
-    })
-    navigate("/admin");
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará el producto de forma permanente.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteProduct(id));
+        Swal.fire({
+          icon: "success",
+          title: "Proceso Exitoso",
+          text: "Producto borrado correctamente",
+        });
+        navigate("/admin");
+      }
+    });
   };
 
   return (
@@ -65,22 +70,14 @@ function product(props) {
         </CardBody>
       </Card>
 
-      <button
-        onClick={() => {
-          handleModify(props.id);
-        }}
-      >
-        MODIFICAR
-      </button>
-      <button
-        onClick={() => {
-          handleDelete(props.id);
-        }}
-      >
-        ELIMINAR
-      </button>
+      <Button className="mx-3 my-2" variant="primary" onClick={handleModify}>
+        Modificar
+      </Button>
+      <Button className="mx-3 my-2" variant="danger" onClick={handleDelete}>
+        Eliminar
+      </Button>
     </div>
   );
 }
 
-export default product;
+export default Product;

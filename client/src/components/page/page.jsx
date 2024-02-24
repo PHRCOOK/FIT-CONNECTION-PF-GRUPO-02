@@ -17,23 +17,19 @@ function Page() {
   const arrayTotalPages = createList(totalPages);
 
   const handleClick = (page) => {
-    // const page = Number(event.target.value);
-    // console.log(event.target);
-    console.log(page);
-
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
 
-  const handlePrev = (event) => {
+  const handlePrev = () => {
     const page = Number(filterSettings.page) - 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
-  const handleNext = (event) => {
-    console.log(filterSettings);
+
+  const handleNext = () => {
     const page = Number(filterSettings.page) + 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
@@ -47,21 +43,16 @@ function Page() {
           <Button disabled={filterSettings.page === 1} onClick={handlePrev}>
             Atrás
           </Button>
-          {arrayTotalPages.map((page) => {
-            return (
-              <Pagination.Item
-                key={`page${page}`}
-                disabled={filterSettings.page === page}
-                value={page}
-                onClick={() => {
-                  handleClick(page);
-                }}
-                active={filterSettings.page === page}
-              >
-                {page}
-              </Pagination.Item>
-            );
-          })}
+          {arrayTotalPages.map((page) => (
+            <Pagination.Item
+              key={`page${page}`}
+              disabled={filterSettings.page === page}
+              onClick={() => handleClick(page)}
+              active={filterSettings.page === page}
+            >
+              {page}
+            </Pagination.Item>
+          ))}
           <Button
             disabled={filterSettings.page === totalPages}
             onClick={handleNext}

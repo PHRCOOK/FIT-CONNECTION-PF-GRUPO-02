@@ -5,25 +5,24 @@ import AppCard from "../../components/card/card";
 import { Button, Row, Col, Card, Container } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-export default function shoppingcart() {
-  const [carritos, setCarritos] = useState([]);
+export default function ShoppingCart() {
+  const [cartItems, setCartItems] = useState([]);
   const user = useSelector((state) => state.userShopping);
 
-  const getCarritos = (user) => {
+  const getCartItems = (user) => {
     if (user) {
-      // Verifica que user no sea undefined
       axios
         .get(`/api/shoppingCart/${user.id}`)
         .then(({ data }) => {
           if (data) {
-            setCarritos(data);
+            setCartItems(data);
           } else {
-            setCarritos([]);
+            setCartItems([]);
           }
         })
         .catch((error) => {
           if (error.response && error.response.status === 500) {
-            setCarritos([]); // Establece el carrito como vacío cuando se produce un error 500
+            setCartItems([]);
           } else {
             Swal.fire({
               icon: "error",
@@ -38,10 +37,10 @@ export default function shoppingcart() {
 
   useEffect(() => {
     if (user) {
-      getCarritos(user);
+      getCartItems(user);
     }
 
-    return setCarritos([]);
+    return setCartItems([]);
   }, [user]);
 
   const handleClick = async (e) => {
@@ -54,7 +53,7 @@ export default function shoppingcart() {
           title: "Proceso Exitoso",
           text: "El registro de carrito se eliminó",
         });
-        getCarritos(user);
+        getCartItems(user);
       })
       .catch((error) => {
         Swal.fire({
@@ -87,27 +86,27 @@ export default function shoppingcart() {
       <Card>
         <Row>
           <Col className="my-3 mx-3">
-            {carritos.length > 0 ? (
-              carritos.map((carrito) => (
-                <div key={carrito.id}>
+            {cartItems.length > 0 ? (
+              cartItems.map((cartItem) => (
+                <div key={cartItem.id}>
                   <AppCard
-                    id={carrito.id}
-                    name={carrito.name}
-                    price={carrito.price}
-                    description={carrito.description}
-                    status={carrito.status}
-                    brand={carrito.brand}
-                    image_url={carrito.image_url}
-                    stock={carrito.stock}
-                    category={carrito.category_id}
+                    id={cartItem.id}
+                    name={cartItem.name}
+                    price={cartItem.price}
+                    description={cartItem.description}
+                    status={cartItem.status}
+                    brand={cartItem.brand}
+                    image_url={cartItem.image_url}
+                    stock={cartItem.stock}
+                    category={cartItem.category_id}
                   />
                   <Col>
                     <div className="fw-bold fs-2">
-                      Cantidad : {carrito.quantity}
+                      Cantidad : {cartItem.quantity}
                     </div>
                     <Button
                       className="my-3 btn btn-danger"
-                      value={carrito.id}
+                      value={cartItem.id}
                       onClick={handleClick}
                     >
                       Eliminar

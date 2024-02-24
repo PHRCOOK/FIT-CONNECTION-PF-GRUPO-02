@@ -4,14 +4,14 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useAuth0 } from "@auth0/auth0-react"; // Import useAuth0
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Detail = ({ sub }) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
   const user = useSelector((state) => state.userShopping);
-  const { isAuthenticated, loginWithRedirect } = useAuth0(); // Access isAuthenticated and loginWithRedirect from useAuth0
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
     axios
@@ -87,7 +87,7 @@ const Detail = ({ sub }) => {
               style={{ height: "300px", objectFit: "contain" }}
               variant="top"
               src={image_url}
-            ></Card.Img>
+            />
           </Col>
           <Col>
             <Card.Body>

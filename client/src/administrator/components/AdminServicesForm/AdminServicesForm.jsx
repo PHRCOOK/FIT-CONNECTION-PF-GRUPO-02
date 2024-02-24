@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import validate from "./validate";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,22 +24,23 @@ const AdminServicesForm = () => {
 
   useEffect(() => {
     if (params.id) {
-      const membershipFiltered = allMemberships.filter(
+      const membershipFiltered = allMemberships.find(
         (membership) => params.id === membership.id.toString()
       );
       setMembershipForm({
         ...membershipForm,
-        name: membershipFiltered[0].name,
-        price: membershipFiltered[0].price,
-        duration: membershipFiltered[0].duration,
-        description: membershipFiltered[0].description,
-        status: membershipFiltered[0].status,
-        image_url: membershipFiltered[0].image_url,
+        name: membershipFiltered.name,
+        price: membershipFiltered.price,
+        duration: membershipFiltered.duration,
+        description: membershipFiltered.description,
+        status: membershipFiltered.status,
+        image_url: membershipFiltered.image_url,
       });
     }
-  }, [params]);
+  }, [params, allMemberships]);
 
   const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setMembershipForm({ ...membershipForm, [e.target.name]: e.target.value });
     setErrors(validate({ ...membershipForm, [e.target.name]: e.target.value }));
@@ -82,7 +83,7 @@ const AdminServicesForm = () => {
         if (params.id) {
           dispatch(putMembership(params.id, formData));
           Swal.fire({
-            title: "Membresia actualizada con exito",
+            title: "Membresia actualizada con éxito",
             icon: "success",
           }).then(() => {
             navigate("/admin/membership");
@@ -90,7 +91,7 @@ const AdminServicesForm = () => {
         } else {
           dispatch(postMembership(formData));
           Swal.fire({
-            title: "Membresia Creada con exito",
+            title: "Membresia creada con éxito",
             icon: "success",
           }).then(() => {
             navigate("/admin/membership");
@@ -179,13 +180,11 @@ const AdminServicesForm = () => {
                 as="select"
                 name="status"
                 defaultValue={"DEFAULT"}
-                // value={membershipForm.status}
                 onChange={handleChange}
               >
                 <option value="DEFAULT" disabled hidden>
                   --
                 </option>
-
                 <option value="true">Active</option>
                 <option value="false">Inactive</option>
               </Form.Control>

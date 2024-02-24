@@ -77,7 +77,7 @@ function AdminInstructor() {
           </FormSelect>
         </div>
         {!allInstructors.length ? (
-          ""
+          <h2>NO HAY INSTRUCTORES PARA MOSTRAR</h2>
         ) : (
           <Table>
             <thead>
@@ -104,6 +104,7 @@ function AdminInstructor() {
                           onClick={() =>
                             handleDelete(instructor.id, instructor.status)
                           }
+                          disabled={!statusSelection}
                         >
                           {statusSelection ? "Desactivar" : "Activar"}
                         </Button>

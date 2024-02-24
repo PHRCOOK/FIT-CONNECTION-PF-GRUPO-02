@@ -1,16 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { Container, Row, Col, Offcanvas, Button, Form } from "react-bootstrap";
 import Filters from "../../../components/filters/filters";
 import Cards from "../../../components/cards/cards";
 import Page from "../../../components/page/page";
-import {
-  Container,
-  Row,
-  Col,
-  Offcanvas,
-  Button,
-  FormSelect,
-} from "react-bootstrap";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import pathroutes from "../../../components/helpers/pathroutes";
 
@@ -37,21 +29,15 @@ function Store() {
             <label htmlFor="statusSelect" className="form-label">
               Seleccionar estatus
             </label>
-            <FormSelect
+            <Form.Select
               id="statusSelect"
               name="statusSelect"
               onChange={handleStatusSelect}
-              aria-label="Default select example"
-              value={statusSelection}
-              className="form-select"
+              value={statusSelection.toString()}
             >
-              <option id="statusTrue" name="statusTrue" value={true}>
-                Activos
-              </option>
-              <option id="statusFalse" name="statusFalse" value={false}>
-                Inactivos
-              </option>
-            </FormSelect>
+              <option value="true">Activos</option>
+              <option value="false">Inactivos</option>
+            </Form.Select>
           </div>
         </Col>
       </Row>
