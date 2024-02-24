@@ -10,7 +10,8 @@ export default function shoppingcart() {
   const user = useSelector((state) => state.userShopping);
 
   const getCarritos = (user) => {
-    if (user) { // Verifica que user no sea undefined
+    if (user) {
+      // Verifica que user no sea undefined
       axios
         .get(`/api/shoppingCart/${user.id}`)
         .then(({ data }) => {
@@ -82,7 +83,7 @@ export default function shoppingcart() {
 
   return (
     <Container>
-      <div className="fs-4 mb-3 fw-bold text-center">Shopping Cart</div>
+      <div className="fs-4 mb-3 fw-bold text-center">Carrito de compras</div>
       <Card>
         <Row>
           <Col className="my-3 mx-3">
