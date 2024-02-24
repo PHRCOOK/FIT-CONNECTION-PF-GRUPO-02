@@ -18,14 +18,6 @@ const validateMembership = ({name, price, duration, description}) => {
     if (!isNaN(name)) {
         throw new Error('El nombre no puede ser un número..')
     }
-    
-    if (typeof price === "string") {
-        throw new Error('La precio debe ser un número.')
-    }
-
-    if (typeof duration === "string") {
-        throw new Error('La duración debe ser un número.')
-    }
 
     if (!isNaN(description)) {
         throw new Error('La descripción no puede ser un número.')

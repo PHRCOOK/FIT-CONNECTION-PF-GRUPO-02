@@ -16,8 +16,10 @@ function Page() {
 
   const arrayTotalPages = createList(totalPages);
 
-  const handleClick = (event) => {
-    const page = Number(event.target.value);
+  const handleClick = (page) => {
+    // const page = Number(event.target.value);
+    // console.log(event.target);
+    console.log(page);
 
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
@@ -31,6 +33,7 @@ function Page() {
     dispatch(applySettings(settingsToApply));
   };
   const handleNext = (event) => {
+    console.log(filterSettings);
     const page = Number(filterSettings.page) + 1;
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
@@ -50,7 +53,9 @@ function Page() {
                 key={`page${page}`}
                 disabled={filterSettings.page === page}
                 value={page}
-                onClick={handleClick}
+                onClick={() => {
+                  handleClick(page);
+                }}
                 active={filterSettings.page === page}
               >
                 {page}
