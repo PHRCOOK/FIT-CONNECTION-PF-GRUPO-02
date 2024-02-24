@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
     }
 
     io.emit(`message to ${message.to_user_id}`, message);
+    io.emit(`message from ${message.from_user_id}`, message);
   });
 
   socket.on("disconnect", () => {

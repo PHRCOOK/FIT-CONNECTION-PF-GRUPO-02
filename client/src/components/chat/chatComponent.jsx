@@ -36,6 +36,10 @@ const ChatComponent = () => {
       });
     });
 
+    newSocket.on(`message from ${id}`, (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
     return () => {
       newSocket.disconnect();
     };
