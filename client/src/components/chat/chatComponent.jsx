@@ -183,7 +183,7 @@ const ChatComponent = () => {
             }
           />
           <Button className="primary mx-2" onClick={handleMessageSend}>
-            Send
+            Enviar
           </Button>
         </div>
       )}
