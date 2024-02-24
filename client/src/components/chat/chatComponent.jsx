@@ -157,7 +157,9 @@ const ChatComponent = () => {
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>
+            Enviar
+          </Button>
         </div>
       )}
 
@@ -180,7 +182,9 @@ const ChatComponent = () => {
               setMessageInput({ ...messageInput, message: e.target.value })
             }
           />
-          <Button className="primary mx-2" onClick={handleMessageSend}>Send</Button>
+          <Button className="primary mx-2" onClick={handleMessageSend}>
+            Send
+          </Button>
         </div>
       )}
     </Container>
