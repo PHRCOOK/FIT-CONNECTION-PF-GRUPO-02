@@ -1,25 +1,31 @@
 const validate = (input) => {
-    const errors = {};
-    if (!input.name) {
-        errors.name = "It cannot be empty.";
-    }
-    if (input.price < 0) {
-        errors.price = "The price cannot be a negative number.";
-    }
-    if (!input.price) {
-        errors.price = "It cannot be empty.";
-    }
-    if (input.description.length > 200) {
-        errors.description = "The description cannot exceed 200 characters.";
-    }
-    if (!input.description) {
-        errors.description = "It cannot be empty.";
-    }
-    if (!input.status) {
-        errors.status = "Select one status.";
-    }
+  const errors = {};
+  if (!input.name) {
+    errors.name = "El campo no puede estar vacio.";
+  }
+  if (input.price < 0) {
+    errors.price = "El precio no puede ser un numero negativo.";
+  }
+  if (!input.price) {
+    errors.price = "El campo no puede estar vacio.";
+  }
+  if (input.description.length > 200) {
+    errors.description = "La descripcion no debe superar los 200 caracteres.";
+  }
+  if (!input.description) {
+    errors.description = "El campo no puede estar vacio.";
+  }
+  if (!input.status) {
+    errors.status = "Seleccione un estado.";
+  }
+  if (input.duration.length > 200) {
+    errors.duration = "La duracion debe ser un numero.";
+  }
+  if (!input.duration) {
+    errors.duration = "El campo no puede estar vacio.";
+  }
 
-    return errors;
-}
+  return errors;
+};
 
 export default validate;
