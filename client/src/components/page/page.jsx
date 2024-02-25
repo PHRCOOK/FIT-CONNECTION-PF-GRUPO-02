@@ -23,40 +23,43 @@ function Page() {
   };
 
   const handlePrev = () => {
-    const page = Number(filterSettings.page) - 1;
+    let page = Number(filterSettings.page) - 1;
+    if (page < 1) {
+      page = totalPages; // Si estás en la primera página, vuelve a la última
+    }
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
 
   const handleNext = () => {
-    const page = Number(filterSettings.page) + 1;
+    let page = Number(filterSettings.page) + 1;
+    if (page > totalPages) {
+      page = 1; // Si estás en la última página, vuelve a la primera
+    }
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
     dispatch(applySettings(settingsToApply));
   };
 
   return (
-    <Row>
-      <Col>
-        <Pagination className="justify-content-center">
-          <Button disabled={filterSettings.page === 1} onClick={handlePrev}>
+    <Row className="justify-content-center my-3">
+      <Col xs="auto">
+        <Pagination>
+          <Button variant="secondary" onClick={handlePrev} className="mx-2">
             Atrás
           </Button>
           {arrayTotalPages.map((page) => (
             <Pagination.Item
               key={`page${page}`}
-              disabled={filterSettings.page === page}
               onClick={() => handleClick(page)}
               active={filterSettings.page === page}
+              className="mx-2"
             >
               {page}
             </Pagination.Item>
           ))}
-          <Button
-            disabled={filterSettings.page === totalPages}
-            onClick={handleNext}
-          >
+          <Button variant="secondary" onClick={handleNext} className="mx-2">
             Siguiente
           </Button>
         </Pagination>
