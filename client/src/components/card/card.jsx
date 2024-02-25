@@ -1,43 +1,33 @@
 import React from "react";
-import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function AppCard({
-  id,
-  name,
-  price,
-  description,
-  status,
-  brand,
-  image_url,
-  stock,
-  category,
-}) {
+function AppCard({ id, name, price, description, brand, image_url }) {
   return (
-    <Card className="p-3">
-      <Link to={`/detail/${id}`}>
+    <Card className="h-100">
+      <Link to={`/detail/${id}`} className="card-link">
         <Card.Img
-          className="my-1"
-          style={{ height: "300px", objectFit: "contain" }}
+          className="card-image"
           variant="top"
           src={image_url}
+          alt={name}
         />
       </Link>
-      <CardBody>
-        <Link to={`/detail/${id}`}>
-          <CardTitle>Nombre: {name}</CardTitle>
+      <Card.Body className="d-flex flex-column">
+        <Link to={`/detail/${id}`} className="card-link">
+          <Card.Title className="card-title">{name}</Card.Title>
         </Link>
-        <CardTitle>Id: {id}</CardTitle>
-        <Row>
-          <Col xs="12" md="6">
+        <Card.Text className="card-id">Id: {id}</Card.Text>
+        <Row className="mb-2">
+          <Col>
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
-          <Col xs="12" md="6">
+          <Col>
             <span className="fw-bold">Marca:</span> {brand}
           </Col>
-          <Col xs="12">{description}</Col>
         </Row>
-      </CardBody>
+        <Card.Text className="card-description">{description}</Card.Text>
+      </Card.Body>
     </Card>
   );
 }
