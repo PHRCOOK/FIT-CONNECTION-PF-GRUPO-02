@@ -199,7 +199,7 @@ export const putCategory = (id, category) => {
         payload: data.response.categories,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       const message = error.response.data.message;
       throw new Error(message);
     }

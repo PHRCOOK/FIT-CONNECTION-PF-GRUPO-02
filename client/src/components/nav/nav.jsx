@@ -123,14 +123,7 @@ export default function AppBar() {
       title: "Instructores",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
     },
-    {
-      path: pathroutes.SHOPPINGCART,
-      title: "Carrito de compras",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.SHOPPINGCART &&
-        !isAdmin,
-    },
+
     {
       path: pathroutes.STAFF,
       title: "Conocer staff",
@@ -144,6 +137,14 @@ export default function AppBar() {
         isAdmin &&
         !shouldShowLogoOnly &&
         location.pathname !== pathroutes.ADMIN,
+    },
+    {
+      path: pathroutes.SHOPPINGCART,
+      title: "Carrito de compras",
+      show:
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.SHOPPINGCART &&
+        isAdmin,
     },
     {
       path: pathroutes.CHAT,
