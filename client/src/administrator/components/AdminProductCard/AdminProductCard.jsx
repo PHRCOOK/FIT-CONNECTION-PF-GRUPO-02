@@ -83,22 +83,24 @@ function AdminProductCard({
         <CardTitle>Id: {id}</CardTitle>
         <CardTitle>Nombre: {name}</CardTitle>
         <Row>
-          <Col xs="12" md="6">
+          <Col xs="12" md="10">
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
-          <Col xs="12" md="6">
-            <span className="fw-bold">Brand:</span> {brand}
+          <Col xs="12" md="10">
+            <span className="fw-bold">Marca:</span> {brand}
           </Col>
-          <Col xs="12" md="6">
-            <span className="fw-bold">Estatus:</span> {String(status)}
+          <Col xs="12" md="10">
+            <span className="fw-bold">Estado:</span> {String(status)}
           </Col>
-          <Col xs="12" md="6">
+          <Col xs="12" md="10">
             <span className="fw-bold">Stock:</span> {stock}
           </Col>
-          <Col xs="12" md="6">
+          <Col xs="12" md="10">
             <span className="fw-bold">Categoría:</span> {categoryName}
           </Col>
-          <Col xs="12">{description}</Col>
+          <Col xs="12" className="mt-3">
+            {description}
+          </Col>
         </Row>
       </CardBody>
       <Button
@@ -112,7 +114,7 @@ function AdminProductCard({
       </Button>
       <Button
         className="mx-3 my-2"
-        variant="secondary"
+        variant={statusSelection ? "danger" : "success"}
         onClick={() => {
           handleDelete(id, status);
         }}
