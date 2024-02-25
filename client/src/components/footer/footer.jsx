@@ -28,7 +28,7 @@ export default function Footer() {
             <Col xs="12" md="4" className="fs-2 text-md-end text-center my-3">
               <a
                 className="mx-3"
-                href="https://www.facebook.com/tuPagina"
+                href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "white" }}
@@ -37,7 +37,7 @@ export default function Footer() {
               </a>
               <a
                 className="mx-3"
-                href="https://wa.me/tuNumero"
+                href="https://wa.me/+542616396981"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "white" }}
@@ -46,7 +46,7 @@ export default function Footer() {
               </a>
               <a
                 className="mx-3"
-                href="https://www.instagram.com/tuPagina"
+                href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "white" }}
