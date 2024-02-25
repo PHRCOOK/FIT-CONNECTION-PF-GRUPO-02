@@ -64,7 +64,7 @@ function AdminClients() {
     <Container className="mt-3">
       <div className="mb-3">
         <label htmlFor="statusSelect" className="form-label">
-          Seleccionar estatus
+          Seleccionar estado
         </label>
         <FormSelect
           id="statusSelect"
@@ -90,7 +90,7 @@ function AdminClients() {
               <th>Nombre</th>
               <th>e-mail</th>
               <th>Es Administrador?</th>
-              <th>Estatus</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -139,9 +139,7 @@ function AdminClients() {
             ))}
           </tbody>
         </Table>
-      ) : (
-        <h2>NO HAY USUARIOS PARA MOSTRAR</h2>
-      )}
+      ) : null}
     </Container>
   );
 }

@@ -27,7 +27,7 @@ function Store() {
         <Col>
           <div className="mb-3">
             <label htmlFor="statusSelect" className="form-label">
-              Seleccionar estatus
+              Seleccionar estado
             </label>
             <Form.Select
               id="statusSelect"
