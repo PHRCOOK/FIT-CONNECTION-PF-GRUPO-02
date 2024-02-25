@@ -73,7 +73,7 @@ function AdminProductCard({
   };
 
   return (
-    <Card className="p-3">
+    <Card className="p-3 h-100">
       <Card.Img
         style={{ height: "300px", objectFit: "contain" }}
         variant="top"
