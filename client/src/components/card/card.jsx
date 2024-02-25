@@ -23,7 +23,6 @@ function AppCard({ id, name, price, description, brand, image_url }) {
         <Link to={`/detail/${id}`} className="card-link">
           <Card.Title className="card-title flex-fill">{name}</Card.Title>
         </Link>
-        <Card.Text className="card-id">Id: {id}</Card.Text>
         <Row className="mb-2">
           <Col>
             <span className="fw-bold">Precio:</span> ${price}
