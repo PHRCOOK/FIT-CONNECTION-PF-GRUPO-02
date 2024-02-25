@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ChatIcon from "@mui/icons-material/Chat";
 import { LinkContainer } from "react-router-bootstrap";
-import pathroutes from "../helpers/pathroutes"; // Asegúrate de tener esta importación correcta
+import pathroutes from "../helpers/pathroutes";
 import logo from "../../assets/img/logo-nav.png";
 
 export default function AppBar() {
@@ -37,7 +37,7 @@ export default function AppBar() {
           setShowAlert(false);
         }
       } else {
-        console.log("Estado Inactivo");
+        // console.log("Estado Inactivo");
         setShowAlert(true);
 
         userData = {
