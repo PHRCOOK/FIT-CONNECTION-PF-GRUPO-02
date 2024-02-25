@@ -122,10 +122,10 @@ const AdminServicesForm = () => {
     <Container>
       <Row>
         <Col>
-          <h2>{params.id ? "Edit" : "Create"} Membership</h2>
+          <h2>{params.id ? "Editar" : "Crear"} Membresías</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -137,7 +137,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Price</Form.Label>
+              <Form.Label>Precio</Form.Label>
               <Form.Control
                 type="text"
                 name="price"
@@ -149,7 +149,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Duration</Form.Label>
+              <Form.Label>Duracion</Form.Label>
               <Form.Control
                 type="text"
                 name="duration"
@@ -161,7 +161,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Descripcion</Form.Label>
               <Form.Control
                 as="textarea"
                 name="description"
@@ -175,7 +175,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Status</Form.Label>
+              <Form.Label>Estado</Form.Label>
               <Form.Control
                 as="select"
                 name="status"
@@ -185,15 +185,15 @@ const AdminServicesForm = () => {
                 <option value="DEFAULT" disabled hidden>
                   --
                 </option>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
               </Form.Control>
               {errors.status && (
                 <Form.Text className="text-danger">{errors.status}</Form.Text>
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Image</Form.Label>
+              <Form.Label>Imagen</Form.Label>
               <Form.Control
                 type="file"
                 name="image_url"
@@ -201,7 +201,7 @@ const AdminServicesForm = () => {
               />
             </Form.Group>
             <Button type="submit">
-              {params.id ? "Edit" : "Create"} Membership
+              {params.id ? "Editar" : "Crear"} Membresía
             </Button>
           </Form>
         </Col>
