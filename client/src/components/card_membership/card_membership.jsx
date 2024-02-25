@@ -43,13 +43,20 @@ const MembershipCard = ({ id, name, price, description, image_url }) => {
   }, [user]);
 
   return (
-    <Card className="mb-3">
+    <Card
+      className="mb-3"
+      style={{
+        border: "1px solid #ddd",
+        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        height: "550px",
+      }}
+    >
       <Card.Img
         style={{ height: "300px", objectFit: "contain" }}
         variant="top"
         src={image_url}
       />
-      <Card.Body>
+      <Card.Body className="d-flex flex-column">
         <Card.Title>{name}</Card.Title>
         <Row>
           <Col xs="12" md="6">
@@ -59,7 +66,7 @@ const MembershipCard = ({ id, name, price, description, image_url }) => {
             {description}
           </Col>
         </Row>
-        <div className="d-flex justify-content-center mt-3">
+        <div className="mt-auto">
           {isAuthenticated ? (
             <Button variant="primary" onClick={handlePayment}>
               Suscribirse
