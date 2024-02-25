@@ -15,7 +15,7 @@ function AppCard({ id, name, price, description, brand, image_url }) {
       </Link>
       <Card.Body className="d-flex flex-column">
         <Link to={`/detail/${id}`} className="card-link">
-          <Card.Title className="card-title">{name}</Card.Title>
+          <Card.Title className="card-title flex-fill">{name}</Card.Title>
         </Link>
         <Card.Text className="card-id">Id: {id}</Card.Text>
         <Row className="mb-2">
