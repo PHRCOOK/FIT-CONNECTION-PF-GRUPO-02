@@ -142,7 +142,9 @@ export default function AppBar() {
       path: pathroutes.SHOPPINGCART,
       title: "Carrito de compras",
       show:
-        !shouldShowLogoOnly && location.pathname !== pathroutes.SHOPPINGCART,
+        isAuthenticated &&
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.SHOPPINGCART,
     },
     {
       path: pathroutes.CHAT,
