@@ -252,7 +252,7 @@ export default function AppBar() {
                   src={user.picture}
                   alt="Profile"
                   className="border border-2 border-light m-3"
-                  style={{ width: "60px", height: "60px" }}
+                  style={{ width: "50px", height: "50px" }}
                 />
               )}
             </Navbar.Collapse>
