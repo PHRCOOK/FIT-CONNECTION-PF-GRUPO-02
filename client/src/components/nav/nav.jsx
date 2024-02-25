@@ -220,7 +220,7 @@ export default function AppBar() {
                   alt="Home"
                   className="border border-2 border-light"
                   roundedCircle
-                  style={{ width: "85px", height: "85px" }}
+                  style={{ width: "60px", height: "60px" }}
                 />
               </Navbar.Brand>
             </LinkContainer>
@@ -231,7 +231,7 @@ export default function AppBar() {
                 {isAuthenticated && (
                   <Button
                     onClick={() => logout({ returnTo: window.location.origin })}
-                    className="rounded fw-bold px-2 mx-1 my-1"
+                    className="rounded fw-bold px-1 mx-1 my-1"
                     style={{
                       backgroundColor: "red",
                       color: "white",
