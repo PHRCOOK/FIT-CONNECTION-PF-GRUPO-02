@@ -30,10 +30,10 @@ import {
 
 const isAdminMiddleware = (store) => (next) => (action) => {
   //const { isAdmin } = store.getState();
-  console.log(store.getState());
+  // console.log(store.getState());
   const isAdminString = localStorage.getItem("isAdmin"); // Obtener el valor de isAdmin del localStorage como string
   const isAdmin = isAdminString === "true";
-  console.log("Es Admin", isAdmin);
+  // console.log("Es Admin", isAdmin);
   // Lista de acciones que requieren verificación de isAdmin
 
   const actionsToCheck = [
