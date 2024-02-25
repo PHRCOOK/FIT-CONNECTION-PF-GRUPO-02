@@ -14,7 +14,7 @@ export default function Login() {
       <Image
         src={logo}
         alt="Company Logo"
-        style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+        style={{ width: "200px", height: "200px", borderRadius: "50%" }}
       />
 
       <Button onClick={() => loginWithRedirect()} style={{ marginTop: "20px" }}>
