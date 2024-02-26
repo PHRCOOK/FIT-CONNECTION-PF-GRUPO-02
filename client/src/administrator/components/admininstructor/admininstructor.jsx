@@ -100,7 +100,7 @@ function AdminInstructor() {
                       <td>
                         <Button
                           className="mx-2 my-1"
-                          variant={instructor.status ? "danger" : "primary"}
+                          variant={instructor.status ? "danger" : "success"}
                           onClick={() =>
                             handleDelete(instructor.id, instructor.status)
                           }

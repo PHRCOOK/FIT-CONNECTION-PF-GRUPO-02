@@ -95,7 +95,7 @@ function AdminFeedbacks() {
                     </td>
                     <td>
                       <Button
-                        variant={comment.status ? "danger" : "primary"}
+                        variant={comment.status ? "danger" : "success"}
                         onClick={() => {
                           handleStatus(comment.id, comment.status);
                         }}

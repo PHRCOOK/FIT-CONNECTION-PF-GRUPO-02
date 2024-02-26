@@ -129,7 +129,7 @@ function AdminClients() {
                 <td>{user.status ? "Activo" : "Inactivo"}</td>
                 <td>
                   <Button
-                    variant={user.status ? "danger" : "primary"}
+                    variant={user.status ? "danger" : "success"}
                     onClick={() => handleActivate(user.id, user.status)}
                     className="me-2"
                     disabled={user.is_admin && user.status}

@@ -96,7 +96,7 @@ function Admincategories() {
                   <td>
                     <Button
                       className={`mx-2 my-1 ${
-                        statusSelection ? "btn-danger" : "btn-primary"
+                        statusSelection ? "btn-danger" : "btn-success"
                       }`}
                       onClick={() => handleDelete(category.id, category.status)}
                     >
