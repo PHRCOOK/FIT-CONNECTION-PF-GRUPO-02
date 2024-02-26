@@ -167,7 +167,7 @@ const ChatComponent = () => {
                                 {selectedUser} : {message.message}
                               </p>
                             ) : (
-                              <p className="text-success">
+                              <p className="text-danger">
                                 Admin : {message.message}
                               </p>
                             )}
