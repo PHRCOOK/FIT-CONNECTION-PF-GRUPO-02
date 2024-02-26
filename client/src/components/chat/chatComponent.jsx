@@ -41,9 +41,6 @@ const ChatComponent = () => {
         title: "Nuevo mensaje!",
         text: "Te ha llegado un nuevo mensaje.",
       });
-
-      // Notificar al administrador
-      newSocket.emit("adminMessageNotification", { userId: id, message });
     });
 
     newSocket.on(`message from ${id}`, (message) => {
@@ -94,17 +91,8 @@ const ChatComponent = () => {
         sender_type: true,
       });
       getUsers();
-
-      // Agregar listener para la notificación al administrador
-      newSocket.on("adminMessageNotification", ({ userId, message }) => {
-        Swal.fire({
-          icon: "info",
-          title: "Nuevo mensaje de usuario",
-          text: `El usuario con ID ${userId} ha enviado un nuevo mensaje: ${message.message}`,
-        });
-      });
     }
-  }, [id, is_admin]);
+  }, [id]);
 
   const loadMessages = async (user_id) => {
     try {
