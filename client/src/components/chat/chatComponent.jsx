@@ -210,7 +210,7 @@ const ChatComponent = () => {
                     {messages.map((message, index) => (
                       <div key={index} className="mb-2">
                         {Number(message.from_user_id) !== Number(id) ? (
-                          <p className="text-success">
+                          <p className="text-danger">
                             Admin : {message.message}
                           </p>
                         ) : (
