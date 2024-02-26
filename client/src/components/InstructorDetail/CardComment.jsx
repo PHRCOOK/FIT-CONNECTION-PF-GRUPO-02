@@ -15,6 +15,11 @@ function CardComment({
 }) {
   const stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
+  const handleRaitingChange = (star) => {
+    // Lógica para manejar cambios en la calificación
+    console.log(`Selected Raiting: ${star}`);
+  };
+
   return (
     <Card style={{ width: "20rem", margin: "10px", padding: "20px" }}>
       <Card.Body>
@@ -46,29 +51,6 @@ function CardComment({
         </Card.Text>
       </Card.Body>
     </Card>
-    // <div style={{ border: "1px solid black", margin: "10px" }}>
-    //   <Row>
-    //     <Col xs="12">
-    //       <span className="fw-bold">Usuario: </span> {User.name}
-    //     </Col>
-    //   </Row>
-    //   <Row>
-    //     <Col xs="12">
-    //       <span className="fw-bold">Comentario: </span> {comment}
-    //     </Col>
-    //   </Row>
-    //   <Row>
-    //     <Col xs="12">
-    //       <span className="fw-bold">Calificación: </span> {raiting}
-    //     </Col>
-    //   </Row>
-    //   <Row>
-    //     <Col xs="12">
-    //       <span className="fw-bold">Fecha de publicación: </span>
-    //       {format(new Date(post_at), "dd/MM/yyyy", { timeZone: "UTC" })}
-    //     </Col>
-    //   </Row>
-    // </div>
   );
 }
 

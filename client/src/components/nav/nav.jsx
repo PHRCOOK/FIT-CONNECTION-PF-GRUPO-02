@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from "react-router-dom";
-import logo from "../../assets/img/logo-nav.png";
-import pathroutes from "../helpers/pathroutes";
-import { LinkContainer } from "react-router-bootstrap";
 import { Container, Nav, Navbar, Image, Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +8,9 @@ import { fetchUser, setIsAdmin, setUserShopping } from "../../redux/action";
 import Swal from "sweetalert2";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ChatIcon from "@mui/icons-material/Chat";
+import { LinkContainer } from "react-router-bootstrap";
+import pathroutes from "../helpers/pathroutes";
+import logo from "../../assets/img/logo-nav.png";
 
 export default function AppBar() {
   const location = useLocation();
@@ -37,7 +37,7 @@ export default function AppBar() {
           setShowAlert(false);
         }
       } else {
-        console.log("Estado Inactivo");
+        // console.log("Estado Inactivo");
         setShowAlert(true);
 
         userData = {
@@ -115,21 +115,13 @@ export default function AppBar() {
     },
     {
       path: pathroutes.SERVICE,
-      title: "Membresias",
+      title: "Membresías",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.SERVICE,
     },
     {
       path: pathroutes.INSTRUCTOR,
       title: "Instructores",
       show: !shouldShowLogoOnly && location.pathname !== pathroutes.INSTRUCTOR,
-    },
-    {
-      path: pathroutes.SHOPPINGCART,
-      title: "Carrito de compras",
-      show:
-        !shouldShowLogoOnly &&
-        location.pathname !== pathroutes.SHOPPINGCART &&
-        !isAdmin,
     },
 
     {
@@ -147,6 +139,14 @@ export default function AppBar() {
         location.pathname !== pathroutes.ADMIN,
     },
     {
+      path: pathroutes.SHOPPINGCART,
+      title: "Carrito de compras",
+      show:
+        isAuthenticated &&
+        !shouldShowLogoOnly &&
+        location.pathname !== pathroutes.SHOPPINGCART,
+    },
+    {
       path: pathroutes.CHAT,
       title: "Chat",
       show:
@@ -156,11 +156,11 @@ export default function AppBar() {
     },
     {
       path: pathroutes.LOGIN,
-      title: "Login",
+      title: "Iniciar Sesion",
       show: !isAuthenticated && location.pathname !== pathroutes.LOGIN,
     },
     {
-      title: "Logout",
+      title: "Cerrar Sesion",
       show: isAuthenticated,
       isButton: true,
       onClick: () => {
@@ -180,6 +180,10 @@ export default function AppBar() {
           className={`rounded fw-bold px-2 mx-1 my-md-1 ${
             location.pathname === linkData.path ? "bg-primary" : ""
           }`}
+          style={{
+            transition: "all 0.3s ease-in-out",
+            color: "white",
+          }}
         >
           {linkData.title === "Carrito de compras" ? (
             <ShoppingCartIcon fontSize="large" />
@@ -193,7 +197,7 @@ export default function AppBar() {
     ));
 
   return (
-    <Navbar collapseOnSelect bg="secondary" expand="lg">
+    <Navbar collapseOnSelect bg="primary" expand="lg" variant="dark">
       <Container>
         {shouldShowLogoOnly ? (
           <LinkContainer to={pathroutes.HOME}>
@@ -203,7 +207,7 @@ export default function AppBar() {
                 alt="Home"
                 className="border border-2 border-light"
                 roundedCircle
-                style={{ width: "85px", height: "85px" }}
+                style={{ width: "60px", height: "60px" }}
               />
             </Navbar.Brand>
           </LinkContainer>
@@ -216,7 +220,7 @@ export default function AppBar() {
                   alt="Home"
                   className="border border-2 border-light"
                   roundedCircle
-                  style={{ width: "85px", height: "85px" }}
+                  style={{ width: "60px", height: "60px" }}
                 />
               </Navbar.Brand>
             </LinkContainer>
@@ -227,9 +231,14 @@ export default function AppBar() {
                 {isAuthenticated && (
                   <Button
                     onClick={() => logout({ returnTo: window.location.origin })}
-                    className="rounded fw-bold px-2 mx-1 my-1"
+                    className="rounded fw-bold px-1 mx-1 my-1"
+                    style={{
+                      backgroundColor: "red",
+                      color: "white",
+                      transition: "all 0.3s ease-in-out",
+                    }}
                   >
-                    Logout
+                    Cerrar Sesion
                   </Button>
                 )}
               </Nav>
@@ -243,7 +252,7 @@ export default function AppBar() {
                   src={user.picture}
                   alt="Profile"
                   className="border border-2 border-light m-3"
-                  style={{ width: "80px", height: "80px" }}
+                  style={{ width: "50px", height: "50px" }}
                 />
               )}
             </Navbar.Collapse>

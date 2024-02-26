@@ -1,43 +1,40 @@
-// import React from "react";
-import { Card, Row, Col, CardBody, CardTitle } from "react-bootstrap";
+import React from "react";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function AppCard({
-  id,
-  name,
-  price,
-  description,
-  status,
-  brand,
-  image_url,
-  stock,
-  category,
-}) {
+function AppCard({ id, name, price, description, brand, image_url }) {
   return (
-    <Card className="p-3">
-      <Link to={`/detail/${id}`}>
+    <Card
+      className="h-100"
+      style={{
+        border: "1px solid #ddd",
+        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+      }}
+    >
+      <Link to={`/detail/${id}`} className="card-link">
         <Card.Img
-          className="my-1"
-          style={{ height: "300px", objectFit: "contain" }}
+          style={{ height: "200px", objectFit: "contain" }}
           variant="top"
           src={image_url}
+          alt={name}
         />
       </Link>
-      <CardBody>
-        <Link to={`/detail/${id}`}>
-          <CardTitle>Nombre: {name}</CardTitle>
+      <Card.Body className="d-flex flex-column">
+        <Link to={`/detail/${id}`} className="card-link">
+          <Card.Title className="card-title flex-fill">{name}</Card.Title>
         </Link>
-        <CardTitle>Id: {id}</CardTitle>
-        <Row>
-          <Col xs="12" md="6">
+        <Row className="mb-2">
+          <Col>
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
-          <Col xs="12" md="6">
-            <span className="fw-bold">Brand:</span> {brand}
-          </Col>
-          <Col xs="12">{description}</Col>
         </Row>
-      </CardBody>
+        <Row className="mb-2">
+          <Col>
+            <span className="fw-bold">Marca:</span> {brand}
+          </Col>
+        </Row>
+        <Card.Text className="card-description mb-2">{description}</Card.Text>
+      </Card.Body>
     </Card>
   );
 }

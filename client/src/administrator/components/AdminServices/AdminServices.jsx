@@ -1,58 +1,49 @@
-
-import { Container, Row, Col, Offcanvas, Button } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import pathroutes from "../../../components/helpers/pathroutes";
 import { getAllMemberships } from "../../../redux/action";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import AdminMembershipCard from "../AdminMembershipCard/AdminMembershipCard"
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import AdminMembershipCard from "../AdminMembershipCard/AdminMembershipCard";
 
 const AdminServices = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllMemberships());
   }, [dispatch]);
-  
-  const navigate = useNavigate();
+
   const allMemberships = useSelector((state) => state.allMemberships);
 
   return (
     <div>
-      <div className="fs-4 mb-3 fw-bold text-center">Membresia</div>
+      <div className="fs-4 mb-3 fw-bold text-center">Membresía</div>
       <Button
         variant="primary"
         onClick={() => {
           navigate(pathroutes.FORMSERVICE);
         }}
       >
-        Crear Membresia
+        Crear Membresía
       </Button>
       <Row>
-        <Col>
-        <Row>
-        <Col>
-          <Container>
-            {/* Mapea todas las membresías y renderiza una tarjeta de membresía para cada una */}
+        <Container>
+          <Row>
             {allMemberships.map((membership) => (
               <Col xs="12" md="6" lg="4" className="p-3" key={membership.id}>
-              <AdminMembershipCard
-                key={membership.id}
-                id={membership.id}
-                name={membership.name}
-                price={membership.price}
-                description={membership.description}
-                image_url={membership.image_url}
-                status={membership.status}
-              />
+                <AdminMembershipCard
+                  id={membership.id}
+                  name={membership.name}
+                  price={membership.price}
+                  description={membership.description}
+                  image_url={membership.image_url}
+                  status={membership.status}
+                />
               </Col>
             ))}
-          </Container>
-        </Col>
-      </Row>
-        </Col>
+          </Row>
+        </Container>
       </Row>
     </div>
   );

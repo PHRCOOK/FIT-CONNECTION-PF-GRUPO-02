@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import validate from "./validate";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,22 +24,23 @@ const AdminServicesForm = () => {
 
   useEffect(() => {
     if (params.id) {
-      const membershipFiltered = allMemberships.filter(
+      const membershipFiltered = allMemberships.find(
         (membership) => params.id === membership.id.toString()
       );
       setMembershipForm({
         ...membershipForm,
-        name: membershipFiltered[0].name,
-        price: membershipFiltered[0].price,
-        duration: membershipFiltered[0].duration,
-        description: membershipFiltered[0].description,
-        status: membershipFiltered[0].status,
-        image_url: membershipFiltered[0].image_url,
+        name: membershipFiltered.name,
+        price: membershipFiltered.price,
+        duration: membershipFiltered.duration,
+        description: membershipFiltered.description,
+        status: membershipFiltered.status,
+        image_url: membershipFiltered.image_url,
       });
     }
-  }, [params]);
+  }, [params, allMemberships]);
 
   const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setMembershipForm({ ...membershipForm, [e.target.name]: e.target.value });
     setErrors(validate({ ...membershipForm, [e.target.name]: e.target.value }));
@@ -82,7 +83,7 @@ const AdminServicesForm = () => {
         if (params.id) {
           dispatch(putMembership(params.id, formData));
           Swal.fire({
-            title: "Membership updated successfully",
+            title: "Membresia actualizada con éxito",
             icon: "success",
           }).then(() => {
             navigate("/admin/membership");
@@ -90,7 +91,7 @@ const AdminServicesForm = () => {
         } else {
           dispatch(postMembership(formData));
           Swal.fire({
-            title: "Membership created successfully",
+            title: "Membresia creada con éxito",
             icon: "success",
           }).then(() => {
             navigate("/admin/membership");
@@ -121,10 +122,10 @@ const AdminServicesForm = () => {
     <Container>
       <Row>
         <Col>
-          <h2>{params.id ? "Edit" : "Create"} Membership</h2>
+          <h2>{params.id ? "Editar" : "Crear"} Membresías</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -136,7 +137,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Price</Form.Label>
+              <Form.Label>Precio</Form.Label>
               <Form.Control
                 type="text"
                 name="price"
@@ -148,7 +149,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Duration</Form.Label>
+              <Form.Label>Duracion</Form.Label>
               <Form.Control
                 type="text"
                 name="duration"
@@ -160,7 +161,7 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Descripcion</Form.Label>
               <Form.Control
                 as="textarea"
                 name="description"
@@ -174,27 +175,25 @@ const AdminServicesForm = () => {
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Status</Form.Label>
+              <Form.Label>Estado</Form.Label>
               <Form.Control
                 as="select"
                 name="status"
                 defaultValue={"DEFAULT"}
-                // value={membershipForm.status}
                 onChange={handleChange}
               >
                 <option value="DEFAULT" disabled hidden>
                   --
                 </option>
-
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
               </Form.Control>
               {errors.status && (
                 <Form.Text className="text-danger">{errors.status}</Form.Text>
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Image</Form.Label>
+              <Form.Label>Imagen</Form.Label>
               <Form.Control
                 type="file"
                 name="image_url"
@@ -202,7 +201,7 @@ const AdminServicesForm = () => {
               />
             </Form.Group>
             <Button type="submit">
-              {params.id ? "Edit" : "Create"} Membership
+              {params.id ? "Editar" : "Crear"} Membresía
             </Button>
           </Form>
         </Col>

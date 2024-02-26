@@ -18,12 +18,12 @@ membershipPurchaseRouter.delete('/:id', authorization, deleteMembershipPurchaseH
 //purchase
 membershipPurchaseRouter.post('/checkout', membershipMercadopaymentPreferenceHandler);
 membershipPurchaseRouter.get("/go/success", (req, res) => {
-    const urlDestino = 'http://localhost:5173/#/services'
+    const urlDestino = 'https://fit-connection-pf.vercel.app/#/services'
     res.redirect(302, urlDestino);
 });
 membershipPurchaseRouter.get("/go/pending", (req, res) => res.json("pending"));
 membershipPurchaseRouter.get("/go/failure", (req, res) => {
-    const urlDestino = 'http://localhost:5173/#/services'
+    const urlDestino = 'https://fit-connection-pf.vercel.app/#/services'
     res.redirect(302, urlDestino);
 });
 membershipPurchaseRouter.post("/webhook", receiveWebhookM)

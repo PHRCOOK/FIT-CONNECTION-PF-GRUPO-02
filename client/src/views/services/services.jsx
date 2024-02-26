@@ -1,20 +1,3 @@
-// import MembershipsCards from "../../components/cards_memberships/cards_memberships";
-
-// import { useEffect } from "react";
-
-// function services() {
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, []);
-//   return (
-//     <div>
-//       <h1>MEMBRESIAS</h1>
-//       <MembershipsCards statusSelection={true} />
-//     </div>
-//   );
-// }
-
-// export default services;
 import MembershipsCards from "../../components/cards_memberships/cards_memberships";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -35,7 +18,7 @@ function Services() {
 
   return (
     <div>
-      <h1>MEMBRESIAS</h1>
+      <div className="fs-4 mb-3 fw-bold text-center">Membresías</div>{" "}
       <MembershipsCards statusSelection={true} />
     </div>
   );

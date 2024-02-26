@@ -1,27 +1,26 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import AdminNavbar from "../components/adminnavbar/adminnavbar";
 import Button from "react-bootstrap/Button";
+import pathroutes from "../../components/helpers/pathroutes";
 
 function AdminLanding() {
   const navigate = useNavigate();
 
   return (
     <div className="d-flex flex-column align-items-center mt-5">
-      {/* <AdminNavbar /> */}
       <Button
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/category/`)}
+        onClick={() => navigate(pathroutes.ADMINCATEGORY)}
       >
-        Categorias
+        Categorías
       </Button>
       <Button
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/instructor/`)}
+        onClick={() => navigate(pathroutes.ADMININSTRUCTOR)}
       >
         Instructor
       </Button>
@@ -29,7 +28,7 @@ function AdminLanding() {
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/product/`)}
+        onClick={() => navigate(pathroutes.ADMINPRODUCT)}
       >
         Productos
       </Button>
@@ -37,7 +36,7 @@ function AdminLanding() {
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/client/`)}
+        onClick={() => navigate(pathroutes.ADMINCLIENT)}
       >
         Usuarios
       </Button>
@@ -45,7 +44,7 @@ function AdminLanding() {
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/membership/`)}
+        onClick={() => navigate(pathroutes.ADMINSERVICES)}
       >
         Membresías
       </Button>
@@ -53,15 +52,15 @@ function AdminLanding() {
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/gimnasio/`)}
+        onClick={() => navigate(pathroutes.GYM_INFO)}
       >
-        Informacion del Gimnasio
+        Información del Gimnasio
       </Button>
       <Button
         variant="primary"
         size="lg"
         className="mb-5 w-50"
-        onClick={() => navigate(`/admin/feedback/`)}
+        onClick={() => navigate(pathroutes.ADMIN_FEEDBACK)}
       >
         Comentarios
       </Button>

@@ -1,10 +1,17 @@
-import { Card, Row, Col, CardBody, CardTitle, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  Row,
+  Col,
+  CardBody,
+  CardTitle,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../../../redux/action";
-import { useEffect, useState } from "react";
+import { getAllCategories, deleteProduct } from "../../../redux/action";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { deleteProduct } from "../../../redux/action";
 
 function AdminProductCard({
   id,
@@ -19,7 +26,6 @@ function AdminProductCard({
   statusSelection,
 }) {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const allCategories = useSelector((state) => state.allCategories);
@@ -28,24 +34,24 @@ function AdminProductCard({
 
   useEffect(() => {
     dispatch(getAllCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    setCategoryName(allCategories.find((cat) => cat.id === category_id).name);
-  }, [allCategories]);
+    const foundCategory = allCategories.find((cat) => cat.id === category_id);
+    setCategoryName(foundCategory ? foundCategory.name : "");
+  }, [allCategories, category_id]);
+
+  const [loading, setLoading] = useState(false);
 
   const handleModify = (id) => {
-    console.log(id);
     navigate(`/admin/product/modify/${id}`);
   };
 
-  const handleDelete = (id, status) => {
-    console.log(id);
-    console.log(status);
+  const handleDelete = async (id, status) => {
     const newStatus = !status;
     try {
-      dispatch(deleteProduct(id, { status: newStatus }));
-
+      setLoading(true);
+      await dispatch(deleteProduct(id, { status: newStatus }));
       Swal.fire({
         icon: "success",
         title: "Proceso Exitoso",
@@ -53,21 +59,21 @@ function AdminProductCard({
           ? "Producto desactivado correctamente"
           : "Producto activado correctamente",
       });
+      setLoading(false);
+      window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "Error al borrar producto",
       });
+      setLoading(false);
     }
-    // dispatch(deleteProduct(id));
-    // window.alert("Producto borrado correctamente");
-    // navigate("/admin");
   };
 
   return (
-    <Card className="p-3">
+    <Card className="p-3 h-100">
       <Card.Img
         style={{ height: "300px", objectFit: "contain" }}
         variant="top"
@@ -77,22 +83,24 @@ function AdminProductCard({
         <CardTitle>Id: {id}</CardTitle>
         <CardTitle>Nombre: {name}</CardTitle>
         <Row>
-          <Col xs="12" md="6">
+          <Col xs="12" md="10">
             <span className="fw-bold">Precio:</span> ${price}
           </Col>
-          <Col xs="12" md="6">
-            <span className="fw-bold">Brand:</span> {brand}
+          <Col xs="12" md="10">
+            <span className="fw-bold">Marca:</span> {brand}
           </Col>
-          <Col xs="12" md="6">
-            <span className="fw-bold">Estatus:</span> {String(status)}
+          <Col xs="12" md="10">
+            <span className="fw-bold">Estado:</span> {String(status)}
           </Col>
-          <Col xs="12" md="6">
+          <Col xs="12" md="10">
             <span className="fw-bold">Stock:</span> {stock}
           </Col>
-          <Col xs="12" md="6">
+          <Col xs="12" md="10">
             <span className="fw-bold">Categoría:</span> {categoryName}
           </Col>
-          <Col xs="12">{description}</Col>
+          <Col xs="12" className="mt-3">
+            {description}
+          </Col>
         </Row>
       </CardBody>
       <Button
@@ -106,12 +114,19 @@ function AdminProductCard({
       </Button>
       <Button
         className="mx-3 my-2"
-        variant="secondary"
+        variant={statusSelection ? "danger" : "success"}
         onClick={() => {
           handleDelete(id, status);
         }}
+        disabled={loading}
       >
-        {statusSelection ? "Desactivar" : "Activar"}
+        {loading ? (
+          <Spinner animation="border" size="sm" />
+        ) : statusSelection ? (
+          "Desactivar"
+        ) : (
+          "Activar"
+        )}
       </Button>
     </Card>
   );

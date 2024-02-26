@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Row, Col, Container} from "react-bootstrap";
+import { Button, Row, Col, Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";

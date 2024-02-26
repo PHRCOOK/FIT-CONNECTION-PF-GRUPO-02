@@ -1,31 +1,36 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useAuth0 } from "@auth0/auth0-react"; // Import useAuth0
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Detail = ({ sub }) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.userShopping);
-  const { isAuthenticated, loginWithRedirect } = useAuth0(); // Access isAuthenticated and loginWithRedirect from useAuth0
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
+    setLoading(true);
+
     axios
       .get(`api/products/${id}`)
-      .then((response) => setProduct(response.data))
+      .then((response) => {
+        setProduct(response.data);
+        setLoading(false);
+      })
       .catch((error) => {
         console.error(error);
-        console.error(error.response);
+        setLoading(false);
       });
 
     axios
       .get(`api/categories`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.Items && Array.isArray(response.data.Items)) {
           setCategories(response.data.Items);
         } else {
@@ -36,7 +41,6 @@ const Detail = ({ sub }) => {
       })
       .catch((error) => {
         console.error(error);
-        console.error(error.response);
       });
   }, [id]);
 
@@ -79,61 +83,79 @@ const Detail = ({ sub }) => {
   return (
     <Container>
       <div className="fs-4 mb-3 fw-bold text-center">Detalle de Productos</div>
-      <Card>
+      <Card className="border shadow">
         <Row>
           <Col>
-            <Card.Img
-              className="my-3"
-              style={{ height: "300px", objectFit: "contain" }}
-              variant="top"
-              src={image_url}
-            ></Card.Img>
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <Card.Img
+                className="my-3"
+                style={{ height: "300px", objectFit: "contain" }}
+                variant="top"
+                src={image_url}
+              />
+            )}
           </Col>
           <Col>
             <Card.Body>
               <Card.Title>{name}</Card.Title>
-              <Row>
-                <Col xs="12" md="6">
-                  <span className="fw-bold">Brand:</span> {brand}
-                </Col>
-                <Col xs="12" md="6">
-                  <span className="fw-bold">Categoria:</span>{" "}
-                  {category ? category.name : category}
-                </Col>
-                <Col xs="12" md="6">
-                  <span className="fw-bold">Precio:</span> ${price}
-                </Col>
-                <Col xs="12" md="6">
-                  <span className="fw-bold">Estado:</span>{" "}
-                  {status ? "Activo" : "Inactivo"}
-                </Col>
-                <Col xs="12" md="6">
-                  <span className="fw-bold">Cantidad:</span> {stock}
-                </Col>
-                <Col xs="12">
-                  <span className="fw-bold">Descripcion: </span>
-                  {description}
-                </Col>
-              </Row>
+              <div className="mb-3">
+                <Row>
+                  <Col xs="12" md="6">
+                    <strong>Marca:</strong>
+                    <span className="ms-2">{brand}</span>
+                  </Col>
+                  <Col xs="12" md="6">
+                    <strong>Categoria:</strong>
+                    <span className="ms-2">
+                      {category ? category.name : category}
+                    </span>
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col xs="12" md="6">
+                    <strong>Precio:</strong>
+                    <span className="ms-2">${price}</span>
+                  </Col>
+                  <Col xs="12" md="6">
+                    <strong>Estado:</strong>
+                    <span className="ms-2">
+                      {status ? "Activo" : "Inactivo"}
+                    </span>
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col xs="12" md="6">
+                    <strong>Cantidad:</strong>
+                    <span className="ms-2">{stock}</span>
+                  </Col>
+                </Row>
+                <Row className="mt-2">
+                  <Col xs="7">
+                    <strong>Descripcion:</strong>
+                    <span className="ms-2">{description}</span>
+                  </Col>
+                </Row>
+              </div>
             </Card.Body>
           </Col>
         </Row>
+      </Card>
+      <div className="text-center mt-4">
         {isAuthenticated ? (
-          <Button
-            className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
-            onClick={handleClick}
-          >
-            agregar al carrito
+          <Button className="btn btn-primary" onClick={handleClick}>
+            Agregar al carrito
           </Button>
         ) : (
           <Button
-            className="btn btn-primary d-grid gap-2 col-3 mx-auto my-3"
+            className="btn btn-primary"
             onClick={() => loginWithRedirect()}
           >
-            Login
+            Iniciar Sesion
           </Button>
         )}
-      </Card>
+      </div>
     </Container>
   );
 };

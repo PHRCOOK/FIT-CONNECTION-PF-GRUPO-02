@@ -77,7 +77,7 @@ function AdminInstructor() {
           </FormSelect>
         </div>
         {!allInstructors.length ? (
-          ""
+          <h2>NO HAY INSTRUCTORES PARA MOSTRAR</h2>
         ) : (
           <Table>
             <thead>
@@ -100,12 +100,12 @@ function AdminInstructor() {
                       <td>
                         <Button
                           className="mx-2 my-1"
-                          variant={statusSelection ? "danger" : "primary"}
+                          variant={instructor.status ? "danger" : "primary"}
                           onClick={() =>
                             handleDelete(instructor.id, instructor.status)
                           }
                         >
-                          {statusSelection ? "Desactivar" : "Activar"}
+                          {instructor.status ? "Desactivar" : "Activar"}
                         </Button>
                         <Button
                           className="mx-2 my-1"

@@ -30,23 +30,23 @@ import {
 
 const isAdminMiddleware = (store) => (next) => (action) => {
   //const { isAdmin } = store.getState();
-  console.log(store.getState())
+  // console.log(store.getState());
   const isAdminString = localStorage.getItem("isAdmin"); // Obtener el valor de isAdmin del localStorage como string
   const isAdmin = isAdminString === "true";
-  console.log("Es Admin", isAdmin);
+  // console.log("Es Admin", isAdmin);
   // Lista de acciones que requieren verificación de isAdmin
 
   const actionsToCheck = [
     POST_CATEGORY,
-    PUT_CATEGORY, 
-    POST_PRODUCT, 
+    PUT_CATEGORY,
+    POST_PRODUCT,
     PUT_PRODUCT,
     DELETE_PRODUCT,
     DELETE_INSTRUCTOR,
     POST_INSTRCUTOR,
     PUT_INSTRUCTOR,
-    POST_MEMBERSHIP, 
-    PUT_MEMBERSHIP  /* otras acciones aquí */,
+    POST_MEMBERSHIP,
+    PUT_MEMBERSHIP /* otras acciones aquí */,
   ]; //Añadir las actions a proteger y verificar que esten protegidas en el back!!
   if (
     (actionsToCheck.includes(action.type) && !isAdmin) ||

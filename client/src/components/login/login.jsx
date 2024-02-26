@@ -18,7 +18,7 @@ export default function Login() {
       />
 
       <Button onClick={() => loginWithRedirect()} style={{ marginTop: "20px" }}>
-        Login
+        Iniciar Sesion
       </Button>
     </Container>
   );

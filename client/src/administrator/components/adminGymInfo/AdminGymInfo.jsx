@@ -21,35 +21,22 @@ function AdminGymInfo() {
     map: "",
   });
 
-  // useEffect(() => {
-  //   console.log(gymInfo);
-  // }, [gymInfo]);
-
   const [exists, setExists] = useState(false);
 
   const fetchInfo = async () => {
     try {
-      console.log("vvvvvvvvvvvv");
       const { data } = await axios("/api/gym");
       setExists(true);
       setGymInfo(data);
     } catch (error) {
+      setExists(false);
       console.log(error);
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Aun no se ha creado el gimnasio",
-      //   text: "Por favor, introduce la informacion del gimnasio",
-      // });
     }
   };
 
   useEffect(() => {
     fetchInfo();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(gymInfo);
-  // }, [gymInfo]);
 
   const props = [
     {
@@ -62,7 +49,7 @@ function AdminGymInfo() {
       property: "address",
       type: "text",
       value: gymInfo.address || "",
-      name: "Direccion",
+      name: "Dirección",
     },
     {
       property: "phone",
@@ -75,9 +62,10 @@ function AdminGymInfo() {
       property: "map",
       type: "text",
       value: gymInfo.map || "",
-      name: "Ubicacion",
+      name: "Ubicación",
     },
   ];
+
   const handleChange = (event) => {
     const prop = event.target.name;
     const value = event.target.value;
@@ -85,45 +73,45 @@ function AdminGymInfo() {
   };
 
   const handleSubmit = async () => {
-    console.log(gymInfo);
     try {
       if (exists) {
         await axios.put("/api/gym/1", gymInfo);
       } else {
         await axios.post("/api/gym", gymInfo);
+        setExists(true);
       }
       Swal.fire({
         icon: "success",
         title: "Proceso Exitoso",
-        text: "Informacion actualizada exitosamente",
+        text: "Información actualizada exitosamente",
       });
     } catch (error) {
       console.log(error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "No se pudo actualizar la informacion del gimnasio",
+        text: "No se pudo actualizar la información del gimnasio",
       });
     }
   };
+
   return (
     <Container>
-      {props.map((p) => (
-        <Col key={p.property} xs="12" sm="6" md="4" lg="3" className="pb-3">
-          <FormLabel className="form-label">{p.name}</FormLabel>
-          <FormControl
-            type={p.type}
-            name={p.property}
-            className="form-control"
-            value={p.value}
-            onChange={handleChange}
-            autoComplete="off"
-          />
-          {/* {errors.stock && (
-          <FormText className="form-text">{errors.stock}</FormText>
-        )} */}
-        </Col>
-      ))}
+      <Row>
+        {props.map((p) => (
+          <Col key={p.property} xs="12" sm="6" md="4" lg="3" className="pb-3">
+            <FormLabel className="form-label">{p.name}</FormLabel>
+            <FormControl
+              type={p.type}
+              name={p.property}
+              className="form-control"
+              value={p.value}
+              onChange={handleChange}
+              autoComplete="off"
+            />
+          </Col>
+        ))}
+      </Row>
       <Button onClick={handleSubmit}>Actualizar información</Button>
     </Container>
   );

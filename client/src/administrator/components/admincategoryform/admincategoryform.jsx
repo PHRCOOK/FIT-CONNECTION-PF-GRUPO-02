@@ -1,16 +1,13 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-
 import {
   postCategory,
   putCategory,
   getAllCategories,
 } from "../../../redux/action";
 import validate from "./validate";
-
 import {
   FormControl,
   FormLabel,
@@ -24,22 +21,21 @@ function Admincategoryform() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-
   const allCategories = useSelector((state) => state.allCategories);
 
   useEffect(() => {
     dispatch(getAllCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (params.id && allCategories.length) {
-      const categoryFiltered = allCategories.filter(
+      const categoryFiltered = allCategories.find(
         (category) => params.id === category.id.toString()
       );
       setCategoryForm({
-        name: categoryFiltered[0].name,
-        status: categoryFiltered[0].status,
-        is_service: categoryFiltered[0].is_service,
+        name: categoryFiltered.name,
+        status: categoryFiltered.status,
+        is_service: categoryFiltered.is_service,
       });
     }
   }, [params, allCategories]);
@@ -60,14 +56,14 @@ function Admincategoryform() {
         Swal.fire({
           icon: "success",
           title: "Proceso Exitoso",
-          text: "Categoria modificada exitosamente",
+          text: "Categoría modificada exitosamente",
         });
       } else {
         await dispatch(postCategory(categoryForm));
         Swal.fire({
           icon: "success",
-          title: "Poceso Exitoso",
-          text: "Categoria creada exitosamente",
+          title: "Proceso Exitoso",
+          text: "Categoría creada exitosamente",
         });
       }
       setCategoryForm({
@@ -80,23 +76,22 @@ function Admincategoryform() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: error.message || "Error en categoria",
+        text: error.message || "Error en categoría",
       });
     }
   };
 
   const handleChange = (e) => {
-    let key = [e.target.name];
-    let value = e.target.value;
-    setCategoryForm({ ...categoryForm, [key]: value });
-    setErrors(validate({ ...categoryForm, [key]: value }));
+    const { name, value } = e.target;
+    setCategoryForm({ ...categoryForm, [name]: value });
+    setErrors(validate({ ...categoryForm, [name]: value }));
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div className="fs-4 mb-3 fw-bold text-center">
-          {params.id ? "Modificacion de categoria" : "Creación de categoria"}
+          {params.id ? "Modificación de categoría" : "Creación de categoría"}
         </div>
         <Container>
           <Row>
@@ -125,7 +120,8 @@ function Admincategoryform() {
                 value={categoryForm.status}
               >
                 <option value="" disabled hidden>
-                  --
+                  {" "}
+                  --{" "}
                 </option>
                 <option value="true">Si</option>
                 <option value="false">No</option>
@@ -143,7 +139,8 @@ function Admincategoryform() {
                 value={categoryForm.is_service}
               >
                 <option value="" disabled hidden>
-                  --
+                  {" "}
+                  --{" "}
                 </option>
                 <option value="true">Si</option>
                 <option value="false">No</option>

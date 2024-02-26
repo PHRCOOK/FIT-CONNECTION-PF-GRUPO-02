@@ -13,7 +13,7 @@ import imagen from "../../assets/img/imagen.jpeg";
 
 import { Container, Carousel, Image, Row, Col } from "react-bootstrap";
 
-export default function home() {
+export default function Home() {
   return (
     <>
       <Container fluid>

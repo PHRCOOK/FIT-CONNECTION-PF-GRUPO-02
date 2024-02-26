@@ -47,6 +47,69 @@ const createUserController = async (name, email, subAfterPipe) => {
 
 // En este controller podemos actualizar la información de un usuario.
 
+// const updateUserController = async (id, newData) => {
+//   try {
+//     const user = await User.findByPk(id);
+
+//     if (!user) {
+//       throw new Error("Usuario no encontrado.");
+//     }
+
+//     // Almacenamos el estado actual del usuario antes de la actualización.
+//     const estadoActual = user.status;
+//     const updateUser = await user.update(newData);
+//     // Si el estado cambió a false, enviamos correo de desactivación de cuenta y retornamos.
+//     if (updateUser.status === false && estadoActual !== false) {
+//       const affair = "¡Desactivación de cuenta!";
+//       const htmlBody = deactivatedUserEmail(updateUser.name);
+
+//       await transporter.sendMail({
+//         from: MAIL_USERNAME,
+//         to: updateUser.email,
+//         subject: affair,
+//         html: htmlBody,
+//       });
+
+//       return { message: "Cuenta desactivada correctamente." };
+//     }
+
+//     if (updateUser.status === true && estadoActual !== true) {
+//       const affair = "¡Activación de cuenta!";
+//       const htmlBody = activateUserEmail(updateUser.name);
+
+//       await transporter.sendMail({
+//         from: MAIL_USERNAME,
+//         to: updateUser.email,
+//         subject: affair,
+//         html: htmlBody,
+//       });
+
+//       return { message: "Cuenta activada correctamente." };
+//     }
+//     // Comprobamos si newData contiene otras propiedades además de 'status'.
+//     const hasOtherData = Object.keys(newData).some(key => key !== 'status');
+
+//     if (hasOtherData) {
+
+//       // Enviamos un correo electrónico para notificar que los datos han sido modificados.
+//       const affair = "¡Modificación de datos de usuario!";
+//       const htmlBody = modifyUserData(updateUser.name);
+
+//       await transporter.sendMail({
+//         from: MAIL_USERNAME,
+//         to: updateUser.email,
+//         subject: affair,
+//         html: htmlBody,
+//       });
+
+//       return { message: "Usuario actualizado exitosamente.", usuario: updateUser };
+//     } else {
+//       return { message: "No se modificaron datos adicionales del usuario." };
+//     }
+//   } catch (error) {
+//     throw new Error(`Error al actualizar el usuario: ${error.message}`);
+//   }
+// };
 const updateUserController = async (id, newData) => {
   try {
     const user = await User.findByPk(id);
@@ -58,6 +121,7 @@ const updateUserController = async (id, newData) => {
     // Almacenamos el estado actual del usuario antes de la actualización.
     const estadoActual = user.status;
     const updateUser = await user.update(newData);
+    
     // Si el estado cambió a false, enviamos correo de desactivación de cuenta y retornamos.
     if (updateUser.status === false && estadoActual !== false) {
       const affair = "¡Desactivación de cuenta!";
@@ -86,12 +150,12 @@ const updateUserController = async (id, newData) => {
 
       return { message: "Cuenta activada correctamente." };
     }
+    
     // Comprobamos si newData contiene otras propiedades además de 'status'.
     const hasOtherData = Object.keys(newData).some(key => key !== 'status');
 
+    // Si newData contiene otras propiedades y no es solo la modificación del estado, enviamos el correo de modificación de datos.
     if (hasOtherData) {
-
-      // Enviamos un correo electrónico para notificar que los datos han sido modificados.
       const affair = "¡Modificación de datos de usuario!";
       const htmlBody = modifyUserData(updateUser.name);
 

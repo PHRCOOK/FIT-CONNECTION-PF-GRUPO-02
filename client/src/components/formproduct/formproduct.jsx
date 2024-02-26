@@ -22,7 +22,7 @@ import {
   Col,
 } from "react-bootstrap";
 
-export default function formproduct() {
+export default function FormProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -73,27 +73,6 @@ export default function formproduct() {
     console.log(currentProduct);
   }, [currentProduct]);
 
-  // useEffect(() => {
-  //   console.log(allProducts);
-  //   if (params.id && allProducts.length) {
-  //     const productFiltered = allProducts.filter(
-  //       (product) => params.id === product.id.toString()
-  //     );
-  //     console.log(productFiltered);
-  //     setProductForm({
-  //       ...productForm,
-  //       name: productFiltered[0].name,
-  //       price: productFiltered[0].price,
-  //       description: productFiltered[0].description,
-  //       status: productFiltered[0].status,
-  //       brand: productFiltered[0].brand,
-  //       image_url: productFiltered[0].image_url,
-  //       stock: productFiltered[0].stock,
-  //       category_id: productFiltered[0].category_id,
-  //     });
-  //   }
-  // }, [params, allProducts]);
-
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -103,7 +82,7 @@ export default function formproduct() {
 
     if (key === "stock" || key === "price") {
       if (isNaN(e.nativeEvent.data)) {
-        setErrors({ ...errors, [key]: "Only numbers admited" });
+        setErrors({ ...errors, [key]: "Solo se admiten números" });
         return;
       }
       parsedValue = Number(value);
@@ -119,14 +98,10 @@ export default function formproduct() {
 
   const createFormData = (data) => {
     const formData = new FormData();
-    console.log(data);
-    console.log(formData);
     Object.keys(data).forEach((key) => {
-      console.log(key, data[key]);
       formData.append(key, data[key]);
     });
     formData.append("prueba", "OK");
-    console.log(formData);
     return formData;
   };
 
@@ -169,7 +144,7 @@ export default function formproduct() {
           title: "Error",
           text: error.message || "No se pudo crear el producto",
         }).then(() => {
-          setDisableButton(false); // Restablecemos el estado disableButton.
+          setDisableButton(false);
         });
       }
     } else {
@@ -182,7 +157,7 @@ export default function formproduct() {
       <form onSubmit={handleSubmit}>
         <div className="fs-4 mb-3 fw-bold text-center">
           {params.id
-            ? "Modificacion de producto o servicio"
+            ? "Modificación de producto o servicio"
             : "Creación de producto o servicio"}
         </div>
         <Row>
@@ -269,12 +244,11 @@ export default function formproduct() {
               type="file"
               name="image_url"
               className="form-control"
-              // value={productForm.image_url}
               onChange={handleFileChange}
             />
           </Col>
           <Col xs="12" sm="6" md="4" lg="3" className="pb-3">
-            <FormLabel className="form-label">Estatus</FormLabel>
+            <FormLabel className="form-label">Estado</FormLabel>
             <select
               name="status"
               className="form-control"
@@ -284,8 +258,8 @@ export default function formproduct() {
               <option value="DEFAULT" disabled hidden>
                 --
               </option>
-              <option value={true}>TRUE</option>
-              <option value={false}>FALSE</option>
+              <option value="TRUE">Activo</option>
+              <option value="FALSE">Inactivo</option>
             </select>
             {errors.status && (
               <FormText className="form-text">{errors.status}</FormText>

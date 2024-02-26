@@ -1,19 +1,19 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, setIsAdmin } from "./redux/action"; // Replace with your actual path
+import { fetchUser, setIsAdmin } from "./redux/action";
 import axios from "axios";
 import AppBar from "./components/nav/nav";
 import Detail from "./components/detail/detail";
 import Footer from "./components/footer/footer";
 import Home from "./views/home/home";
-import Form from "./components/userform/userform";
-import Shoppingcart from "./views/shoppingcart/shoppingcart";
-import Services from "./views/services/services";
 import FormProduct from "./components/formproduct/formproduct";
 import UserForm from "./components/userform/userform";
+import Shoppingcart from "./views/shoppingcart/shoppingcart";
+import Services from "./views/services/services";
 import pathroutes from "./components/helpers/pathroutes";
 import Store from "./views/store";
 import Error404 from "./views/Error 404/Error404";
@@ -37,12 +37,12 @@ import AdminFeedbacks from "./administrator/components/AdminFeedbacks/AdminFeedb
 
 import "./App.scss";
 
-axios.defaults.baseURL = "http://localhost:3001/";
-// axios.defaults.baseURL =
-//   "https://fit-connection-pf-grupo-02-production.up.railway.app/";
+// axios.defaults.baseURL = "http://localhost:3001/";
+axios.defaults.baseURL =
+  "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
-  const { isAuthenticated, user, logout } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
 
@@ -80,9 +80,9 @@ function App() {
             (item) => item.email === user.email
           );
           if (userWithSameEmail) {
-            console.log(
-              `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
-            );
+            // console.log(
+            //   `Es admin: ${userWithSameEmail.is_admin ? "Si" : "No"}`
+            // );
             dispatch(setIsAdmin(userWithSameEmail.is_admin));
             dispatch(
               fetchUser({ ...userData, is_admin: userWithSameEmail.is_admin })
@@ -172,6 +172,7 @@ function App() {
                 path={pathroutes.ADMIN_FEEDBACK}
                 element={<AdminFeedbacks />}
               />
+              <Route path={pathroutes.GYM_INFO} element={<AdminGymInfo />} />
             </>
           )}
           <Route path="*" element={<Error404 />} />
