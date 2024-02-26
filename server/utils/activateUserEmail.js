@@ -73,7 +73,7 @@ const activateUserEmail = (name) => {
           <div class="warning-message">
             <p>Queremos informarte que tu cuenta ha sido activada por uno de nuestros administradores.</p>
             <p>Nos disculpamos por los inconvenientes ocasionados.</p>
-            <p>Si tienes mas consutas, no dudes en comunicarte con nuestra area administrativa.</p>
+            <p>Si tienes mas consultas, no dudes en comunicarte con nuestra área administrativa.</p>
             <p>Muchas gracias.</p>
           </div>
         </div>
