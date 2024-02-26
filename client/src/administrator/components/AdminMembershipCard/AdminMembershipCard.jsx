@@ -89,7 +89,7 @@ const AdminMembershipCard = ({
           </Col>
           <Col>
             <Button
-              variant={membership.status ? "danger" : "success"}
+              variant={membership.status ? "danger" : "primary"}
               onClick={handleDelete}
               disabled={loading}
             >
