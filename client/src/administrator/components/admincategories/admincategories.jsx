@@ -56,7 +56,7 @@ function Admincategories() {
       <Container>
         <div className="mb-3">
           <label htmlFor="statusSelect" className="form-label">
-            Seleccionar estatus
+            Seleccionar estado
           </label>
           <FormSelect
             id="statusSelect"
