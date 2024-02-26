@@ -22,15 +22,24 @@ function AdminClients() {
     setStatusSelection(status);
   };
 
-  const handleActivate = (id, currentStatus) => {
+  const handleActivate = async (id, currentStatus) => {
     const newStatus = !currentStatus;
+
     try {
-      dispatch(putUser(statusSelection, id, { status: newStatus }));
+      await dispatch(putUser(statusSelection, id, { status: newStatus }));
+
+      const alertText = newStatus ? "Usuario activado" : "Usuario desactivado";
+
+      Swal.fire({
+        icon: "success",
+        title: "¡Éxito!",
+        text: alertText,
+      });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "No se pudo cambiar el status del usuario",
+        text: "No se pudo cambiar el estado del usuario",
       });
     }
   };
