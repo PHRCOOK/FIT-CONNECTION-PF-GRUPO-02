@@ -30,18 +30,19 @@ const AdminServices = () => {
       <Row>
         <Container>
           <Row>
-            {allMemberships.map((membership) => (
-              <Col xs="12" md="6" lg="4" className="p-3" key={membership.id}>
-                <AdminMembershipCard
-                  id={membership.id}
-                  name={membership.name}
-                  price={membership.price}
-                  description={membership.description}
-                  image_url={membership.image_url}
-                  status={membership.status}
-                />
-              </Col>
-            ))}
+            {allMemberships &&
+              allMemberships.map((membership) => (
+                <Col xs="12" md="6" lg="4" className="p-3" key={membership.id}>
+                  <AdminMembershipCard
+                    id={membership.id}
+                    name={membership.name}
+                    price={membership.price}
+                    description={membership.description}
+                    image_url={membership.image_url}
+                    status={membership.status}
+                  />
+                </Col>
+              ))}
           </Row>
         </Container>
       </Row>

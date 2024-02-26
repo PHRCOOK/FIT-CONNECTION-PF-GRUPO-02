@@ -453,11 +453,9 @@ export const deleteMembership = (id) => {
 export const putMembership = (id, membership) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(
-        `/api/memberships/update/${id}`,
-        membership
-      );
-      return dispatch({
+      await axios.put(`/api/memberships/update/${id}`, membership);
+      const { data } = await axios.get("/api/memberships");
+      dispatch({
         type: PUT_MEMBERSHIP,
         payload: data,
       });
