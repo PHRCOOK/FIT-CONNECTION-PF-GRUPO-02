@@ -27,12 +27,10 @@ const ChatComponent = () => {
     sender_type: false,
   });
   const [messages, setMessages] = useState([]);
-  const [showUserList, setShowUserList] = useState(false);
 
   useEffect(() => {
     const newSocket = io(
       "fit-connection-pf-grupo-02-production.up.railway.app"
-      // "http://localhost:3001"
     );
     setSocket(newSocket);
 
@@ -132,81 +130,114 @@ const ChatComponent = () => {
     <Container className="my-4">
       <Row>
         {is_admin && (
-          <Col md={4}>
-            <Card>
-              <Card.Header>
-                <h2>
-                  Lista de Usuarios{" "}
-                  <Button
-                    variant="link"
-                    onClick={() => setShowUserList(!showUserList)}
-                    aria-controls="userListCollapse"
-                    aria-expanded={showUserList}
-                  >
-                    {showUserList ? "Ocultar" : "Mostrar"}
-                  </Button>
-                </h2>
-              </Card.Header>
-              <Card.Body
-                id="userListCollapse"
-                className={`collapse ${showUserList ? "show" : ""}`}
-              >
-                <ListGroup variant="flush">
-                  {userList
-                    .filter((user) => user.id !== id)
-                    .map((user) => (
-                      <ListGroup.Item
-                        key={user.id}
-                        action
-                        onClick={() => handleUserSelect(user.id, user.name)}
+          <>
+            <Col xs={12} md={3}>
+              <div className="p-3">
+                <h2>Lista de Usuarios</h2>
+                <Card>
+                  <ListGroup variant="flush">
+                    {userList
+                      .filter((user) => user.id !== id)
+                      .map((user) => (
+                        <ListGroup.Item
+                          key={user.id}
+                          action
+                          onClick={() => handleUserSelect(user.id, user.name)}
+                        >
+                          {user.name}
+                        </ListGroup.Item>
+                      ))}
+                  </ListGroup>
+                </Card>
+              </div>
+            </Col>
+            <Col xs={12} md={9}>
+              {selectedUser && (
+                <div className="p-3">
+                  <Card>
+                    <Card.Header>
+                      <h2>Conversación con {selectedUser}</h2>
+                    </Card.Header>
+                    <Card.Body>
+                      <div className="mb-3">
+                        {messages.map((message, index) => (
+                          <div key={index} className="mb-2">
+                            {message.sender_type !== true ? (
+                              <p className="text-primary">
+                                {selectedUser} : {message.message}
+                              </p>
+                            ) : (
+                              <p className="text-success">
+                                Admin : {message.message}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <FormControl
+                        as="textarea"
+                        value={messageInput.message}
+                        onChange={(e) =>
+                          setMessageInput({
+                            ...messageInput,
+                            message: e.target.value,
+                          })
+                        }
+                      />
+                      <Button
+                        className="btn-primary mt-2"
+                        onClick={handleMessageSend}
                       >
-                        {user.name}
-                      </ListGroup.Item>
-                    ))}
-                </ListGroup>
-              </Card.Body>
-            </Card>
-          </Col>
+                        Enviar
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </div>
+              )}
+            </Col>
+          </>
         )}
 
-        {selectedUser && (
-          <Col md={is_admin ? 8 : 12}>
-            <Card>
-              <Card.Header>
-                <h2>Conversación con {selectedUser}</h2>
-              </Card.Header>
-              <Card.Body>
-                <div className="mb-3">
-                  {messages.map((message, index) => (
-                    <div key={index} className="mb-2">
-                      {message.sender_type !== true ? (
-                        <p className="text-primary">
-                          {selectedUser} : {message.message}
-                        </p>
-                      ) : (
-                        <p className="text-danger">Admin : {message.message}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <FormControl
-                  as="textarea"
-                  value={messageInput.message}
-                  onChange={(e) =>
-                    setMessageInput({
-                      ...messageInput,
-                      message: e.target.value,
-                    })
-                  }
-                />
-                <Button
-                  className="btn-primary mt-2"
-                  onClick={handleMessageSend}
-                >
-                  Enviar
-                </Button>
-              </Card.Body>
-            </Card>
+        {!is_admin && (
+          <Col xs={12}>
+            <div className="p-3">
+              <Card>
+                <Card.Header>
+                  <h2>Conversación con Admin</h2>
+                </Card.Header>
+                <Card.Body>
+                  <div className="mb-3">
+                    {messages.map((message, index) => (
+                      <div key={index} className="mb-2">
+                        {Number(message.from_user_id) !== Number(id) ? (
+                          <p className="text-success">
+                            Admin : {message.message}
+                          </p>
+                        ) : (
+                          <p className="text-primary">Tú : {message.message}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <FormControl
+                    as="textarea"
+                    value={messageInput.message}
+                    onChange={(e) =>
+                      setMessageInput({
+                        ...messageInput,
+                        message: e.target.value,
+                      })
+                    }
+                  />
+                  <Button
+                    className="btn-primary mt-2"
+                    onClick={handleMessageSend}
+                  >
+                    Enviar
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
           </Col>
         )}
       </Row>
