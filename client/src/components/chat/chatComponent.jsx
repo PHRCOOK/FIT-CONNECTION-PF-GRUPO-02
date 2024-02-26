@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import axios from "axios";
-import { Button, FormControl, Container, ListGroup } from "react-bootstrap";
+import {
+  Button,
+  FormControl,
+  Container,
+  Card,
+  ListGroup,
+  Row,
+  Col,
+} from "react-bootstrap";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -19,6 +27,7 @@ const ChatComponent = () => {
     sender_type: false,
   });
   const [messages, setMessages] = useState([]);
+  const [showUserList, setShowUserList] = useState(false);
 
   useEffect(() => {
     const newSocket = io(
@@ -121,82 +130,86 @@ const ChatComponent = () => {
 
   return (
     <Container className="my-4">
-      {is_admin && (
-        <div className="d-flex">
-          <div className="flex-shrink-0 p-3">
-            <h2>Lista de Usuarios</h2>
-            <ListGroup>
-              {userList
-                .filter((user) => user.id !== id)
-                .map((user) => (
-                  <ListGroup.Item
-                    key={user.id}
-                    action
-                    onClick={() => handleUserSelect(user.id, user.name)}
+      <Row>
+        {is_admin && (
+          <Col md={4}>
+            <Card>
+              <Card.Header>
+                <h2>
+                  Lista de Usuarios{" "}
+                  <Button
+                    variant="link"
+                    onClick={() => setShowUserList(!showUserList)}
+                    aria-controls="userListCollapse"
+                    aria-expanded={showUserList}
                   >
-                    {user.name}
-                  </ListGroup.Item>
-                ))}
-            </ListGroup>
-          </div>
+                    {showUserList ? "Ocultar" : "Mostrar"}
+                  </Button>
+                </h2>
+              </Card.Header>
+              <Card.Body
+                id="userListCollapse"
+                className={`collapse ${showUserList ? "show" : ""}`}
+              >
+                <ListGroup variant="flush">
+                  {userList
+                    .filter((user) => user.id !== id)
+                    .map((user) => (
+                      <ListGroup.Item
+                        key={user.id}
+                        action
+                        onClick={() => handleUserSelect(user.id, user.name)}
+                      >
+                        {user.name}
+                      </ListGroup.Item>
+                    ))}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
 
-          {selectedUser && (
-            <div className="flex-grow-1 p-3">
-              <h2>Conversación con {selectedUser}</h2>
-              <div className="mb-3">
-                {messages.map((message, index) => (
-                  <div key={index} className="mb-2">
-                    {message.sender_type !== true ? (
-                      <p className="text-primary">
-                        {selectedUser} : {message.message}
-                      </p>
-                    ) : (
-                      <p className="text-danger">Admin : {message.message}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <FormControl
-                as="textarea"
-                value={messageInput.message}
-                onChange={(e) =>
-                  setMessageInput({ ...messageInput, message: e.target.value })
-                }
-              />
-              <Button className="btn-primary mt-2" onClick={handleMessageSend}>
-                Enviar
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {!is_admin && (
-        <div className="p-3">
-          <h2>Conversación con Admin</h2>
-          <div className="mb-3">
-            {messages.map((message, index) => (
-              <div key={index} className="mb-2">
-                {Number(message.from_user_id) !== Number(id) ? (
-                  <p className="text-success">Admin : {message.message}</p>
-                ) : (
-                  <p className="text-primary">Tú : {message.message}</p>
-                )}
-              </div>
-            ))}
-          </div>
-          <FormControl
-            as="textarea"
-            value={messageInput.message}
-            onChange={(e) =>
-              setMessageInput({ ...messageInput, message: e.target.value })
-            }
-          />
-          <Button className="btn-primary mt-2" onClick={handleMessageSend}>
-            Enviar
-          </Button>
-        </div>
-      )}
+        {selectedUser && (
+          <Col md={is_admin ? 8 : 12}>
+            <Card>
+              <Card.Header>
+                <h2>Conversación con {selectedUser}</h2>
+              </Card.Header>
+              <Card.Body>
+                <div className="mb-3">
+                  {messages.map((message, index) => (
+                    <div key={index} className="mb-2">
+                      {message.sender_type !== true ? (
+                        <p className="text-primary">
+                          {selectedUser} : {message.message}
+                        </p>
+                      ) : (
+                        <p className="text-danger">Admin : {message.message}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <FormControl
+                  as="textarea"
+                  value={messageInput.message}
+                  onChange={(e) =>
+                    setMessageInput({
+                      ...messageInput,
+                      message: e.target.value,
+                    })
+                  }
+                />
+                <Button
+                  className="btn-primary mt-2"
+                  onClick={handleMessageSend}
+                >
+                  Enviar
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+      </Row>
     </Container>
   );
 };
