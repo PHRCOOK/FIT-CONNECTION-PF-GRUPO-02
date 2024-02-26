@@ -37,9 +37,8 @@ import AdminFeedbacks from "./administrator/components/AdminFeedbacks/AdminFeedb
 
 import "./App.scss";
 
-// axios.defaults.baseURL = "http://localhost:3001/";
-axios.defaults.baseURL =
-  "https://fit-connection-pf-grupo-02-production.up.railway.app/";
+axios.defaults.baseURL = "http://localhost:3001/";
+// axios.defaults.baseURL = "https://fit-connection-pf-grupo-02-production.up.railway.app/";
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
