@@ -52,7 +52,7 @@ export default function Home() {
         </Row>
       </Container>
       <Container fluid>
-        <Link to="/services">
+        <Link style={{ textDecoration: "none" }} to="/services">
           <Row className="align-items-center">
             <Col xs="12" md="7">
               <Image
@@ -72,7 +72,7 @@ export default function Home() {
         </Link>
       </Container>
       <Container fluid>
-        <Link to="/instructors">
+        <Link style={{ textDecoration: "none" }} to="/instructors">
           <Row className="align-items-center">
             <Col xs="12" md="5">
               <p className="h1 fw-bold text-center">

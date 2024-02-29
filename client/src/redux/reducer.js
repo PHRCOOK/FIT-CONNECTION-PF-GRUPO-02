@@ -25,6 +25,8 @@ import {
   DELETE_MEMBERSHIP,
   PUT_MEMBERSHIP,
   SET_USER_SHOPPING,
+  APPLY_ONLY_FILTER,
+  APPLY_PAGE_FILTER,
 } from "./actionsTypes";
 
 const initialState = {
@@ -38,7 +40,7 @@ const initialState = {
   filterSettings: {
     sortOrder: "ASC",
     page: 1,
-    size: 10,
+    size: 12,
   },
   totalPages: 0,
   userInfo: {
@@ -65,7 +67,21 @@ export const reducer = (state = initialState, action) => {
         allProducts: [action.payload, ...state.allProducts],
       };
 
+    case APPLY_ONLY_FILTER:
+      return {
+        ...state,
+        filterSettings: action.payload,
+      };
+
     case APPLY_FILTER:
+      return {
+        ...state,
+        filterSettings: { ...state.filterSettings, page: 1 },
+        productsToShow: action.payload.products,
+        totalPages: action.payload.totalPages,
+      };
+
+    case APPLY_PAGE_FILTER:
       return {
         ...state,
         filterSettings: action.payload.settings,

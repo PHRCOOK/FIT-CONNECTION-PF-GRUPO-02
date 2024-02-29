@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import createList from "./createList";
 import { useDispatch, useSelector } from "react-redux";
-import { applySettings } from "../../redux/action";
+import { applyPageSettings } from "../../redux/action";
 import deleteUndefined from "../filters/deleteUndefined";
 import { Pagination, Row, Col, Button } from "react-bootstrap";
 
@@ -19,7 +19,7 @@ function Page() {
   const handleClick = (page) => {
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
-    dispatch(applySettings(settingsToApply));
+    dispatch(applyPageSettings(settingsToApply));
   };
 
   const handlePrev = () => {
@@ -29,7 +29,7 @@ function Page() {
     }
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
-    dispatch(applySettings(settingsToApply));
+    dispatch(applyPageSettings(settingsToApply));
   };
 
   const handleNext = () => {
@@ -39,7 +39,7 @@ function Page() {
     }
     const settingsToApply = { ...filterSettings, page };
     deleteUndefined(settingsToApply);
-    dispatch(applySettings(settingsToApply));
+    dispatch(applyPageSettings(settingsToApply));
   };
 
   return (

@@ -18,6 +18,11 @@ instructorRouter.post(
   upload.single("photo"),
   createInstructorHandler
 );
-instructorRouter.put("/:id", authorization, updateInstructorHandler);
+instructorRouter.put(
+  "/:id",
+  authorization,
+  upload.single("photo"),
+  updateInstructorHandler
+);
 
 module.exports = instructorRouter;
