@@ -12,7 +12,17 @@ const instructorRouter = Router();
 
 instructorRouter.get("/", getInstructorHandler);
 instructorRouter.get("/:id", getInstructorByIDHandler);
-instructorRouter.post("/", authorization, upload.single('photo'), createInstructorHandler);
-instructorRouter.put("/:id", authorization, updateInstructorHandler);
+instructorRouter.post(
+  "/",
+  authorization,
+  upload.single("photo"),
+  createInstructorHandler
+);
+instructorRouter.put(
+  "/:id",
+  authorization,
+  upload.single("photo"),
+  updateInstructorHandler
+);
 
 module.exports = instructorRouter;
