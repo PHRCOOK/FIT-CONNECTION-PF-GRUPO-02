@@ -25,6 +25,8 @@ import {
   DELETE_MEMBERSHIP,
   PUT_MEMBERSHIP,
   SET_USER_SHOPPING,
+  APPLY_ONLY_FILTER,
+  APPLY_PAGE_FILTER,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -68,6 +70,13 @@ export const postProduct = (product) => {
   };
 };
 
+export const applyOnlySettings = (settings) => {
+  return {
+    type: APPLY_ONLY_FILTER,
+    payload: settings,
+  };
+};
+
 export const applySettings = (settings) => {
   return async (dispatch) => {
     try {
@@ -79,6 +88,28 @@ export const applySettings = (settings) => {
 
       return dispatch({
         type: APPLY_FILTER,
+        payload: { products, settings, totalPages },
+      });
+    } catch (error) {
+      console.log(error.message);
+      return dispatch({
+        type: EMPTY_FILTER,
+        payload: settings,
+      });
+    }
+  };
+};
+export const applyPageSettings = (settings) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get("/api/products", {
+        params: settings,
+      });
+
+      const { products, totalPages } = data;
+
+      return dispatch({
+        type: APPLY_PAGE_FILTER,
         payload: { products, settings, totalPages },
       });
     } catch (error) {

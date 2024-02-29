@@ -4,6 +4,7 @@ import {
   getAllCategories,
   applySettings,
   resetSettings,
+  applyOnlySettings,
 } from "../../redux/action";
 import {
   Container,
@@ -33,17 +34,36 @@ function Filters() {
     dispatch(applySettings(settingsToApply));
   }, []);
 
-  const handleFilter = (event) => {
+  let idTimeout;
+
+  const handleFilter = async (event) => {
+    if (idTimeout) {
+      clearTimeout(idTimeout);
+    }
+
     const key = event.target.name;
     const value = event.target.value;
 
+    // const valueDebounced = await useDebounce(value, 1);
+
     let settingsToApply = { ...filterSettings };
 
-    settingsToApply = { ...settingsToApply, [key]: value || "", page: 1 };
+    settingsToApply = {
+      ...settingsToApply,
+      [key]: value || "",
+      // page: 1,
+    };
 
     deleteUndefined(settingsToApply);
+    dispatch(applyOnlySettings(settingsToApply));
 
-    dispatch(applySettings(settingsToApply));
+    idTimeout = setTimeout(() => {
+      dispatch(applySettings(settingsToApply));
+      // Realizar la petición al backend aquí
+      // Ejemplo: fetchBackendData(settingsToApply);
+    }, 500); // 500 milisegundos de retraso (ajustar según sea necesario)
+
+    // dispatch(applySettings(settingsToApply));
   };
 
   const handleReset = () => {
