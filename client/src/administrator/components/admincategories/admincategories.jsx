@@ -39,7 +39,7 @@ function Admincategories() {
   };
 
   const handleModify = (id) => {
-    navigate(`${pathroutes.ADMINCATEGORYMODIFY}/${id}`);
+    navigate(`/admin/category/modify/${id}`);
   };
 
   const handleCreateCategory = () => {
