@@ -23,7 +23,10 @@ function Instructors() {
           .filter((instructor) => instructor.status)
           .map((instructor) => (
             <Col key={instructor.id}>
-              <Link to={`/instructors/${instructor.id}/${instructor.fullname}`}>
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/instructors/${instructor.id}/${instructor.fullname}`}
+              >
                 <Card className="h-100">
                   <Card.Img
                     variant="top"
