@@ -30,8 +30,8 @@ function Instructors() {
                     src={instructor.photo}
                     className="rounded custom-card-img"
                     style={{
-                      height: "200px", // Set the desired height for all images
-                      objectFit: "contain", // Maintain aspect ratio without cropping
+                      height: "200px",
+                      objectFit: "contain",
                     }}
                   />
                   <Card.Body>
