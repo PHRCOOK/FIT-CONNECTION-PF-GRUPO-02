@@ -10,7 +10,6 @@ const {
 const getInstructorHandler = async (req, res) => {
   try {
     const instructor = await getInstructors();
-    console.log(instructor);
     return res.status(200).json(instructor);
   } catch (error) {
     return res

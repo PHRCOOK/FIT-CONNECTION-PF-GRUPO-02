@@ -37,7 +37,7 @@ const Feedback = ({ fetchComments }) => {
 
   const submitComment = async (event) => {
     const post_at = new Date();
-    console.log(post_at);
+    // console.log(post_at);
     try {
       if (currentUser && currentUser.id) {
         setFeedback({ ...feedback, user_id: currentUser.id });

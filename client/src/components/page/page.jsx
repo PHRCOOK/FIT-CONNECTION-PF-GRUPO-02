@@ -10,10 +10,6 @@ function Page() {
   const filterSettings = useSelector((state) => state.filterSettings);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(totalPages);
-  }, []);
-
   const arrayTotalPages = createList(totalPages);
 
   const handleClick = (page) => {

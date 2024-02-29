@@ -5,23 +5,6 @@ import CardComment from "./CardComment";
 import { Row } from "react-bootstrap";
 
 function Comments({ comments, id_instructor }) {
-  // const [comments, setComments] = useState([]);
-
-  // const fetchComments = async () => {
-  //   try {
-  //     const { data } = await axios("/api/feedbacks");
-  //     console.log(data);
-  //     setComments(data.Items);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // const message = error.response.data.error;
-  //     Swal.fire("Error", "message", "error");
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchComments();
-  // }, []);
-
   return (
     <Row style={{ display: "flex", justifyContent: "space-around" }}>
       {comments

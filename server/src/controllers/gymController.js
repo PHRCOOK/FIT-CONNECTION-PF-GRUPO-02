@@ -1,7 +1,6 @@
 const { Gym } = require("../db");
 
 const getGymController = async () => {
-  console.log("XXXXXXXX");
   try {
     //Hacemos la consulta para traer la data de la entidad gym
     const gym = await Gym.findAll();
@@ -9,7 +8,7 @@ const getGymController = async () => {
     if (gym.length === 0) {
       throw new Error("No existen registro del gym");
     }
-    console.log(gym[0]);
+    // console.log(gym[0]);
     //retornamos la data guardada en gym
     return gym;
   } catch (error) {

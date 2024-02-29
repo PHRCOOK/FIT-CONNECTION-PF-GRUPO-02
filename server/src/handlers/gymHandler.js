@@ -16,7 +16,6 @@ const getGymHandler = async (req, res) => {
 };
 
 const postGymHandler = async (req, res) => {
-  console.log(req.body);
   try {
     const { name, address, phone, status, nit, map } = req.body;
     const response = await postGymController(

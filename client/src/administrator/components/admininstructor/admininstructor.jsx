@@ -20,7 +20,7 @@ function AdminInstructor() {
 
   const handleDelete = (id, status) => {
     const newStatus = !status;
-    console.log(newStatus);
+    // console.log(newStatus);
 
     try {
       dispatch(deleteInstructor(id, { status: newStatus }));

@@ -3,7 +3,6 @@ function createList(number) {
   for (let i = 1; i <= number; i++) {
     array.push(i);
   }
-  // console.log(array);
 
   return array;
 }

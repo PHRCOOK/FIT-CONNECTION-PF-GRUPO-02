@@ -15,10 +15,10 @@ function CardComment({
 }) {
   const stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
-  const handleRaitingChange = (star) => {
-    // Lógica para manejar cambios en la calificación
-    console.log(`Selected Raiting: ${star}`);
-  };
+  // const handleRaitingChange = (star) => {
+  //   // Lógica para manejar cambios en la calificación
+  //   console.log(`Selected Raiting: ${star}`);
+  // };
 
   return (
     <Card style={{ width: "20rem", margin: "10px", padding: "20px" }}>
@@ -31,9 +31,8 @@ function CardComment({
           {stars.map((star) => (
             <span
               key={star}
-              onClick={() => handleRaitingChange(star)}
               style={{
-                cursor: "pointer",
+                cursor: "default",
                 fontSize: "20px",
                 color: star <= raiting ? "gold" : "gray",
               }}

@@ -54,7 +54,7 @@ export const getAllCategories = () => {
 };
 
 export const postProduct = (product) => {
-  console.log(product);
+  // console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.post("/api/products", product);
@@ -146,8 +146,6 @@ export const deleteProduct = (id, settings) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/update/${id}`, settings);
-      console.log(data);
-      console.log(data.products);
 
       return dispatch({
         type: DELETE_PRODUCT,
@@ -174,8 +172,6 @@ export const getAllProducts = () => {
 };
 
 export const putProduct = (id, product) => {
-  console.log(id);
-  console.log(product);
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/products/update/${id}`, product);
@@ -241,7 +237,7 @@ export const getAllInstructors = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/instructors");
-      // console.log(data);
+
       const items = data.Items;
       dispatch({
         type: GET_ALL_INSTRUCTORS,
@@ -257,7 +253,7 @@ export const deleteInstructor = (id, settings) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/instructors/${id}`, settings);
-      console.log(data.instructors);
+
       dispatch({
         type: DELETE_INSTRUCTOR,
         payload: data.instructors,

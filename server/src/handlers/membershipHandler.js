@@ -31,18 +31,7 @@ const getMembershipByIdHandler = async (req, res) => {
 const createMembershipHandler = async (req, res) => {
   const { name, price, duration, description, status } = req.body;
   const image_url = req.file;
-  console.log(
-    "name",
-    name,
-    "price",
-    price,
-    "duration",
-    duration,
-    "description",
-    description,
-    "status",
-    status
-  );
+
   try {
     validateMembership({ name, price, duration, description });
     const response = await createMembership(
@@ -63,9 +52,7 @@ const updateMembershipHandler = async (req, res) => {
   const { id } = req.params;
   const { name, price, duration, description, status } = req.body;
   const image_url = req.file;
-  console.log(id);
-  console.log(req.body);
-  console.log(req.file);
+
   try {
     const response = await updateMembership(id, {
       name,

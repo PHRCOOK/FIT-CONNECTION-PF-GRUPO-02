@@ -90,7 +90,6 @@ export const reducer = (state = initialState, action) => {
       };
 
     case RESET_FILTER:
-      console.log(action.payload);
       return {
         ...state,
         productsToShow: action.payload.products,

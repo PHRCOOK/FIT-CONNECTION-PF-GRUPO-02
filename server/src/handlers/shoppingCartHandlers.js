@@ -10,7 +10,9 @@ const createShoppingCartHandler = async (req, res) => {
   const { quantity, user_id, product_id } = req.body;
 
   if (!quantity || !user_id || !product_id) {
-    res.status(400).json({ error: "Falta información para crear el carro de compra" });
+    res
+      .status(400)
+      .json({ error: "Falta información para crear el carro de compra" });
   }
   try {
     const response = await createShoppingCart(quantity, user_id, product_id);
@@ -48,12 +50,13 @@ const deleteShoppingCartsHandler = async (req, res) => {
   const { user_id, product_id } = req.params;
 
   if (!user_id || !product_id) {
-    res.status(400).json({ error: "Faltan datos para eliminar el carro de compra" });
+    res
+      .status(400)
+      .json({ error: "Faltan datos para eliminar el carro de compra" });
   }
 
   try {
     const response = await deleteShoppingCarts(user_id, product_id);
-    console.log(response);
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -63,7 +66,9 @@ const deleteShoppingCartsHandler = async (req, res) => {
 const deleteAllCartsHandler = async (req, res) => {
   const { user_id } = req.params;
   if (!user_id) {
-    res.status(400).json({ error: "Faltan datos para eliminar el carro de compra" });
+    res
+      .status(400)
+      .json({ error: "Faltan datos para eliminar el carro de compra" });
   }
 
   try {

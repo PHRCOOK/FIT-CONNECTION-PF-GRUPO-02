@@ -26,8 +26,6 @@ const createProductServicesHandler = async (req, res) => {
     req.body;
   const image_url = req.file;
 
-  console.log("body", req.body);
-
   try {
     validateCreateProductServices({
       name,
@@ -61,7 +59,6 @@ const updateProductServicesHandler = async (req, res) => {
   const { name, price, description, status, code, stock } = req.body;
   const image_url = req.file;
 
-  console.log("body", req.body);
   try {
     const response = await updateProductServices(id, {
       name,

@@ -69,9 +69,9 @@ export default function FormProduct() {
     fetchProduct();
   }, [params]);
 
-  useEffect(() => {
-    console.log(currentProduct);
-  }, [currentProduct]);
+  // useEffect(() => {
+  //   console.log(currentProduct);
+  // }, [currentProduct]);
 
   const [errors, setErrors] = useState({});
 
