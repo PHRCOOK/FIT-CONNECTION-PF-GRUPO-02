@@ -1,12 +1,12 @@
 $secondary: #8d99ae;
-$primary: #2b2d42;
+$primary: #000000;
 $success: #edf2f4;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .nav-link:hover {
   background-color: $primary;
-  color: white;
+  color: rgb(255, 0, 0);
 }
 
 .navbar-nav .nav-link.active {
@@ -16,11 +16,6 @@ $success: #edf2f4;
 .carousel-item img {
   width: 100%;
   height: 500px;
-}
-
-.avatar {
-  width: 48px;
-  height: 48px;
 }
 
 .gradient-background {

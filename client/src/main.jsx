@@ -8,7 +8,6 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
-// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const domain = "https://pabloelleproso.us.auth0.com";
 const clientId = "htRNcTw4YHGioeiGudC6khHz7bU5rrry";
