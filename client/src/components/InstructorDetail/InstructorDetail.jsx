@@ -29,7 +29,6 @@ const InstructorDetail = () => {
       console.log(error);
       Swal.fire("Error", "Entrenador no encontrado", "error");
     }
-    zz;
   };
 
   const fetchComments = async () => {
