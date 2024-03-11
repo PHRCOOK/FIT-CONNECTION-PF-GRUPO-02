@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppCard from "../card/card";
-import AdminProductCard from "../../administrator/components/AdminProductCard/AdminProductCard";
+import AdminProductCard from "../AdminProductCard/AdminProductCard";
 import { useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import { useLocation } from "react-router-dom";

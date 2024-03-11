@@ -1,5 +1,5 @@
 import MembershipCard from "../card_membership/card_membership";
-import AdminMembershipCard from "../../administrator/components/AdminMembershipCard/AdminMembershipCard";
+import AdminMembershipCard from "../AdminMembershipCard/AdminMembershipCard";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
